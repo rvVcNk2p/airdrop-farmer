@@ -4,6 +4,7 @@ import { useUserGroups } from '@modules/farmer/stores'
 import { CardTemplate } from '@modules/shared/components/templates/CardTemplate'
 import { Button } from '@modules/shared/components/ui/button'
 import { useIsMounted, useToast } from '@modules/shared/hooks'
+import { toast } from '@modules/shared/hooks/useToast'
 import { Pencil, Trash } from '@phosphor-icons/react'
 import { padWallet } from '@utils'
 import { useState } from 'react'
@@ -12,7 +13,6 @@ import { EditGroupModal } from './EditGroupModal'
 import { EmptyGroup } from './EmptyGroup'
 
 export const GroupSection = () => {
-	const { toast } = useToast()
 	const userGroups = useUserGroups((state) => state.userGroups)
 	const deleteGroup = useUserGroups((state) => state.deleteGroup)
 

@@ -62,7 +62,7 @@ export const AddNewGroupModal = ({ children }: AddNewAddressModalProps) => {
 			<AlertDialogTrigger asChild={true}>{children}</AlertDialogTrigger>
 			<AlertDialogContent>
 				<AlertDialogHeader>
-					<AlertDialogTitle className="mb-6">Create New Group</AlertDialogTitle>
+					<AlertDialogTitle className="mb-6">Create Group</AlertDialogTitle>
 					<AlertDialogDescription asChild={true}>
 						<div className="grid grid-cols-1 gap-2">
 							<Label>Name</Label>

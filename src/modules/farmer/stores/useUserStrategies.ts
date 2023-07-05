@@ -39,7 +39,7 @@ const SecureLocalStorage: StateStorage = {
 	},
 }
 
-export const useUserGroups = create<UserStrategies>()(
+export const useUserStrategies = create<UserStrategies>()(
 	devtools(
 		persist(
 			(set, get) => ({
