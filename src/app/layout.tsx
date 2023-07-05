@@ -1,3 +1,4 @@
+import { Toaster } from '@modules/shared/components/ui/toaster'
 import { Inter } from 'next/font/google'
 
 import './globals.css'
@@ -18,7 +19,10 @@ export default function RootLayout({
 		// Permanent dark mode enabled https://tailwindcss.com/docs/dark-mode#toggling-dark-mode-manually
 		<html lang="en" className="dark">
 			<body className={inter.className} suppressHydrationWarning={true}>
-				{children}
+				<>
+					{children}
+					<Toaster />
+				</>
 			</body>
 		</html>
 	)

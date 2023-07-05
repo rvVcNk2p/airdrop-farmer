@@ -1,3 +1,8 @@
+import type {
+	RawUserGroupType,
+	UserGroupType,
+	UserStrategy,
+} from '@modules/farmer/types'
 import secureLocalStorage from 'react-secure-storage'
 import { v4 as uuidv4 } from 'uuid'
 import { create } from 'zustand'
@@ -8,26 +13,15 @@ import {
 	persist,
 } from 'zustand/middleware'
 
-interface UserStrategy {
-	uid: string
-	name: string
-	config: Record<string, unknown>
-}
-
-interface UserGroup {
-	uid: string
-	name: string
-	description: string | null
-	strategyUid: string | null
-	wallets: string[]
-}
-
-export interface UseUserGroups {
+interface UseUserGroups {
 	userStrategies: UserStrategy[]
-	userGroups: UserGroup[]
+	userGroups: UserGroupType[]
 
-	createNewGroup: (name: string) => void
-	deleteNewGroup: (uid: string) => void
+	getGroupByUid: (uid: string) => UserGroupType | undefined
+
+	createNewGroup: (rawGroup: RawUserGroupType) => void
+	deleteGroup: (uid: string) => void
+
 	addWalletToGroup: (groupUid: string, wallet: string) => void
 	removeWalletFromGroup: (groupUid: string, wallet: string) => void
 }
@@ -55,7 +49,7 @@ export const useUserGroups = create<UseUserGroups>()(
 				userStrategies: [],
 				userGroups: [],
 
-				createNewGroup: (name: string, description?: string) => {
+				createNewGroup: (rawGroup: RawUserGroupType) => {
 					const uid = uuidv4()
 
 					set((state) => ({
@@ -63,16 +57,14 @@ export const useUserGroups = create<UseUserGroups>()(
 						userGroups: [
 							...get().userGroups,
 							{
-								name,
 								uid,
-								description: description || null,
-								strategyUid: null,
-								wallets: [],
+								description: null,
+								...rawGroup,
 							},
 						],
 					}))
 				},
-				deleteNewGroup: (uid: string) =>
+				deleteGroup: (uid: string) =>
 					set((state) => ({
 						...state,
 						userGroups: get().userGroups.filter((group) => group.uid !== uid),
@@ -102,6 +94,9 @@ export const useUserGroups = create<UseUserGroups>()(
 								: group,
 						),
 					})),
+
+				getGroupByUid: (uid: string) =>
+					get().userGroups.find((group) => group.uid === uid),
 			}),
 			{
 				name: 'user-groups',
