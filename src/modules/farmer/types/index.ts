@@ -1,1 +1,2 @@
-export type { UserGroupType, UserStrategy, RawUserGroupType } from './userGroup'
+export type { UserGroupType, RawUserGroupType } from './userGroup'
+export type { UserStrategyType } from './userStrategy'

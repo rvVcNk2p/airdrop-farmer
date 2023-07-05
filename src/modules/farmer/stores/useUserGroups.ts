@@ -1,8 +1,4 @@
-import type {
-	RawUserGroupType,
-	UserGroupType,
-	UserStrategy,
-} from '@modules/farmer/types'
+import type { RawUserGroupType, UserGroupType } from '@modules/farmer/types'
 import secureLocalStorage from 'react-secure-storage'
 import { v4 as uuidv4 } from 'uuid'
 import { create } from 'zustand'
@@ -13,8 +9,7 @@ import {
 	persist,
 } from 'zustand/middleware'
 
-interface UseUserGroups {
-	userStrategies: UserStrategy[]
+interface UserGroups {
 	userGroups: UserGroupType[]
 
 	getGroupByUid: (uid: string) => UserGroupType | undefined
@@ -43,11 +38,10 @@ const SecureLocalStorage: StateStorage = {
 	},
 }
 
-export const useUserGroups = create<UseUserGroups>()(
+export const useUserGroups = create<UserGroups>()(
 	devtools(
 		persist(
 			(set, get) => ({
-				userStrategies: [],
 				userGroups: [],
 
 				createNewGroup: (rawGroup: RawUserGroupType) => {

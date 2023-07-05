@@ -54,21 +54,18 @@ export const GroupSection = () => {
 										</div>
 										<div className="flex justify-between gap-4 w-full">
 											<Button
-												variant="destructive"
+												variant="outline"
 												className="flex w-full sm:w-fit"
-												disabled={false}
 												onClick={() => handleDeleteGroup(group.uid, group.name)}
 											>
-												<Trash className="mr-2" size={18} />
-												Delete
+												<Trash size={18} />
 											</Button>
 											<Button
+												variant="outline"
 												className="flex w-full sm:w-fit"
-												disabled={false}
 												onClick={() => setSelectedGroup(group.uid)}
 											>
-												<Pencil className="mr-2" />
-												Edit
+												<Pencil size={16} />
 											</Button>
 										</div>
 									</CardTemplate>

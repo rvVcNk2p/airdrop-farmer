@@ -80,8 +80,8 @@ export const AddNewGroupModal = ({ children }: AddNewAddressModalProps) => {
 					</AlertDialogCancel>
 					<AlertDialogAction asChild={true}>
 						<Button
+							variant="outline"
 							className="flex w-full sm:w-fit"
-							disabled={false}
 							onClick={handleCreateNewGroup}
 						>
 							<Plus className="mr-2" />

@@ -16,7 +16,7 @@ import {
 import { Button } from '@modules/shared/components/ui/button'
 import { Input } from '@modules/shared/components/ui/input'
 import { useToast } from '@modules/shared/hooks'
-import { DownloadSimple, Trash } from '@phosphor-icons/react'
+import { DownloadSimple, Plus, Trash } from '@phosphor-icons/react'
 import { padWallet } from '@utils'
 import { useEffect, useState } from 'react'
 
@@ -102,7 +102,7 @@ export const EditGroupModal = ({ selectedGroup, close }: EditGroupModal) => {
 							</div>
 
 							<div className="flex flex-col gap-2">
-								<Label>Wallets</Label>
+								<Label>Private keys</Label>
 								{groupDetails.wallets.length
 									? groupDetails.wallets.map((wallet, idx) => (
 											<div
@@ -115,21 +115,19 @@ export const EditGroupModal = ({ selectedGroup, close }: EditGroupModal) => {
 													{padWallet(wallet, wallet.length)}
 												</div>
 												<Button
-													variant="destructive"
+													variant="outline"
 													className="flex w-full sm:w-fit"
-													disabled={false}
 													onClick={() => handleRemoveWallet(wallet)}
 												>
-													<Trash className="mr-2" size={18} />
-													Remove
+													<Trash size={18} />
 												</Button>
 											</div>
 									  ))
-									: 'No wallets'}
+									: 'No Private Keys added yet'}
 							</div>
 
 							<div className="flex flex-col gap-2">
-								<Label>Add Wallet</Label>
+								<Label>Add Private Key</Label>
 								<div className="flex gap-4">
 									<Input
 										name="wallet"
@@ -137,9 +135,11 @@ export const EditGroupModal = ({ selectedGroup, close }: EditGroupModal) => {
 										onChange={(e) => setNewWallet(e.currentTarget.value)}
 									/>
 									<Button
+										variant="outline"
 										disabled={newWallet.length < 3}
 										onClick={handleAddWallet}
 									>
+										<Plus weight="bold" size={10} className="mr-1" />
 										Add
 									</Button>
 								</div>
@@ -154,7 +154,6 @@ export const EditGroupModal = ({ selectedGroup, close }: EditGroupModal) => {
 					<AlertDialogAction asChild={true}>
 						<Button
 							className="flex w-full sm:w-fit"
-							disabled={false}
 							onClick={handleUpdateGroup}
 						>
 							<DownloadSimple className="mr-2" />

@@ -6,12 +6,6 @@ export interface UserGroupType {
 	wallets: string[]
 }
 
-export interface UserStrategy {
-	uid: string
-	name: string
-	config: Record<string, unknown>
-}
-
 export type RawUserGroupType = Pick<
 	UserGroupType,
 	'name' | 'strategyUid' | 'wallets'
