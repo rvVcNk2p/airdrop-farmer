@@ -5,6 +5,7 @@ import { CardTemplate } from '@modules/shared/components/templates/CardTemplate'
 import { Button } from '@modules/shared/components/ui/button'
 import { useIsMounted, useToast } from '@modules/shared/hooks'
 import { Pencil, Trash } from '@phosphor-icons/react'
+import { padWallet } from '@utils'
 import { useState } from 'react'
 
 import { EditGroupModal } from './EditGroupModal'
@@ -46,7 +47,9 @@ export const GroupSection = () => {
 										>
 											{group.name}
 											{group.wallets.map((wallet) => (
-												<p key={wallet + Math.random()}>{wallet}</p>
+												<p key={wallet + '-' + group.uid}>
+													{padWallet(wallet)}
+												</p>
 											))}
 										</div>
 										<div className="flex justify-between gap-4 w-full">

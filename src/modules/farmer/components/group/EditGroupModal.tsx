@@ -17,6 +17,7 @@ import { Button } from '@modules/shared/components/ui/button'
 import { Input } from '@modules/shared/components/ui/input'
 import { useToast } from '@modules/shared/hooks'
 import { DownloadSimple, Trash } from '@phosphor-icons/react'
+import { padWallet } from '@utils'
 import { useEffect, useState } from 'react'
 
 interface EditGroupModal {
@@ -27,11 +28,7 @@ interface EditGroupModal {
 export const EditGroupModal = ({ selectedGroup, close }: EditGroupModal) => {
 	const { toast } = useToast()
 	const getGroupByUid = useUserGroups((state) => state.getGroupByUid)
-	const addWalletToGroup = useUserGroups((state) => state.addWalletToGroup)
-	const deleteGroup = useUserGroups((state) => state.deleteGroup)
-	const removeWalletFromGroup = useUserGroups(
-		(state) => state.removeWalletFromGroup,
-	)
+	const updateGroup = useUserGroups((state) => state.updateGroup)
 
 	const [groupDetails, setGroupDetails] = useState<UserGroupType>({
 		uid: '',
@@ -40,6 +37,7 @@ export const EditGroupModal = ({ selectedGroup, close }: EditGroupModal) => {
 		strategyUid: null,
 		wallets: [],
 	})
+	const [newWallet, setNewWallet] = useState('')
 
 	useEffect(() => {
 		if (selectedGroup === null) return
@@ -56,21 +54,28 @@ export const EditGroupModal = ({ selectedGroup, close }: EditGroupModal) => {
 		})
 	}
 
-	const handleCreateNewGroup = () => {
-		createNewGroup(groupDetails)
-		toast({
-			title: '✅ New group created!',
-			description: groupDetails.name,
-			duration: 5000,
+	const handleAddWallet = () => {
+		if (groupDetails.wallets.includes(newWallet)) return
+
+		setGroupDetails({
+			...groupDetails,
+			wallets: [...groupDetails.wallets, newWallet],
 		})
-		resetGroupDetails()
+		setNewWallet('')
+	}
+	const handleRemoveWallet = (wallet: string) => {
+		if (!groupDetails.wallets.includes(wallet)) return
+
+		setGroupDetails({
+			...groupDetails,
+			wallets: groupDetails.wallets.filter((w) => w !== wallet),
+		})
 	}
 
-	const handleDeleteGroup = () => {
-		// TODO: Add confirmation
-		deleteGroup(groupDetails.uid)
+	const handleUpdateGroup = () => {
+		updateGroup(groupDetails)
 		toast({
-			title: '❌ Group deleted!',
+			title: '🚀 Group updated!',
 			description: groupDetails.name,
 			duration: 5000,
 		})
@@ -85,14 +90,62 @@ export const EditGroupModal = ({ selectedGroup, close }: EditGroupModal) => {
 				<AlertDialogHeader>
 					<AlertDialogTitle className="mb-6">Edit Group</AlertDialogTitle>
 					<AlertDialogDescription asChild={true}>
-						<div className="grid grid-cols-1 gap-2">
-							<Label>Name</Label>
-							<Input
-								name="name"
-								placeholder="Group - A"
-								onChange={(e) => handleSetGroupDetails(e)}
-							/>
-							<div>{JSON.stringify(groupDetails, null, 2)}</div>
+						<div className="grid grid-cols-1 gap-6 pb-10">
+							<div className="flex flex-col gap-2">
+								<Label>Name</Label>
+								<Input
+									name="name"
+									value={groupDetails.name}
+									placeholder="Group - A"
+									onChange={(e) => handleSetGroupDetails(e)}
+								/>
+							</div>
+
+							<div className="flex flex-col gap-2">
+								<Label>Wallets</Label>
+								{groupDetails.wallets.length
+									? groupDetails.wallets.map((wallet, idx) => (
+											<div
+												key={wallet}
+												className="flex justify-between items-center"
+											>
+												<div>
+													{idx + 1}
+													{'. '}
+													{padWallet(wallet, wallet.length)}
+												</div>
+												<Button
+													variant="destructive"
+													className="flex w-full sm:w-fit"
+													disabled={false}
+													onClick={() => handleRemoveWallet(wallet)}
+												>
+													<Trash className="mr-2" size={18} />
+													Remove
+												</Button>
+											</div>
+									  ))
+									: 'No wallets'}
+							</div>
+
+							<div className="flex flex-col gap-2">
+								<Label>Add Wallet</Label>
+								<div className="flex gap-4">
+									<Input
+										name="wallet"
+										value={newWallet}
+										onChange={(e) => setNewWallet(e.currentTarget.value)}
+									/>
+									<Button
+										disabled={newWallet.length < 3}
+										onClick={handleAddWallet}
+									>
+										Add
+									</Button>
+								</div>
+							</div>
+
+							{/* <div>{JSON.stringify(groupDetails, null, 2)}</div> */}
 						</div>
 					</AlertDialogDescription>
 				</AlertDialogHeader>
@@ -102,7 +155,7 @@ export const EditGroupModal = ({ selectedGroup, close }: EditGroupModal) => {
 						<Button
 							className="flex w-full sm:w-fit"
 							disabled={false}
-							onClick={handleCreateNewGroup}
+							onClick={handleUpdateGroup}
 						>
 							<DownloadSimple className="mr-2" />
 							Save
