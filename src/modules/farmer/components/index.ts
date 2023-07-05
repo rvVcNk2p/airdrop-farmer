@@ -1,3 +1,4 @@
-export { default as FarmerPage } from './FarmerPage'
-export { default as Header } from './Header'
-export { default as Footer } from './Footer'
+export { FarmerPage } from './FarmerPage'
+export { Header } from './Header'
+export { Footer } from './Footer'
+export { GroupSection } from './group/GroupSection'

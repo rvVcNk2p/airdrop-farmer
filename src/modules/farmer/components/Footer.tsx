@@ -1,6 +1,6 @@
 import { discordLink, twitterLink } from '@/modules/shared/constants'
 
-const Footer = () => {
+export const Footer = () => {
 	return (
 		<div className="text-white relative z-[10] border-t-[0.5px] border-[#33323e] px-4 md:px-8 py-4 md:py-8 bg-[#13121d]">
 			<div className="max-w-6xl mx-auto">
@@ -54,5 +54,3 @@ const Footer = () => {
 		</div>
 	)
 }
-
-export default Footer

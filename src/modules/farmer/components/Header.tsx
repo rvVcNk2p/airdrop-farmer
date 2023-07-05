@@ -1,7 +1,7 @@
 import { discordLink, twitterLink } from '@/modules/shared/constants'
 import Image from 'next/image'
 
-const Header = () => {
+export const Header = () => {
 	return (
 		<div className="fixed top-0 left-0 z-20 w-full px-4 md:px-8">
 			<div className="header-mask"></div>
@@ -39,5 +39,3 @@ const Header = () => {
 		</div>
 	)
 }
-
-export default Header
