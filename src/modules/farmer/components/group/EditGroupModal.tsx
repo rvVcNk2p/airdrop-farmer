@@ -1,6 +1,5 @@
 'use client'
 
-import { Label } from '@/modules/shared/components/ui/label'
 import { useUserGroups } from '@modules/farmer/stores'
 import type { UserGroupType } from '@modules/farmer/types'
 import {
@@ -15,7 +14,8 @@ import {
 } from '@modules/shared/components/ui/alert-dialog'
 import { Button } from '@modules/shared/components/ui/button'
 import { Input } from '@modules/shared/components/ui/input'
-import { useToast } from '@modules/shared/hooks'
+import { Label } from '@modules/shared/components/ui/label'
+import { toast } from '@modules/shared/hooks/useToast'
 import { DownloadSimple, Plus, Trash } from '@phosphor-icons/react'
 import { padWallet } from '@utils'
 import { useEffect, useState } from 'react'
@@ -26,7 +26,6 @@ interface EditGroupModal {
 }
 
 export const EditGroupModal = ({ selectedGroup, close }: EditGroupModal) => {
-	const { toast } = useToast()
 	const getGroupByUid = useUserGroups((state) => state.getGroupByUid)
 	const updateGroup = useUserGroups((state) => state.updateGroup)
 

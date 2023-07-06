@@ -1,6 +1,5 @@
 'use client'
 
-import { Label } from '@/modules/shared/components/ui/label'
 import { useUserGroups } from '@modules/farmer/stores'
 import type { RawUserGroupType } from '@modules/farmer/types'
 import {
@@ -16,7 +15,8 @@ import {
 } from '@modules/shared/components/ui/alert-dialog'
 import { Button } from '@modules/shared/components/ui/button'
 import { Input } from '@modules/shared/components/ui/input'
-import { useToast } from '@modules/shared/hooks'
+import { Label } from '@modules/shared/components/ui/label'
+import { toast } from '@modules/shared/hooks/useToast'
 import { Plus } from '@phosphor-icons/react'
 import { useState } from 'react'
 
@@ -30,9 +30,18 @@ const initialGroupDetails = {
 	wallets: [],
 }
 
-export const AddNewGroupModal = ({ children }: AddNewAddressModalProps) => {
-	const { toast } = useToast()
+const AddGroup = ({ addNewGroup }: { addNewGroup: () => void }) => {
+	return (
+		<div className="w-full flex justify-end">
+			<Button variant="outline" className="flex sm:w-fit" onClick={addNewGroup}>
+				<Plus className="mr-2" />
+				Add new group
+			</Button>
+		</div>
+	)
+}
 
+export const AddNewGroupModal = ({ children }: AddNewAddressModalProps) => {
 	const [groupDetails, setGroupDetails] = useState<RawUserGroupType>({
 		...initialGroupDetails,
 	})
@@ -74,19 +83,12 @@ export const AddNewGroupModal = ({ children }: AddNewAddressModalProps) => {
 						</div>
 					</AlertDialogDescription>
 				</AlertDialogHeader>
-				<AlertDialogFooter>
+				<AlertDialogFooter className="mt-6">
 					<AlertDialogCancel onClick={resetGroupDetails}>
 						Cancel
 					</AlertDialogCancel>
 					<AlertDialogAction asChild={true}>
-						<Button
-							variant="outline"
-							className="flex w-full sm:w-fit"
-							onClick={handleCreateNewGroup}
-						>
-							<Plus className="mr-2" />
-							Add new group
-						</Button>
+						<AddGroup addNewGroup={handleCreateNewGroup} />
 					</AlertDialogAction>
 				</AlertDialogFooter>
 			</AlertDialogContent>
