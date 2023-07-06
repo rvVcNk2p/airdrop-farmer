@@ -78,19 +78,6 @@ export interface NewStrategyFileds {
 	}
 }
 
-const initialFirstStepFileds: NewStrategyFileds = {
-	firstStepFileds: {
-		name: '',
-		airdropType: AirdropType.LAYER_ZERO,
-		txsNumberPerWallet: null,
-		networks: [],
-		bridges: [],
-		maxGasPerTxs: null,
-		randomActions: false,
-		signTransactionType: SignTransactionType.PRIVATE_KEY,
-	},
-}
-
 export const NewStrategyModal = ({ children }: NewStrategyModalProps) => {
 	const [activeStep, setActiveStep] = useState(1)
 
@@ -99,6 +86,7 @@ export const NewStrategyModal = ({ children }: NewStrategyModalProps) => {
 		// handleSubmit,
 		watch,
 		trigger,
+		reset,
 		formState: { errors },
 	} = useForm<NewStrategyFileds>()
 	// https://react-hook-form.com/docs/useform#mode
@@ -106,6 +94,11 @@ export const NewStrategyModal = ({ children }: NewStrategyModalProps) => {
 	// const onSubmit: SubmitHandler<NewStrategyFileds> = (data) => console.log(data)
 
 	console.log(watch('firstStepFileds.txsNumberPerWallet'))
+
+	const handleReset = () => {
+		setActiveStep(1)
+		reset()
+	}
 
 	return (
 		<AlertDialog>
@@ -130,13 +123,7 @@ export const NewStrategyModal = ({ children }: NewStrategyModalProps) => {
 					</AlertDialogDescription>
 				</AlertDialogHeader>
 				<AlertDialogFooter>
-					<AlertDialogCancel
-						onClick={() => {
-							setActiveStep(1)
-						}}
-					>
-						Cancel
-					</AlertDialogCancel>
+					<AlertDialogCancel onClick={handleReset}>Cancel</AlertDialogCancel>
 					<AlertDialogAction asChild={true}>
 						<Stepper
 							activeStep={activeStep}
