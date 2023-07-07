@@ -1,87 +1,70 @@
+import { Checkbox } from '@/modules/shared/components/ui/checkbox'
+import {
+	Form,
+	FormControl,
+	FormDescription,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+} from '@modules/shared/components/ui/form'
 import { Input } from '@modules/shared/components/ui/input'
-import { Label } from '@modules/shared/components/ui/label'
-import type {
-	FieldErrors,
-	UseFormRegister,
-	UseFormTrigger,
-} from 'react-hook-form'
-
-import type { NewStrategyFileds } from '../NewStrategyModal'
 
 interface NewStrategyStepOneProps {
-	register: UseFormRegister<NewStrategyFileds>
-	trigger: UseFormTrigger<NewStrategyFileds>
-	errors: FieldErrors<NewStrategyFileds>
+	// TODO: Define type
+	form: any
 }
 
-//  validate: {
-//    matchPattern: (v) => /^[a-zA-Z0-9_]+$/.test(v),
-// 	}
-const ErrorMessage = ({ errorType }: { errorType: string | undefined }) => {
-	if (!errorType) return null
-	let validationMessage = ''
-
-	switch (errorType) {
-		case 'required':
-			validationMessage = `Field is required`
-			break
-		case 'minLength':
-			validationMessage = `Minimum length is 3`
-			break
-		case 'onlyPositiveNumbers':
-			validationMessage = `Must be a positive number, bigger than 0`
-			break
-		default:
-			validationMessage = `Unknown validation error: ${errorType}`
-			break
-	}
-
+const FormFieldWrapper = ({
+	name,
+	label,
+	form,
+	children,
+	description,
+}: {
+	name: string
+	label: string
+	form: any
+	children: (slotProps: { field: any }) => React.ReactNode
+	description?: string
+}) => {
 	return (
-		<p role="alert" className="text-invalid">
-			{validationMessage}
-		</p>
+		<FormField
+			control={form.control}
+			name={name}
+			render={({ field }) => (
+				<FormItem>
+					<FormLabel>{label}</FormLabel>
+					<FormControl>{children({ field })}</FormControl>
+					{description && <FormDescription>{description}</FormDescription>}
+					<FormMessage />
+				</FormItem>
+			)}
+		/>
 	)
 }
 
-export const NewStrategyStepOne = ({
-	register,
-	trigger,
-	errors,
-}: NewStrategyStepOneProps) => {
+export const NewStrategyStepOne = ({ form }: NewStrategyStepOneProps) => {
 	return (
-		<div className="flex flex-col gap-4">
-			<div className="flex flex-col gap-2 w-full">
-				<Label>Strategy name:</Label>
-				<Input
-					{...register('firstStepFileds.name', {
-						required: true,
-						minLength: 3,
-					})}
-					className={errors.firstStepFileds?.name ? '!border-invalid' : ''}
-					onBlur={() => trigger(['firstStepFileds.name'])}
-				/>
-				<ErrorMessage errorType={errors.firstStepFileds?.name?.type} />
-			</div>
-
-			<div className="flex flex-col gap-2 w-full">
-				<Label>Txs number per wallet:</Label>
-				<Input
-					type="number"
-					{...register('firstStepFileds.txsNumberPerWallet', {
-						required: true,
-						validate: {
-							onlyPositiveNumbers: (v) => v !== null && v > 0,
-						},
-					})}
-					className={
-						errors.firstStepFileds?.txsNumberPerWallet ? '!border-invalid' : ''
-					}
-					onBlur={() => trigger(['firstStepFileds.txsNumberPerWallet'])}
-				/>
-				<ErrorMessage
-					errorType={errors.firstStepFileds?.txsNumberPerWallet?.type}
-				/>
-			</div>
+		<div>
+			<Form {...form}>
+				<div className="flex flex-col gap-4">
+					<FormFieldWrapper
+						label="Strategy name:"
+						name="firstStepFileds.name"
+						form={form}
+					>
+						{({ field }) => <Input placeholder="shadcn" {...field} />}
+					</FormFieldWrapper>
+					<FormFieldWrapper
+						label="Tsx Number Per Wallet:"
+						name="firstStepFileds.txsNumberPerWallet"
+						form={form}
+					>
+						{({ field }) => <Input type="number" {...field} />}
+					</FormFieldWrapper>
+				</div>
+			</Form>
 		</div>
 	)
 }
