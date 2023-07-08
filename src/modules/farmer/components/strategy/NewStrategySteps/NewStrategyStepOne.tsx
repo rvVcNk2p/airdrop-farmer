@@ -83,26 +83,6 @@ export const NewStrategyStepOne = ({ form }: NewStrategyStepOneProps) => {
 						form={form}
 						items={choosableBridges}
 					/>
-
-					{/* <FormFieldWrapper
-						label={`Max gas per txs in ${2} chains:`}
-						name="firstStepFileds.maxGasPerTxs"
-						form={form}
-					>
-						<FormFieldWrapper></FormFieldWrapper>
-						{({ field }) => (
-							<Checkbox
-								checked={field.value?.includes(item.id)}
-								onCheckedChange={(checked) => {
-									return checked
-										? field.onChange([...field.value, item.id])
-										: field.onChange(
-												field.value?.filter((value) => value !== item.id),
-										  )
-								}}
-							/>
-						)}
-					</FormFieldWrapper> */}
 				</div>
 			</Form>
 		</div>
