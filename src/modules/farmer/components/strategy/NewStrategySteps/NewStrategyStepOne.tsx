@@ -135,7 +135,7 @@ export const NewStrategyStepOne = ({ form }: NewStrategyStepOneProps) => {
 	return (
 		<div>
 			<Form {...form}>
-				<div className="flex flex-col gap-4">
+				<div className="flex flex-col gap-4 px-2">
 					<FormFieldWrapper
 						label="Strategy name:"
 						name="firstStepFileds.name"
