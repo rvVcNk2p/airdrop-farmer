@@ -1,7 +1,7 @@
 export interface UserStrategyType {
 	uid: string
 	name: string
-	airdropType: AirdropType
+	airdropType: AirdropTypes
 	mainnet: MainnetType
 	testnet: TestnetType
 	randomActions: boolean
@@ -24,7 +24,7 @@ export enum SignTransactionType {
 	MANUAL = 'MANUAL',
 }
 
-export enum AirdropType {
+export enum AirdropTypes {
 	LAYER_ZERO = 'LAYER_ZERO',
 	ZK_SYNC = 'ZK_SYNC',
 	STARK_NET = 'STARK_NET',
@@ -40,7 +40,7 @@ export enum LayerZeroNetworks {
 	METIS = 'Metis',
 	APTOS = 'Aptos',
 	FANTOM = 'Fantom',
-	ZKERA = 'ZkEra',
+	// ZKERA = 'ZkEra',
 }
 
 export enum LayerZeroBridges {

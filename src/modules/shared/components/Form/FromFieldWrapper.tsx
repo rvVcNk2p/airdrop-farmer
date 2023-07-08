@@ -5,9 +5,7 @@ import {
 	FormItem,
 	FormLabel,
 	FormMessage,
-	useFormField,
 } from '@modules/shared/components/ui/form'
-import { FieldError, useForm } from 'react-hook-form'
 
 export const FormFieldWrapper = ({
 	name,
@@ -30,7 +28,7 @@ export const FormFieldWrapper = ({
 			name={name}
 			render={({ field }) => (
 				<FormItem>
-					<div className="mb-4">
+					<div className="mb-2">
 						<FormLabel className="text-base">{label}</FormLabel>
 						{description && <FormDescription>{description}</FormDescription>}
 					</div>

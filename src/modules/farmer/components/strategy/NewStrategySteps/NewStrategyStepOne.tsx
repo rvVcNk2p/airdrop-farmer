@@ -1,9 +1,11 @@
 import {
+	AirdropTypes,
 	LayerZeroBridges,
 	LayerZeroNetworks,
 } from '@modules/farmer/types/userStrategy'
 import {
 	FormFieldCheckboxWrapper,
+	FormFieldSelectWrapper,
 	FormFieldWrapper,
 } from '@modules/shared/components/Form'
 import { Form } from '@modules/shared/components/ui/form'
@@ -19,15 +21,31 @@ const choosableNetworks = enumToArrayObject(LayerZeroNetworks, [
 	'APTOS',
 	'METIS',
 	'FANTOM',
-	'ZKERA',
 ])
 const choosableBridges = enumToArrayObject(LayerZeroBridges, ['STARGATE'])
 
+const airdropOptions = [
+	{
+		id: AirdropTypes.LAYER_ZERO,
+		label: 'Layer Zero',
+	},
+	{
+		id: AirdropTypes.ZK_SYNC,
+		label: 'zkSync',
+	},
+	{
+		id: AirdropTypes.STARK_NET,
+		label: 'Stark Net',
+	},
+]
+
 export const NewStrategyStepOne = ({ form }: NewStrategyStepOneProps) => {
+	const selectedNetworks = form.watch('firstStepFileds.networks').length
+
 	return (
 		<div>
 			<Form {...form}>
-				<div className="flex flex-col gap-4 px-2">
+				<div className="flex flex-col gap-6 px-2">
 					<FormFieldWrapper
 						label="Strategy name:"
 						name="firstStepFileds.name"
@@ -41,6 +59,14 @@ export const NewStrategyStepOne = ({ form }: NewStrategyStepOneProps) => {
 							/>
 						)}
 					</FormFieldWrapper>
+
+					<FormFieldSelectWrapper
+						label="Strategy type:"
+						name="firstStepFileds.airdropType"
+						form={form}
+						options={airdropOptions}
+						disabled
+					/>
 
 					<FormFieldWrapper
 						label="Tsx number per wallet:"
@@ -56,8 +82,24 @@ export const NewStrategyStepOne = ({ form }: NewStrategyStepOneProps) => {
 						)}
 					</FormFieldWrapper>
 
+					<FormFieldCheckboxWrapper
+						name="firstStepFileds.networks"
+						label="Choose networks:"
+						form={form}
+						options={choosableNetworks}
+					/>
+
+					<FormFieldCheckboxWrapper
+						name="firstStepFileds.bridges"
+						label="Choose bridges:"
+						form={form}
+						options={choosableBridges}
+					/>
+
 					<FormFieldWrapper
-						label={`Max gas per txs in ${2} chains:`}
+						label={`Max gas per txs in ${JSON.stringify(
+							selectedNetworks,
+						)} chains $:`}
 						name="firstStepFileds.maxGasPerTxs"
 						form={form}
 					>
@@ -70,19 +112,9 @@ export const NewStrategyStepOne = ({ form }: NewStrategyStepOneProps) => {
 						)}
 					</FormFieldWrapper>
 
-					<FormFieldCheckboxWrapper
-						name="firstStepFileds.networks"
-						label="Choose networks:"
-						form={form}
-						items={choosableNetworks}
-					/>
+					{/* signTransactionType */}
 
-					<FormFieldCheckboxWrapper
-						name="firstStepFileds.bridges"
-						label="Choose bridges:"
-						form={form}
-						items={choosableBridges}
-					/>
+					{/*TODO: Random actions, Farming testnets */}
 				</div>
 			</Form>
 		</div>

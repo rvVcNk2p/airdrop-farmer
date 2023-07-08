@@ -17,7 +17,7 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 
-import { AirdropType, SignTransactionType } from '../../types/userStrategy'
+import { AirdropTypes, SignTransactionType } from '../../types/userStrategy'
 import { NewStrategyStepOne } from './NewStrategySteps/NewStrategyStepOne'
 import { NewStrategyStepThree } from './NewStrategySteps/NewStrategyStepThree'
 import { NewStrategyStepTwo } from './NewStrategySteps/NewStrategyStepTwo'
@@ -75,15 +75,14 @@ const formSchema = z.object({
 		txsNumberPerWallet: z.coerce.number().min(1),
 		maxGasPerTxs: z.coerce.number().min(1),
 		airdropType: z.union([
-			z.literal(AirdropType.LAYER_ZERO),
-			z.literal(AirdropType.STARK_NET),
-			z.literal(AirdropType.ZK_SYNC),
+			z.literal(AirdropTypes.LAYER_ZERO),
+			z.literal(AirdropTypes.STARK_NET),
+			z.literal(AirdropTypes.ZK_SYNC),
 		]),
 		signTransactionType: z.union([
 			z.literal(SignTransactionType.MANUAL),
 			z.literal(SignTransactionType.PRIVATE_KEY),
 		]),
-		randomActions: z.boolean(),
 		bridges: z.array(z.string()).refine((value) => value.some((item) => item), {
 			message: 'You have to select at least one item.',
 		}),
@@ -92,6 +91,8 @@ const formSchema = z.object({
 			.refine((value) => value.some((item) => item), {
 				message: 'You have to select at least one item.',
 			}),
+		// randomActions: z.boolean(),
+		// farmingTestnets: z.boolean(),
 	}),
 })
 
@@ -105,11 +106,12 @@ export const NewStrategyModal = ({ children }: NewStrategyModalProps) => {
 				name: '',
 				txsNumberPerWallet: 0,
 				maxGasPerTxs: 0,
-				airdropType: AirdropType.LAYER_ZERO,
+				airdropType: AirdropTypes.LAYER_ZERO,
 				signTransactionType: SignTransactionType.PRIVATE_KEY,
-				randomActions: false,
 				bridges: ['STARGATE'],
 				networks: [],
+				// randomActions: false,
+				// farmingTestnets: false,
 			},
 		},
 	})

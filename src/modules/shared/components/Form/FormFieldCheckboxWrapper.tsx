@@ -9,7 +9,7 @@ import {
 
 import { Checkbox } from '../ui/checkbox'
 
-type FormCheckboxItems = {
+type FormCheckboxOptions = {
 	id: string
 	value: string
 	invalid: boolean | undefined
@@ -18,13 +18,13 @@ type FormCheckboxItems = {
 export const FormFieldCheckboxWrapper = ({
 	name,
 	label,
-	items,
+	options,
 	form,
 	description,
 }: {
 	name: string
 	label: string
-	items: FormCheckboxItems
+	options: FormCheckboxOptions
 	form: any
 	description?: string
 }) => {
@@ -34,12 +34,12 @@ export const FormFieldCheckboxWrapper = ({
 			name={name}
 			render={() => (
 				<FormItem>
-					<div className="mb-4">
+					<div className="mb-2">
 						<FormLabel className="text-base">{label}</FormLabel>
 						{description && <FormDescription>{description}</FormDescription>}
 					</div>
 					<div className=" grid grid-cols-3 gap-4">
-						{items.map((item) => (
+						{options.map((item) => (
 							<FormField
 								key={item.id}
 								control={form.control}
