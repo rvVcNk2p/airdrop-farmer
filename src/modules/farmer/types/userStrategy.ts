@@ -30,15 +30,20 @@ export enum AirdropType {
 	STARK_NET = 'STARK_NET',
 }
 
-export enum ExistingNetworks {
-	ETHEREUM = 'ETHEREUM',
-	POLYGON = 'POLYGON',
-	BSC = 'BINANCE',
-	ARBITRUM = 'ARBITRUM',
-	AVALANCE = 'AVALANCE',
-	OPTIMISM = 'OPTIMISM',
-	METIS = 'METIS',
-	APTOS = 'APTOS',
-	FANTOM = 'FANTOM',
-	ZKERA = 'ZKERA',
+export enum LayerZeroNetworks {
+	ETHEREUM = 'Ethereum',
+	POLYGON = 'Polygon',
+	BSC = 'Binance',
+	ARBITRUM = 'Arbitrum',
+	AVALANCE = 'Avalance',
+	OPTIMISM = 'Optimism',
+	METIS = 'Metis',
+	APTOS = 'Aptos',
+	FANTOM = 'Fantom',
+	ZKERA = 'ZkEra',
+}
+
+export enum LayerZeroBridges {
+	STARGATE = 'Stargate',
+	WOOFI = 'Woofi',
 }

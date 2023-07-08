@@ -84,8 +84,14 @@ const formSchema = z.object({
 			z.literal(SignTransactionType.PRIVATE_KEY),
 		]),
 		randomActions: z.boolean(),
-		bridges: z.string().array().nonempty(),
-		networks: z.string().array().nonempty(),
+		bridges: z.array(z.string()).refine((value) => value.some((item) => item), {
+			message: 'You have to select at least one item.',
+		}),
+		networks: z
+			.array(z.string())
+			.refine((value) => value.some((item) => item), {
+				message: 'You have to select at least one item.',
+			}),
 	}),
 })
 
@@ -103,7 +109,7 @@ export const NewStrategyModal = ({ children }: NewStrategyModalProps) => {
 				signTransactionType: SignTransactionType.PRIVATE_KEY,
 				randomActions: false,
 				bridges: ['STARGATE'],
-				networks: ['BSC'],
+				networks: [],
 			},
 		},
 	})
@@ -124,7 +130,11 @@ export const NewStrategyModal = ({ children }: NewStrategyModalProps) => {
 							{activeStep === 1 && <NewStrategyStepOne form={form} />}
 							{activeStep === 2 && <NewStrategyStepTwo />}
 							{activeStep === 3 && <NewStrategyStepThree />}
-							<Button type="submit" onClick={form.handleSubmit(onSubmit)}>
+							<Button
+								type="submit"
+								className="mt-10"
+								onClick={form.handleSubmit(onSubmit)}
+							>
 								Submit
 							</Button>
 						</ScrollArea>
