@@ -1,126 +1,18 @@
-import { Checkbox } from '@/modules/shared/components/ui/checkbox'
 import {
 	LayerZeroBridges,
 	LayerZeroNetworks,
 } from '@modules/farmer/types/userStrategy'
 import {
-	Form,
-	FormControl,
-	FormDescription,
-	FormField,
-	FormItem,
-	FormLabel,
-	FormMessage,
-} from '@modules/shared/components/ui/form'
+	FormFieldCheckboxWrapper,
+	FormFieldWrapper,
+} from '@modules/shared/components/Form'
+import { Form } from '@modules/shared/components/ui/form'
 import { Input } from '@modules/shared/components/ui/input'
 import { enumToArrayObject } from '@modules/shared/utils'
 
 interface NewStrategyStepOneProps {
 	// TODO: Define type
 	form: any
-}
-
-const FormFieldWrapper = ({
-	name,
-	label,
-	form,
-	children,
-	description,
-}: {
-	name: string
-	label: string
-	form: any
-	children: (slotProps: { field: any }) => React.ReactNode
-	description?: string
-}) => {
-	return (
-		<FormField
-			control={form.control}
-			name={name}
-			render={({ field }) => (
-				<FormItem>
-					<div className="mb-4">
-						<FormLabel className="text-base">{label}</FormLabel>
-						{description && <FormDescription>{description}</FormDescription>}
-					</div>
-					<FormControl>{children({ field })}</FormControl>
-					<FormMessage />
-				</FormItem>
-			)}
-		/>
-	)
-}
-
-type FormCheckboxItems = {
-	id: string
-	value: string
-	invalid: boolean | undefined
-}[]
-
-const FormFieldCheckboxWrapper = ({
-	name,
-	label,
-	items,
-	form,
-	description,
-}: {
-	name: string
-	label: string
-	items: FormCheckboxItems
-	form: any
-	description?: string
-}) => {
-	return (
-		<FormField
-			control={form.control}
-			name={name}
-			render={() => (
-				<FormItem>
-					<div className="mb-4">
-						<FormLabel className="text-base">{label}</FormLabel>
-						{description && <FormDescription>{description}</FormDescription>}
-					</div>
-					<div className=" grid grid-cols-3 gap-4">
-						{items.map((item) => (
-							<FormField
-								key={item.id}
-								control={form.control}
-								name={name}
-								render={({ field }) => {
-									return (
-										<FormItem
-											key={item.id}
-											className="flex flex-row items-start space-x-3 space-y-0"
-										>
-											<FormControl>
-												<Checkbox
-													disabled={item.invalid}
-													checked={field.value?.includes(item.id)}
-													onCheckedChange={(checked) => {
-														return checked
-															? field.onChange([...field.value, item.id])
-															: field.onChange(
-																	field.value?.filter(
-																		(value: any) => value !== item.id,
-																	),
-															  )
-													}}
-												/>
-											</FormControl>
-											<FormLabel className="font-normal">
-												{item.value}
-											</FormLabel>
-										</FormItem>
-									)
-								}}
-							/>
-						))}
-					</div>
-					<FormMessage />
-				</FormItem>
-			)}
-		/>
-	)
 }
 
 const choosableNetworks = enumToArrayObject(LayerZeroNetworks, [
@@ -141,11 +33,11 @@ export const NewStrategyStepOne = ({ form }: NewStrategyStepOneProps) => {
 						name="firstStepFileds.name"
 						form={form}
 					>
-						{({ field }) => (
+						{({ field, error }) => (
 							<Input
 								placeholder="zkSync Farming - 1"
+								className={error && '!border-invalid'}
 								{...field}
-								// ADD ERROR CLASS
 							/>
 						)}
 					</FormFieldWrapper>
@@ -155,7 +47,13 @@ export const NewStrategyStepOne = ({ form }: NewStrategyStepOneProps) => {
 						name="firstStepFileds.txsNumberPerWallet"
 						form={form}
 					>
-						{({ field }) => <Input type="number" {...field} />}
+						{({ field, error }) => (
+							<Input
+								type="number"
+								className={error && '!border-invalid'}
+								{...field}
+							/>
+						)}
 					</FormFieldWrapper>
 
 					<FormFieldWrapper
@@ -163,7 +61,13 @@ export const NewStrategyStepOne = ({ form }: NewStrategyStepOneProps) => {
 						name="firstStepFileds.maxGasPerTxs"
 						form={form}
 					>
-						{({ field }) => <Input type="number" {...field} />}
+						{({ field, error }) => (
+							<Input
+								type="number"
+								className={error && '!border-invalid'}
+								{...field}
+							/>
+						)}
 					</FormFieldWrapper>
 
 					<FormFieldCheckboxWrapper
