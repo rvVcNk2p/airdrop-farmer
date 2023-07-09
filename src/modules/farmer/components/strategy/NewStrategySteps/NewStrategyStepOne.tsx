@@ -2,6 +2,7 @@ import {
 	AirdropTypes,
 	LayerZeroBridges,
 	LayerZeroNetworks,
+	SignTransactionType,
 } from '@modules/farmer/types/userStrategy'
 import {
 	FormFieldCheckboxWrapper,
@@ -36,6 +37,17 @@ const airdropOptions = [
 	{
 		id: AirdropTypes.STARK_NET,
 		label: 'Stark Net',
+	},
+]
+
+const signTransactionOptions = [
+	{
+		id: SignTransactionType.PRIVATE_KEY,
+		label: 'Private key',
+	},
+	{
+		id: SignTransactionType.MANUAL,
+		label: 'Manual',
 	},
 ]
 
@@ -112,7 +124,13 @@ export const NewStrategyStepOne = ({ form }: NewStrategyStepOneProps) => {
 						)}
 					</FormFieldWrapper>
 
-					{/* signTransactionType */}
+					<FormFieldSelectWrapper
+						label="Sign transacition type:"
+						name="firstStepFileds.signTransactionType"
+						form={form}
+						options={signTransactionOptions}
+						disabled
+					/>
 
 					{/*TODO: Random actions, Farming testnets */}
 				</div>
