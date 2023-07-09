@@ -1,3 +1,3 @@
 export const NewStrategyStepTwo = () => {
-	return <div>NewStrategyStepTwo</div>
+	return <div>NewStrategyStepTwo - Testnet Step</div>
 }

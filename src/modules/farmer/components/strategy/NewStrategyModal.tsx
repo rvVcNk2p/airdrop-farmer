@@ -20,7 +20,6 @@ import * as z from 'zod'
 import { AirdropTypes, SignTransactionType } from '../../types/userStrategy'
 import { NewStrategyStepOne } from './NewStrategySteps/NewStrategyStepOne'
 import { NewStrategyStepThree } from './NewStrategySteps/NewStrategyStepThree'
-import { NewStrategyStepTwo } from './NewStrategySteps/NewStrategyStepTwo'
 
 interface NewStrategyModalProps {
 	children: React.ReactNode
@@ -32,6 +31,7 @@ interface StepperProps {
 	maxSteps: number
 	children: React.ReactNode
 	updateActiveStep: (nextStep: number) => void
+	nextValidate: () => void
 }
 
 const Stepper = ({
@@ -40,14 +40,16 @@ const Stepper = ({
 	maxSteps,
 	children,
 	updateActiveStep,
+	nextValidate,
 }: StepperProps) => {
 	const setBack = () => {
 		const nextStep = activeStep - 1 <= 0 ? minStep : activeStep - 1
 		updateActiveStep(nextStep)
 	}
-	const setNext = () => {
-		const nextStep = activeStep + 1 >= maxSteps ? maxSteps : activeStep + 1
-		updateActiveStep(nextStep)
+	const setNext = async () => {
+		nextValidate()
+		// const nextStep = activeStep + 1 >= maxSteps ? maxSteps : activeStep + 1
+		// updateActiveStep(nextStep)
 	}
 	return (
 		<div className="flex gap-2 w-full justify-end">
@@ -118,6 +120,7 @@ export const NewStrategyModal = ({ children }: NewStrategyModalProps) => {
 
 	const onSubmit = (values: z.infer<typeof formSchema>) => {
 		// ✅ This will be type-safe and validated.
+		setActiveStep(activeStep + 1)
 		console.log('====', values)
 	}
 
@@ -126,42 +129,36 @@ export const NewStrategyModal = ({ children }: NewStrategyModalProps) => {
 			<AlertDialogTrigger asChild={true}>{children}</AlertDialogTrigger>
 			<AlertDialogContent>
 				<AlertDialogHeader>
-					<AlertDialogTitle className="mb-6">Create Straregy</AlertDialogTitle>
-					<AlertDialogDescription asChild={true}>
-						<ScrollArea className="h-[400px] w-full">
-							{activeStep === 1 && <NewStrategyStepOne form={form} />}
-							{activeStep === 2 && <NewStrategyStepTwo />}
-							{activeStep === 3 && <NewStrategyStepThree />}
-							<Button
-								type="submit"
-								className="mt-10"
-								onClick={form.handleSubmit(onSubmit)}
-							>
-								Submit
-							</Button>
-						</ScrollArea>
-					</AlertDialogDescription>
+					{activeStep === 1 && <NewStrategyStepOne form={form} />}
+					{activeStep === 2 && (
+						<NewStrategyStepThree
+							selectedNetworks={form.watch('firstStepFileds.networks')}
+						/>
+					)}
 				</AlertDialogHeader>
 				<AlertDialogFooter>
 					<AlertDialogCancel onClick={() => form.reset()}>
 						Cancel
 					</AlertDialogCancel>
 					<AlertDialogAction asChild={true}>
-						<Stepper
-							activeStep={activeStep}
-							updateActiveStep={setActiveStep}
-							minStep={1}
-							maxSteps={3}
-						>
-							<Button
-								variant="outline"
-								className="flex sm:w-fit"
-								onClick={() => {}}
+						<>
+							<Stepper
+								activeStep={activeStep}
+								updateActiveStep={setActiveStep}
+								nextValidate={form.handleSubmit(onSubmit)}
+								minStep={1}
+								maxSteps={2}
 							>
-								<Plus className="mr-2" />
-								Add new strategy
-							</Button>
-						</Stepper>
+								<Button
+									variant="outline"
+									className="flex sm:w-fit"
+									onClick={() => {}}
+								>
+									<Plus className="mr-2" />
+									Add new strategy
+								</Button>
+							</Stepper>
+						</>
 					</AlertDialogAction>
 				</AlertDialogFooter>
 			</AlertDialogContent>
