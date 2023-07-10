@@ -95,7 +95,7 @@ export const EditGroupModal = ({ selectedGroup, close }: EditGroupModal) => {
 								<Input
 									name="name"
 									value={groupDetails.name}
-									placeholder="Group - A"
+									placeholder="Start typing..."
 									onChange={(e) => handleSetGroupDetails(e)}
 								/>
 							</div>

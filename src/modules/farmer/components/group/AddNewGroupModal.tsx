@@ -77,7 +77,7 @@ export const AddNewGroupModal = ({ children }: AddNewAddressModalProps) => {
 							<Label>Name</Label>
 							<Input
 								name="name"
-								placeholder="Group - A"
+								placeholder="Start typing..."
 								onChange={(e) => handleSetGroupDetails(e)}
 							/>
 						</div>
