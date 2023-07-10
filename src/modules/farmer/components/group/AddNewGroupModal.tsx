@@ -26,7 +26,7 @@ interface AddNewAddressModalProps {
 
 const initialGroupDetails = {
 	name: '',
-	strategyUid: null,
+	strategyUid: undefined,
 	wallets: [],
 }
 

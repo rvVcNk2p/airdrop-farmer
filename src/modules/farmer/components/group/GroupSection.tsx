@@ -1,18 +1,22 @@
 'use client'
 
 import { useUserGroups } from '@modules/farmer/stores'
+import type { UserGroupType } from '@modules/farmer/types'
 import { CardTemplate } from '@modules/shared/components/templates/CardTemplate'
 import { Button } from '@modules/shared/components/ui/button'
 import { useIsMounted } from '@modules/shared/hooks'
 import { toast } from '@modules/shared/hooks/useToast'
-import { Pencil, Trash } from '@phosphor-icons/react'
+import { Pencil, Play, Trash } from '@phosphor-icons/react'
 import { padWallet } from '@utils'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 import { EditGroupModal } from './EditGroupModal'
 import { EmptyGroup } from './EmptyGroup'
 
 export const GroupSection = () => {
+	const router = useRouter()
+
 	const userGroups = useUserGroups((state) => state.userGroups)
 	const deleteGroup = useUserGroups((state) => state.deleteGroup)
 
@@ -26,6 +30,11 @@ export const GroupSection = () => {
 			description: groupName,
 			duration: 5000,
 		})
+	}
+
+	const isGroupAbleToRun = (group: UserGroupType) => {
+		const { strategyUid, wallets } = group
+		return strategyUid && wallets.length > 0
 	}
 
 	return (
@@ -59,6 +68,15 @@ export const GroupSection = () => {
 												onClick={() => handleDeleteGroup(group.uid, group.name)}
 											>
 												<Trash size={18} />
+											</Button>
+											<Button
+												variant="outline"
+												className="flex w-full sm:w-fit"
+												disabled={!isGroupAbleToRun(group)}
+												onClick={() => router.push(`workspace/${group.uid}`)}
+											>
+												<Play size={18} className="mr-2" />
+												Run
 											</Button>
 											<Button
 												variant="outline"

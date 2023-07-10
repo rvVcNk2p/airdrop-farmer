@@ -1,6 +1,7 @@
 'use client'
 
 import { useUserGroups } from '@modules/farmer/stores'
+import { useUserStrategies } from '@modules/farmer/stores'
 import type { UserGroupType } from '@modules/farmer/types'
 import {
 	AlertDialog,
@@ -15,6 +16,13 @@ import {
 import { Button } from '@modules/shared/components/ui/button'
 import { Input } from '@modules/shared/components/ui/input'
 import { Label } from '@modules/shared/components/ui/label'
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from '@modules/shared/components/ui/select'
 import { toast } from '@modules/shared/hooks/useToast'
 import { DownloadSimple, Plus, Trash } from '@phosphor-icons/react'
 import { padWallet } from '@utils'
@@ -26,6 +34,7 @@ interface EditGroupModal {
 }
 
 export const EditGroupModal = ({ selectedGroup, close }: EditGroupModal) => {
+	const userStrategies = useUserStrategies((state) => state.userStrategies)
 	const getGroupByUid = useUserGroups((state) => state.getGroupByUid)
 	const updateGroup = useUserGroups((state) => state.updateGroup)
 
@@ -33,7 +42,7 @@ export const EditGroupModal = ({ selectedGroup, close }: EditGroupModal) => {
 		uid: '',
 		name: '',
 		description: '',
-		strategyUid: null,
+		strategyUid: undefined,
 		wallets: [],
 	})
 	const [newWallet, setNewWallet] = useState('')
@@ -90,18 +99,44 @@ export const EditGroupModal = ({ selectedGroup, close }: EditGroupModal) => {
 					<AlertDialogTitle className="mb-6">Edit Group</AlertDialogTitle>
 					<AlertDialogDescription asChild={true}>
 						<div className="grid grid-cols-1 gap-6 pb-10">
-							<div className="flex flex-col gap-2">
-								<Label>Name</Label>
-								<Input
-									name="name"
-									value={groupDetails.name}
-									placeholder="Start typing..."
-									onChange={(e) => handleSetGroupDetails(e)}
-								/>
+							<div className="flex gap-4">
+								<div className="flex flex-col gap-2 w-full">
+									<Label>Name:</Label>
+									<Input
+										name="name"
+										value={groupDetails.name}
+										placeholder="Start typing..."
+										onChange={(e) => handleSetGroupDetails(e)}
+									/>
+								</div>
+
+								<div className="flex flex-col gap-2 w-full">
+									<Label>Select strategy:</Label>
+									<Select
+										value={groupDetails.strategyUid}
+										onValueChange={(value: string) =>
+											setGroupDetails({
+												...groupDetails,
+												strategyUid: value,
+											})
+										}
+									>
+										<SelectTrigger className="w-full">
+											<SelectValue placeholder="Strategy" />
+										</SelectTrigger>
+										<SelectContent>
+											{userStrategies.map((strategy) => (
+												<SelectItem key={strategy.uid} value={strategy.uid}>
+													{strategy.name}
+												</SelectItem>
+											))}
+										</SelectContent>
+									</Select>
+								</div>
 							</div>
 
 							<div className="flex flex-col gap-2">
-								<Label>Private keys</Label>
+								<Label>Private keys:</Label>
 								{groupDetails.wallets.length
 									? groupDetails.wallets.map((wallet, idx) => (
 											<div
@@ -126,7 +161,7 @@ export const EditGroupModal = ({ selectedGroup, close }: EditGroupModal) => {
 							</div>
 
 							<div className="flex flex-col gap-2">
-								<Label>Add Private Key</Label>
+								<Label>Add private key:</Label>
 								<div className="flex gap-4">
 									<Input
 										name="wallet"

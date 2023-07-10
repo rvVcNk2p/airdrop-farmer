@@ -2,7 +2,7 @@ export interface UserGroupType {
 	uid: string
 	name: string
 	description: string | null
-	strategyUid: string | null
+	strategyUid: string | undefined
 	wallets: string[]
 }
 
