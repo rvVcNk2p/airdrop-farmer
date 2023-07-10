@@ -1,6 +1,5 @@
 import type {
-	RawUserGroupType,
-	UserGroupType,
+	RawUserStrategyType,
 	UserStrategyType,
 } from '@modules/farmer/types'
 import secureLocalStorage from 'react-secure-storage'
@@ -57,8 +56,8 @@ export const useUserStrategies = create<UserStrategies>()(
 						userStrategies: [
 							...get().userStrategies,
 							{
-								uid,
 								...rawStrategy,
+								uid,
 							},
 						],
 					}))
@@ -87,7 +86,7 @@ export const useUserStrategies = create<UserStrategies>()(
 				},
 			}),
 			{
-				name: 'user-groups',
+				name: 'user-strategies',
 				storage: createJSONStorage(() => SecureLocalStorage),
 			},
 		),

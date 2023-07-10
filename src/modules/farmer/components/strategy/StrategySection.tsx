@@ -11,6 +11,7 @@ import { useState } from 'react'
 
 export const StrategySection = () => {
 	const userStrategies = useUserStrategies((state) => state.userStrategies)
+	const getStrategy = useUserStrategies((state) => state.getStrategy)
 	const deleteStrategy = useUserStrategies((state) => state.deleteStrategy)
 	const [selectedStrategy, setSelectedStrategy] = useState<null | string>(null)
 
@@ -22,6 +23,11 @@ export const StrategySection = () => {
 			description: name,
 			duration: 5000,
 		})
+	}
+
+	const handleStrategySelect = (uid: string) => {
+		setSelectedStrategy(uid)
+		console.log(getStrategy(uid))
 	}
 
 	return (
@@ -54,7 +60,8 @@ export const StrategySection = () => {
 									<Button
 										variant="outline"
 										className="flex w-full sm:w-fit"
-										onClick={() => setSelectedStrategy(strategy.uid)}
+										// disabled
+										onClick={() => handleStrategySelect(strategy.uid)}
 									>
 										<Pencil size={16} />
 									</Button>

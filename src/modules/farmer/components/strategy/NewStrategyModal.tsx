@@ -1,17 +1,16 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useUserStrategies } from '@modules/farmer/stores'
 import {
 	AlertDialog,
 	AlertDialogAction,
 	AlertDialogCancel,
 	AlertDialogContent,
-	AlertDialogDescription,
 	AlertDialogFooter,
 	AlertDialogHeader,
-	AlertDialogTitle,
 	AlertDialogTrigger,
 } from '@modules/shared/components/ui/alert-dialog'
 import { Button } from '@modules/shared/components/ui/button'
-import { ScrollArea } from '@modules/shared/components/ui/scroll-area'
+import { toast } from '@modules/shared/hooks/useToast'
 import { Plus } from '@phosphor-icons/react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -100,6 +99,11 @@ const formSchema = z.object({
 
 export const NewStrategyModal = ({ children }: NewStrategyModalProps) => {
 	const [activeStep, setActiveStep] = useState(1)
+	const [isOpen, setIsOpen] = useState(false)
+
+	const createNewStrategy = useUserStrategies(
+		(state) => state.createNewStrategy,
+	)
 
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
@@ -121,12 +125,50 @@ export const NewStrategyModal = ({ children }: NewStrategyModalProps) => {
 	const onSubmit = (values: z.infer<typeof formSchema>) => {
 		// ✅ This will be type-safe and validated.
 		setActiveStep(activeStep + 1)
-		console.log('====', values)
+	}
+
+	const handleAddNewStrategy = () => {
+		const { firstStepFileds } = form.getValues()
+		const {
+			name,
+			txsNumberPerWallet,
+			maxGasPerTxs,
+			airdropType,
+			signTransactionType,
+			networks,
+			bridges,
+		} = firstStepFileds
+
+		createNewStrategy({
+			name,
+			airdropType,
+			mainnet: { txsNumberPerWallet, maxGasPerTxs, networks, bridges },
+			testnet: null,
+			randomActions: false,
+			farmingTestnet: false,
+			signTransactionType,
+		})
+
+		toast({
+			title: '✅ New strategy created!',
+			description: name,
+			duration: 5000,
+		})
+
+		closeModal()
+	}
+
+	const closeModal = () => {
+		setIsOpen(false)
+		form.reset()
+		setActiveStep(1)
 	}
 
 	return (
-		<AlertDialog>
-			<AlertDialogTrigger asChild={true}>{children}</AlertDialogTrigger>
+		<AlertDialog open={isOpen}>
+			<AlertDialogTrigger asChild={true} onClick={() => setIsOpen(true)}>
+				{children}
+			</AlertDialogTrigger>
 			<AlertDialogContent>
 				<AlertDialogHeader>
 					{activeStep === 1 && <NewStrategyStepOne form={form} />}
@@ -137,9 +179,7 @@ export const NewStrategyModal = ({ children }: NewStrategyModalProps) => {
 					)}
 				</AlertDialogHeader>
 				<AlertDialogFooter>
-					<AlertDialogCancel onClick={() => form.reset()}>
-						Cancel
-					</AlertDialogCancel>
+					<AlertDialogCancel onClick={closeModal}>Cancel</AlertDialogCancel>
 					<AlertDialogAction asChild={true}>
 						<>
 							<Stepper
@@ -152,7 +192,7 @@ export const NewStrategyModal = ({ children }: NewStrategyModalProps) => {
 								<Button
 									variant="outline"
 									className="flex sm:w-fit"
-									onClick={() => {}}
+									onClick={handleAddNewStrategy}
 								>
 									<Plus className="mr-2" />
 									Add new strategy

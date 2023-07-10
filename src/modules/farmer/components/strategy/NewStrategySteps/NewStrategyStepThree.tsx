@@ -1,3 +1,4 @@
+import { LayerZeroNetworks } from '@/modules/farmer/types/userStrategy'
 import {
 	AlertDialogDescription,
 	AlertDialogTitle,
@@ -12,15 +13,17 @@ interface NewStrategyStepOneProps {
 }
 
 // TODO: Find all the available token addresses
-const activeTokens = [
-	{ network: 'Polygon', tokenName: 'USDC' },
-	{ network: 'Polygon', tokenName: 'USDT' },
+const selectableTokens = [
+	{ network: LayerZeroNetworks.ETHEREUM, tokenName: 'USDC' },
+	{ network: LayerZeroNetworks.ETHEREUM, tokenName: 'USDT' },
+	{ network: LayerZeroNetworks.POLYGON, tokenName: 'USDC' },
+	{ network: LayerZeroNetworks.POLYGON, tokenName: 'USDT' },
 	{ network: 'BSC', tokenName: 'USDT' },
-	{ network: 'Arbitrum', tokenName: 'USDC' },
-	{ network: 'Arbitrum', tokenName: 'USDT' },
-	{ network: 'Avalanche', tokenName: 'USDC' },
-	{ network: 'Avalanche', tokenName: 'USDT' },
-	{ network: 'Optimism', tokenName: 'USDC' },
+	{ network: LayerZeroNetworks.ARBITRUM, tokenName: 'USDC' },
+	{ network: LayerZeroNetworks.ARBITRUM, tokenName: 'USDT' },
+	{ network: LayerZeroNetworks.AVALANCE, tokenName: 'USDC' },
+	{ network: LayerZeroNetworks.AVALANCE, tokenName: 'USDT' },
+	{ network: LayerZeroNetworks.OPTIMISM, tokenName: 'USDC' },
 ]
 
 const ActiveTokenLabel = ({
@@ -41,6 +44,10 @@ export const NewStrategyStepThree = ({
 	selectedNetworks,
 }: NewStrategyStepOneProps) => {
 	const concatenatedNetworks = selectedNetworks.join(',')
+
+	const activeTokens = selectableTokens.filter((token) =>
+		selectedNetworks.includes(token.network.toUpperCase()),
+	)
 
 	return (
 		<>

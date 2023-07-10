@@ -1,11 +1,13 @@
+export type RawUserStrategyType = Omit<UserStrategyType, 'uid'>
 export interface UserStrategyType {
 	uid: string
 	name: string
 	airdropType: AirdropTypes
 	mainnet: MainnetType
-	testnet: TestnetType
 	randomActions: boolean
 	signTransactionType: SignTransactionType
+	farmingTestnet: boolean
+	testnet?: TestnetType | null
 }
 
 export interface MainnetType {
@@ -15,9 +17,7 @@ export interface MainnetType {
 	bridges: string[]
 }
 
-export type TestnetType = MainnetType & {
-	farmingTestnet: boolean
-}
+export type TestnetType = MainnetType
 
 export enum SignTransactionType {
 	PRIVATE_KEY = 'PRIVATE_KEY',
