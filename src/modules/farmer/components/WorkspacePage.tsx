@@ -1,14 +1,84 @@
 'use client'
 
+import { useUserGroups, useUserStrategies } from '@modules/farmer/stores'
+import { Skeleton } from '@modules/shared/components/ui/skeleton'
 import { useParams } from 'next/navigation'
+import { useEffect, useState } from 'react'
+
+import { HeaderStateType, UserGroupType, UserStrategyType } from '../types'
+import { WorkspaceContent } from './Workspace/WorkspaceContent'
+import { WorkspaceHeader } from './Workspace/WorkspaceHeader'
 
 export const WorkspacePage = () => {
 	const params = useParams()
-	console.log(params)
+	const getGroupByUid = useUserGroups((state) => state.getGroupByUid)
+	const getStrategy = useUserStrategies((state) => state.getStrategy)
+
+	const [group, setGroup] = useState<UserGroupType | undefined>(undefined)
+	const [strategy, setStrategy] = useState<UserStrategyType | undefined>(
+		undefined,
+	)
+
+	const bridgeSteps = [
+		'Choose USDT on BSC with $85.03 as initial token',
+		'Planning to bridge with STARGATE from BSC USDT to AVALANCHE USDT.',
+		'Created tx 118 to approve spending $85.03 USDT on BSC.',
+		'Tx 118 was signed.',
+		'Tx 118 was signed.',
+		'Sent allowance tx 118 to blockchain. Scan: https://bscscan.com/tx/{HASH}',
+		'Allowance tx 118 confirmed. Scan: https://bscscan.com/tx/{HASH}', // SUCCESS
+		'Sleeping 74 seconds.',
+
+		'Choose USDT on BSC with $85.03 as initial token',
+		'Planning to bridge with STARGATE from BSC USDT to AVALANCHE USDT.',
+		'Created bridge tx 121 to sign: Bridge STARGATE from BSC USDT to AVALANCHE USDT 85.03 USDT.',
+		'Need: $1.08 = Max fee 0.000278547 BNB ($0.65) + Layer Zero fee 0.001856803504922539 BNB ($0.43).' +
+			'User has: 0.019681691995708755 BNB ($4.56). Base Fee: 0.00278547 BNB ($0.65).',
+		'Tx 121 was signed.',
+		'Sent bridge tx 121 to blockchain. Scan: https://bscscan.com/tx/{HASH}',
+		'Bridge tx 121 confirmed. Scan: https://bscscan.com/tx/{HASH}', // SUCCESS
+		'Bridge successfully from BSC to AVALANCHE. Tx is: 121. Scan: https://bscscan.com/tx/{HASH}', // SUCCESS ',
+		'Sleeping 116 seconds.',
+	]
+
+	useEffect(() => {
+		const initialize = async () => {
+			const group = await getGroupByUid(params.groupUid)
+			setGroup(group)
+
+			if (!group?.strategyUid) return
+			const strategy = await getStrategy(group?.strategyUid)
+			setStrategy(strategy)
+		}
+		initialize()
+		return () => {
+			// cleanup
+		}
+	}, [params.groupUid, getGroupByUid, getStrategy])
+
+	// group?.name
+	// group?.wallets
+
+	const [headerState, setHeaderState] = useState<HeaderStateType>({
+		transactions: 0,
+		volume: 0,
+	})
+
+	const isLoading = !strategy || !headerState || !group?.wallets.length
 
 	return (
-		<div className="flex min-h-screen flex-col items-center justify-between p-8 xl:p-16 pt-[7rem] gap-4">
-			WorkspacePage
+		<div className="flex flex-col min-h-screen items-center p-8 xl:p-16 pt-[3rem] gap-4">
+			<WorkspaceHeader
+				headerState={headerState}
+				strategy={strategy}
+				wallets={group?.wallets.length}
+				isLoading={isLoading}
+			/>
+			{isLoading ? (
+				<Skeleton className="p-2 flex-grow w-full" />
+			) : (
+				<WorkspaceContent>{JSON.stringify(strategy, null, 2)}</WorkspaceContent>
+			)}
 		</div>
 	)
 }

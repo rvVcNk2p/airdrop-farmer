@@ -1,4 +1,5 @@
 export { shortenerAddress, padWallet } from './address'
 export { cn } from './tailwind-merge'
 export { remToPx } from './remToPx'
+export { capitalize } from './string'
 export { enumToArrayObject } from './array'

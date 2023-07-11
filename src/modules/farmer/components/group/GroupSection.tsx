@@ -75,8 +75,7 @@ export const GroupSection = () => {
 												disabled={!isGroupAbleToRun(group)}
 												onClick={() => router.push(`workspace/${group.uid}`)}
 											>
-												<Play size={18} className="mr-2" />
-												Run
+												<Play size={18} />
 											</Button>
 											<Button
 												variant="outline"
