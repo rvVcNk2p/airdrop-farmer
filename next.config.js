@@ -10,6 +10,15 @@ const nextConfig = {
 	experimental: {
 		serverActions: true,
 	},
+	redirects() {
+		return [
+			// {
+			// 	source: '/',
+			// 	destination: '/farmer',
+			// 	permanent: true,
+			// },
+		]
+	},
 }
 
 module.exports = nextConfig

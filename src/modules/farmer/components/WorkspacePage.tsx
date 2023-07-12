@@ -1,11 +1,13 @@
 'use client'
 
+import { useChooseInitialToken } from '@modules/farmer/hooks/workspace/useChooseInitialToken'
 import { useUserGroups, useUserStrategies } from '@modules/farmer/stores'
 import { Skeleton } from '@modules/shared/components/ui/skeleton'
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
-import { HeaderStateType, UserGroupType, UserStrategyType } from '../types'
+import { usePerformAllowance } from '../hooks/workspace/perform/useGenerateAllowance'
+import type { HeaderStateType, UserGroupType, UserStrategyType } from '../types'
 import { WorkspaceContent } from './Workspace/WorkspaceContent'
 import { WorkspaceHeader } from './Workspace/WorkspaceHeader'
 
@@ -23,7 +25,6 @@ export const WorkspacePage = () => {
 		'Choose USDT on BSC with $85.03 as initial token',
 		'Planning to bridge with STARGATE from BSC USDT to AVALANCHE USDT.',
 		'Created tx 118 to approve spending $85.03 USDT on BSC.',
-		'Tx 118 was signed.',
 		'Tx 118 was signed.',
 		'Sent allowance tx 118 to blockchain. Scan: https://bscscan.com/tx/{HASH}',
 		'Allowance tx 118 confirmed. Scan: https://bscscan.com/tx/{HASH}', // SUCCESS
@@ -56,7 +57,6 @@ export const WorkspacePage = () => {
 		}
 	}, [params.groupUid, getGroupByUid, getStrategy])
 
-	// group?.name
 	// group?.wallets
 
 	const [headerState, setHeaderState] = useState<HeaderStateType>({
@@ -66,9 +66,26 @@ export const WorkspacePage = () => {
 
 	const isLoading = !strategy || !headerState || !group?.wallets.length
 
+	//
+
+	const { history, performAllowance } = usePerformAllowance({
+		selectedNetworks: strategy?.mainnet.networks || [],
+		wallet: group?.wallets[0] || '0xe5e666497F6bf120D64E972BBBfbdEb7797AaB9D',
+	})
+
+	useEffect(() => {
+		performAllowance()
+	}, [])
+
+	useEffect(() => {
+		if (!history) return
+		console.log('== HISTORY ==', history)
+	}, [history])
+
 	return (
 		<div className="flex flex-col min-h-screen items-center p-8 xl:p-16 pt-[3rem] gap-4">
 			<WorkspaceHeader
+				title={group?.name || ''}
 				headerState={headerState}
 				strategy={strategy}
 				wallets={group?.wallets.length}

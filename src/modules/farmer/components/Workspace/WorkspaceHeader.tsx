@@ -21,6 +21,7 @@ const HeaderElement = ({ title, children }: HeaderElementProps) => {
 }
 
 export const WorkspaceHeader = ({
+	title,
 	headerState,
 	strategy,
 	wallets,
@@ -34,6 +35,16 @@ export const WorkspaceHeader = ({
 				onClick={() => router.push('/farmer')}
 				className="hover:opacity-60 flex gap-1 justify-center items-center cursor-pointer text-xl"
 			/>
+			<h1 className="text-3xl font-bold">
+				{isLoading ? (
+					<Skeleton className="w-[30px] h-[20px]" />
+				) : (
+					<div className="flex gap-2 justify-center items-center ">
+						{title}{' '}
+						<span className="bg-valid animate-pulse rounded-full h-4 w-4 block" />
+					</div>
+				)}
+			</h1>
 			<div className="flex justify-start w-full gap-2">
 				<HeaderElement title="Transactions">
 					{isLoading ? (
