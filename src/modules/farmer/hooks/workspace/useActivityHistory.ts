@@ -22,18 +22,20 @@ export type ChooseInitialTokenMessageProps = {
 export const useActivityHistory = () => {
 	const [history, setHistory] = useState<TxHistoryRecordType[]>([])
 
-	const addHistoryRecord = ({
+	const addHistory = ({
 		timestamp,
 		wallet,
 		status,
 		message,
 	}: TxHistoryRecordType) => {
-		setHistory(() => [...history, { timestamp, wallet, status, message }])
+		setHistory((history) => [
+			...history,
+			{ timestamp, wallet, status, message },
+		])
 	}
 
 	return {
 		history,
-
-		addHistoryRecord,
+		addHistory,
 	}
 }

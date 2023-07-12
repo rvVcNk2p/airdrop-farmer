@@ -1,12 +1,16 @@
 'use client'
 
-import { useChooseInitialToken } from '@modules/farmer/hooks/workspace/useChooseInitialToken'
 import { useUserGroups, useUserStrategies } from '@modules/farmer/stores'
 import { Skeleton } from '@modules/shared/components/ui/skeleton'
+import { shortenerAddress } from '@modules/shared/utils'
+import moment from 'moment'
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import { v4 as uuidv4 } from 'uuid'
 
 import { usePerformAllowance } from '../hooks/workspace/perform/useGenerateAllowance'
+import { usePerformActions } from '../hooks/workspace/perform/usePerformActions'
+import { useActivityHistory } from '../hooks/workspace/useActivityHistory'
 import type { HeaderStateType, UserGroupType, UserStrategyType } from '../types'
 import { WorkspaceContent } from './Workspace/WorkspaceContent'
 import { WorkspaceHeader } from './Workspace/WorkspaceHeader'
@@ -57,8 +61,6 @@ export const WorkspacePage = () => {
 		}
 	}, [params.groupUid, getGroupByUid, getStrategy])
 
-	// group?.wallets
-
 	const [headerState, setHeaderState] = useState<HeaderStateType>({
 		transactions: 0,
 		volume: 0,
@@ -66,15 +68,38 @@ export const WorkspacePage = () => {
 
 	const isLoading = !strategy || !headerState || !group?.wallets.length
 
-	//
+	// LOGIC
 
-	const { history, performAllowance } = usePerformAllowance({
+	const { history, addHistory } = useActivityHistory()
+	const { actions, setActions } = usePerformActions()
+
+	const { generateAllowance } = usePerformAllowance({
 		selectedNetworks: strategy?.mainnet.networks || [],
 		wallet: group?.wallets[0] || '0xe5e666497F6bf120D64E972BBBfbdEb7797AaB9D',
+		loggerFn: addHistory,
 	})
 
 	useEffect(() => {
-		performAllowance()
+		setActions([
+			...actions,
+			{
+				uid: uuidv4(),
+				type: 'ALLOWANCE',
+				status: 'QUEUED',
+				action: generateAllowance,
+			},
+		])
+		setTimeout(() => {
+			setActions([
+				...actions,
+				{
+					uid: uuidv4(),
+					type: 'ALLOWANCE',
+					status: 'QUEUED',
+					action: generateAllowance,
+				},
+			])
+		}, 15000)
 	}, [])
 
 	useEffect(() => {
@@ -94,7 +119,15 @@ export const WorkspacePage = () => {
 			{isLoading ? (
 				<Skeleton className="p-2 flex-grow w-full" />
 			) : (
-				<WorkspaceContent>{JSON.stringify(strategy, null, 2)}</WorkspaceContent>
+				<WorkspaceContent>
+					{history?.map((step, index) => (
+						<div key={index} className="flex gap-2">
+							{moment(step.timestamp).format('DD dddd, hh:mm:ss')} |{' '}
+							{shortenerAddress(step.wallet)} | {step.status} | {step.message}
+						</div>
+					))}
+					{/* {JSON.stringify(strategy, null, 2)} */}
+				</WorkspaceContent>
 			)}
 		</div>
 	)

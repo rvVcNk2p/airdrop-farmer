@@ -1,24 +1,59 @@
-import { watch } from 'fs'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { set } from 'react-hook-form'
 
-type PerformActionsType = {
-	loggerFn: () => void
+export enum TxStatusType {
+	INFO = 'INFO',
+	SUCCESS = 'SUCCESS',
+	ERROR = 'ERROR',
 }
+
+export type TxHistoryRecordType = {
+	timestamp: Date
+	wallet: string
+	status: TxStatusType
+	message: string
+}
+
+type PerformActionsType = {}
+
 type ActionsType = {
 	uid: string
 	type: 'ALLOWANCE' | 'BRIDGE'
 	status: 'QUEUED' | 'RUNNING' | 'FINISHED' | 'FAILED'
-	action: (loggerFn: (message: string) => void) => void
+	action: () => void
 }
 
-export const usePerformActions = ({ loggerFn }: PerformActionsType) => {
+export const usePerformActions = () => {
 	const [actions, setActions] = useState<ActionsType[]>([])
 
-	// TODO: Check the actions array, if length > 0, there is no action that running and has any action that is not finished
-	// TODO: grab the next QUEUED element and execute it
+	const executeNextAction = async () => {
+		if (actions.length === 0) return
 
-	watch
+		const isRunning = actions.find((action) => action.status === 'RUNNING')
+		if (isRunning) return
+
+		const nextAction = actions.find((action) => action.status === 'QUEUED')
+		if (!nextAction) return
+
+		// Execute action
+		console.log('== nextAction', nextAction)
+		await nextAction.action()
+		setActions((actions) =>
+			actions.map((action) =>
+				action.uid === nextAction.uid
+					? { ...action, status: 'FINISHED' }
+					: action,
+			),
+		)
+	}
+
+	useEffect(() => {
+		console.log('== actions', actions)
+		executeNextAction()
+	}, [actions])
+
 	return {
+		actions,
 		setActions,
 	}
 }
