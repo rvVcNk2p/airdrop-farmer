@@ -17,7 +17,7 @@ const generateMessage = ({
 	amount,
 	nonce,
 }: MessageGeneratorProps): string =>
-	`Created tx ${nonce} to approve spending $${amount} ${nameOfToken} on ${network}.`
+	`<p>Created tx ${nonce} to approve spending $${amount} <span className="text-purple-500">${nameOfToken}</span> on <span className="text-yellow-500">${network}</span>.</p>`
 
 export const useCreateTxForApproval = () => {
 	const historyMessage = generateMessage({

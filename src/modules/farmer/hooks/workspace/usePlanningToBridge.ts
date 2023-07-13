@@ -20,11 +20,11 @@ const generateMessage = ({
 	source,
 	destination,
 }: MessageGeneratorProps): string =>
-	`Planning to bridge with ${bridegName} from ${source.network} ${source.token} to ${destination.network} ${destination.token}.`
+	`<p>Planning to bridge with ${bridegName} from <span className="text-yellow-500">${source.network}</span> <span className="text-purple-500">${source.token}</span> to <span className="text-yellow-500">${destination.network}</span> <span className="text-purple-500">${destination.token}</span>.</p>`
 
 export const usePlanningToBridge = () => {
 	const historyMessage = generateMessage({
-		bridegName: 'USDC',
+		bridegName: 'STARGATE',
 		source: {
 			network: 'BSC',
 			token: 'USDT',

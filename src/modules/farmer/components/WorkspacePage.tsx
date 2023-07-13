@@ -3,6 +3,7 @@
 import { useUserGroups, useUserStrategies } from '@modules/farmer/stores'
 import { Skeleton } from '@modules/shared/components/ui/skeleton'
 import { shortenerAddress } from '@modules/shared/utils'
+import parse from 'html-react-parser'
 import moment from 'moment'
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -121,9 +122,13 @@ export const WorkspacePage = () => {
 			) : (
 				<WorkspaceContent>
 					{history?.map((step, index) => (
-						<div key={index} className="flex gap-2">
-							{moment(step.timestamp).format('DD dddd, hh:mm:ss')} |{' '}
-							{shortenerAddress(step.wallet)} | {step.status} | {step.message}
+						<div key={index} className="grid grid-cols-[1fr_0.5fr_0.5fr_4fr]">
+							<div className="text-sm">
+								{moment(step.timestamp).format('DD dddd, hh:mm:ss')}
+							</div>
+							<div className="text-sm">{shortenerAddress(step.wallet)}</div>
+							<div className="text-sm flex justify-center">{step.status}</div>
+							<div className="text-sm">{parse(step.message)}</div>
 						</div>
 					))}
 					{/* {JSON.stringify(strategy, null, 2)} */}

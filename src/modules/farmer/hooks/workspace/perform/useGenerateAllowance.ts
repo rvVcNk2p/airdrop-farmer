@@ -73,12 +73,12 @@ export const usePerformAllowance = ({
 			wallet,
 			status: TxStatusType.SUCCESS,
 			message:
-				'Allowance tx 118 confirmed. Scan: https://bscscan.com/tx/0x4f456d53f7178eb9af502c16f51ded4eb7248ed2914cfef8bbe62ac02bf5a130',
+				'<p>Allowance tx 118 confirmed. Scan: <a href="https://bscscan.com/tx/0x4f456d53f7178eb9af502c16f51ded4eb7248ed2914cfef8bbe62ac02bf5a130" className="text-blue-500"> https://bscscan.com/tx/0x4f456d53...c02bf5a130</a>.</p>',
 		})
 		loggerFn({
 			timestamp: new Date(),
 			wallet,
-			status: TxStatusType.SUCCESS,
+			status: TxStatusType.INFO,
 			message: 'Sleeping 3 second.',
 		})
 		await sleep(3)

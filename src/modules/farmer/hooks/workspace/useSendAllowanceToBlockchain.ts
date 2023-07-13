@@ -1,5 +1,6 @@
 // 4. Step
-import { LayerZeroNetworks } from '@/modules/farmer/types/userStrategy'
+import { LayerZeroNetworks } from '@modules/farmer/types/userStrategy'
+import { shortenerAddress } from '@modules/shared/utils'
 
 type SendAllowanceToBlockchainProps = {
 	// TODO: add props
@@ -28,10 +29,13 @@ const generateMessage = ({
 	source,
 	txHash,
 }: MessageGeneratorProps): string =>
-	`Sent allowance tx ${nonce} to blockchain. Scan: ${getScanLink(
+	`Sent allowance tx ${nonce} to blockchain. Scan: <a href="${getScanLink(
 		source.network,
 		txHash,
-	)}.`
+	)}" target="_blank" className="text-blue-500">${getScanLink(
+		source.network,
+		shortenerAddress(txHash, 10, 10),
+	)}</a>.`
 
 export const useSendAllowanceToBlockchain = () => {
 	const historyMessage = generateMessage({

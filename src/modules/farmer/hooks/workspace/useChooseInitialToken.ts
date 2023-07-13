@@ -15,7 +15,7 @@ const generateMessage = ({
 	network,
 	amount,
 }: MessageGeneratorProps): string =>
-	`Choose ${nameOfToken} on ${network} with $${amount} as initial token`
+	`<p>Choose <span className="text-purple-500">${nameOfToken}</span> on <span className="text-yellow-500">${network}</span> with $${amount} as initial token</p>`
 
 export const useChooseInitialToken = ({
 	selectedNetworks,
