@@ -35,9 +35,12 @@ export const usePerformActions = () => {
 		const nextAction = actions.find((action) => action.status === 'QUEUED')
 		if (!nextAction) return
 
-		// Execute action
-		console.log('== nextAction', nextAction)
+		// console.log('== nextAction', nextAction)
+
 		await nextAction.action()
+
+		// console.log('== ACTION COMPLETED')
+
 		setActions((actions) =>
 			actions.map((action) =>
 				action.uid === nextAction.uid
@@ -48,7 +51,7 @@ export const usePerformActions = () => {
 	}
 
 	useEffect(() => {
-		console.log('== actions', actions)
+		// console.log('== actions', actions)
 		executeNextAction()
 	}, [actions])
 

@@ -1,0 +1,1 @@
+export { balancesFetcher } from './balancesFetcher'

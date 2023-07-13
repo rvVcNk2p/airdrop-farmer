@@ -9,9 +9,9 @@ import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 
-import { usePerformAllowance } from '../hooks/workspace/perform/useGenerateAllowance'
-import { usePerformActions } from '../hooks/workspace/perform/usePerformActions'
+import { usePerformAllowance } from '../hooks/workspace/allowance/useGenerateAllowance'
 import { useActivityHistory } from '../hooks/workspace/useActivityHistory'
+import { usePerformActions } from '../hooks/workspace/usePerformActions'
 import type { HeaderStateType, UserGroupType, UserStrategyType } from '../types'
 import { WorkspaceContent } from './Workspace/WorkspaceContent'
 import { WorkspaceHeader } from './Workspace/WorkspaceHeader'
@@ -81,6 +81,9 @@ export const WorkspacePage = () => {
 	})
 
 	useEffect(() => {
+		if (!group) return
+		if (!strategy) return
+
 		setActions([
 			...actions,
 			{
@@ -90,18 +93,18 @@ export const WorkspacePage = () => {
 				action: generateAllowance,
 			},
 		])
-		setTimeout(() => {
-			setActions([
-				...actions,
-				{
-					uid: uuidv4(),
-					type: 'ALLOWANCE',
-					status: 'QUEUED',
-					action: generateAllowance,
-				},
-			])
-		}, 15000)
-	}, [])
+		// setTimeout(() => {
+		// 	setActions([
+		// 		...actions,
+		// 		{
+		// 			uid: uuidv4(),
+		// 			type: 'ALLOWANCE',
+		// 			status: 'QUEUED',
+		// 			action: generateAllowance,
+		// 		},
+		// 	])
+		// }, 15000)
+	}, [group, strategy])
 
 	useEffect(() => {
 		if (!history) return
