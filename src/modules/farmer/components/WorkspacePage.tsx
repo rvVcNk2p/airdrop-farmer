@@ -122,7 +122,10 @@ export const WorkspacePage = () => {
 			) : (
 				<WorkspaceContent>
 					{history?.map((step, index) => (
-						<div key={index} className="grid grid-cols-[1fr_0.5fr_0.5fr_4fr]">
+						<div
+							key={index}
+							className="grid grid-cols-[1fr_0.5fr_0.5fr_4fr] gap-2"
+						>
 							<div className="text-sm">
 								{moment(step.timestamp).format('DD dddd, hh:mm:ss')}
 							</div>
