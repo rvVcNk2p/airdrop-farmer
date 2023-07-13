@@ -2,6 +2,9 @@ import { sleep } from '@modules/shared/utils'
 
 import { TxHistoryRecordType, TxStatusType } from '../useActivityHistory'
 import { useChooseInitialToken } from '../useChooseInitialToken'
+import { useCreateTxForApproval } from '../useCreateTxForApproval'
+import { usePlanningToBridge } from '../usePlanningToBridge'
+import { useSendAllowanceToBlockchain } from '../useSendAllowanceToBlockchain'
 
 type PerformAllowanceProps = {
 	selectedNetworks: string[]
@@ -14,44 +17,74 @@ export const usePerformAllowance = ({
 	wallet,
 	loggerFn,
 }: PerformAllowanceProps) => {
-	const { historyMessage } = useChooseInitialToken({
+	const { historyMessage: chooseInitialTokenHistory } = useChooseInitialToken({
 		selectedNetworks,
 		wallet,
 	})
+	const { historyMessage: planningToBridgeHistory } = usePlanningToBridge()
+	const { historyMessage: createTxForApprovalHistory } =
+		useCreateTxForApproval()
+	const { historyMessage: sendAllowanceToBlockchainHistory } =
+		useSendAllowanceToBlockchain()
 
 	const generateAllowance = async () => {
 		loggerFn({
 			timestamp: new Date(),
 			wallet,
 			status: TxStatusType.INFO,
-			message: 'Sleeping 2 seconds',
+			message: chooseInitialTokenHistory,
 		})
 		await sleep(2)
 		loggerFn({
 			timestamp: new Date(),
 			wallet,
 			status: TxStatusType.INFO,
-			message: 'Sleeping 2 seconds',
+			message: planningToBridgeHistory,
 		})
 		await sleep(3)
 		loggerFn({
 			timestamp: new Date(),
 			wallet,
 			status: TxStatusType.INFO,
-			message: 'Sleeping 2 seconds',
+			message: createTxForApprovalHistory,
 		})
-		await sleep(4)
+		loggerFn({
+			timestamp: new Date(),
+			wallet,
+			status: TxStatusType.INFO,
+			message: 'Tx 118 was signed.', // TODO: add nonce ${nonce}
+		})
+		loggerFn({
+			timestamp: new Date(),
+			wallet,
+			status: TxStatusType.INFO,
+			message: 'Sleeping 2 seconds.',
+		})
+		await sleep(2)
+		loggerFn({
+			timestamp: new Date(),
+			wallet,
+			status: TxStatusType.INFO,
+			message: sendAllowanceToBlockchainHistory,
+		})
+		await sleep(1)
 		loggerFn({
 			timestamp: new Date(),
 			wallet,
 			status: TxStatusType.SUCCESS,
-			message: 'END',
+			message:
+				'Allowance tx 118 confirmed. Scan: https://bscscan.com/tx/0x4f456d53f7178eb9af502c16f51ded4eb7248ed2914cfef8bbe62ac02bf5a130',
 		})
+		loggerFn({
+			timestamp: new Date(),
+			wallet,
+			status: TxStatusType.SUCCESS,
+			message: 'Sleeping 3 second.',
+		})
+		await sleep(3)
 	}
 
 	return {
-		history,
-
 		generateAllowance,
 	}
 }

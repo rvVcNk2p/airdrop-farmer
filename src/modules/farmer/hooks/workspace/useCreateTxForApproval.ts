@@ -1,9 +1,33 @@
 // 3. Step
-type CreateTxForApproval = {}
+type CreateTxForApproval = {
+	// TODO: add props
+}
 
-export const useCreateTxForApproval = ({}: CreateTxForApproval) => {
-	const response = null
+export type MessageGeneratorProps = {
+	nameOfToken: string
+	network: string
+	amount: string | number
+	nonce: number
+}
+
+// 'Created tx 118 to approve spending $85.03 USDT on BSC.'
+const generateMessage = ({
+	nameOfToken,
+	network,
+	amount,
+	nonce,
+}: MessageGeneratorProps): string =>
+	`Created tx ${nonce} to approve spending $${amount} ${nameOfToken} on ${network}.`
+
+export const useCreateTxForApproval = () => {
+	const historyMessage = generateMessage({
+		nameOfToken: 'USDC',
+		network: 'BSC',
+		amount: '86.47',
+		nonce: 118,
+	})
+
 	return {
-		response,
+		historyMessage,
 	}
 }

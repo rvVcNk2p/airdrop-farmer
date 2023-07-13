@@ -4,7 +4,7 @@ export type ChooseInitialTokenMessageProps = {
 	wallet: string
 }
 
-export type messageGeneratorProps = {
+export type MessageGeneratorProps = {
 	nameOfToken: string
 	network: string
 	amount: string | number
@@ -14,15 +14,13 @@ const generateMessage = ({
 	nameOfToken,
 	network,
 	amount,
-}: messageGeneratorProps): string =>
-	`You have chosen ${nameOfToken} on ${network} with $${amount} amount`
+}: MessageGeneratorProps): string =>
+	`Choose ${nameOfToken} on ${network} with $${amount} as initial token`
 
 export const useChooseInitialToken = ({
 	selectedNetworks,
 	wallet,
 }: ChooseInitialTokenMessageProps) => {
-	const response = null
-
 	const historyMessage = generateMessage({
 		nameOfToken: 'USDC',
 		network: 'BSC',
@@ -30,8 +28,6 @@ export const useChooseInitialToken = ({
 	})
 
 	return {
-		response,
-
 		historyMessage,
 	}
 }
