@@ -1,4 +1,5 @@
 export { ChainIds } from './chains'
+export { stargateFinance } from './bridges'
 export { tokenAddresses, chainAvailableTokens } from './networks'
 export { twitterLink, discordLink } from './social'
 export { TxScanners } from './scanners'

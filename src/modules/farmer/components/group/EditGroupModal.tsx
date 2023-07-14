@@ -27,6 +27,7 @@ import { toast } from '@modules/shared/hooks/useToast'
 import { DownloadSimple, Plus, Trash } from '@phosphor-icons/react'
 import { padWallet } from '@utils'
 import { useEffect, useState } from 'react'
+import { Address, privateKeyToAccount } from 'viem/accounts'
 
 interface EditGroupModal {
 	selectedGroup: string | null
@@ -45,7 +46,7 @@ export const EditGroupModal = ({ selectedGroup, close }: EditGroupModal) => {
 		strategyUid: undefined,
 		wallets: [],
 	})
-	const [newWallet, setNewWallet] = useState('')
+	const [newWallet, setNewWallet] = useState<string>('')
 
 	useEffect(() => {
 		if (selectedGroup === null) return
@@ -63,15 +64,16 @@ export const EditGroupModal = ({ selectedGroup, close }: EditGroupModal) => {
 	}
 
 	const handleAddWallet = () => {
-		if (groupDetails.wallets.includes(newWallet)) return
+		const appendableWallet: Address = ('0x' + newWallet) as Address
+		if (groupDetails.wallets.includes(appendableWallet)) return
 
 		setGroupDetails({
 			...groupDetails,
-			wallets: [...groupDetails.wallets, newWallet],
+			wallets: [...groupDetails.wallets, appendableWallet],
 		})
 		setNewWallet('')
 	}
-	const handleRemoveWallet = (wallet: string) => {
+	const handleRemoveWallet = (wallet: Address) => {
 		if (!groupDetails.wallets.includes(wallet)) return
 
 		setGroupDetails({
@@ -146,7 +148,10 @@ export const EditGroupModal = ({ selectedGroup, close }: EditGroupModal) => {
 												<div>
 													{idx + 1}
 													{'. '}
-													{padWallet(wallet, wallet.length)}
+													{padWallet(
+														privateKeyToAccount(wallet).address,
+														privateKeyToAccount(wallet).address.length,
+													)}
 												</div>
 												<Button
 													variant="outline"

@@ -1,4 +1,5 @@
 import { sleep } from '@modules/shared/utils'
+import { Address } from 'viem'
 
 import { TxHistoryRecordType, TxStatusType } from '../useActivityHistory'
 import { useChooseInitialToken } from './useChooseInitialToken'
@@ -8,7 +9,7 @@ import { useSendAllowanceToBlockchain } from './useSendAllowanceToBlockchain'
 
 type PerformAllowanceProps = {
 	selectedNetworks: string[]
-	wallet: string
+	wallet: Address
 	loggerFn: ({}: TxHistoryRecordType) => void
 }
 
@@ -17,25 +18,22 @@ export const usePerformAllowance = ({
 	wallet,
 	loggerFn,
 }: PerformAllowanceProps) => {
-	const { chooseInitialToken } = useChooseInitialToken({
-		selectedNetworks,
-		wallet,
-	})
+	const { chooseInitialToken } = useChooseInitialToken()
 	const { planningToBridge } = usePlanningToBridge()
-	// const { historyMessage: createTxForApprovalHistory } =
-	// 	useCreateTxForApproval()
+	const { createTxForApprovalFn } = useCreateTxForApproval()
 	// const { historyMessage: sendAllowanceToBlockchainHistory } =
 	// 	useSendAllowanceToBlockchain()
 
 	const generateAllowance = async () => {
 		try {
 			// Step 1
-			const chooseInitialTokenHistory = await chooseInitialToken()
+			const chooseInitialTokenHistory = await chooseInitialToken({
+				selectedNetworks,
+				wallet,
+			})
 
 			const { chainWithHighestBalanceToken, chooseInitialTokenHistoryMessage } =
 				chooseInitialTokenHistory
-
-			console.log('== chainAvailableTokens', chainWithHighestBalanceToken)
 
 			loggerFn({
 				timestamp: new Date(),
@@ -45,9 +43,22 @@ export const usePerformAllowance = ({
 			})
 
 			// Step 2
-			const { planningToBridgeHistory } = planningToBridge({
+			const { planningToBridgeHistory, destination } = planningToBridge({
 				selectedNetworks,
 				chainWithHighestBalanceToken,
+			})
+
+			loggerFn({
+				timestamp: new Date(),
+				wallet,
+				status: TxStatusType.INFO,
+				message: planningToBridgeHistory,
+			})
+
+			// Step 3
+			const { createTxForApprovalHistory } = await createTxForApprovalFn({
+				chainWithHighestBalanceToken,
+				wallet,
 			})
 
 			await sleep(2)
@@ -56,15 +67,8 @@ export const usePerformAllowance = ({
 				timestamp: new Date(),
 				wallet,
 				status: TxStatusType.INFO,
-				message: planningToBridgeHistory,
+				message: createTxForApprovalHistory,
 			})
-			// await sleep(3)
-			// loggerFn({
-			// 	timestamp: new Date(),
-			// 	wallet,
-			// 	status: TxStatusType.INFO,
-			// 	message: createTxForApprovalHistory,
-			// })
 			// loggerFn({
 			// 	timestamp: new Date(),
 			// 	wallet,

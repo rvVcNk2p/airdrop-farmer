@@ -10,6 +10,7 @@ import { Pencil, Play, Trash } from '@phosphor-icons/react'
 import { padWallet } from '@utils'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import { privateKeyToAccount } from 'viem/accounts'
 
 import { EditGroupModal } from './EditGroupModal'
 import { EmptyGroup } from './EmptyGroup'
@@ -57,7 +58,7 @@ export const GroupSection = () => {
 											{group.name}
 											{group.wallets.map((wallet) => (
 												<p key={wallet + '-' + group.uid}>
-													{padWallet(wallet)}
+													{padWallet(privateKeyToAccount(wallet).address)}
 												</p>
 											))}
 										</div>

@@ -76,7 +76,7 @@ export const WorkspacePage = () => {
 
 	const { generateAllowance } = usePerformAllowance({
 		selectedNetworks: strategy?.mainnet.networks || [],
-		wallet: group?.wallets[0] || '0xe5e666497F6bf120D64E972BBBfbdEb7797AaB9D',
+		wallet: group?.wallets[0] || '0x', // TODO: Add support for multiple wallets
 		loggerFn: addHistory,
 	})
 

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { set } from 'react-hook-form'
+import { Address } from 'viem'
 
 export enum TxStatusType {
 	INFO = 'INFO',
@@ -9,7 +9,7 @@ export enum TxStatusType {
 
 export type TxHistoryRecordType = {
 	timestamp: Date
-	wallet: string
+	wallet: Address
 	status: TxStatusType
 	message: string
 }

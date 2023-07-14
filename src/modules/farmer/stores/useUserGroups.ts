@@ -1,6 +1,7 @@
 import type { RawUserGroupType, UserGroupType } from '@modules/farmer/types'
 import secureLocalStorage from 'react-secure-storage'
 import { v4 as uuidv4 } from 'uuid'
+import { Address } from 'viem'
 import { create } from 'zustand'
 import {
 	StateStorage,
@@ -18,8 +19,8 @@ interface UserGroups {
 	deleteGroup: (uid: string) => void
 	updateGroup: (updatedGroup: UserGroupType) => void
 
-	addWalletToGroup: (groupUid: string, wallet: string) => void
-	removeWalletFromGroup: (groupUid: string, wallet: string) => void
+	addWalletToGroup: (groupUid: string, wallet: Address) => void
+	removeWalletFromGroup: (groupUid: string, wallet: Address) => void
 }
 
 // https://www.npmjs.com/package/react-secure-storage
@@ -65,7 +66,7 @@ export const useUserGroups = create<UserGroups>()(
 						userGroups: get().userGroups.filter((group) => group.uid !== uid),
 					})),
 
-				addWalletToGroup: (groupUid: string, wallet: string) =>
+				addWalletToGroup: (groupUid: string, wallet: Address) =>
 					set((state) => ({
 						...state,
 						userGroups: get().userGroups.map((group) =>
@@ -75,7 +76,7 @@ export const useUserGroups = create<UserGroups>()(
 						),
 					})),
 
-				removeWalletFromGroup: (groupUid: string, wallet: string) =>
+				removeWalletFromGroup: (groupUid: string, wallet: Address) =>
 					set((state) => ({
 						...state,
 						userGroups: get().userGroups.map((group) =>

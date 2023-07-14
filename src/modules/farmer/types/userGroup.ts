@@ -1,9 +1,11 @@
+import { Address } from 'viem'
+
 export interface UserGroupType {
 	uid: string
 	name: string
 	description: string | null
 	strategyUid: string | undefined
-	wallets: string[]
+	wallets: Address[]
 }
 
 export type RawUserGroupType = Pick<

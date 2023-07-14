@@ -1,7 +1,7 @@
 // 2. Step
 import type { BlancesResponseWithSelectedToken } from './useChooseInitialToken'
 
-type PlanningToBridgePpops = {
+type PlanningToBridgeProps = {
 	selectedNetworks: string[]
 	chainWithHighestBalanceToken: BlancesResponseWithSelectedToken
 }
@@ -26,33 +26,37 @@ const generateMessage = ({
 	`<p>Planning to bridge with ${bridegName} from <span className="text-yellow-500">${source.network}</span> <span className="text-purple-500">${source.token}</span> to <span className="text-yellow-500">${destination.network}</span> <span className="text-purple-500">${destination.token}</span>.</p>`
 
 export const usePlanningToBridge = () => {
-	const historyMessage = generateMessage({
-		bridegName: 'STARGATE',
-		source: {
-			network: 'BSC',
-			token: 'USDT',
-		},
-		destination: {
-			network: 'AVALANCH',
-			token: 'USDC',
-		},
-	})
-
 	const planningToBridge = ({
 		selectedNetworks,
 		chainWithHighestBalanceToken,
-	}: PlanningToBridgePpops) => {
+	}: PlanningToBridgeProps) => {
 		console.log('== STEP 2 == planningToBridge')
-		console.log('== selectedNetworks:', selectedNetworks)
-		console.log(
-			'== chainWithHighestBalanceToken:',
-			chainWithHighestBalanceToken,
+		const networksWithoutHighestBalance = selectedNetworks.filter(
+			(network) => network !== chainWithHighestBalanceToken.network,
 		)
 
-		// Choose a random network from the selected networks, except the one with the highest balance
+		const destinationNetwork =
+			networksWithoutHighestBalance[
+				Math.floor(Math.random() * networksWithoutHighestBalance.length)
+			]
+
+		const destination = {
+			network: destinationNetwork,
+			token: 'USDT',
+		}
+
+		const planningToBridgeHistory = generateMessage({
+			bridegName: 'STARGATE', // TODO: Make it dynamic
+			source: {
+				network: chainWithHighestBalanceToken.network,
+				token: chainWithHighestBalanceToken.selected.token,
+			},
+			destination,
+		})
 
 		return {
-			planningToBridgeHistory: historyMessage,
+			planningToBridgeHistory,
+			destination,
 		}
 	}
 
