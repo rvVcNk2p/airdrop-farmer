@@ -4,28 +4,32 @@ import { ChainIds } from './chains'
 
 interface TokenAddresses {
 	[key: number]: {
-		[key: string]: Address
+		[key: string]: Address | undefined
 	}
 }
 
 export const tokenAddresses: TokenAddresses = {
 	[ChainIds.BSC]: {
 		USDT: '0x55d398326f99059ff775485246999027b3197955',
+		NATIVE_TOKEN: undefined,
 	},
 	[ChainIds.ARBITRUM]: {
 		USDC: '0xaf88d065e77c8cC2239327C5EDb3A432268e5831',
 		USDT: '0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9',
+		NATIVE_TOKEN: undefined,
 	},
 	[ChainIds.POLYGON]: {
 		USDC: '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174',
 		USDT: '0xc2132D05D31c914a87C6611C10748AEb04B58e8F',
+		NATIVE_TOKEN: undefined,
 	},
 }
 
+//
 export const chainAvailableTokens = {
-	[ChainIds.BSC]: ['USDT'],
-	[ChainIds.ARBITRUM]: ['USDC', 'USDT'],
-	[ChainIds.POLYGON]: ['USDC', 'USDT'],
+	[ChainIds.BSC]: ['USDT', 'NATIVE_TOKEN'],
+	[ChainIds.ARBITRUM]: ['USDC', 'USDT', 'NATIVE_TOKEN'],
+	[ChainIds.POLYGON]: ['USDC', 'USDT', 'NATIVE_TOKEN'],
 }
 
 // export const tokenAddresses = [

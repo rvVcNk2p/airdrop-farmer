@@ -7,10 +7,57 @@ export type ChooseInitialTokenMessageProps = {
 	wallet: string
 }
 
-export type MessageGeneratorProps = {
+type MessageGeneratorProps = {
 	nameOfToken: string
 	network: string
 	amount: string | number
+}
+
+type BalancesResult = {
+	[token: string]: string
+}
+
+type BlancesResponse = {
+	network: string
+	chainId: number
+	balances: BalancesResult[]
+}
+
+type BlancesResponseWithSelectedToken = BlancesResponse & {
+	selected: {
+		token: string
+		amount: number
+	}
+}
+
+const findChainWithHighestBalanceToken = (
+	arr: BlancesResponse[],
+): BlancesResponseWithSelectedToken | null => {
+	const result = arr.reduce(
+		(acc, curr) => {
+			for (const [token, balance] of Object.entries(curr.balances[0])) {
+				if (token !== 'NATIVE_TOKEN') {
+					const floatBalance = parseFloat(balance + '')
+					if (floatBalance > acc.maxBalance) {
+						acc.maxBalance = floatBalance
+						// @ts-ignore
+						acc.maxBalanceObject = {
+							...curr,
+							selected: { token, amount: floatBalance },
+						}
+					}
+				}
+			}
+			return acc
+		},
+		{ maxBalance: 0, maxBalanceObject: null },
+	)
+
+	if (result.maxBalance === 0) {
+		return null
+	}
+
+	return result.maxBalanceObject
 }
 
 const generateMessage = ({
@@ -24,37 +71,61 @@ export const useChooseInitialToken = ({
 	selectedNetworks,
 	wallet,
 }: ChooseInitialTokenMessageProps) => {
-	const historyMessage = generateMessage({
-		nameOfToken: 'USDC',
-		network: 'BSC',
-		amount: '86.47',
-	})
-
 	const chooseInitialToken = async () => {
-		const activechainIds = selectedNetworks.map((network) => ChainIds[network])
+		const activechainIds = selectedNetworks.map((network) => ({
+			network,
+			chainId: ChainIds[network],
+		}))
 
-		await Promise.all(
-			await activechainIds.map(async (chainId) => {
-				console.log('== CHAIN ID ==', chainId)
-
-				const balances = await balancesFetcher(
-					wallet,
+		// Fetch balances for each chain
+		const balancesResult: BlancesResponse[] = await Promise.all(
+			await activechainIds.map(async ({ network, chainId }) => {
+				return {
+					network,
 					chainId,
-					chainAvailableTokens[chainId],
-				)
-
-				console.log(`== BALANCES == ${chainId}`, balances)
+					balances: await balancesFetcher(
+						wallet,
+						chainId,
+						chainAvailableTokens[chainId],
+					),
+				}
 			}),
 		)
+		const validBalancesResults = balancesResult.filter(
+			(result) => !(result instanceof Error),
+		)
 
-		return historyMessage
+		console.log('== balancesResult', balancesResult)
+
+		if (validBalancesResults.length !== balancesResult.length) {
+			throw new Error('Something went wrong during balances fetching!')
+		}
+
+		// Populate the chainWithHighestBalanceToken with the highest balance token
+		const chainWithHighestBalanceToken =
+			findChainWithHighestBalanceToken(balancesResult)
+
+		// TODO: Check if chain has enough balance to pay for the gas fee
+
+		if (chainWithHighestBalanceToken === null) {
+			throw new Error(
+				'Please top up your USDT and/or USDT balances in the target networks.',
+			)
+		}
+
+		const {
+			selected: { token, amount },
+			network,
+		} = chainWithHighestBalanceToken
+
+		const historyMessage = generateMessage({
+			nameOfToken: token,
+			network,
+			amount,
+		})
+
+		return { historyMessage, chainWithHighestBalanceToken }
 	}
-
-	// Choose USDC on BSC with $86.47 as initial token
-	// Tasks:
-	// 1. Minden hálózaton meg kell nézni, hogy van-e elég tokenünk: USDC és USDT és native tokenek
-	// 2. Ha van, akkor a legnagyobb összeget kell kiválasztani
-	// 3. Ha nincs legalalább 5
 
 	return {
 		chooseInitialToken,
