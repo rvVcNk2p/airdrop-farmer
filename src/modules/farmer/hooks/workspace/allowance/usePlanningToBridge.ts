@@ -1,6 +1,9 @@
 // 2. Step
-type PlanningToBridgeProps = {
-	// TODO: add props
+import type { BlancesResponseWithSelectedToken } from './useChooseInitialToken'
+
+type PlanningToBridgePpops = {
+	selectedNetworks: string[]
+	chainWithHighestBalanceToken: BlancesResponseWithSelectedToken
 }
 
 type MessageGeneratorProps = {
@@ -35,7 +38,25 @@ export const usePlanningToBridge = () => {
 		},
 	})
 
+	const planningToBridge = ({
+		selectedNetworks,
+		chainWithHighestBalanceToken,
+	}: PlanningToBridgePpops) => {
+		console.log('== STEP 2 == planningToBridge')
+		console.log('== selectedNetworks:', selectedNetworks)
+		console.log(
+			'== chainWithHighestBalanceToken:',
+			chainWithHighestBalanceToken,
+		)
+
+		// Choose a random network from the selected networks, except the one with the highest balance
+
+		return {
+			planningToBridgeHistory: historyMessage,
+		}
+	}
+
 	return {
-		historyMessage,
+		planningToBridge,
 	}
 }

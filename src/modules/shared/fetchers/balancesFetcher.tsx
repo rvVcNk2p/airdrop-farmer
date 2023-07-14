@@ -18,6 +18,7 @@ export const balancesFetcher = async (
 				tokenAddresses[chainId][token]
 
 			const balance = await fetchBalance({
+				// @ts-ignore
 				address,
 				token: tokenAddress,
 				chainId,

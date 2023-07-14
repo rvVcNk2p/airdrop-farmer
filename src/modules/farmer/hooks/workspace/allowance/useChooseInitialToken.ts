@@ -2,7 +2,7 @@
 import { ChainIds, chainAvailableTokens } from '@modules/shared/constants'
 import { balancesFetcher } from '@modules/shared/fetchers'
 
-export type ChooseInitialTokenMessageProps = {
+type ChooseInitialTokenMessageProps = {
 	selectedNetworks: string[]
 	wallet: string
 }
@@ -23,7 +23,7 @@ type BlancesResponse = {
 	balances: BalancesResult[]
 }
 
-type BlancesResponseWithSelectedToken = BlancesResponse & {
+export type BlancesResponseWithSelectedToken = BlancesResponse & {
 	selected: {
 		token: string
 		amount: number
@@ -35,15 +35,17 @@ const findChainWithHighestBalanceToken = (
 ): BlancesResponseWithSelectedToken | null => {
 	const result = arr.reduce(
 		(acc, curr) => {
-			for (const [token, balance] of Object.entries(curr.balances[0])) {
-				if (token !== 'NATIVE_TOKEN') {
-					const floatBalance = parseFloat(balance + '')
-					if (floatBalance > acc.maxBalance) {
-						acc.maxBalance = floatBalance
-						// @ts-ignore
-						acc.maxBalanceObject = {
-							...curr,
-							selected: { token, amount: floatBalance },
+			for (const singleBalance of curr.balances) {
+				for (const [token, balance] of Object.entries(singleBalance)) {
+					if (token !== 'NATIVE_TOKEN') {
+						const floatBalance = parseFloat(balance + '')
+						if (floatBalance > acc.maxBalance) {
+							acc.maxBalance = floatBalance
+							// @ts-ignore
+							acc.maxBalanceObject = {
+								...curr,
+								selected: { token, amount: floatBalance },
+							}
 						}
 					}
 				}
@@ -95,8 +97,6 @@ export const useChooseInitialToken = ({
 			(result) => !(result instanceof Error),
 		)
 
-		console.log('== balancesResult', balancesResult)
-
 		if (validBalancesResults.length !== balancesResult.length) {
 			throw new Error('Something went wrong during balances fetching!')
 		}
@@ -124,7 +124,10 @@ export const useChooseInitialToken = ({
 			amount,
 		})
 
-		return { historyMessage, chainWithHighestBalanceToken }
+		return {
+			chooseInitialTokenHistoryMessage: historyMessage,
+			chainWithHighestBalanceToken,
+		}
 	}
 
 	return {

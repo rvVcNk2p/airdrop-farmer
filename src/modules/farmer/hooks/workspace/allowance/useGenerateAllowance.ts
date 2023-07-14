@@ -21,7 +21,7 @@ export const usePerformAllowance = ({
 		selectedNetworks,
 		wallet,
 	})
-	const { historyMessage: planningToBridgeHistory } = usePlanningToBridge()
+	const { planningToBridge } = usePlanningToBridge()
 	// const { historyMessage: createTxForApprovalHistory } =
 	// 	useCreateTxForApproval()
 	// const { historyMessage: sendAllowanceToBlockchainHistory } =
@@ -29,12 +29,11 @@ export const usePerformAllowance = ({
 
 	const generateAllowance = async () => {
 		try {
+			// Step 1
 			const chooseInitialTokenHistory = await chooseInitialToken()
 
-			const {
-				chainWithHighestBalanceToken,
-				historyMessage: chooseInitialTokenHistoryMessage,
-			} = chooseInitialTokenHistory
+			const { chainWithHighestBalanceToken, chooseInitialTokenHistoryMessage } =
+				chooseInitialTokenHistory
 
 			console.log('== chainAvailableTokens', chainWithHighestBalanceToken)
 
@@ -43,6 +42,12 @@ export const usePerformAllowance = ({
 				wallet,
 				status: TxStatusType.INFO,
 				message: chooseInitialTokenHistoryMessage,
+			})
+
+			// Step 2
+			const { planningToBridgeHistory } = planningToBridge({
+				selectedNetworks,
+				chainWithHighestBalanceToken,
 			})
 
 			await sleep(2)
