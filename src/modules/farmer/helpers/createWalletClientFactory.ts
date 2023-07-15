@@ -1,5 +1,5 @@
 import { ChainIds } from '@modules/shared/constants/chains'
-import { Address, createWalletClient, http, publicActions } from 'viem'
+import { Address, createWalletClient, publicActions, webSocket } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
 import { arbitrum, bsc, mainnet, polygon } from 'viem/chains'
 
@@ -29,7 +29,7 @@ export const createWalletClientFactory = (
 	const client = createWalletClient({
 		account,
 		chain: getChainConfiguration(chainId),
-		transport: http(),
+		transport: webSocket(process.env.NEXT_PUBLIC_ALCHEMY_WEBSOCKET_API),
 	}).extend(publicActions)
 
 	return client

@@ -43,9 +43,9 @@ export const usePerformAllowance = ({
 			})
 
 			// Step 3
-			const { client, configObj } = await createTxForApprovalFn({
-				chainWithHighestBalanceToken,
+			const { client, configObj, nextNonce } = await createTxForApprovalFn({
 				wallet,
+				chainWithHighestBalanceToken,
 			})
 
 			// Step 4
@@ -53,16 +53,16 @@ export const usePerformAllowance = ({
 				wallet,
 				client,
 				configObj,
-				chainWithHighestBalanceToken,
+				nextNonce,
 			})
 
-			// loggerFn({
-			// 	timestamp: new Date(),
-			// 	wallet,
-			// 	status: TxStatusType.INFO,
-			// 	message: 'Sleeping 3 second.',
-			// })
-			// await sleep(3)
+			loggerFn({
+				timestamp: new Date(),
+				wallet,
+				status: TxStatusType.INFO,
+				message: 'Sleeping 33 second.',
+			})
+			await sleep(33)
 		} catch (error) {
 			console.error(error)
 		}

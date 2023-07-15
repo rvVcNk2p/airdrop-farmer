@@ -14,7 +14,7 @@ type SendAllowanceToBlockchainFnProps = {
 	wallet: Address
 	client: any
 	configObj: any
-	chainWithHighestBalanceToken: BlancesResponseWithSelectedToken
+	nextNonce: number
 }
 
 const getScanLink = (chainId: number, txHash: string) => {
@@ -37,7 +37,7 @@ type MessageGeneratorProps = {
 	status: 'SENT' | 'CONFIRMED'
 }
 
-// 'Sent allowance tx 118 to blockchain. Scan: https://bscscan.com/tx/{HASH}',
+// 'Sent allowance tx 118 to blockchain OR Allowance tx 118 confirmed. Scan: https://bscscan.com/tx/{HASH}',
 const generateMessage = ({
 	nonce,
 	source,
@@ -64,42 +64,46 @@ export const useSendAllowanceToBlockchain = ({
 		wallet,
 		client,
 		configObj,
-		chainWithHighestBalanceToken,
+		nextNonce,
 	}: SendAllowanceToBlockchainFnProps) => {
-		// @ts-ignore
+		console.log('=== Simulating contract...', configObj)
+		const simulatedResult = await client.simulateContract(configObj)
+		console.log('=== Sending allowance to blockchain...')
+		const hash = await client.writeContract(simulatedResult.request)
 
-		await client.simulateContract(configObj)
-		const hash = await client.writeContract(configObj)
+		console.log('=== Waiting for transaction...', hash)
 
 		loggerFn({
 			timestamp: new Date(),
 			wallet,
 			status: TxStatusType.INFO,
 			message: generateMessage({
-				nonce: configObj.nonce,
+				nonce: nextNonce,
 				source: {
-					chainId: chainWithHighestBalanceToken.chainId,
+					chainId: configObj.chainId,
 				},
 				txHash: hash,
 				status: 'SENT',
 			}),
 		})
 
-		const data = await waitForTransaction({
+		console.log('=== Waiting for transaction receipt...')
+
+		const receipt = await client.waitForTransactionReceipt({
 			hash,
-			chainId: chainWithHighestBalanceToken.chainId,
+			chainId: configObj.chainId,
 		})
 
-		console.log('=== Result of transaction hash:', data)
+		console.log('=== Waiting for transaction receipt... DONE', receipt)
 
 		loggerFn({
 			timestamp: new Date(),
 			wallet,
 			status: TxStatusType.SUCCESS,
 			message: generateMessage({
-				nonce: configObj.nonce,
+				nonce: nextNonce,
 				source: {
-					chainId: chainWithHighestBalanceToken.chainId,
+					chainId: configObj.chainId,
 				},
 				txHash: hash,
 				status: 'CONFIRMED',
