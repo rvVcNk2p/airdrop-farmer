@@ -42,8 +42,16 @@ export const useCreateTxForApproval = ({
 		const { selected, network, chainId } = chainWithHighestBalanceToken
 		const client = createWalletClientFactory(wallet, chainId)
 
-		const transactionCount = await client.getTransactionCount(client.account)
+		// TODO: Check if allowance is already set.
+
+		const transactionCount = await client.getTransactionCount({
+			address: client.account.address,
+			blockTag: 'latest', // pending
+		})
 		const nextNonce = transactionCount + 1
+
+		// await getGasEstimation(client)
+		const gasPrice = await client.getGasPrice()
 
 		// Created tx 118 to approve spending $85.03 USDT on BSC.
 		loggerFn({
@@ -67,6 +75,7 @@ export const useCreateTxForApproval = ({
 		})
 
 		const configObj = {
+			chainId,
 			address: tokenAddresses[chainId][selected.token],
 			abi: erc20ABI,
 			functionName: 'approve',
@@ -76,6 +85,9 @@ export const useCreateTxForApproval = ({
 			],
 			account: client.account,
 			nonce: nextNonce,
+			gas: 100000,
+			maxFeePerGas: gasPrice + gasPrice,
+			maxPriorityFeePerGas: 30000000000, // 30 gwei
 		}
 
 		return {
