@@ -18,84 +18,44 @@ export const usePerformAllowance = ({
 	wallet,
 	loggerFn,
 }: PerformAllowanceProps) => {
-	const { chooseInitialToken } = useChooseInitialToken()
-	const { planningToBridge } = usePlanningToBridge()
-	const { createTxForApprovalFn } = useCreateTxForApproval()
-	// const { historyMessage: sendAllowanceToBlockchainHistory } =
-	// 	useSendAllowanceToBlockchain()
+	const { chooseInitialTokenFn } = useChooseInitialToken({ loggerFn })
+	const { planningToBridgeFn } = usePlanningToBridge({ loggerFn })
+	const { createTxForApprovalFn } = useCreateTxForApproval({ loggerFn })
+	const { sendAllowanceToBlockchainFn } = useSendAllowanceToBlockchain({
+		loggerFn,
+	})
 
 	const generateAllowance = async () => {
 		try {
 			// Step 1
-			const chooseInitialTokenHistory = await chooseInitialToken({
+			const chooseInitialTokenHistory = await chooseInitialTokenFn({
 				selectedNetworks,
 				wallet,
 			})
 
-			const { chainWithHighestBalanceToken, chooseInitialTokenHistoryMessage } =
-				chooseInitialTokenHistory
-
-			loggerFn({
-				timestamp: new Date(),
-				wallet,
-				status: TxStatusType.INFO,
-				message: chooseInitialTokenHistoryMessage,
-			})
+			const { chainWithHighestBalanceToken } = chooseInitialTokenHistory
 
 			// Step 2
-			const { planningToBridgeHistory, destination } = planningToBridge({
+			await planningToBridgeFn({
 				selectedNetworks,
 				chainWithHighestBalanceToken,
-			})
-
-			loggerFn({
-				timestamp: new Date(),
 				wallet,
-				status: TxStatusType.INFO,
-				message: planningToBridgeHistory,
 			})
 
 			// Step 3
-			const { createTxForApprovalHistory } = await createTxForApprovalFn({
+			const { client, configObj } = await createTxForApprovalFn({
 				chainWithHighestBalanceToken,
 				wallet,
 			})
 
-			await sleep(2)
-
-			loggerFn({
-				timestamp: new Date(),
+			// Step 4
+			await sendAllowanceToBlockchainFn({
 				wallet,
-				status: TxStatusType.INFO,
-				message: createTxForApprovalHistory,
+				client,
+				configObj,
+				chainWithHighestBalanceToken,
 			})
-			// loggerFn({
-			// 	timestamp: new Date(),
-			// 	wallet,
-			// 	status: TxStatusType.INFO,
-			// 	message: 'Tx 118 was signed.', // TODO: add nonce ${nonce}
-			// })
-			// loggerFn({
-			// 	timestamp: new Date(),
-			// 	wallet,
-			// 	status: TxStatusType.INFO,
-			// 	message: 'Sleeping 2 seconds.',
-			// })
-			// await sleep(2)
-			// loggerFn({
-			// 	timestamp: new Date(),
-			// 	wallet,
-			// 	status: TxStatusType.INFO,
-			// 	message: sendAllowanceToBlockchainHistory,
-			// })
-			// await sleep(1)
-			// loggerFn({
-			// 	timestamp: new Date(),
-			// 	wallet,
-			// 	status: TxStatusType.SUCCESS,
-			// 	message:
-			// 		'<p>Allowance tx 118 confirmed. Scan: <a href="https://bscscan.com/tx/0x4f456d53f7178eb9af502c16f51ded4eb7248ed2914cfef8bbe62ac02bf5a130" className="text-blue-500"> https://bscscan.com/tx/0x4f456d53...c02bf5a130</a>.</p>',
-			// })
+
 			// loggerFn({
 			// 	timestamp: new Date(),
 			// 	wallet,

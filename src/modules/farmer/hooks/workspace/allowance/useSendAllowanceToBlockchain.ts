@@ -1,24 +1,36 @@
 // 4. Step
-import { LayerZeroNetworks } from '@modules/farmer/types/userStrategy'
+import { ChainIds } from '@modules/shared/constants'
 import { shortenerAddress } from '@modules/shared/utils'
+import { Address } from 'viem'
+
+import { TxHistoryRecordType, TxStatusType } from '../useActivityHistory'
+import { BlancesResponseWithSelectedToken } from './useChooseInitialToken'
 
 type SendAllowanceToBlockchainProps = {
-	// TODO: add props
+	loggerFn: ({}: TxHistoryRecordType) => void
+}
+type SendAllowanceToBlockchainFnProps = {
+	wallet: Address
+	client: any
+	configObj: any
+	chainWithHighestBalanceToken: BlancesResponseWithSelectedToken
 }
 
-const getScanLink = (network: string, txHash: string) => {
-	switch (network) {
-		case LayerZeroNetworks.BSC:
+const getScanLink = (chainId: number, txHash: string) => {
+	switch (chainId) {
+		case ChainIds.ARBITRUM:
+			return `https://arbiscan.io//tx/${txHash}`
+		case ChainIds.BSC:
 			return `https://bscscan.com/tx/${txHash}`
-		case LayerZeroNetworks.AVALANCE:
-			return `https://snowtrace.io/tx/${txHash}`
+		case ChainIds.POLYGON:
+			return `https://polygonscan.com/tx/${txHash}`
 	}
 }
 
 type MessageGeneratorProps = {
 	nonce: number
 	source: {
-		network: string
+		chainId: number
 	}
 	txHash: string
 }
@@ -30,24 +42,69 @@ const generateMessage = ({
 	txHash,
 }: MessageGeneratorProps): string =>
 	`Sent allowance tx ${nonce} to blockchain. Scan: <a href="${getScanLink(
-		source.network,
+		source.chainId,
 		txHash,
 	)}" target="_blank" className="text-blue-500">${getScanLink(
-		source.network,
+		source.chainId,
 		shortenerAddress(txHash, 10, 10),
 	)}</a>.`
 
-export const useSendAllowanceToBlockchain = () => {
-	const historyMessage = generateMessage({
-		nonce: 118,
-		source: {
-			network: 'Binance',
-		},
-		txHash:
-			'0x4f456d53f7178eb9af502c16f51ded4eb7248ed2914cfef8bbe62ac02bf5a130',
-	})
+export const useSendAllowanceToBlockchain = ({
+	loggerFn,
+}: SendAllowanceToBlockchainProps) => {
+	const sendAllowanceToBlockchainFn = async ({
+		wallet,
+		client,
+		configObj,
+		chainWithHighestBalanceToken,
+	}: SendAllowanceToBlockchainFnProps) => {
+		// @ts-ignore
+		const simulationResult = await client.simulateContract(configObj)
+
+		if (simulationResult.result) {
+			console.log('== Good to go')
+		}
+
+		// NOTE: Always test youte request with simulateContract before writeContract
+		// https://wagmi.sh/core/actions/writeContract#prepared-usage
+
+		// const hash = await client.writeContract({
+		// 	address: tokenAddresses[chainId][selected.token],
+		// 	abi: erc20ABI,
+		// 	functionName: 'approve',
+		// 	args: [
+		// 		stargateFinance[chainWithHighestBalanceToken.chainId],
+		// 		parseUnits(selected.amount + '', 6),
+		// 	],
+		// 	account: client.account,
+		// })
+
+		loggerFn({
+			timestamp: new Date(),
+			wallet,
+			status: TxStatusType.INFO,
+			message: generateMessage({
+				nonce: configObj.nonce,
+				source: {
+					chainId: chainWithHighestBalanceToken.chainId,
+				},
+				txHash:
+					'0x4f456d53f7178eb9af502c16f51ded4eb7248ed2914cfef8bbe62ac02bf5a130', // hash
+			}),
+		})
+
+		// console.log('=== Pending transaction hash::', hash)
+
+		// loggerFn({
+		// 	timestamp: new Date(),
+		// 	wallet,
+		// 	status: TxStatusType.SUCCESS,
+		// 	message:
+		// 		'<p>Allowance tx 118 confirmed. Scan: <a href="https://bscscan.com/tx/0x4f456d53f7178eb9af502c16f51ded4eb7248ed2914cfef8bbe62ac02bf5a130" className="text-blue-500"> https://bscscan.com/tx/0x4f456d53...c02bf5a130</a>.</p>',
+		// })
+	}
 
 	return {
-		historyMessage,
+		sendAllowanceToBlockchainFn,
 	}
 }

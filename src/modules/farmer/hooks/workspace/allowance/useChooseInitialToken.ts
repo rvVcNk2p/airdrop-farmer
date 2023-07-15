@@ -4,7 +4,13 @@ import { balancesFetcher } from '@modules/shared/fetchers'
 import { Address } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
 
-type ChooseInitialTokenMessageProps = {
+import { TxHistoryRecordType, TxStatusType } from '../useActivityHistory'
+
+type ChooseInitialTokenProps = {
+	loggerFn: ({}: TxHistoryRecordType) => void
+}
+
+type ChooseInitialTokenFnProps = {
 	selectedNetworks: string[]
 	wallet: Address
 }
@@ -71,11 +77,13 @@ const generateMessage = ({
 }: MessageGeneratorProps): string =>
 	`<p>Choose <span className="text-purple-500">${nameOfToken}</span> on <span className="text-yellow-500">${network}</span> with $${amount} as initial token</p>`
 
-export const useChooseInitialToken = () => {
-	const chooseInitialToken = async ({
+export const useChooseInitialToken = ({
+	loggerFn,
+}: ChooseInitialTokenProps) => {
+	const chooseInitialTokenFn = async ({
 		selectedNetworks,
 		wallet,
-	}: ChooseInitialTokenMessageProps) => {
+	}: ChooseInitialTokenFnProps) => {
 		const activechainIds = selectedNetworks.map((network) => ({
 			network,
 			chainId: ChainIds[network],
@@ -120,19 +128,23 @@ export const useChooseInitialToken = () => {
 			network,
 		} = chainWithHighestBalanceToken
 
-		const historyMessage = generateMessage({
-			nameOfToken: token,
-			network,
-			amount,
+		loggerFn({
+			timestamp: new Date(),
+			wallet,
+			status: TxStatusType.INFO,
+			message: generateMessage({
+				nameOfToken: token,
+				network,
+				amount,
+			}),
 		})
 
 		return {
-			chooseInitialTokenHistoryMessage: historyMessage,
 			chainWithHighestBalanceToken,
 		}
 	}
 
 	return {
-		chooseInitialToken,
+		chooseInitialTokenFn,
 	}
 }

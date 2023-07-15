@@ -2,14 +2,17 @@
 import { createWalletClientFactory } from '@modules/farmer/helpers/createWalletClientFactory'
 import { stargateFinance } from '@modules/shared/constants'
 import { tokenAddresses } from '@modules/shared/constants'
-import { prepareWriteContract, writeContract } from '@wagmi/core'
 import { Address, parseUnits } from 'viem'
-import { privateKeyToAccount } from 'viem/accounts'
 import { erc20ABI } from 'wagmi'
 
+import { TxHistoryRecordType, TxStatusType } from '../useActivityHistory'
 import { BlancesResponseWithSelectedToken } from './useChooseInitialToken'
 
 type CreateTxForApprovalProps = {
+	loggerFn: ({}: TxHistoryRecordType) => void
+}
+
+type CreateTxForApprovalFnProps = {
 	chainWithHighestBalanceToken: BlancesResponseWithSelectedToken
 	wallet: Address
 }
@@ -21,7 +24,6 @@ export type MessageGeneratorProps = {
 	nonce: number
 }
 
-// 'Created tx 118 to approve spending $85.03 USDT on BSC.'
 const generateMessage = ({
 	nameOfToken,
 	network,
@@ -30,39 +32,55 @@ const generateMessage = ({
 }: MessageGeneratorProps): string =>
 	`<p>Created tx ${nonce} to approve spending $${amount} <span className="text-purple-500">${nameOfToken}</span> on <span className="text-yellow-500">${network}</span>.</p>`
 
-export const useCreateTxForApproval = () => {
+export const useCreateTxForApproval = ({
+	loggerFn,
+}: CreateTxForApprovalProps) => {
 	const createTxForApprovalFn = async ({
 		chainWithHighestBalanceToken,
 		wallet,
-	}: CreateTxForApprovalProps) => {
+	}: CreateTxForApprovalFnProps) => {
 		const { selected, network, chainId } = chainWithHighestBalanceToken
 		const client = createWalletClientFactory(wallet, chainId)
 
-		// NOTE: Always test youte request with prepareWriteContract before writeContract
-		// https://wagmi.sh/core/actions/writeContract#prepared-usage
+		const transactionCount = await client.getTransactionCount(client.account)
+		const nextNonce = transactionCount + 1
 
-		// const hash = await client.writeContract({
-		// 	address: tokenAddresses[chainId][selected.token],
-		// 	abi: erc20ABI,
-		// 	functionName: 'approve',
-		// 	args: [
-		// 		stargateFinance[chainWithHighestBalanceToken.chainId],
-		// 		parseUnits(selected.amount + '', 6),
-		// 	],
-		// 	account: client.account,
-		// })
-
-		// console.log('=== Pending transaction hash::', hash)
-
-		const createTxForApprovalHistory = generateMessage({
-			nameOfToken: selected.token,
-			network,
-			amount: selected.amount,
-			nonce: 118,
+		// Created tx 118 to approve spending $85.03 USDT on BSC.
+		loggerFn({
+			timestamp: new Date(),
+			wallet,
+			status: TxStatusType.INFO,
+			message: generateMessage({
+				nameOfToken: selected.token,
+				network,
+				amount: selected.amount,
+				nonce: nextNonce,
+			}),
 		})
 
+		// Tx 118 was signed.
+		loggerFn({
+			timestamp: new Date(),
+			wallet,
+			status: TxStatusType.INFO,
+			message: `Tx ${nextNonce} was signed.`,
+		})
+
+		const configObj = {
+			address: tokenAddresses[chainId][selected.token],
+			abi: erc20ABI,
+			functionName: 'approve',
+			args: [
+				stargateFinance[chainWithHighestBalanceToken.chainId],
+				parseUnits(selected.amount + '', 6),
+			],
+			account: client.account,
+			nonce: nextNonce,
+		}
+
 		return {
-			createTxForApprovalHistory,
+			client,
+			configObj,
 		}
 	}
 
