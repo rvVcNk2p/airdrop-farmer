@@ -9,7 +9,7 @@ import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 
-import { usePerformAllowance } from '../hooks/workspace/allowance/useGenerateAllowance'
+import { usePerformAllowanceAndBridge } from '../hooks/workspace/actions/usePerformAllowanceAndBridge'
 import { useActivityHistory } from '../hooks/workspace/useActivityHistory'
 import { usePerformActions } from '../hooks/workspace/usePerformActions'
 import type { HeaderStateType, UserGroupType, UserStrategyType } from '../types'
@@ -25,27 +25,6 @@ export const WorkspacePage = () => {
 	const [strategy, setStrategy] = useState<UserStrategyType | undefined>(
 		undefined,
 	)
-
-	const bridgeSteps = [
-		'Choose USDT on BSC with $85.03 as initial token',
-		'Planning to bridge with STARGATE from BSC USDT to AVALANCHE USDT.',
-		'Created tx 118 to approve spending $85.03 USDT on BSC.',
-		'Tx 118 was signed.',
-		'Sent allowance tx 118 to blockchain. Scan: https://bscscan.com/tx/{HASH}',
-		'Allowance tx 118 confirmed. Scan: https://bscscan.com/tx/{HASH}', // SUCCESS
-		'Sleeping 74 seconds.',
-
-		'Choose USDT on BSC with $85.03 as initial token',
-		'Planning to bridge with STARGATE from BSC USDT to AVALANCHE USDT.',
-		'Created bridge tx 121 to sign: Bridge STARGATE from BSC USDT to AVALANCHE USDT 85.03 USDT.',
-		'Need: $1.08 = Max fee 0.000278547 BNB ($0.65) + Layer Zero fee 0.001856803504922539 BNB ($0.43).' +
-			'User has: 0.019681691995708755 BNB ($4.56). Base Fee: 0.00278547 BNB ($0.65).',
-		'Tx 121 was signed.',
-		'Sent bridge tx 121 to blockchain. Scan: https://bscscan.com/tx/{HASH}',
-		'Bridge tx 121 confirmed. Scan: https://bscscan.com/tx/{HASH}', // SUCCESS
-		'Bridge successfully from BSC to AVALANCHE. Tx is: 121. Scan: https://bscscan.com/tx/{HASH}', // SUCCESS ',
-		'Sleeping 116 seconds.',
-	]
 
 	useEffect(() => {
 		const initialize = async () => {
@@ -74,7 +53,7 @@ export const WorkspacePage = () => {
 	const { history, addHistory } = useActivityHistory()
 	const { actions, setActions } = usePerformActions()
 
-	const { generateAllowance } = usePerformAllowance({
+	const { generateAllowanceAndBridge } = usePerformAllowanceAndBridge({
 		selectedNetworks: strategy?.mainnet.networks || [],
 		wallet: group?.wallets[0] || '0x', // TODO: Add support for multiple wallets
 		loggerFn: addHistory,
@@ -88,9 +67,9 @@ export const WorkspacePage = () => {
 			...actions,
 			{
 				uid: uuidv4(),
-				type: 'ALLOWANCE',
+				type: 'ALLOWANCE_AND_BRIDGE',
 				status: 'QUEUED',
-				action: generateAllowance,
+				action: generateAllowanceAndBridge,
 			},
 		])
 		// setTimeout(() => {

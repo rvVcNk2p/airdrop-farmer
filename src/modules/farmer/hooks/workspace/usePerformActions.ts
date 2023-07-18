@@ -18,7 +18,7 @@ type PerformActionsType = {}
 
 type ActionsType = {
 	uid: string
-	type: 'ALLOWANCE' | 'BRIDGE'
+	type: 'ALLOWANCE_AND_BRIDGE'
 	status: 'QUEUED' | 'RUNNING' | 'FINISHED' | 'FAILED'
 	action: () => void
 }

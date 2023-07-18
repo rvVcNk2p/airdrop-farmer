@@ -1,6 +1,7 @@
 export { shortenerAddress, padWallet } from './address'
+export { enumToArrayObject } from './array'
+export { randomIntFromInterval } from './number'
 export { sleep } from './functions'
 export { cn } from './tailwind-merge'
 export { remToPx } from './remToPx'
 export { capitalize } from './string'
-export { enumToArrayObject } from './array'

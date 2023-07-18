@@ -32,10 +32,10 @@ const generateMessage = ({
 }: MessageGeneratorProps): string =>
 	`<p>Created tx ${nonce} to approve spending $${amount} <span className="text-purple-500">${nameOfToken}</span> on <span className="text-yellow-500">${network}</span>.</p>`
 
-export const useCreateTxForApproval = ({
+export const useCreateAllowanceTxForApproval = ({
 	loggerFn,
 }: CreateTxForApprovalProps) => {
-	const createTxForApprovalFn = async ({
+	const createAllowanceTxForApprovalFn = async ({
 		chainWithHighestBalanceToken,
 		wallet,
 	}: CreateTxForApprovalFnProps) => {
@@ -96,6 +96,6 @@ export const useCreateTxForApproval = ({
 	}
 
 	return {
-		createTxForApprovalFn,
+		createAllowanceTxForApprovalFn,
 	}
 }
