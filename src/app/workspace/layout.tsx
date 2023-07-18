@@ -3,13 +3,13 @@
 import { Footer } from '@/modules/landing/components'
 import { configureChains, createConfig } from 'wagmi'
 import { WagmiConfig } from 'wagmi'
-import { arbitrum, bsc, mainnet, polygon } from 'wagmi/chains'
+import { arbitrum, bsc, mainnet, optimism, polygon } from 'wagmi/chains'
 import { publicProvider } from 'wagmi/providers/public'
 
 import '../globals.css'
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
-	[mainnet, arbitrum, bsc, polygon],
+	[mainnet, arbitrum, bsc, polygon, optimism],
 	[publicProvider()],
 )
 

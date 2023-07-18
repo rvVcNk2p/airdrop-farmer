@@ -1,11 +1,11 @@
 // 4. Step
 import { ChainIds } from '@modules/shared/constants'
+import { TxScanners } from '@modules/shared/constants'
 import { shortenerAddress } from '@modules/shared/utils'
 import { waitForTransaction } from '@wagmi/core'
 import { Address } from 'viem'
 
 import { TxHistoryRecordType, TxStatusType } from '../useActivityHistory'
-import { BlancesResponseWithSelectedToken } from './useChooseInitialToken'
 
 type SendAllowanceToBlockchainProps = {
 	loggerFn: ({}: TxHistoryRecordType) => void
@@ -20,11 +20,13 @@ type SendAllowanceToBlockchainFnProps = {
 const getScanLink = (chainId: number, txHash: string) => {
 	switch (chainId) {
 		case ChainIds.ARBITRUM:
-			return `https://arbiscan.io//tx/${txHash}`
-		case ChainIds.BSC:
-			return `https://bscscan.com/tx/${txHash}`
+			return `${TxScanners.Arbitrum}/tx/${txHash}`
+		case ChainIds.ETHEREUM:
+			return `${TxScanners.Ethereum}/tx/${txHash}`
+		case ChainIds.OPTIMISM:
+			return `${TxScanners.Optimism}/tx/${txHash}`
 		case ChainIds.POLYGON:
-			return `https://polygonscan.com/tx/${txHash}`
+			return `${TxScanners.Polygon}/tx/${txHash}`
 	}
 }
 

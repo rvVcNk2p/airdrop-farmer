@@ -32,11 +32,11 @@ export enum AirdropTypes {
 
 export enum LayerZeroNetworks {
 	ETHEREUM = 'Ethereum',
-	POLYGON = 'Polygon',
-	BSC = 'Bsc',
 	ARBITRUM = 'Arbitrum',
-	AVALANCE = 'Avalance',
+	POLYGON = 'Polygon',
 	OPTIMISM = 'Optimism',
+	BSC = 'Bsc',
+	AVALANCE = 'Avalance',
 	METIS = 'Metis',
 	APTOS = 'Aptos',
 	FANTOM = 'Fantom',

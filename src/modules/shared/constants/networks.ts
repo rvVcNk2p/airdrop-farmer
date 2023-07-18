@@ -23,6 +23,16 @@ export const tokenAddresses: TokenAddresses = {
 		USDT: '0xc2132D05D31c914a87C6611C10748AEb04B58e8F',
 		NATIVE_TOKEN: undefined,
 	},
+	[ChainIds.ETHEREUM]: {
+		USDC: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
+		USDT: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
+		NATIVE_TOKEN: undefined,
+	},
+	[ChainIds.OPTIMISM]: {
+		USDC: '0x7F5c764cBc14f9669B88837ca1490cCa17c31607',
+		USDT: '0x94b008aA00579c1307B0EF2c499aD98a8ce58e58',
+		NATIVE_TOKEN: undefined,
+	},
 }
 
 //
@@ -30,6 +40,8 @@ export const chainAvailableTokens = {
 	[ChainIds.BSC]: ['USDT', 'NATIVE_TOKEN'],
 	[ChainIds.ARBITRUM]: ['USDC', 'USDT', 'NATIVE_TOKEN'],
 	[ChainIds.POLYGON]: ['USDC', 'USDT', 'NATIVE_TOKEN'],
+	[ChainIds.ETHEREUM]: ['USDC', 'USDT', 'NATIVE_TOKEN'],
+	[ChainIds.OPTIMISM]: ['USDC', 'USDT', 'NATIVE_TOKEN'],
 }
 
 // export const tokenAddresses = [

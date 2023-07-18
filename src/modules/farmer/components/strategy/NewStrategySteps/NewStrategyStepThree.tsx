@@ -24,6 +24,7 @@ const selectableTokens = [
 	{ network: LayerZeroNetworks.AVALANCE, tokenName: 'USDC' },
 	{ network: LayerZeroNetworks.AVALANCE, tokenName: 'USDT' },
 	{ network: LayerZeroNetworks.OPTIMISM, tokenName: 'USDC' },
+	{ network: LayerZeroNetworks.OPTIMISM, tokenName: 'USDT' },
 ]
 
 const ActiveTokenLabel = ({
