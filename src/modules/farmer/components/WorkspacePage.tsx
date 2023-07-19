@@ -85,10 +85,10 @@ export const WorkspacePage = () => {
 		// }, 15000)
 	}, [group, strategy])
 
-	useEffect(() => {
-		if (!history) return
-		console.log('== HISTORY ==', history)
-	}, [history])
+	// useEffect(() => {
+	// 	if (!history) return
+	// 	console.log('== HISTORY ==', history)
+	// }, [history])
 
 	return (
 		<div className="flex flex-col min-h-screen items-center p-8 xl:p-16 pt-[3rem] gap-4">

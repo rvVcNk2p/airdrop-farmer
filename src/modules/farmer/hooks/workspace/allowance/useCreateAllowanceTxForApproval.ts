@@ -1,6 +1,6 @@
 // 3. Step
+import { stargateFinance } from '@modules/farmer/constants/bridges'
 import { createWalletClientFactory } from '@modules/farmer/helpers/createWalletClientFactory'
-import { stargateFinance } from '@modules/shared/constants'
 import { tokenAddresses } from '@modules/shared/constants'
 import { Address, parseUnits } from 'viem'
 import { erc20ABI } from 'wagmi'
