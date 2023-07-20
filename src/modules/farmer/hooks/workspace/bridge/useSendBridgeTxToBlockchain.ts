@@ -8,7 +8,7 @@ import { Address } from 'viem'
 type SendAllowanceToBlockchainProps = {
 	loggerFn: ({}: TxHistoryRecordType) => void
 }
-type SendAllowanceToBlockchainFnProps = {
+type SendBridgeToBlockchainFnProps = {
 	wallet: Address
 	client: any
 	bridgeConfigObj: any
@@ -65,7 +65,7 @@ export const useSendBridgeTxToBlockchain = ({
 		client,
 		bridgeConfigObj,
 		nextBridgeNonce,
-	}: SendAllowanceToBlockchainFnProps) => {
+	}: SendBridgeToBlockchainFnProps) => {
 		// TODO: Handle LayerZero: not enough native for fees
 		// TODO: Not enough native for fees
 

@@ -1,4 +1,5 @@
 import { tokenAddresses } from '@modules/shared/constants'
+import { roundNum } from '@modules/shared/utils'
 import { fetchBalance } from '@wagmi/core'
 import { Address, formatUnits } from 'viem'
 
@@ -25,9 +26,9 @@ export const balancesFetcher = async (
 			})
 
 			return {
-				[token]: Number(formatUnits(balance.value, balance.decimals)).toFixed(
-					4,
-				),
+				[token]:
+					roundNum(Number(formatUnits(balance.value, balance.decimals)), 18) +
+					'',
 			}
 		}),
 	)

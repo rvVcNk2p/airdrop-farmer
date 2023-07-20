@@ -20,6 +20,23 @@ const getChainConfiguration = (chainId: number) => {
 	}
 }
 
+const getAlchemyUrl = (chainId: number) => {
+	switch (chainId) {
+		case ChainIds.ETHEREUM:
+			return process.env.NEXT_PUBLIC_ALCHEMY_ETHEREUM_WEBSOCKET_API
+		// case ChainIds.BSC:
+		// 	return process.env.NEXT_PUBLIC_ALCHEMY_BSC_WEBSOCKET_API
+		case ChainIds.OPTIMISM:
+			return process.env.NEXT_PUBLIC_ALCHEMY_OPTIMISM_WEBSOCKET_API
+		case ChainIds.POLYGON:
+			return process.env.NEXT_PUBLIC_ALCHEMY_POLYGON_WEBSOCKET_API
+		case ChainIds.ARBITRUM:
+			return process.env.NEXT_PUBLIC_ALCHEMY_ARBITRUM_WEBSOCKET_API
+		default:
+			return process.env.NEXT_PUBLIC_ALCHEMY_ETHEREUM_WEBSOCKET_API
+	}
+}
+
 // https://viem.sh/docs/clients/wallet.html
 export const createWalletClientFactory = (
 	privateKey: Address,
@@ -31,7 +48,7 @@ export const createWalletClientFactory = (
 	const client = createWalletClient({
 		account,
 		chain: getChainConfiguration(chainId),
-		transport: webSocket(process.env.NEXT_PUBLIC_ALCHEMY_POLYGON_WEBSOCKET_API),
+		transport: webSocket(getAlchemyUrl(chainId)),
 	}).extend(publicActions)
 
 	return client

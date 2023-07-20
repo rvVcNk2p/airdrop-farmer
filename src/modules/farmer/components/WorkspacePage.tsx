@@ -56,6 +56,9 @@ export const WorkspacePage = () => {
 	const history = useActionHistory((state) => state.history)
 	const addHistory = useActionHistory((state) => state.addHistory)
 	const addNewAction = useActionHistory((state) => state.addNewAction)
+	const getAnyActionRunning = useActionHistory(
+		(state) => state.getAnyActionRunning,
+	)
 
 	const { generateAllowanceAndBridge } = usePerformAllowanceAndBridge({
 		selectedNetworks: strategy?.mainnet.networks || [],
@@ -67,11 +70,25 @@ export const WorkspacePage = () => {
 		if (!group) return
 		if (!strategy) return
 
+		if (getAnyActionRunning()) return
+
+		const actionUid = uuidv4()
+		const groupUid = group.uid
+
 		addNewAction({
-			uid: uuidv4(),
+			uid: actionUid,
+			groupUid,
+			wallet: group?.wallets[0] || '0x',
 			type: 'ALLOWANCE_AND_BRIDGE',
 			status: 'QUEUED',
-			action: generateAllowanceAndBridge,
+			layerOneBridge: {
+				txHash: null,
+				srcChainId: null,
+			},
+			action: () =>
+				generateAllowanceAndBridge({
+					actionUid,
+				}),
 		})
 	}, [group, strategy])
 

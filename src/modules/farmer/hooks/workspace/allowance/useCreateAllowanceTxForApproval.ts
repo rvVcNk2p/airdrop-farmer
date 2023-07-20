@@ -73,6 +73,9 @@ export const useCreateAllowanceTxForApproval = ({
 
 		const gasPrice = await client.getGasPrice()
 
+		// TODO: maxPriorityFeePerGas and maxFeePerGas is different for each chain.
+		// The provided tip (`maxPriorityFeePerGas` = 80 gwei) cannot be higher than the fee cap (`maxFeePerGas` = 0.1 gwei).
+
 		const configObj = {
 			chainId,
 			address: tokenAddresses[chainId][selected.token],

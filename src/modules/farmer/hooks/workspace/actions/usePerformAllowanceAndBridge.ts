@@ -1,3 +1,4 @@
+import { useActionHistory } from '@/modules/farmer/stores'
 import { TxHistoryRecordType, TxStatusType } from '@modules/farmer/types'
 import { randomIntFromInterval, sleep } from '@modules/shared/utils'
 import { Address } from 'viem'
@@ -8,11 +9,31 @@ import { usePlanningToBridge } from '../allowance/usePlanningToBridge'
 import { useSendAllowanceToBlockchain } from '../allowance/useSendAllowanceToBlockchain'
 import { useCreateBridgeTxForApproval } from '../bridge/useCreateBridgeTxForApproval'
 import { useSendBridgeTxToBlockchain } from '../bridge/useSendBridgeTxToBlockchain'
+import { useWaitingForBridgeConfirmation } from '../bridge/useWaitingForBridgeConfirmation'
 
-type PerformAllowanceProps = {
+export type PerformAllowanceProps = {
 	selectedNetworks: string[]
 	wallet: Address
 	loggerFn: ({}: TxHistoryRecordType) => void
+}
+
+type RandomSleepAndLogProps = {
+	wallet: Address
+	loggerFn: ({}: TxHistoryRecordType) => void
+}
+
+const randomSleepAndLog = async ({
+	wallet,
+	loggerFn,
+}: RandomSleepAndLogProps) => {
+	const sleepingTime = randomIntFromInterval()
+	loggerFn({
+		timestamp: new Date(),
+		wallet,
+		status: TxStatusType.INFO,
+		message: `Sleeping ${sleepingTime} second.`,
+	})
+	await sleep(sleepingTime)
 }
 
 export const usePerformAllowanceAndBridge = ({
@@ -36,19 +57,21 @@ export const usePerformAllowanceAndBridge = ({
 	const { sendBridgeTxToBlockchainFn } = useSendBridgeTxToBlockchain({
 		loggerFn,
 	})
+	const { waitingForBridgeConfirmationFn } = useWaitingForBridgeConfirmation({
+		wallet,
+		loggerFn,
+	})
 
-	const generateAllowanceAndBridge = async () => {
+	const updateAction = useActionHistory((state) => state.updateAction)
+
+	type PerformAllowanceAndBridgeProps = {
+		actionUid: string
+	}
+
+	const generateAllowanceAndBridge = async ({
+		actionUid,
+	}: PerformAllowanceAndBridgeProps) => {
 		try {
-			const allowanceSteps = [
-				'Choose USDT on BSC with $85.03 as initial token', // DONE
-				'Planning to bridge with STARGATE from BSC USDT to AVALANCHE USDT.', // DONE
-				'Created tx 118 to approve spending $85.03 USDT on BSC.', // DONE
-				'Tx 118 was signed.', // DONE
-				'Sent allowance tx 118 to blockchain. Scan: https://bscscan.com/tx/{HASH}', // DONE
-				'Allowance tx 118 confirmed. Scan: https://bscscan.com/tx/{HASH}', // DONE - SUCCESS
-				'Sleeping 74 seconds.', // DONE
-			]
-
 			// Allowance creation - Step 1
 			const chooseInitialTokenHistory = await chooseInitialTokenFn({
 				selectedNetworks,
@@ -79,76 +102,53 @@ export const usePerformAllowanceAndBridge = ({
 				nextNonce,
 			})
 
-			const sleepingTimeAfterAllovance = randomIntFromInterval()
-
-			loggerFn({
-				timestamp: new Date(),
-				wallet,
-				status: TxStatusType.INFO,
-				message: `Sleeping ${sleepingTimeAfterAllovance} second.`,
-			})
-			await sleep(sleepingTimeAfterAllovance)
-
-			const bridgeSteps = [
-				'Choose USDT on BSC with $85.03 as initial token', // DONE
-				'Planning to bridge with STARGATE from BSC USDT to AVALANCHE USDT.', // DONE
-
-				'Created bridge tx 121 to sign: Bridge STARGATE from BSC USDT to AVALANCHE USDT 85.03 USDT.', // DONE
-				'Need: $1.08 = Max fee 0.000278547 BNB ($0.65) + Layer Zero fee 0.001856803504922539 BNB ($0.43).' +
-					'User has: 0.019681691995708755 BNB ($4.56). Base Fee: 0.00278547 BNB ($0.65).', // DONE - partial
-				'Tx 121 was signed.', // DONE
-
-				'Sent bridge tx 121 to blockchain. Scan: https://bscscan.com/tx/{HASH}', // DONE
-				'Bridge tx 121 confirmed. Scan: https://bscscan.com/tx/{HASH}', // DONE
-				'Bridge successfully from BSC to AVALANCHE. Tx is: 121. Scan: https://bscscan.com/tx/{HASH}', // IN PROGRESS
-				'Sleeping 116 seconds.', // DONE
-			]
+			await randomSleepAndLog({ wallet, loggerFn })
 
 			// Bridge creation - Step 1
-			// await chooseInitialTokenFn({
-			// 	selectedNetworks,
-			// 	wallet,
-			// })
+			await chooseInitialTokenFn({
+				selectedNetworks,
+				wallet,
+			})
 
-			// // Bridge creation - Step 2
-			// await planningToBridgeFn({
-			// 	selectedNetworks,
-			// 	chainWithHighestBalanceToken,
-			// 	wallet,
-			// })
+			// Bridge creation - Step 2
+			await planningToBridgeFn({
+				selectedNetworks,
+				chainWithHighestBalanceToken,
+				wallet,
+			})
 
-			// // Bridge creation - Step 3
-			// const { bridgeConfigObj, nextBridgeNonce } =
-			// 	await createBridgeTxForApprovalFn({
-			// 		wallet,
-			// 		client,
-			// 		chainWithHighestBalanceToken,
-			// 		destination,
-			// 	})
+			// Bridge creation - Step 3
+			const { bridgeConfigObj, nextBridgeNonce } =
+				await createBridgeTxForApprovalFn({
+					wallet,
+					client,
+					chainWithHighestBalanceToken,
+					destination,
+				})
 
-			// // Bridge creation - Step 4
-			// const receipt = await sendBridgeTxToBlockchainFn({
-			// 	wallet,
-			// 	client,
-			// 	bridgeConfigObj,
-			// 	nextBridgeNonce,
-			// })
+			// Bridge creation - Step 4
+			const receipt = await sendBridgeTxToBlockchainFn({
+				wallet,
+				client,
+				bridgeConfigObj,
+				nextBridgeNonce,
+			})
 
-			// const sleepingTimeAfterBridge = randomIntFromInterval()
+			updateAction({
+				uid: actionUid,
+				layerOneBridge: {
+					txHash: receipt.transactionHash,
+					srcChainId: chainWithHighestBalanceToken.chainId,
+				},
+			})
 
-			// loggerFn({
-			// 	timestamp: new Date(),
-			// 	wallet,
-			// 	status: TxStatusType.INFO,
-			// 	message: `Sleeping ${sleepingTimeAfterBridge} second.`,
-			// })
-			// await sleep(sleepingTimeAfterBridge)
-			// loggerFn({
-			// 	timestamp: new Date(),
-			// 	wallet,
-			// 	status: TxStatusType.INFO,
-			// 	message: `Sequence completed.`,
-			// })
+			// Bridge creation - Step 5
+			await waitingForBridgeConfirmationFn({
+				txHash: receipt.transactionHash,
+				srcChainId: chainWithHighestBalanceToken.chainId,
+			})
+
+			await randomSleepAndLog({ wallet, loggerFn })
 		} catch (error) {
 			console.error(error)
 		}

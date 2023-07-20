@@ -140,6 +140,9 @@ export const useCreateBridgeTxForApproval = ({
 			_payload: '0x',
 		}
 
+		// TODO: maxPriorityFeePerGas and maxFeePerGas is different for each chain.
+		// The provided tip (`maxPriorityFeePerGas` = 80 gwei) cannot be higher than the fee cap (`maxFeePerGas` = 0.1 gwei).
+
 		const bridgeConfigObj: any = {
 			chainId,
 			address: stargateFinance[chainId],

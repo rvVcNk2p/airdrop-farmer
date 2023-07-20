@@ -127,7 +127,6 @@ export const useChooseInitialToken = ({
 			network,
 		} = chainWithHighestBalanceToken
 
-		console.log('==== hello ====')
 		loggerFn({
 			timestamp: new Date(),
 			wallet,

@@ -1,7 +1,6 @@
 // 4. Step
+import { getScanLink } from '@modules/farmer/helpers/getScanLink'
 import { TxHistoryRecordType, TxStatusType } from '@modules/farmer/types'
-import { ChainIds } from '@modules/shared/constants'
-import { TxScanners } from '@modules/shared/constants'
 import { shortenerAddress } from '@modules/shared/utils'
 import { Address } from 'viem'
 
@@ -13,19 +12,6 @@ type SendAllowanceToBlockchainFnProps = {
 	client: any
 	configObj: any
 	nextNonce: number
-}
-
-const getScanLink = (chainId: number, txHash: string) => {
-	switch (chainId) {
-		case ChainIds.ARBITRUM:
-			return `${TxScanners.Arbitrum}/tx/${txHash}`
-		case ChainIds.ETHEREUM:
-			return `${TxScanners.Ethereum}/tx/${txHash}`
-		case ChainIds.OPTIMISM:
-			return `${TxScanners.Optimism}/tx/${txHash}`
-		case ChainIds.POLYGON:
-			return `${TxScanners.Polygon}/tx/${txHash}`
-	}
 }
 
 type MessageGeneratorProps = {
