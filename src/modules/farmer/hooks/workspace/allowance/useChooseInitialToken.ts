@@ -1,10 +1,9 @@
 // 1. Step
+import { TxHistoryRecordType, TxStatusType } from '@modules/farmer/types'
 import { ChainIds, chainAvailableTokens } from '@modules/shared/constants'
 import { balancesFetcher } from '@modules/shared/fetchers'
 import { Address } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
-
-import { TxHistoryRecordType, TxStatusType } from '../useActivityHistory'
 
 type ChooseInitialTokenProps = {
 	loggerFn: ({}: TxHistoryRecordType) => void
@@ -128,6 +127,7 @@ export const useChooseInitialToken = ({
 			network,
 		} = chainWithHighestBalanceToken
 
+		console.log('==== hello ====')
 		loggerFn({
 			timestamp: new Date(),
 			wallet,

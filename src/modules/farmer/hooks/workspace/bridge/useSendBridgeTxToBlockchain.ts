@@ -1,10 +1,9 @@
 // 4. Step
+import { TxHistoryRecordType, TxStatusType } from '@modules/farmer/types'
 import { ChainIds } from '@modules/shared/constants'
 import { TxScanners } from '@modules/shared/constants'
 import { shortenerAddress } from '@modules/shared/utils'
 import { Address } from 'viem'
-
-import { TxHistoryRecordType, TxStatusType } from '../useActivityHistory'
 
 type SendAllowanceToBlockchainProps = {
 	loggerFn: ({}: TxHistoryRecordType) => void
@@ -92,7 +91,7 @@ export const useSendBridgeTxToBlockchain = ({
 			chainId: bridgeConfigObj.chainId,
 		})
 
-		console.log('=== Waiting for transaction receipt... DONE', receipt)
+		console.log('=== Waiting for transaction receipt... DONE')
 
 		loggerFn({
 			timestamp: new Date(),
@@ -107,6 +106,8 @@ export const useSendBridgeTxToBlockchain = ({
 				status: 'CONFIRMED',
 			}),
 		})
+
+		return receipt
 	}
 
 	return {

@@ -2,13 +2,13 @@
 import { stargateFinance } from '@modules/farmer/constants/bridges'
 import { LAYER_ZERO_ABI } from '@modules/farmer/constants/contracts/layerZeroRouter'
 import { createWalletClientFactory } from '@modules/farmer/helpers/createWalletClientFactory'
+import { TxHistoryRecordType, TxStatusType } from '@modules/farmer/types'
 import { ChainIds } from '@modules/shared/constants'
 import { LayertZeroDestinationChains } from '@modules/shared/constants/chains'
-import { Address, parseEther, parseUnits } from 'viem'
+import { Address, parseUnits } from 'viem'
 
 import { getEstimatedLayerOneFee } from '../../../helpers/getEstimatedLayerOneFee'
 import { BlancesResponseWithSelectedToken } from '../allowance/useChooseInitialToken'
-import { TxHistoryRecordType, TxStatusType } from '../useActivityHistory'
 
 type CreateTxForApprovalProps = {
 	loggerFn: ({}: TxHistoryRecordType) => void
@@ -122,7 +122,7 @@ export const useCreateBridgeTxForApproval = ({
 
 		const gasPrice = await client.getGasPrice()
 
-		const testAmount = 0.11 // TODO: selected.amount
+		// const testAmount = 0.11 // TODO: selected.amount
 
 		const args = {
 			_dstChainId,

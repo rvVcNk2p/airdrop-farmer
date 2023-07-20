@@ -1,7 +1,7 @@
 // 2. Step
+import { TxHistoryRecordType, TxStatusType } from '@modules/farmer/types'
 import { Address } from 'viem'
 
-import { TxHistoryRecordType, TxStatusType } from '../useActivityHistory'
 import type { BlancesResponseWithSelectedToken } from './useChooseInitialToken'
 
 type PlanningToBridgeProps = {

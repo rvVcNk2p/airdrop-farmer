@@ -1,11 +1,11 @@
 // 3. Step
 import { stargateFinance } from '@modules/farmer/constants/bridges'
 import { createWalletClientFactory } from '@modules/farmer/helpers/createWalletClientFactory'
+import { TxHistoryRecordType, TxStatusType } from '@modules/farmer/types'
 import { tokenAddresses } from '@modules/shared/constants'
 import { Address, parseUnits } from 'viem'
 import { erc20ABI } from 'wagmi'
 
-import { TxHistoryRecordType, TxStatusType } from '../useActivityHistory'
 import { BlancesResponseWithSelectedToken } from './useChooseInitialToken'
 
 type CreateTxForApprovalProps = {

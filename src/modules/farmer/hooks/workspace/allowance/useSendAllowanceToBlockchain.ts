@@ -1,11 +1,9 @@
 // 4. Step
+import { TxHistoryRecordType, TxStatusType } from '@modules/farmer/types'
 import { ChainIds } from '@modules/shared/constants'
 import { TxScanners } from '@modules/shared/constants'
 import { shortenerAddress } from '@modules/shared/utils'
-import { waitForTransaction } from '@wagmi/core'
 import { Address } from 'viem'
-
-import { TxHistoryRecordType, TxStatusType } from '../useActivityHistory'
 
 type SendAllowanceToBlockchainProps = {
 	loggerFn: ({}: TxHistoryRecordType) => void

@@ -1,3 +1,4 @@
+import { TxHistoryRecordType, TxStatusType } from '@modules/farmer/types'
 import { randomIntFromInterval, sleep } from '@modules/shared/utils'
 import { Address } from 'viem'
 
@@ -7,7 +8,6 @@ import { usePlanningToBridge } from '../allowance/usePlanningToBridge'
 import { useSendAllowanceToBlockchain } from '../allowance/useSendAllowanceToBlockchain'
 import { useCreateBridgeTxForApproval } from '../bridge/useCreateBridgeTxForApproval'
 import { useSendBridgeTxToBlockchain } from '../bridge/useSendBridgeTxToBlockchain'
-import { TxHistoryRecordType, TxStatusType } from '../useActivityHistory'
 
 type PerformAllowanceProps = {
 	selectedNetworks: string[]
@@ -105,50 +105,50 @@ export const usePerformAllowanceAndBridge = ({
 			]
 
 			// Bridge creation - Step 1
-			await chooseInitialTokenFn({
-				selectedNetworks,
-				wallet,
-			})
+			// await chooseInitialTokenFn({
+			// 	selectedNetworks,
+			// 	wallet,
+			// })
 
-			// Bridge creation - Step 2
-			await planningToBridgeFn({
-				selectedNetworks,
-				chainWithHighestBalanceToken,
-				wallet,
-			})
+			// // Bridge creation - Step 2
+			// await planningToBridgeFn({
+			// 	selectedNetworks,
+			// 	chainWithHighestBalanceToken,
+			// 	wallet,
+			// })
 
-			// Bridge creation - Step 3
-			const { bridgeConfigObj, nextBridgeNonce } =
-				await createBridgeTxForApprovalFn({
-					wallet,
-					client,
-					chainWithHighestBalanceToken,
-					destination,
-				})
+			// // Bridge creation - Step 3
+			// const { bridgeConfigObj, nextBridgeNonce } =
+			// 	await createBridgeTxForApprovalFn({
+			// 		wallet,
+			// 		client,
+			// 		chainWithHighestBalanceToken,
+			// 		destination,
+			// 	})
 
-			// Bridge creation - Step 4
-			await sendBridgeTxToBlockchainFn({
-				wallet,
-				client,
-				bridgeConfigObj,
-				nextBridgeNonce,
-			})
+			// // Bridge creation - Step 4
+			// const receipt = await sendBridgeTxToBlockchainFn({
+			// 	wallet,
+			// 	client,
+			// 	bridgeConfigObj,
+			// 	nextBridgeNonce,
+			// })
 
-			const sleepingTimeAfterBridge = randomIntFromInterval()
+			// const sleepingTimeAfterBridge = randomIntFromInterval()
 
-			loggerFn({
-				timestamp: new Date(),
-				wallet,
-				status: TxStatusType.INFO,
-				message: `Sleeping ${sleepingTimeAfterBridge} second.`,
-			})
-			await sleep(sleepingTimeAfterBridge)
-			loggerFn({
-				timestamp: new Date(),
-				wallet,
-				status: TxStatusType.INFO,
-				message: `Sequence completed.`,
-			})
+			// loggerFn({
+			// 	timestamp: new Date(),
+			// 	wallet,
+			// 	status: TxStatusType.INFO,
+			// 	message: `Sleeping ${sleepingTimeAfterBridge} second.`,
+			// })
+			// await sleep(sleepingTimeAfterBridge)
+			// loggerFn({
+			// 	timestamp: new Date(),
+			// 	wallet,
+			// 	status: TxStatusType.INFO,
+			// 	message: `Sequence completed.`,
+			// })
 		} catch (error) {
 			console.error(error)
 		}
