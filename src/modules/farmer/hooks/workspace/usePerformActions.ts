@@ -24,12 +24,19 @@ export const usePerformActions = () => {
 			status: ActionStatusType.RUNNING,
 		})
 
-		await nextAction.action()
-
-		updateAction({
-			...nextAction,
-			status: ActionStatusType.FINISHED,
-		})
+		try {
+			await nextAction.action()
+			updateAction({
+				...nextAction,
+				status: ActionStatusType.FINISHED,
+			})
+		} catch (error) {
+			console.error(error)
+			updateAction({
+				...nextAction,
+				status: ActionStatusType.FAILED,
+			})
+		}
 	}
 
 	useEffect(() => {
