@@ -6,7 +6,7 @@ type WorkspaceContentProps = {
 
 export const WorkspaceContent = ({ children }: WorkspaceContentProps) => {
 	return (
-		<Card className="p-4 w-full h-[450px] overflow-y-scroll flex flex-col gap-2">
+		<Card className="p-4 w-full h-[450px] overflow-y-scroll flex gap-2 flex-col">
 			{children}
 		</Card>
 	)

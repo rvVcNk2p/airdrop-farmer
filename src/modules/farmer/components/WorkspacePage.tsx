@@ -11,7 +11,7 @@ import { shortenerAddress } from '@modules/shared/utils'
 import parse from 'html-react-parser'
 import moment from 'moment'
 import { useParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 
 import { usePerformAllowanceAndBridge } from '../hooks/workspace/actions/usePerformAllowanceAndBridge'
@@ -92,6 +92,13 @@ export const WorkspacePage = () => {
 		})
 	}, [group, strategy])
 
+	const messagesEndRef = useRef(null)
+
+	useEffect(() => {
+		// @ts-ignore
+		messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+	}, [history])
+
 	return (
 		<div className="flex flex-col min-h-screen items-center p-8 xl:p-16 pt-[3rem] gap-4">
 			<WorkspaceHeader
@@ -118,6 +125,7 @@ export const WorkspacePage = () => {
 							<div className="text-sm">{parse(step.message)}</div>
 						</div>
 					))}
+					<div ref={messagesEndRef} />
 				</WorkspaceContent>
 			)}
 		</div>

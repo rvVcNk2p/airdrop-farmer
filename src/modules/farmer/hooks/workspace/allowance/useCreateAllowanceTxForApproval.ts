@@ -1,6 +1,7 @@
 // 3. Step
 import { stargateFinance } from '@modules/farmer/constants/bridges'
 import { createWalletClientFactory } from '@modules/farmer/helpers/createWalletClientFactory'
+import { getEstimatedTransactionFee } from '@modules/farmer/helpers/getEstimatedTransactionFee'
 import { TxHistoryRecordType, TxStatusType } from '@modules/farmer/types'
 import { tokenAddresses } from '@modules/shared/constants'
 import { Address, parseUnits } from 'viem'
@@ -71,12 +72,7 @@ export const useCreateAllowanceTxForApproval = ({
 			message: `Tx ${nextNonce} was signed.`,
 		})
 
-		const gasPrice = await client.getGasPrice()
-
-		// TODO: maxPriorityFeePerGas and maxFeePerGas is different for each chain.
-		// The provided tip (`maxPriorityFeePerGas` = 80 gwei) cannot be higher than the fee cap (`maxFeePerGas` = 0.1 gwei).
-
-		const configObj = {
+		const rawConfigObj = {
 			chainId,
 			address: tokenAddresses[chainId][selected.token],
 			abi: erc20ABI,
@@ -86,9 +82,19 @@ export const useCreateAllowanceTxForApproval = ({
 				parseUnits(selected.amount + '', 6),
 			],
 			account: client.account,
-			gas: 100000,
-			maxFeePerGas: gasPrice,
-			maxPriorityFeePerGas: 80000000000, // TODO: Calculate it, don't hardcode it.
+		}
+
+		const { gas, maxFeePerGas, maxPriorityFeePerGas } =
+			await getEstimatedTransactionFee({
+				client,
+				rawConfigObj,
+			})
+
+		const configObj = {
+			...rawConfigObj,
+			gas,
+			maxFeePerGas,
+			maxPriorityFeePerGas,
 		}
 
 		return {

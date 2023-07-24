@@ -1,10 +1,11 @@
 // 3. Step
 import { stargateFinance } from '@modules/farmer/constants/bridges'
+import { layertZeroDestinationChains } from '@modules/farmer/constants/chains'
 import { LAYER_ZERO_ABI } from '@modules/farmer/constants/contracts/layerZeroRouter'
 import { createWalletClientFactory } from '@modules/farmer/helpers/createWalletClientFactory'
+import { getEstimatedTransactionFee } from '@modules/farmer/helpers/getEstimatedTransactionFee'
 import { TxHistoryRecordType, TxStatusType } from '@modules/farmer/types'
 import { ChainIds } from '@modules/shared/constants'
-import { LayertZeroDestinationChains } from '@modules/shared/constants/chains'
 import { Address, parseUnits } from 'viem'
 
 import { getEstimatedLayerOneFee } from '../../../helpers/getEstimatedLayerOneFee'
@@ -88,7 +89,7 @@ export const useCreateBridgeTxForApproval = ({
 		})
 
 		const _dstChainId =
-			LayertZeroDestinationChains[ChainIds[destination.network]].chainId
+			layertZeroDestinationChains[ChainIds[destination.network]].chainId
 		const _to: Address = client.account.address
 
 		const estimatedFees = await getEstimatedLayerOneFee({
@@ -109,9 +110,6 @@ export const useCreateBridgeTxForApproval = ({
 			}),
 		})
 
-		// TODO: Calculate the estimated transaction fee
-		// https://medium.com/linum-labs/a-technical-primer-on-using-encoded-function-calls-50e2b9939223
-
 		loggerFn({
 			timestamp: new Date(),
 			wallet,
@@ -120,17 +118,15 @@ export const useCreateBridgeTxForApproval = ({
 			message: `Tx ${nextBridgeNonce} was signed.`,
 		})
 
-		const gasPrice = await client.getGasPrice()
-
-		// const testAmount = 0.11 // TODO: selected.amount
+		const amount = selected.amount
 
 		const args = {
 			_dstChainId,
 			_srcPoolId: 2,
 			_dstPoolId: 2,
 			_refundAddress: _to,
-			_amountLD: parseUnits(testAmount + '', 6), // TODO: Decimals will be differen on BSC and Fantom
-			_minAmountLD: parseUnits(calculateMinAmountLD(testAmount) + '', 6),
+			_amountLD: parseUnits(amount + '', 6), // TODO: Decimals will be differen on BSC and Fantom
+			_minAmountLD: parseUnits(calculateMinAmountLD(amount) + '', 6),
 			_lzTxParams: {
 				dstGasForCall: 0,
 				dstNativeAmount: 0,
@@ -140,10 +136,7 @@ export const useCreateBridgeTxForApproval = ({
 			_payload: '0x',
 		}
 
-		// TODO: maxPriorityFeePerGas and maxFeePerGas is different for each chain.
-		// The provided tip (`maxPriorityFeePerGas` = 80 gwei) cannot be higher than the fee cap (`maxFeePerGas` = 0.1 gwei).
-
-		const bridgeConfigObj: any = {
+		const rawBridgeConfigObj = {
 			chainId,
 			address: stargateFinance[chainId],
 			abi: LAYER_ZERO_ABI.abi,
@@ -164,11 +157,23 @@ export const useCreateBridgeTxForApproval = ({
 				args._payload,
 			],
 			account: client.account,
-			gas: 550000,
-			maxFeePerGas: gasPrice,
-			maxPriorityFeePerGas: 30000000000, // 30 Gwei
 			value: estimatedFees.feeWei,
 		}
+
+		const { gas, maxFeePerGas, maxPriorityFeePerGas } =
+			await getEstimatedTransactionFee({
+				client,
+				rawConfigObj: rawBridgeConfigObj,
+			})
+
+		const bridgeConfigObj: any = {
+			...rawBridgeConfigObj,
+			gas,
+			maxFeePerGas,
+			maxPriorityFeePerGas,
+		}
+
+		console.log('== bridgeConfigObj:', bridgeConfigObj)
 
 		return {
 			bridgeConfigObj,

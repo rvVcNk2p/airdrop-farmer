@@ -23,7 +23,7 @@ type MessageGeneratorProps = {
 	status: 'SENT' | 'CONFIRMED'
 }
 
-// 'Sent allowance tx 118 to blockchain OR Allowance tx 118 confirmed. Scan: https://bscscan.com/tx/{HASH}',
+// 'Sent allowance tx 118 to blockchain OR Allowance tx 118 confirmed. Scan: https://<SCANNER/tx/{HASH}',
 const generateMessage = ({
 	nonce,
 	source,

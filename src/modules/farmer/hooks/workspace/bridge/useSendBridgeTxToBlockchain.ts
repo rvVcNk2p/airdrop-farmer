@@ -37,7 +37,7 @@ type MessageGeneratorProps = {
 	status: 'SENT' | 'CONFIRMED'
 }
 
-// 'Sent bridge tx 118 to blockchain OR Bridge tx 118 confirmed. Scan: https://bscscan.com/tx/{HASH}',
+// 'Sent bridge tx 118 to blockchain OR Bridge tx 118 confirmed. Scan: https://<SCANNER>/tx/{HASH}',
 const generateMessage = ({
 	nonce,
 	source,
