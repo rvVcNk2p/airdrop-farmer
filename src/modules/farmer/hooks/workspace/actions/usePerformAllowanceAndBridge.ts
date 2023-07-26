@@ -101,7 +101,7 @@ export const usePerformAllowanceAndBridge = ({
 				nextNonce,
 			})
 
-			// await randomSleepAndLog({ wallet, loggerFn })
+			await randomSleepAndLog({ wallet, loggerFn })
 
 			// Bridge creation - Step 1
 			// await chooseInitialTokenFn({

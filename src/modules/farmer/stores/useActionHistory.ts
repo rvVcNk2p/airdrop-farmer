@@ -1,14 +1,9 @@
 import type { PerformAllowanceProps } from '@modules/farmer/hooks/workspace/actions/usePerformAllowanceAndBridge'
+import { TxStatusType } from '@modules/farmer/types'
 import { ActionStatusType } from '@modules/farmer/types/action'
 import { Address } from 'viem'
 import { create } from 'zustand'
 import { createJSONStorage, devtools, persist } from 'zustand/middleware'
-
-export enum TxStatusType {
-	INFO = 'INFO',
-	SUCCESS = 'SUCCESS',
-	ERROR = 'ERROR',
-}
 
 export enum WorkspaceStatusType {
 	IDLE = 'IDLE',
@@ -63,6 +58,7 @@ interface ActionHistory {
 	updateAction: (newAction: Partial<ActionsType>) => void
 
 	addHistory: (newHistory: TxHistoryRecordType) => void
+	resetHistory: () => void
 
 	initWorkspace: (groupUid: string) => void
 	getWorkspace: (groupUid: string | undefined) => WorkspaceType | undefined
@@ -71,6 +67,7 @@ interface ActionHistory {
 		groupUid: string,
 		status: WorkspaceTransactionStatusType,
 	) => void
+	resetWorkspace: (groupUid: string) => void
 }
 
 export const useActionHistory = create<ActionHistory>()(
@@ -114,6 +111,12 @@ export const useActionHistory = create<ActionHistory>()(
 			addHistory: (newHistory: TxHistoryRecordType) => {
 				set((state) => ({
 					history: [...state.history, newHistory],
+				}))
+			},
+
+			resetHistory: () => {
+				set(() => ({
+					history: [],
 				}))
 			},
 
@@ -167,6 +170,23 @@ export const useActionHistory = create<ActionHistory>()(
 									transactions: {
 										...workspace.transactions,
 										[status]: workspace.transactions[status] + 1,
+									},
+							  }
+							: workspace,
+					),
+				}))
+			},
+
+			resetWorkspace: (groupUid: string) => {
+				set((state) => ({
+					workspaces: state.workspaces.map((workspace) =>
+						workspace.uid === groupUid
+							? {
+									...workspace,
+									status: WorkspaceStatusType.IDLE,
+									transactions: {
+										finished: 0,
+										failed: 0,
 									},
 							  }
 							: workspace,

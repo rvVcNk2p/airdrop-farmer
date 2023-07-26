@@ -8,9 +8,11 @@ export enum ActionStatusType {
 }
 
 export enum TxStatusType {
+	STARTING = 'STARTING',
 	INFO = 'INFO',
 	SUCCESS = 'SUCCESS',
 	ERROR = 'ERROR',
+	END = 'END',
 }
 
 export type TxHistoryRecordType = {

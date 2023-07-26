@@ -76,7 +76,7 @@ export const WorkspaceHeader = ({
 						<Button
 							variant="outline"
 							size="sm"
-							disabled={workspaceStatus !== WorkspaceStatusType.IDLE}
+							disabled={workspaceStatus === WorkspaceStatusType.RUNNING}
 						>
 							<Play size={16} onClick={startWorkspace} />
 						</Button>
