@@ -9,12 +9,12 @@ import { TxHistoryRecordType, TxStatusType } from '@modules/farmer/types'
 import { Address } from 'viem'
 
 type WaitingForBridgeConfirmationProps = {
-	wallet: Address
 	loggerFn: ({}: TxHistoryRecordType) => void
 }
 
 type WaitingForBridgeConfirmationFnProps = {
 	txHash: string
+	wallet: Address
 }
 
 const pollForSrcTxMessages = async ({
@@ -99,11 +99,11 @@ const generatedSuccessfullBridgeMessage = ({
 }
 
 export const useWaitingForBridgeConfirmation = ({
-	wallet,
 	loggerFn,
 }: WaitingForBridgeConfirmationProps) => {
 	const waitingForBridgeConfirmationFn = async ({
 		txHash,
+		wallet,
 	}: WaitingForBridgeConfirmationFnProps) => {
 		try {
 			loggerFn({

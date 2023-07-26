@@ -10,6 +10,26 @@ export enum TxStatusType {
 	ERROR = 'ERROR',
 }
 
+export enum WorkspaceStatusType {
+	IDLE = 'IDLE',
+	RUNNING = 'RUNNING',
+	FINISHED = 'FINISHED',
+	FAILED = 'FAILED',
+}
+export enum WorkspaceTransactionStatusType {
+	FINISHED = 'finished',
+	FAILED = 'failed',
+}
+
+export type WorkspaceType = {
+	uid: string
+	status: WorkspaceStatusType
+	transactions: {
+		finished: number
+		failed: number
+	}
+}
+
 export type TxHistoryRecordType = {
 	timestamp: Date
 	wallet: Address
@@ -34,13 +54,23 @@ type ActionsType = {
 interface ActionHistory {
 	actions: ActionsType[]
 	history: TxHistoryRecordType[]
+	workspaces: WorkspaceType[]
 
 	getAction: (actionUid: string, groupUid: string) => ActionsType | undefined
-
 	getAnyActionRunning: () => boolean
+
 	addNewAction: (newAction: ActionsType) => void
 	updateAction: (newAction: Partial<ActionsType>) => void
+
 	addHistory: (newHistory: TxHistoryRecordType) => void
+
+	initWorkspace: (groupUid: string) => void
+	getWorkspace: (groupUid: string | undefined) => WorkspaceType | undefined
+	updateWorkspaceStatus: (groupUid: string, status: WorkspaceStatusType) => void
+	updateWorkspaceTransactions: (
+		groupUid: string,
+		status: WorkspaceTransactionStatusType,
+	) => void
 }
 
 export const useActionHistory = create<ActionHistory>()(
@@ -49,6 +79,7 @@ export const useActionHistory = create<ActionHistory>()(
 		(set, get) => ({
 			actions: [],
 			history: [],
+			workspaces: [],
 
 			getAction: (actionUid: string, groupUid: string) => {
 				const { actions } = get()
@@ -83,6 +114,63 @@ export const useActionHistory = create<ActionHistory>()(
 			addHistory: (newHistory: TxHistoryRecordType) => {
 				set((state) => ({
 					history: [...state.history, newHistory],
+				}))
+			},
+
+			initWorkspace: (groupUid: string) => {
+				const isWorkspaceExists = get().workspaces.find(
+					(workspace) => workspace.uid === groupUid,
+				)
+				if (isWorkspaceExists) return
+
+				const newWorkspace: WorkspaceType = {
+					uid: groupUid,
+					status: WorkspaceStatusType.IDLE,
+					transactions: {
+						finished: 0,
+						failed: 0,
+					},
+				}
+				set((state) => ({
+					workspaces: [...state.workspaces, newWorkspace],
+				}))
+			},
+
+			getWorkspace: (groupUid: string | undefined) => {
+				if (!groupUid) return
+
+				const { workspaces } = get()
+
+				return workspaces.find((workspace) => workspace.uid === groupUid)
+			},
+
+			updateWorkspaceStatus: (
+				groupUid: string,
+				status: WorkspaceStatusType,
+			) => {
+				set((state) => ({
+					workspaces: state.workspaces.map((workspace) =>
+						workspace.uid === groupUid ? { ...workspace, status } : workspace,
+					),
+				}))
+			},
+
+			updateWorkspaceTransactions: (
+				groupUid: string,
+				status: WorkspaceTransactionStatusType,
+			) => {
+				set((state) => ({
+					workspaces: state.workspaces.map((workspace) =>
+						workspace.uid === groupUid
+							? {
+									...workspace,
+									transactions: {
+										...workspace.transactions,
+										[status]: workspace.transactions[status] + 1,
+									},
+							  }
+							: workspace,
+					),
 				}))
 			},
 		}),

@@ -17,7 +17,7 @@ interface UserStrategies {
 
 	getStrategy: (uid: string) => UserStrategyType | undefined
 
-	createNewStrategy: (rawStrategy: UserStrategyType) => void
+	createNewStrategy: (rawStrategy: RawUserStrategyType) => void
 	deleteStrategy: (uid: string) => void
 	updateStrategy: (updatedGroup: UserStrategyType) => void
 }
@@ -48,7 +48,7 @@ export const useUserStrategies = create<UserStrategies>()(
 					return get().userStrategies.find((strategy) => strategy.uid === uid)
 				},
 
-				createNewStrategy: (rawStrategy: UserStrategyType) => {
+				createNewStrategy: (rawStrategy: RawUserStrategyType) => {
 					const uid = uuidv4()
 
 					set((state) => ({

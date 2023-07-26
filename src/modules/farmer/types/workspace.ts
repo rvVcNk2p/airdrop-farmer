@@ -7,8 +7,9 @@ export type HeaderStateType = {
 
 export type WorkspaceHeaderProps = {
 	title: string
-	headerState: HeaderStateType
+	workspaceUid: string | undefined
 	strategy: UserStrategyType | undefined
 	wallets: number | undefined
 	isLoading: boolean
+	startWorkspace: () => void
 }

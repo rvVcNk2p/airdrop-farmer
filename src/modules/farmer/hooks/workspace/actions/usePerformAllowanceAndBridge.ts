@@ -12,8 +12,6 @@ import { useSendBridgeTxToBlockchain } from '../bridge/useSendBridgeTxToBlockcha
 import { useWaitingForBridgeConfirmation } from '../bridge/useWaitingForBridgeConfirmation'
 
 export type PerformAllowanceProps = {
-	selectedNetworks: string[]
-	wallet: Address
 	loggerFn: ({}: TxHistoryRecordType) => void
 }
 
@@ -37,8 +35,6 @@ const randomSleepAndLog = async ({
 }
 
 export const usePerformAllowanceAndBridge = ({
-	selectedNetworks,
-	wallet,
 	loggerFn,
 }: PerformAllowanceProps) => {
 	// Allowance
@@ -58,7 +54,6 @@ export const usePerformAllowanceAndBridge = ({
 		loggerFn,
 	})
 	const { waitingForBridgeConfirmationFn } = useWaitingForBridgeConfirmation({
-		wallet,
 		loggerFn,
 	})
 
@@ -66,10 +61,14 @@ export const usePerformAllowanceAndBridge = ({
 
 	type PerformAllowanceAndBridgeProps = {
 		actionUid: string
+		selectedNetworks: string[]
+		wallet: Address
 	}
 
 	const generateAllowanceAndBridge = async ({
 		actionUid,
+		selectedNetworks,
+		wallet,
 	}: PerformAllowanceAndBridgeProps) => {
 		try {
 			// Allowance creation - Step 1
@@ -102,52 +101,53 @@ export const usePerformAllowanceAndBridge = ({
 				nextNonce,
 			})
 
-			await randomSleepAndLog({ wallet, loggerFn })
+			// await randomSleepAndLog({ wallet, loggerFn })
 
 			// Bridge creation - Step 1
-			await chooseInitialTokenFn({
-				selectedNetworks,
-				wallet,
-			})
+			// await chooseInitialTokenFn({
+			// 	selectedNetworks,
+			// 	wallet,
+			// })
 
-			// Bridge creation - Step 2
-			await planningToBridgeFn({
-				selectedNetworks,
-				chainWithHighestBalanceToken,
-				wallet,
-			})
+			// // Bridge creation - Step 2
+			// await planningToBridgeFn({
+			// 	selectedNetworks,
+			// 	chainWithHighestBalanceToken,
+			// 	wallet,
+			// })
 
-			// Bridge creation - Step 3
-			const { bridgeConfigObj, nextBridgeNonce } =
-				await createBridgeTxForApprovalFn({
-					wallet,
-					client,
-					chainWithHighestBalanceToken,
-					destination,
-				})
+			// // Bridge creation - Step 3
+			// const { bridgeConfigObj, nextBridgeNonce } =
+			// 	await createBridgeTxForApprovalFn({
+			// 		wallet,
+			// 		client,
+			// 		chainWithHighestBalanceToken,
+			// 		destination,
+			// 	})
 
-			// Bridge creation - Step 4
-			const receipt = await sendBridgeTxToBlockchainFn({
-				wallet,
-				client,
-				bridgeConfigObj,
-				nextBridgeNonce,
-			})
+			// // Bridge creation - Step 4
+			// const receipt = await sendBridgeTxToBlockchainFn({
+			// 	wallet,
+			// 	client,
+			// 	bridgeConfigObj,
+			// 	nextBridgeNonce,
+			// })
 
-			updateAction({
-				uid: actionUid,
-				layerOneBridge: {
-					txHash: receipt.transactionHash,
-					srcChainId: chainWithHighestBalanceToken.chainId,
-				},
-			})
+			// updateAction({
+			// 	uid: actionUid,
+			// 	layerOneBridge: {
+			// 		txHash: receipt.transactionHash,
+			// 		srcChainId: chainWithHighestBalanceToken.chainId,
+			// 	},
+			// })
 
-			// Bridge creation - Step 5
-			await waitingForBridgeConfirmationFn({
-				txHash: receipt.transactionHash,
-			})
+			// // Bridge creation - Step 5
+			// await waitingForBridgeConfirmationFn({
+			// 	txHash: receipt.transactionHash,
+			//  wallet,
+			// })
 
-			await randomSleepAndLog({ wallet, loggerFn })
+			// await randomSleepAndLog({ wallet, loggerFn })
 		} catch (error: any) {
 			loggerFn({
 				timestamp: new Date(),
