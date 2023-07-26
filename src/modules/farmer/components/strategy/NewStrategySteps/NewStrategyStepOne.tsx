@@ -30,7 +30,10 @@ const choosableNetworks = enumToArrayObject(LayerZeroNetworks, [
 	'METIS',
 	'FANTOM',
 ])
-const choosableBridges = enumToArrayObject(LayerZeroBridges, ['STARGATE'])
+const choosableBridges = enumToArrayObject(LayerZeroBridges, [
+	'STARGATE',
+	'WOOFI',
+])
 
 const airdropOptions = [
 	{
