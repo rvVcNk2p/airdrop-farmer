@@ -42,6 +42,7 @@ const AddGroup = ({ addNewGroup }: { addNewGroup: () => void }) => {
 }
 
 export const AddNewGroupModal = ({ children }: AddNewAddressModalProps) => {
+	const [isOpen, setIsOpen] = useState(false)
 	const [groupDetails, setGroupDetails] = useState<RawUserGroupType>({
 		...initialGroupDetails,
 	})
@@ -64,11 +65,14 @@ export const AddNewGroupModal = ({ children }: AddNewAddressModalProps) => {
 			duration: 5000,
 		})
 		resetGroupDetails()
+		setIsOpen(false)
 	}
 
 	return (
-		<AlertDialog>
-			<AlertDialogTrigger asChild={true}>{children}</AlertDialogTrigger>
+		<AlertDialog open={isOpen}>
+			<AlertDialogTrigger asChild={true} onClick={() => setIsOpen(true)}>
+				{children}
+			</AlertDialogTrigger>
 			<AlertDialogContent>
 				<AlertDialogHeader>
 					<AlertDialogTitle className="mb-6">Create Group</AlertDialogTitle>
