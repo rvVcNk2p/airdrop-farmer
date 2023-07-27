@@ -36,7 +36,7 @@ export enum LayerZeroNetworks {
 	POLYGON = 'Polygon',
 	OPTIMISM = 'Optimism',
 	BSC = 'Bsc',
-	AVALANCE = 'Avalance',
+	AVALANCHE = 'Avalanche',
 	METIS = 'Metis',
 	APTOS = 'Aptos',
 	FANTOM = 'Fantom',

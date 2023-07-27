@@ -21,8 +21,8 @@ const selectableTokens = [
 	{ network: 'BSC', tokenName: 'USDT' },
 	{ network: LayerZeroNetworks.ARBITRUM, tokenName: 'USDC' },
 	{ network: LayerZeroNetworks.ARBITRUM, tokenName: 'USDT' },
-	{ network: LayerZeroNetworks.AVALANCE, tokenName: 'USDC' },
-	{ network: LayerZeroNetworks.AVALANCE, tokenName: 'USDT' },
+	{ network: LayerZeroNetworks.AVALANCHE, tokenName: 'USDC' },
+	{ network: LayerZeroNetworks.AVALANCHE, tokenName: 'USDT' },
 	{ network: LayerZeroNetworks.OPTIMISM, tokenName: 'USDC' },
 	{ network: LayerZeroNetworks.OPTIMISM, tokenName: 'USDT' },
 ]

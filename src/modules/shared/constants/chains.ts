@@ -1,5 +1,6 @@
 import {
 	arbitrum,
+	avalanche,
 	bsc,
 	fantom,
 	mainnet,
@@ -14,6 +15,7 @@ export interface ChainIdMap {
 
 export const ChainIds: ChainIdMap = {
 	ARBITRUM: arbitrum.id,
+	AVALANCHE: avalanche.id,
 	BSC: bsc.id,
 	POLYGON: polygon.id,
 	ETHEREUM: mainnet.id,

@@ -72,7 +72,7 @@ export const useCreateAllowanceTxForApproval = ({
 			message: `Tx ${nextNonce} was signed.`,
 		})
 
-		const decimal = chainId === ChainIds.BSC ? 18 : 6
+		const decimal = [ChainIds.BSC, ChainIds.METIS].includes(chainId) ? 18 : 6
 
 		const rawConfigObj = {
 			chainId,

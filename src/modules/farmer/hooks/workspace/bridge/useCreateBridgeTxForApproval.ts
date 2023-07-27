@@ -94,10 +94,12 @@ export const useCreateBridgeTxForApproval = ({
 			}),
 		})
 
+		console.log('===== HERE')
 		const _dstChainId =
 			layertZeroDestinationChains[ChainIds[destination.network]].chainId
 		const _to: Address = client.account.address
 
+		console.log('===== HERE 2')
 		const estimatedFees = await getEstimatedLayerOneFee({
 			client,
 			wallet,
@@ -105,6 +107,7 @@ export const useCreateBridgeTxForApproval = ({
 			_dstChainId,
 			_to,
 		})
+		console.log('===== HERE 3')
 
 		loggerFn({
 			timestamp: new Date(),
@@ -125,8 +128,9 @@ export const useCreateBridgeTxForApproval = ({
 		})
 
 		const amount = selected.amount
-		const decimal = chainId === ChainIds.BSC ? 18 : 6
+		const decimal = [ChainIds.BSC, ChainIds.METIS].includes(chainId) ? 18 : 6
 
+		console.log('== BEFORE == ARGS')
 		const args = {
 			_dstChainId,
 			_srcPoolId: getPoolIdByToken(chainId, selected.token),
@@ -142,6 +146,7 @@ export const useCreateBridgeTxForApproval = ({
 			_to,
 			_payload: '0x',
 		}
+		console.log('== AFTER == ARGS', args)
 
 		const rawBridgeConfigObj = {
 			chainId,
