@@ -1,14 +1,10 @@
 import type { RawUserGroupType, UserGroupType } from '@modules/farmer/types'
-import secureLocalStorage from 'react-secure-storage'
 import { v4 as uuidv4 } from 'uuid'
 import { Address } from 'viem'
 import { create } from 'zustand'
-import {
-	StateStorage,
-	createJSONStorage,
-	devtools,
-	persist,
-} from 'zustand/middleware'
+import { createJSONStorage, devtools, persist } from 'zustand/middleware'
+
+import { SecureLocalStorage } from './helpers'
 
 interface UserGroups {
 	userGroups: UserGroupType[]
@@ -21,22 +17,6 @@ interface UserGroups {
 
 	addWalletToGroup: (groupUid: string, wallet: Address) => void
 	removeWalletFromGroup: (groupUid: string, wallet: Address) => void
-}
-
-// https://www.npmjs.com/package/react-secure-storage
-const SecureLocalStorage: StateStorage = {
-	getItem: async (name: string): Promise<string | null> => {
-		// console.log(name, 'has been retrieved')
-		return (await secureLocalStorage.getItem(name)?.toString()) || null
-	},
-	setItem: async (name: string, value: string): Promise<void> => {
-		// console.log(name, 'with value', value, 'has been saved')
-		await secureLocalStorage.setItem(name, value)
-	},
-	removeItem: async (name: string): Promise<void> => {
-		// console.log(name, 'has been deleted')
-		await secureLocalStorage.removeItem(name)
-	},
 }
 
 export const useUserGroups = create<UserGroups>()(

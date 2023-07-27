@@ -43,6 +43,8 @@ export const WorkspaceHeader = ({
 		(workspace?.transactions.finished ?? 0) +
 		(workspace?.transactions.failed ?? 0)
 
+	const aggregateVolume = workspace?.aggregatedValue ?? 0
+
 	const statusColor = () => {
 		switch (workspaceStatus) {
 			case WorkspaceStatusType.RUNNING:
@@ -106,8 +108,7 @@ export const WorkspaceHeader = ({
 					{isLoading ? (
 						<Skeleton className="w-[25px] h-[10px]" />
 					) : (
-						// `${headerState.volume} / $0.00`
-						`${0} / $0.00`
+						`$ ${aggregateVolume}`
 					)}
 				</HeaderElement>
 

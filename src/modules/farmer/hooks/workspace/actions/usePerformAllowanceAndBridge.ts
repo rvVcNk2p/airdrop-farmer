@@ -87,21 +87,21 @@ export const usePerformAllowanceAndBridge = ({
 			})
 
 			// Allowance creation - Step 3
-			const { client, configObj, nextNonce } =
+			const { client, configObj, nextNonce, value } =
 				await createAllowanceTxForApprovalFn({
 					wallet,
 					chainWithHighestBalanceToken,
 				})
 
 			// Allowance creation - Step 4
-			await sendAllowanceToBlockchainFn({
-				wallet,
-				client,
-				configObj,
-				nextNonce,
-			})
+			// await sendAllowanceToBlockchainFn({
+			// 	wallet,
+			// 	client,
+			// 	configObj,
+			// 	nextNonce,
+			// })
 
-			await randomSleepAndLog({ wallet, loggerFn })
+			// await randomSleepAndLog({ wallet, loggerFn })
 
 			// Bridge creation - Step 1
 			// await chooseInitialTokenFn({
@@ -148,6 +148,8 @@ export const usePerformAllowanceAndBridge = ({
 			// })
 
 			// await randomSleepAndLog({ wallet, loggerFn })
+
+			return value
 		} catch (error: any) {
 			loggerFn({
 				timestamp: new Date(),

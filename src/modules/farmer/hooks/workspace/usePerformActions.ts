@@ -7,6 +7,9 @@ export const usePerformActions = () => {
 	const updateWorkspaceTransactions = useActionHistory(
 		(state) => state.updateWorkspaceTransactions,
 	)
+	const updateWorkspaceAggregatedValue = useActionHistory(
+		(state) => state.updateWorkspaceAggregatedValue,
+	)
 
 	const executeNextAction = async (nextAction: any) => {
 		return new Promise(async (resolve, reject) => {
@@ -16,24 +19,23 @@ export const usePerformActions = () => {
 			})
 
 			try {
-				await nextAction.action()
+				const bridgedValue = await nextAction.action()
 
 				updateAction({
 					...nextAction,
 					status: ActionStatusType.FINISHED,
 				})
-				// TODO: Aggregate the value of the transaction
 				updateWorkspaceTransactions(
 					nextAction.groupUid,
 					WorkspaceTransactionStatusType.FINISHED,
 				)
+				updateWorkspaceAggregatedValue(nextAction.groupUid, bridgedValue)
 				resolve('OK')
 			} catch (error) {
 				updateAction({
 					...nextAction,
 					status: ActionStatusType.FAILED,
 				})
-				// TODO: Aggregate the value of the transaction
 				updateWorkspaceTransactions(
 					nextAction.groupUid,
 					WorkspaceTransactionStatusType.FAILED,

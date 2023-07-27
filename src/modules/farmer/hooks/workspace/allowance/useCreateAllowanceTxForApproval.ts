@@ -101,6 +101,7 @@ export const useCreateAllowanceTxForApproval = ({
 			client,
 			configObj,
 			nextNonce,
+			value: selected.amount,
 		}
 	}
 
