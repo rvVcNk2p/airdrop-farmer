@@ -60,7 +60,6 @@ export const StrategySection = () => {
 									<Button
 										variant="outline"
 										className="flex w-full sm:w-fit"
-										// disabled
 										onClick={() => handleStrategySelect(strategy.uid)}
 									>
 										<Pencil size={16} />

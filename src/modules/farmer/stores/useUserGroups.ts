@@ -14,6 +14,7 @@ interface UserGroups {
 	createNewGroup: (rawGroup: RawUserGroupType) => void
 	deleteGroup: (uid: string) => void
 	updateGroup: (updatedGroup: UserGroupType) => void
+	removeStrategyFromGroups: (strategyUid: string) => void
 
 	addWalletToGroup: (groupUid: string, wallet: Address) => void
 	removeWalletFromGroup: (groupUid: string, wallet: Address) => void
@@ -76,6 +77,16 @@ export const useUserGroups = create<UserGroups>()(
 						...state,
 						userGroups: get().userGroups.map((group) =>
 							group.uid === updatedGroup.uid ? updatedGroup : group,
+						),
+					})),
+
+				removeStrategyFromGroups: (strategyUid: string) =>
+					set((state) => ({
+						...state,
+						userGroups: get().userGroups.map((group) =>
+							group.strategyUid === strategyUid
+								? { ...group, strategyUid: undefined }
+								: group,
 						),
 					})),
 

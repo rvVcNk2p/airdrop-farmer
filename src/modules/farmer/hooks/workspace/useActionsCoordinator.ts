@@ -72,7 +72,7 @@ export const useActionsCoordinator = () => {
 			timestamp: new Date(),
 			wallet: group?.wallets[0] || '0x',
 			status: TxStatusType.STARTING,
-			message: `Starting workspace ${group.uid} with ${iteration} transactions`,
+			message: `Starting workspace ${group.name} with ${iteration} transactions.`,
 		})
 
 		for (let i = 0; i < iteration; i++) {

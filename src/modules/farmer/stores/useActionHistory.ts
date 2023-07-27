@@ -72,6 +72,7 @@ interface ActionHistory {
 	) => void
 	updateWorkspaceAggregatedValue: (groupUid: string, value: number) => void
 	resetWorkspace: (groupUid: string) => void
+	resetEveryWorkspace: () => void
 }
 
 export const useActionHistory = create<ActionHistory>()(
@@ -213,6 +214,20 @@ export const useActionHistory = create<ActionHistory>()(
 								  }
 								: workspace,
 						),
+					}))
+				},
+
+				resetEveryWorkspace: () => {
+					set((state) => ({
+						workspaces: state.workspaces.map((workspace) => ({
+							...workspace,
+							status: WorkspaceStatusType.IDLE,
+							transactions: {
+								finished: 0,
+								failed: 0,
+							},
+							aggregatedValue: 0,
+						})),
 					}))
 				},
 			}),

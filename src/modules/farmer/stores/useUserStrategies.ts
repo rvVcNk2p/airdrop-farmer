@@ -7,6 +7,8 @@ import { create } from 'zustand'
 import { createJSONStorage, devtools, persist } from 'zustand/middleware'
 
 import { SecureLocalStorage } from './helpers'
+import { useActionHistory } from './useActionHistory'
+import { useUserGroups } from './useUserGroups'
 
 interface UserStrategies {
 	userStrategies: UserStrategyType[]
@@ -44,6 +46,10 @@ export const useUserStrategies = create<UserStrategies>()(
 				},
 
 				deleteStrategy: (uid: string) => {
+					useUserGroups.getState().removeStrategyFromGroups(uid)
+					useActionHistory.getState().resetHistory()
+					useActionHistory.getState().resetEveryWorkspace()
+
 					set((state) => ({
 						...state,
 						userStrategies: get().userStrategies.filter(
