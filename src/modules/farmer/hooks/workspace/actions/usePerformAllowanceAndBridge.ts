@@ -18,13 +18,17 @@ export type PerformAllowanceProps = {
 type RandomSleepAndLogProps = {
 	wallet: Address
 	loggerFn: ({}: TxHistoryRecordType) => void
+	min?: number
+	max?: number
 }
 
 const randomSleepAndLog = async ({
 	wallet,
 	loggerFn,
+	min = 5,
+	max = 30,
 }: RandomSleepAndLogProps) => {
-	const sleepingTime = randomIntFromInterval()
+	const sleepingTime = randomIntFromInterval(min, max)
 	loggerFn({
 		timestamp: new Date(),
 		wallet,
@@ -101,7 +105,7 @@ export const usePerformAllowanceAndBridge = ({
 				nextNonce,
 			})
 
-			await randomSleepAndLog({ wallet, loggerFn })
+			await randomSleepAndLog({ wallet, loggerFn, max: 15 })
 
 			// Bridge creation - Step 1
 			await chooseInitialTokenFn({

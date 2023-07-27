@@ -81,7 +81,7 @@ export const useCreateAllowanceTxForApproval = ({
 			functionName: 'approve',
 			args: [
 				stargateFinance[chainWithHighestBalanceToken.chainId],
-				parseUnits(selected.amount + '', decimal), // TODO: Decimals will be differen on BSC and Fantom
+				parseUnits(selected.amount + '', decimal),
 			],
 			account: client.account,
 		}

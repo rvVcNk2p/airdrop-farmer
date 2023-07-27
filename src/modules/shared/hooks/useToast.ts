@@ -1,4 +1,3 @@
-// Inspired by react-hot-toast library
 import type {
 	ToastActionElement,
 	ToastProps,

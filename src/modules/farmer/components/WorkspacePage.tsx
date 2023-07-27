@@ -39,9 +39,6 @@ export const WorkspacePage = () => {
 			setStrategy(strategy)
 		}
 		initialize()
-		return () => {
-			// cleanup
-		}
 	}, [params.groupUid, getGroupByUid, getStrategy])
 
 	const isLoading = !strategy || !group?.wallets.length

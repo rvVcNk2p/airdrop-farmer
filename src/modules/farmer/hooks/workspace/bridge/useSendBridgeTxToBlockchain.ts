@@ -91,7 +91,7 @@ export const useSendBridgeTxToBlockchain = ({
 			chainId: bridgeConfigObj.chainId,
 		})
 
-		console.log('=== Waiting for transaction receipt... DONE')
+		// console.log('=== Waiting for transaction receipt... DONE')
 
 		loggerFn({
 			timestamp: new Date(),

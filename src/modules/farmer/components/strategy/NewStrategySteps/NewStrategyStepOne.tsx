@@ -19,7 +19,6 @@ import { ScrollArea } from '@modules/shared/components/ui/scroll-area'
 import { enumToArrayObject } from '@modules/shared/utils'
 
 interface NewStrategyStepOneProps {
-	// TODO: Define type
 	form: any
 }
 

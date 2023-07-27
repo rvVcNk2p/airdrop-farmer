@@ -12,7 +12,6 @@ interface NewStrategyStepOneProps {
 	selectedNetworks: string[]
 }
 
-// TODO: Find all the available token addresses
 const selectableTokens = [
 	{ network: LayerZeroNetworks.ETHEREUM, tokenName: 'USDC' },
 	{ network: LayerZeroNetworks.ETHEREUM, tokenName: 'USDT' },

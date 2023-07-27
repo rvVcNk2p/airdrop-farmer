@@ -1,9 +1,6 @@
 import { shortenerAddress } from '@/modules/shared/utils'
 import { MessageStatus, createClient } from '@layerzerolabs/scan-client'
-import {
-	stargateChainsToName,
-	stargateReverseChains,
-} from '@modules/farmer/constants/chains'
+import { stargateChainsToName } from '@modules/farmer/constants/chains'
 import { getScanLink } from '@modules/farmer/helpers/getScanLink'
 import { TxHistoryRecordType, TxStatusType } from '@modules/farmer/types'
 import { Address } from 'viem'
@@ -69,7 +66,7 @@ const generateBridgeConfirmationMessage = ({
 	dstUaAddress,
 	srcUaNonce,
 }: GenerateBridgeConfimationMessageProps): string => {
-	return `Waiting for bridge confirmation. Scan: <a href="https://layerzeroscan.com/${stargateReverseChains[srcChainId]}/address/${srcUaAddress}/message/${dstChainId}/address/${dstUaAddress}/nonce/${srcUaNonce}" target="_blank" className="text-blue-500">
+	return `Waiting for bridge confirmation. Scan: <a href="https://layerzeroscan.com/${srcChainId}/address/${srcUaAddress}/message/${dstChainId}/address/${dstUaAddress}/nonce/${srcUaNonce}" target="_blank" className="text-blue-500">
 		https://layerzeroscan.com/${srcChainId}/.../nonce/${srcUaNonce}
 	</a>.`
 }

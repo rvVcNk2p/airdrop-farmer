@@ -40,7 +40,6 @@ export enum LayerZeroNetworks {
 	METIS = 'Metis',
 	APTOS = 'Aptos',
 	FANTOM = 'Fantom',
-	// ZKERA = 'ZkEra',
 }
 
 export enum LayerZeroBridges {

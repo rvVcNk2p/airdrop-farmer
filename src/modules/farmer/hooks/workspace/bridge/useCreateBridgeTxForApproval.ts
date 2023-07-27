@@ -94,12 +94,10 @@ export const useCreateBridgeTxForApproval = ({
 			}),
 		})
 
-		console.log('===== HERE')
 		const _dstChainId =
 			layertZeroDestinationChains[ChainIds[destination.network]].chainId
 		const _to: Address = client.account.address
 
-		console.log('===== HERE 2')
 		const estimatedFees = await getEstimatedLayerOneFee({
 			client,
 			wallet,
@@ -107,7 +105,6 @@ export const useCreateBridgeTxForApproval = ({
 			_dstChainId,
 			_to,
 		})
-		console.log('===== HERE 3')
 
 		loggerFn({
 			timestamp: new Date(),
@@ -130,13 +127,12 @@ export const useCreateBridgeTxForApproval = ({
 		const amount = selected.amount
 		const decimal = [ChainIds.BSC, ChainIds.METIS].includes(chainId) ? 18 : 6
 
-		console.log('== BEFORE == ARGS')
 		const args = {
 			_dstChainId,
 			_srcPoolId: getPoolIdByToken(chainId, selected.token),
 			_dstPoolId: getPoolIdByToken(destination.chainId, destination.token),
 			_refundAddress: _to,
-			_amountLD: parseUnits(amount + '', decimal), // TODO: Decimals will be differen on BSC and Fantom
+			_amountLD: parseUnits(amount + '', decimal),
 			_minAmountLD: parseUnits(calculateMinAmountLD(amount) + '', decimal),
 			_lzTxParams: {
 				dstGasForCall: 0,
@@ -146,7 +142,6 @@ export const useCreateBridgeTxForApproval = ({
 			_to,
 			_payload: '0x',
 		}
-		console.log('== AFTER == ARGS', args)
 
 		const rawBridgeConfigObj = {
 			chainId,
@@ -184,8 +179,6 @@ export const useCreateBridgeTxForApproval = ({
 			maxFeePerGas,
 			maxPriorityFeePerGas,
 		}
-
-		console.log('== bridgeConfigObj:', bridgeConfigObj)
 
 		return {
 			bridgeConfigObj,
