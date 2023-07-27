@@ -3,29 +3,38 @@ import { stargateFinance } from '@modules/farmer/constants/bridges'
 import { layertZeroDestinationChains } from '@modules/farmer/constants/chains'
 import { LAYER_ZERO_ABI } from '@modules/farmer/constants/contracts/layerZeroRouter'
 import { createWalletClientFactory } from '@modules/farmer/helpers/createWalletClientFactory'
+import { getEstimatedLayerOneFee } from '@modules/farmer/helpers/getEstimatedLayerOneFee'
 import { getEstimatedTransactionFee } from '@modules/farmer/helpers/getEstimatedTransactionFee'
+import {
+	getDestinationPoolId,
+	getPoolIdByToken,
+} from '@modules/farmer/helpers/poolId'
+import { BlancesResponseWithSelectedToken } from '@modules/farmer/hooks/workspace/allowance/useChooseInitialToken'
 import { TxHistoryRecordType, TxStatusType } from '@modules/farmer/types'
 import { ChainIds } from '@modules/shared/constants'
 import { Address, parseUnits } from 'viem'
 
-import { getEstimatedLayerOneFee } from '../../../helpers/getEstimatedLayerOneFee'
-import { BlancesResponseWithSelectedToken } from '../allowance/useChooseInitialToken'
-
 type CreateTxForApprovalProps = {
 	loggerFn: ({}: TxHistoryRecordType) => void
+}
+
+type DestinationType = {
+	network: string
+	token: string
+	chainId: number
 }
 
 type CreateTxForApprovalFnProps = {
 	wallet: Address
 	client: ReturnType<typeof createWalletClientFactory>
 	chainWithHighestBalanceToken: BlancesResponseWithSelectedToken
-	destination: { network: string; token: string }
+	destination: DestinationType
 }
 
 export type MessageGeneratorProps = {
 	selected: { token: string; amount: number }
 	network: string
-	destination: { network: string; token: string }
+	destination: DestinationType
 	nonce: number
 	bridge: string
 }
@@ -122,8 +131,8 @@ export const useCreateBridgeTxForApproval = ({
 
 		const args = {
 			_dstChainId,
-			_srcPoolId: 2,
-			_dstPoolId: 2,
+			_srcPoolId: getPoolIdByToken(chainId, selected.token),
+			_dstPoolId: getDestinationPoolId(destination.chainId),
 			_refundAddress: _to,
 			_amountLD: parseUnits(amount + '', 6), // TODO: Decimals will be differen on BSC and Fantom
 			_minAmountLD: parseUnits(calculateMinAmountLD(amount) + '', 6),

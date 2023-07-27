@@ -117,13 +117,13 @@ export const usePerformAllowanceAndBridge = ({
 			// })
 
 			// // Bridge creation - Step 3
-			// const { bridgeConfigObj, nextBridgeNonce } =
-			// 	await createBridgeTxForApprovalFn({
-			// 		wallet,
-			// 		client,
-			// 		chainWithHighestBalanceToken,
-			// 		destination,
-			// 	})
+			const { bridgeConfigObj, nextBridgeNonce } =
+				await createBridgeTxForApprovalFn({
+					wallet,
+					client,
+					chainWithHighestBalanceToken,
+					destination,
+				})
 
 			// // Bridge creation - Step 4
 			// const receipt = await sendBridgeTxToBlockchainFn({

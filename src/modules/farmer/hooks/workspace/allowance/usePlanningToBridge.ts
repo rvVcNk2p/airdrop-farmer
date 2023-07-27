@@ -1,5 +1,6 @@
 // 2. Step
 import { TxHistoryRecordType, TxStatusType } from '@modules/farmer/types'
+import { ChainIds } from '@modules/shared/constants'
 import { Address } from 'viem'
 
 import type { BlancesResponseWithSelectedToken } from './useChooseInitialToken'
@@ -51,6 +52,7 @@ export const usePlanningToBridge = ({ loggerFn }: PlanningToBridgeProps) => {
 		const destination = {
 			network: destinationNetwork,
 			token: 'USDT',
+			chainId: ChainIds[destinationNetwork],
 		}
 
 		loggerFn({
