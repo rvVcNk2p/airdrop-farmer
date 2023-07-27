@@ -5,10 +5,7 @@ import { LAYER_ZERO_ABI } from '@modules/farmer/constants/contracts/layerZeroRou
 import { createWalletClientFactory } from '@modules/farmer/helpers/createWalletClientFactory'
 import { getEstimatedLayerOneFee } from '@modules/farmer/helpers/getEstimatedLayerOneFee'
 import { getEstimatedTransactionFee } from '@modules/farmer/helpers/getEstimatedTransactionFee'
-import {
-	getDestinationPoolId,
-	getPoolIdByToken,
-} from '@modules/farmer/helpers/poolId'
+import { getPoolIdByToken } from '@modules/farmer/helpers/poolId'
 import { BlancesResponseWithSelectedToken } from '@modules/farmer/hooks/workspace/allowance/useChooseInitialToken'
 import { TxHistoryRecordType, TxStatusType } from '@modules/farmer/types'
 import { ChainIds } from '@modules/shared/constants'
@@ -128,14 +125,15 @@ export const useCreateBridgeTxForApproval = ({
 		})
 
 		const amount = selected.amount
+		const decimal = chainId === ChainIds.BSC ? 18 : 6
 
 		const args = {
 			_dstChainId,
 			_srcPoolId: getPoolIdByToken(chainId, selected.token),
-			_dstPoolId: getDestinationPoolId(destination.chainId),
+			_dstPoolId: getPoolIdByToken(destination.chainId, destination.token),
 			_refundAddress: _to,
-			_amountLD: parseUnits(amount + '', 6), // TODO: Decimals will be differen on BSC and Fantom
-			_minAmountLD: parseUnits(calculateMinAmountLD(amount) + '', 6),
+			_amountLD: parseUnits(amount + '', decimal), // TODO: Decimals will be differen on BSC and Fantom
+			_minAmountLD: parseUnits(calculateMinAmountLD(amount) + '', decimal),
 			_lzTxParams: {
 				dstGasForCall: 0,
 				dstNativeAmount: 0,

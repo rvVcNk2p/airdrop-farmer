@@ -1,4 +1,5 @@
 // 2. Step
+import { getDestinationToken } from '@modules/farmer/helpers/poolId'
 import { TxHistoryRecordType, TxStatusType } from '@modules/farmer/types'
 import { ChainIds } from '@modules/shared/constants'
 import { Address } from 'viem'
@@ -51,7 +52,7 @@ export const usePlanningToBridge = ({ loggerFn }: PlanningToBridgeProps) => {
 
 		const destination = {
 			network: destinationNetwork,
-			token: 'USDT',
+			token: getDestinationToken(ChainIds[destinationNetwork]),
 			chainId: ChainIds[destinationNetwork],
 		}
 

@@ -10,10 +10,12 @@ export const getPoolIdByToken = (chainId: number, token: string) => {
 	return poolId
 }
 
-export const getDestinationPoolId = (chainId: number) => {
+export const getDestinationToken = (chainId: number) => {
 	const usdtPoolId = poolsIds[chainId]?.USDT
 	const usdcPoolId = poolsIds[chainId]?.USDC
 
-	if (usdtPoolId) return usdtPoolId
-	if (usdcPoolId) return usdcPoolId
+	if (usdtPoolId) return 'USDT'
+	if (usdcPoolId) return 'USDC'
+
+	throw new Error(`Pool id for USDT or USDC on ${chainId} not found.`)
 }

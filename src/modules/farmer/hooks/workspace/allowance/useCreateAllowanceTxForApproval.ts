@@ -3,7 +3,7 @@ import { stargateFinance } from '@modules/farmer/constants/bridges'
 import { createWalletClientFactory } from '@modules/farmer/helpers/createWalletClientFactory'
 import { getEstimatedTransactionFee } from '@modules/farmer/helpers/getEstimatedTransactionFee'
 import { TxHistoryRecordType, TxStatusType } from '@modules/farmer/types'
-import { tokenAddresses } from '@modules/shared/constants'
+import { ChainIds, tokenAddresses } from '@modules/shared/constants'
 import { Address, parseUnits } from 'viem'
 import { erc20ABI } from 'wagmi'
 
@@ -72,6 +72,8 @@ export const useCreateAllowanceTxForApproval = ({
 			message: `Tx ${nextNonce} was signed.`,
 		})
 
+		const decimal = chainId === ChainIds.BSC ? 18 : 6
+
 		const rawConfigObj = {
 			chainId,
 			address: tokenAddresses[chainId][selected.token],
@@ -79,7 +81,7 @@ export const useCreateAllowanceTxForApproval = ({
 			functionName: 'approve',
 			args: [
 				stargateFinance[chainWithHighestBalanceToken.chainId],
-				parseUnits(selected.amount + '', 6),
+				parseUnits(selected.amount + '', decimal), // TODO: Decimals will be differen on BSC and Fantom
 			],
 			account: client.account,
 		}
