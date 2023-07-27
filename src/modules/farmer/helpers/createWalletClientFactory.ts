@@ -43,11 +43,11 @@ const getAlchemyUrl = (chainId: number) => {
 		case ChainIds.ARBITRUM:
 			return process.env.NEXT_PUBLIC_ALCHEMY_ARBITRUM_WEBSOCKET_API
 		case ChainIds.BSC:
-			return process.env.NEXT_PUBLIC_BSC_WEBSOCKET_API
+			return process.env.NEXT_PUBLIC_GETBLOCK_BSC_WEBSOCKET_API
 		case ChainIds.AVALANCHE:
-			return process.env.NEXT_PUBLIC_AVALANCHE_WEBSOCKET_API
+			return process.env.NEXT_PUBLIC_GETBLOCK_AVALANCHE_WEBSOCKET_API
 		case ChainIds.FANTOM:
-			return process.env.NEXT_PUBLIC_FANTOM_WEBSOCKET_API
+			return process.env.NEXT_PUBLIC_GETBLOCK_FANTOM_WEBSOCKET_API
 		default:
 			return process.env.NEXT_PUBLIC_ALCHEMY_ETHEREUM_WEBSOCKET_API
 	}
