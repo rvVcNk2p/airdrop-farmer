@@ -3,6 +3,7 @@ import { getScanLink } from '@modules/farmer/helpers/getScanLink'
 import { TxHistoryRecordType, TxStatusType } from '@modules/farmer/types'
 import { shortenerAddress } from '@modules/shared/utils'
 import { Address } from 'viem'
+import { privateKeyToAccount } from 'viem/accounts'
 
 type SendAllowanceToBlockchainProps = {
 	loggerFn: ({}: TxHistoryRecordType) => void
@@ -61,7 +62,7 @@ export const useSendAllowanceToBlockchain = ({
 
 		loggerFn({
 			timestamp: new Date(),
-			wallet,
+			wallet: privateKeyToAccount(wallet).address,
 			status: TxStatusType.INFO,
 			message: generateMessage({
 				nonce: nextNonce,
@@ -84,7 +85,7 @@ export const useSendAllowanceToBlockchain = ({
 
 		loggerFn({
 			timestamp: new Date(),
-			wallet,
+			wallet: privateKeyToAccount(wallet).address,
 			status: TxStatusType.SUCCESS,
 			message: generateMessage({
 				nonce: nextNonce,

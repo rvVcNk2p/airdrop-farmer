@@ -4,6 +4,7 @@ import { WorkspaceStatusType } from '@modules/farmer/stores/useActionHistory'
 import { TxStatusType } from '@modules/farmer/types'
 import type { UserGroupType } from '@modules/farmer/types'
 import { v4 as uuidv4 } from 'uuid'
+import { privateKeyToAccount } from 'viem/accounts'
 
 import { usePerformActions } from './usePerformActions'
 
@@ -70,7 +71,7 @@ export const useActionsCoordinator = () => {
 	}: CoordinateActionsProps) => {
 		loggerFn({
 			timestamp: new Date(),
-			wallet: group?.wallets[0] || '0x',
+			wallet: privateKeyToAccount(group?.wallets[0]).address,
 			status: TxStatusType.STARTING,
 			message: `Starting workspace ${group.name} with ${iteration} transactions.`,
 		})
@@ -89,7 +90,7 @@ export const useActionsCoordinator = () => {
 				console.error(error)
 				loggerFn({
 					timestamp: new Date(),
-					wallet: group?.wallets[0] || '0x',
+					wallet: privateKeyToAccount(group?.wallets[0]).address,
 					status: TxStatusType.ERROR,
 					message: error.message,
 				})
@@ -99,7 +100,7 @@ export const useActionsCoordinator = () => {
 
 		loggerFn({
 			timestamp: new Date(),
-			wallet: group?.wallets[0] || '0x',
+			wallet: privateKeyToAccount(group?.wallets[0]).address,
 			status: TxStatusType.END,
 			message: `Workspace finished.`,
 		})

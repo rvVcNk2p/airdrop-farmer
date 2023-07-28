@@ -4,6 +4,7 @@ import { ChainIds } from '@modules/shared/constants'
 import { TxScanners } from '@modules/shared/constants'
 import { shortenerAddress } from '@modules/shared/utils'
 import { Address } from 'viem'
+import { privateKeyToAccount } from 'viem/accounts'
 
 type SendAllowanceToBlockchainProps = {
 	loggerFn: ({}: TxHistoryRecordType) => void
@@ -74,7 +75,7 @@ export const useSendBridgeTxToBlockchain = ({
 
 		loggerFn({
 			timestamp: new Date(),
-			wallet,
+			wallet: privateKeyToAccount(wallet).address,
 			status: TxStatusType.INFO,
 			message: generateMessage({
 				nonce: nextBridgeNonce,
@@ -95,7 +96,7 @@ export const useSendBridgeTxToBlockchain = ({
 
 		loggerFn({
 			timestamp: new Date(),
-			wallet,
+			wallet: privateKeyToAccount(wallet).address,
 			status: TxStatusType.SUCCESS,
 			message: generateMessage({
 				nonce: nextBridgeNonce,

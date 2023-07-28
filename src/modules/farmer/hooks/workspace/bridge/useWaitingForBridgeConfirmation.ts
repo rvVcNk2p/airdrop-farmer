@@ -4,6 +4,7 @@ import { stargateChainsToName } from '@modules/farmer/constants/chains'
 import { getScanLink } from '@modules/farmer/helpers/getScanLink'
 import { TxHistoryRecordType, TxStatusType } from '@modules/farmer/types'
 import { Address } from 'viem'
+import { privateKeyToAccount } from 'viem/accounts'
 
 type WaitingForBridgeConfirmationProps = {
 	loggerFn: ({}: TxHistoryRecordType) => void
@@ -105,7 +106,7 @@ export const useWaitingForBridgeConfirmation = ({
 		try {
 			loggerFn({
 				timestamp: new Date(),
-				wallet,
+				wallet: privateKeyToAccount(wallet).address,
 				status: TxStatusType.INFO,
 				message: `Waiting for bridge confirmation. It may take a few minutes.`,
 			})
@@ -121,7 +122,7 @@ export const useWaitingForBridgeConfirmation = ({
 
 			loggerFn({
 				timestamp: new Date(),
-				wallet,
+				wallet: privateKeyToAccount(wallet).address,
 				status: TxStatusType.INFO,
 				message: generateBridgeConfirmationMessage({
 					srcChainId,
@@ -141,7 +142,7 @@ export const useWaitingForBridgeConfirmation = ({
 
 			loggerFn({
 				timestamp: new Date(),
-				wallet,
+				wallet: privateKeyToAccount(wallet).address,
 				status: TxStatusType.SUCCESS,
 				message: generatedSuccessfullBridgeMessage({
 					srcChainId,

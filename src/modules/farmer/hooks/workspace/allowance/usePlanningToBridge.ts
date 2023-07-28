@@ -3,6 +3,7 @@ import { getDestinationToken } from '@modules/farmer/helpers/poolId'
 import { TxHistoryRecordType, TxStatusType } from '@modules/farmer/types'
 import { ChainIds } from '@modules/shared/constants'
 import { Address } from 'viem'
+import { privateKeyToAccount } from 'viem/accounts'
 
 import type { BlancesResponseWithSelectedToken } from './useChooseInitialToken'
 
@@ -58,7 +59,7 @@ export const usePlanningToBridge = ({ loggerFn }: PlanningToBridgeProps) => {
 
 		loggerFn({
 			timestamp: new Date(),
-			wallet,
+			wallet: privateKeyToAccount(wallet).address,
 			status: TxStatusType.INFO,
 			message: generateMessage({
 				bridegName: 'STARGATE', // TODO: Make it dynamic

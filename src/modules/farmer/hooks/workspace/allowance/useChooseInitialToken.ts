@@ -129,7 +129,7 @@ export const useChooseInitialToken = ({
 
 		loggerFn({
 			timestamp: new Date(),
-			wallet,
+			wallet: privateKeyToAccount(wallet).address,
 			status: TxStatusType.INFO,
 			message: generateMessage({
 				nameOfToken: token,

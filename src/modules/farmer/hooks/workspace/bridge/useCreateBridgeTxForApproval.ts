@@ -10,6 +10,7 @@ import { BlancesResponseWithSelectedToken } from '@modules/farmer/hooks/workspac
 import { TxHistoryRecordType, TxStatusType } from '@modules/farmer/types'
 import { ChainIds } from '@modules/shared/constants'
 import { Address, parseUnits } from 'viem'
+import { privateKeyToAccount } from 'viem/accounts'
 
 type CreateTxForApprovalProps = {
 	loggerFn: ({}: TxHistoryRecordType) => void
@@ -82,7 +83,7 @@ export const useCreateBridgeTxForApproval = ({
 
 		loggerFn({
 			timestamp: new Date(),
-			wallet,
+			wallet: privateKeyToAccount(wallet).address,
 			status: TxStatusType.INFO,
 			// Created bridge tx 100 to sign: Bridge STARGATE from BSC USDT to AVALANCHE USDT 85.03 USDT.
 			message: generateMessage({
@@ -108,7 +109,7 @@ export const useCreateBridgeTxForApproval = ({
 
 		loggerFn({
 			timestamp: new Date(),
-			wallet,
+			wallet: privateKeyToAccount(wallet).address,
 			status: TxStatusType.INFO,
 			message: generateFeeMessage({
 				parsedLayerZeroFee: estimatedFees.parsedLayerZeroFee,
@@ -118,7 +119,7 @@ export const useCreateBridgeTxForApproval = ({
 
 		loggerFn({
 			timestamp: new Date(),
-			wallet,
+			wallet: privateKeyToAccount(wallet).address,
 			status: TxStatusType.INFO,
 			// Tx 100 was signed.
 			message: `Tx ${nextBridgeNonce} was signed.`,

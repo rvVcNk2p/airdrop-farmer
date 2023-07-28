@@ -5,6 +5,7 @@ import { getEstimatedTransactionFee } from '@modules/farmer/helpers/getEstimated
 import { TxHistoryRecordType, TxStatusType } from '@modules/farmer/types'
 import { ChainIds, tokenAddresses } from '@modules/shared/constants'
 import { Address, parseUnits } from 'viem'
+import { privateKeyToAccount } from 'viem/accounts'
 import { erc20ABI } from 'wagmi'
 
 import { BlancesResponseWithSelectedToken } from './useChooseInitialToken'
@@ -41,6 +42,7 @@ export const useCreateAllowanceTxForApproval = ({
 		wallet,
 	}: CreateTxForApprovalFnProps) => {
 		const { selected, network, chainId } = chainWithHighestBalanceToken
+
 		const client = createWalletClientFactory(wallet, chainId)
 
 		// TODO: Check if allowance is already set.
@@ -54,7 +56,7 @@ export const useCreateAllowanceTxForApproval = ({
 		// Created tx 118 to approve spending $85.03 USDT on BSC.
 		loggerFn({
 			timestamp: new Date(),
-			wallet,
+			wallet: privateKeyToAccount(wallet).address,
 			status: TxStatusType.INFO,
 			message: generateMessage({
 				nameOfToken: selected.token,
@@ -67,7 +69,7 @@ export const useCreateAllowanceTxForApproval = ({
 		// Tx 118 was signed.
 		loggerFn({
 			timestamp: new Date(),
-			wallet,
+			wallet: privateKeyToAccount(wallet).address,
 			status: TxStatusType.INFO,
 			message: `Tx ${nextNonce} was signed.`,
 		})

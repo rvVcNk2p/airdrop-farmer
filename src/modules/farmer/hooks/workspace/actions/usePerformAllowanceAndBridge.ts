@@ -2,6 +2,7 @@ import { useActionHistory } from '@/modules/farmer/stores'
 import { TxHistoryRecordType, TxStatusType } from '@modules/farmer/types'
 import { randomIntFromInterval, sleep } from '@modules/shared/utils'
 import { Address } from 'viem'
+import { privateKeyToAccount } from 'viem/accounts'
 
 import { useChooseInitialToken } from '../allowance/useChooseInitialToken'
 import { useCreateAllowanceTxForApproval } from '../allowance/useCreateAllowanceTxForApproval'
@@ -31,7 +32,7 @@ const randomSleepAndLog = async ({
 	const sleepingTime = randomIntFromInterval(min, max)
 	loggerFn({
 		timestamp: new Date(),
-		wallet,
+		wallet: privateKeyToAccount(wallet).address,
 		status: TxStatusType.INFO,
 		message: `Sleeping ${sleepingTime} second.`,
 	})
@@ -158,7 +159,7 @@ export const usePerformAllowanceAndBridge = ({
 			console.error(error)
 			loggerFn({
 				timestamp: new Date(),
-				wallet,
+				wallet: privateKeyToAccount(wallet).address,
 				status: TxStatusType.ERROR,
 				message: error.shortMessage,
 			})
