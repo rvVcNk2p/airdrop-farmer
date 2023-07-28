@@ -1,6 +1,6 @@
 'use client'
 
-import { EmptyStrategy } from '@modules/farmer/components/strategy/EmptyStrategy'
+import { EmptyStrategy } from '@modules/farmer/components/Strategy/EmptyStrategy'
 import { useUserStrategies } from '@modules/farmer/stores'
 import { CardTemplate } from '@modules/shared/components/templates/CardTemplate'
 import { Button } from '@modules/shared/components/ui/button'

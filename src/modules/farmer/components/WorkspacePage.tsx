@@ -1,5 +1,7 @@
 'use client'
 
+import { WorkspaceContent } from '@modules/farmer/components/Workspace/WorkspaceContent'
+import { WorkspaceHeader } from '@modules/farmer/components/Workspace/WorkspaceHeader'
 import { useActionsCoordinator } from '@modules/farmer/hooks/workspace/useActionsCoordinator'
 import {
 	useActionHistory,
@@ -15,8 +17,6 @@ import { useEffect, useRef, useState } from 'react'
 
 import { WorkspaceStatusType } from '../stores/useActionHistory'
 import type { UserGroupType, UserStrategyType } from '../types'
-import { WorkspaceContent } from './workspace/WorkspaceContent'
-import { WorkspaceHeader } from './workspace/WorkspaceHeader'
 
 export const WorkspacePage = () => {
 	const params = useParams()
