@@ -1,7 +1,6 @@
+import { AddNewGroupModal } from '@modules/farmer/components/Group/AddNewGroupModal'
 import { Cube, Plus } from '@phosphor-icons/react'
 import { cn } from '@utils'
-
-import { AddNewGroupModal } from './AddNewGroupModal'
 
 interface EmptyGroupProps {
 	classes?: string

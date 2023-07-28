@@ -1,5 +1,7 @@
 'use client'
 
+import { EditGroupModal } from '@modules/farmer/components/Group/EditGroupModal'
+import { EmptyGroup } from '@modules/farmer/components/Group/EmptyGroup'
 import { useUserGroups } from '@modules/farmer/stores'
 import type { UserGroupType } from '@modules/farmer/types'
 import { CardTemplate } from '@modules/shared/components/templates/CardTemplate'
@@ -11,9 +13,6 @@ import { padWallet } from '@utils'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { privateKeyToAccount } from 'viem/accounts'
-
-import { EditGroupModal } from './EditGroupModal'
-import { EmptyGroup } from './EmptyGroup'
 
 export const GroupSection = () => {
 	const router = useRouter()

@@ -1,5 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import { NewStrategyStepOne } from '@modules/farmer/components/Strategy/NewStrategySteps/NewStrategyStepOne'
+import { NewStrategyStepThree } from '@modules/farmer/components/Strategy/NewStrategySteps/NewStrategyStepThree'
 import { useUserStrategies } from '@modules/farmer/stores'
+import { AirdropTypes, SignTransactionType } from '@modules/farmer/types'
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -15,10 +18,6 @@ import { Plus } from '@phosphor-icons/react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
-
-import { AirdropTypes, SignTransactionType } from '../../types/userStrategy'
-import { NewStrategyStepOne } from './NewStrategySteps/NewStrategyStepOne'
-import { NewStrategyStepThree } from './NewStrategySteps/NewStrategyStepThree'
 
 interface NewStrategyModalProps {
 	children: React.ReactNode

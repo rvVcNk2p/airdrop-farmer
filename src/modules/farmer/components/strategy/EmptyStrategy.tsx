@@ -1,7 +1,6 @@
+import { NewStrategyModal } from '@modules/farmer/components/Strategy/NewStrategyModal'
 import { Plus, Strategy } from '@phosphor-icons/react'
 import { cn } from '@utils'
-
-import { NewStrategyModal } from './NewStrategyModal'
 
 interface EmptyStrategyProps {
 	classes?: string
