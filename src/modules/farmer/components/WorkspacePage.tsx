@@ -59,7 +59,7 @@ export const WorkspacePage = () => {
 		if (!group) return
 		const groupUid = group.uid
 		initWorkspace(groupUid)
-	}, [group, strategy])
+	}, [group, strategy, initWorkspace])
 
 	const startWorkspace = () => {
 		if (!group) return
