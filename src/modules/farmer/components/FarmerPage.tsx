@@ -1,5 +1,3 @@
-'use client'
-
 import { GroupSection } from '@modules/farmer/components/Group/GroupSection'
 import { StrategySection } from '@modules/farmer/components/Strategy/StrategySection'
 
