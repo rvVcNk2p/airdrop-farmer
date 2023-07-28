@@ -1,5 +1,0 @@
-export { WorkspacePage } from '@modules/farmer/components/WorkspacePage'
-export { FarmerPage } from '@modules/farmer/components/FarmerPage'
-export { Header } from '@modules/farmer/components/Header'
-export { Footer } from '@modules/farmer/components/Footer'
-export { GroupSection } from '@modules/farmer/components/Group/GroupSection'
