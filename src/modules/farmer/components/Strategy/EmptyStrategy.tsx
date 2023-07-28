@@ -1,4 +1,4 @@
-import { NewStrategyModal } from '@modules/farmer/components/Strategy/NewStrategyModal'
+import { NewStrategyModal } from '@modules/farmer/components/strategy/NewStrategyModal'
 import { Plus, Strategy } from '@phosphor-icons/react'
 import { cn } from '@utils'
 

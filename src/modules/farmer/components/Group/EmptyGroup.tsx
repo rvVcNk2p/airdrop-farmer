@@ -1,4 +1,4 @@
-import { AddNewGroupModal } from '@modules/farmer/components/Group/AddNewGroupModal'
+import { AddNewGroupModal } from '@modules/farmer/components/group/AddNewGroupModal'
 import { Cube, Plus } from '@phosphor-icons/react'
 import { cn } from '@utils'
 

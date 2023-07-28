@@ -1,7 +1,7 @@
 'use client'
 
-import { EditGroupModal } from '@modules/farmer/components/Group/EditGroupModal'
-import { EmptyGroup } from '@modules/farmer/components/Group/EmptyGroup'
+import { EditGroupModal } from '@modules/farmer/components/group/EditGroupModal'
+import { EmptyGroup } from '@modules/farmer/components/group/EmptyGroup'
 import { useUserGroups } from '@modules/farmer/stores'
 import type { UserGroupType } from '@modules/farmer/types'
 import { CardTemplate } from '@modules/shared/components/templates/CardTemplate'

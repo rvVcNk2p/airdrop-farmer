@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { NewStrategyStepOne } from '@modules/farmer/components/Strategy/NewStrategySteps/NewStrategyStepOne'
-import { NewStrategyStepThree } from '@modules/farmer/components/Strategy/NewStrategySteps/NewStrategyStepThree'
+import { NewStrategyStepOne } from '@modules/farmer/components/strategy/NewStrategySteps/NewStrategyStepOne'
+import { NewStrategyStepThree } from '@modules/farmer/components/strategy/NewStrategySteps/NewStrategyStepThree'
 import { useUserStrategies } from '@modules/farmer/stores'
 import { AirdropTypes, SignTransactionType } from '@modules/farmer/types'
 import {

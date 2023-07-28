@@ -1,4 +1,4 @@
-import { LayerZeroNetworks } from '@/modules/farmer/types/userStrategy'
+import { LayerZeroNetworks } from '@modules/farmer/types/userStrategy'
 import {
 	AlertDialogDescription,
 	AlertDialogTitle,
