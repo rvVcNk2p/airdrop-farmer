@@ -1,4 +1,4 @@
-import { GroupSection } from '@modules/farmer/components/Group/GroupSection'
+import { GroupSection } from '@modules/farmer/components/GroupSection'
 import { StrategySection } from '@modules/farmer/components/Strategy/StrategySection'
 
 export const FarmerPage = () => {
