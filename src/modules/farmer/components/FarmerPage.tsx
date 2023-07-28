@@ -1,7 +1,7 @@
 'use client'
 
-import { GroupSection } from './Group/GroupSection'
-import { StrategySection } from './Strategy/StrategySection'
+import { GroupSection } from '@modules/farmer/components/Group/GroupSection'
+import { StrategySection } from '@modules/farmer/components/Strategy/StrategySection'
 
 export const FarmerPage = () => {
 	return (
