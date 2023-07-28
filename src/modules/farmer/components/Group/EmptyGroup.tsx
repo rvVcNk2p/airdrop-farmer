@@ -22,7 +22,7 @@ export const EmptyGroup = ({ classes }: EmptyGroupProps) => {
 					</div>
 					<span className="mt-2 flex text-sm font-medium items-center">
 						<Plus weight="regular" className="mr-1" size={12} />
-						Add new group.
+						Add new group
 					</span>
 				</div>
 			</button>

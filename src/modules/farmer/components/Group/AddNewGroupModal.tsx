@@ -68,6 +68,11 @@ export const AddNewGroupModal = ({ children }: AddNewAddressModalProps) => {
 		setIsOpen(false)
 	}
 
+	const cancel = () => {
+		resetGroupDetails()
+		setIsOpen(false)
+	}
+
 	return (
 		<AlertDialog open={isOpen}>
 			<AlertDialogTrigger asChild={true} onClick={() => setIsOpen(true)}>
@@ -88,9 +93,7 @@ export const AddNewGroupModal = ({ children }: AddNewAddressModalProps) => {
 					</AlertDialogDescription>
 				</AlertDialogHeader>
 				<AlertDialogFooter className="mt-6">
-					<AlertDialogCancel onClick={resetGroupDetails}>
-						Cancel
-					</AlertDialogCancel>
+					<AlertDialogCancel onClick={cancel}>Cancel</AlertDialogCancel>
 					<AlertDialogAction asChild={true}>
 						<AddGroup addNewGroup={handleCreateNewGroup} />
 					</AlertDialogAction>
