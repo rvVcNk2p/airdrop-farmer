@@ -155,6 +155,7 @@ export const usePerformAllowanceAndBridge = ({
 
 			return value
 		} catch (error: any) {
+			console.error(error)
 			loggerFn({
 				timestamp: new Date(),
 				wallet,

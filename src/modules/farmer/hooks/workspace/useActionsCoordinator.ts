@@ -86,6 +86,7 @@ export const useActionsCoordinator = () => {
 			try {
 				await executeNextAction(nextAction)
 			} catch (error: any) {
+				console.error(error)
 				loggerFn({
 					timestamp: new Date(),
 					wallet: group?.wallets[0] || '0x',
