@@ -170,12 +170,16 @@ export const useCreateBridgeTxForApproval = () => {
 				rawConfigObj: rawBridgeConfigObj,
 			})
 
-		const bridgeConfigObj: any = {
-			...rawBridgeConfigObj,
-			gas,
-			maxFeePerGas,
-			maxPriorityFeePerGas,
-		}
+		// BSC do not supports EIP-1559 fees
+		const bridgeConfigObj: any =
+			chainId === ChainIds.BSC
+				? rawBridgeConfigObj
+				: {
+						...rawBridgeConfigObj,
+						gas,
+						maxFeePerGas,
+						maxPriorityFeePerGas,
+				  }
 
 		return {
 			bridgeConfigObj,

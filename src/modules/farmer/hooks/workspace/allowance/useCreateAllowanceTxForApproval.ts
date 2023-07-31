@@ -90,12 +90,16 @@ export const useCreateAllowanceTxForApproval = () => {
 				rawConfigObj,
 			})
 
-		const configObj = {
-			...rawConfigObj,
-			gas,
-			maxFeePerGas,
-			maxPriorityFeePerGas,
-		}
+		// BSC do not supports EIP-1559 fees
+		const configObj =
+			chainId === ChainIds.BSC
+				? rawConfigObj
+				: {
+						...rawConfigObj,
+						gas,
+						maxFeePerGas,
+						maxPriorityFeePerGas,
+				  }
 
 		return {
 			client,
