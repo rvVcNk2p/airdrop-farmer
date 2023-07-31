@@ -1,5 +1,8 @@
+import { statusColor } from '@modules/farmer/helpers/status'
 import { useActionHistory } from '@modules/farmer/stores'
+import { WorkspaceStatusType } from '@modules/farmer/stores/useActionHistory'
 import type { WorkspaceHeaderProps } from '@modules/farmer/types'
+import { DefaultTooltip } from '@modules/shared/components/atoms/DefaultTooltip'
 import { Badge } from '@modules/shared/components/ui/badge'
 import { Button } from '@modules/shared/components/ui/button'
 import { Skeleton } from '@modules/shared/components/ui/skeleton'
@@ -7,8 +10,6 @@ import { capitalize } from '@modules/shared/utils'
 import { ArrowLeft } from '@phosphor-icons/react'
 import { Play } from '@phosphor-icons/react'
 import { useRouter } from 'next/navigation'
-
-import { WorkspaceStatusType } from '../../stores/useActionHistory'
 
 type HeaderElementProps = {
 	title: string
@@ -39,25 +40,25 @@ export const WorkspaceHeader = ({
 	const workspaceStatus =
 		workspaces.find((w) => w.uid === workspaceUid)?.status ||
 		WorkspaceStatusType.IDLE
-	const donetransaction =
+	const doneTransaction =
 		(workspace?.transactions.finished ?? 0) +
 		(workspace?.transactions.failed ?? 0)
 
 	const aggregateVolume = workspace?.aggregatedValue ?? 0
 
-	const statusColor = () => {
-		switch (workspaceStatus) {
-			case WorkspaceStatusType.RUNNING:
-				return 'bg-valid animate-pulse'
-			case WorkspaceStatusType.IDLE:
-				return 'bg-gray-500'
-			case WorkspaceStatusType.FINISHED:
-				return 'bg-green-900'
-			case WorkspaceStatusType.FAILED:
-				return 'bg-destructive'
-			default:
-				return 'bg-gray-500'
-		}
+	const TransactionDetails = () => {
+		return (
+			<div className="flex flex-col gap-1">
+				<div className="flex gap-2">
+					<div className="text-gray-500">Finished:</div>
+					<div>{workspace?.transactions.finished}</div>
+				</div>
+				<div className="flex gap-2">
+					<div className="text-gray-500">Failed:</div>
+					<div>{workspace?.transactions.failed}</div>
+				</div>
+			</div>
+		)
 	}
 
 	return (
@@ -73,7 +74,11 @@ export const WorkspaceHeader = ({
 					<div className="flex gap-2 justify-between items-center">
 						<div className="flex gap-2 justify-center items-center ">
 							{title}{' '}
-							<span className={`${statusColor()} rounded-full h-4 w-4 block`} />
+							<span
+								className={`${statusColor(
+									workspaceStatus,
+								)} rounded-full h-4 w-4 block`}
+							/>
 						</div>
 						<Button
 							variant="outline"
@@ -90,7 +95,12 @@ export const WorkspaceHeader = ({
 					{isLoading ? (
 						<Skeleton className="w-[25px] h-[10px]" />
 					) : (
-						`${donetransaction}/${strategy?.mainnet.txsNumberPerWallet}`
+						<div className="flex gap-1">
+							<div>
+								{doneTransaction}/{strategy?.mainnet.txsNumberPerWallet}
+							</div>
+							<DefaultTooltip content={<TransactionDetails />} size={14} />
+						</div>
 					)}
 				</HeaderElement>
 

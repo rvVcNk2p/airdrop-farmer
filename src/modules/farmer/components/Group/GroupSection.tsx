@@ -2,7 +2,9 @@
 
 import { EditGroupModal } from '@modules/farmer/components/Group/EditGroupModal'
 import { EmptyGroup } from '@modules/farmer/components/Group/EmptyGroup'
-import { useUserGroups } from '@modules/farmer/stores'
+import { statusColor } from '@modules/farmer/helpers/status'
+import { useActionHistory, useUserGroups } from '@modules/farmer/stores'
+import { WorkspaceStatusType } from '@modules/farmer/stores/useActionHistory'
 import type { UserGroupType } from '@modules/farmer/types'
 import { CardTemplate } from '@modules/shared/components/templates/CardTemplate'
 import { Button } from '@modules/shared/components/ui/button'
@@ -37,6 +39,12 @@ export const GroupSection = () => {
 		return strategyUid && wallets.length > 0
 	}
 
+	const workspaces = useActionHistory((state) => state.workspaces)
+
+	const getWorkspaceByUid = (groupUid: string) =>
+		workspaces.find((w) => w.uid === groupUid)?.status ||
+		WorkspaceStatusType.IDLE
+
 	return (
 		<>
 			<CardTemplate title="Groups">
@@ -54,7 +62,14 @@ export const GroupSection = () => {
 											onClick={() => setSelectedGroup(group.uid)}
 											className="cursor-pointer"
 										>
-											{group.name}
+											<div className="flex gap-2 items-center">
+												{group.name}{' '}
+												<span
+													className={`${statusColor(
+														getWorkspaceByUid(group.uid),
+													)} rounded-full h-4 w-4 block`}
+												/>
+											</div>
 											{group.wallets.map((wallet) => (
 												<p key={wallet + '-' + group.uid}>
 													{padWallet(privateKeyToAccount(wallet).address)}

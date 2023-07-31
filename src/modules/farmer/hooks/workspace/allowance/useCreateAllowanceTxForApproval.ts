@@ -10,13 +10,10 @@ import { erc20ABI } from 'wagmi'
 
 import { BlancesResponseWithSelectedToken } from './useChooseInitialToken'
 
-type CreateTxForApprovalProps = {
-	loggerFn: ({}: TxHistoryRecordType) => void
-}
-
 type CreateTxForApprovalFnProps = {
 	wallet: Address
 	chainWithHighestBalanceToken: BlancesResponseWithSelectedToken
+	loggerFn: ({}: TxHistoryRecordType) => void
 }
 
 export type MessageGeneratorProps = {
@@ -34,12 +31,11 @@ const generateMessage = ({
 }: MessageGeneratorProps): string =>
 	`<p>Created tx ${nonce} to approve spending $${amount} <span className="text-purple-500">${nameOfToken}</span> on <span className="text-yellow-500">${network}</span>.</p>`
 
-export const useCreateAllowanceTxForApproval = ({
-	loggerFn,
-}: CreateTxForApprovalProps) => {
+export const useCreateAllowanceTxForApproval = () => {
 	const createAllowanceTxForApprovalFn = async ({
 		chainWithHighestBalanceToken,
 		wallet,
+		loggerFn,
 	}: CreateTxForApprovalFnProps) => {
 		const { selected, network, chainId } = chainWithHighestBalanceToken
 

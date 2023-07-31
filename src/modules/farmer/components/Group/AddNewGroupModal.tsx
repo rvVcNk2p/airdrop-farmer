@@ -58,6 +58,7 @@ export const AddNewGroupModal = ({ children }: AddNewAddressModalProps) => {
 	const createNewGroup = useUserGroups((state) => state.createNewGroup)
 
 	const handleCreateNewGroup = () => {
+		if (groupDetails.name.length === 0) return
 		createNewGroup(groupDetails)
 		toast({
 			title: '✅ New group created!',

@@ -5,14 +5,12 @@ import { shortenerAddress } from '@modules/shared/utils'
 import { Address } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
 
-type SendAllowanceToBlockchainProps = {
-	loggerFn: ({}: TxHistoryRecordType) => void
-}
 type SendAllowanceToBlockchainFnProps = {
 	wallet: Address
 	client: any
 	configObj: any
 	nextNonce: number
+	loggerFn: ({}: TxHistoryRecordType) => void
 }
 
 type MessageGeneratorProps = {
@@ -44,14 +42,13 @@ const generateMessage = ({
 	)}</a>.`
 }
 
-export const useSendAllowanceToBlockchain = ({
-	loggerFn,
-}: SendAllowanceToBlockchainProps) => {
+export const useSendAllowanceToBlockchain = () => {
 	const sendAllowanceToBlockchainFn = async ({
 		wallet,
 		client,
 		configObj,
 		nextNonce,
+		loggerFn,
 	}: SendAllowanceToBlockchainFnProps) => {
 		// console.log('=== Simulating contract...', configObj)
 		const simulatedResult = await client.simulateContract(configObj)

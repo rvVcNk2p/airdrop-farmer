@@ -12,7 +12,10 @@ import { useCreateBridgeTxForApproval } from '../bridge/useCreateBridgeTxForAppr
 import { useSendBridgeTxToBlockchain } from '../bridge/useSendBridgeTxToBlockchain'
 import { useWaitingForBridgeConfirmation } from '../bridge/useWaitingForBridgeConfirmation'
 
-export type PerformAllowanceProps = {
+type PerformAllowanceAndBridgeProps = {
+	actionUid: string
+	selectedNetworks: string[]
+	wallet: Address
 	loggerFn: ({}: TxHistoryRecordType) => void
 }
 
@@ -39,47 +42,31 @@ const randomSleepAndLog = async ({
 	await sleep(sleepingTime)
 }
 
-export const usePerformAllowanceAndBridge = ({
-	loggerFn,
-}: PerformAllowanceProps) => {
+export const usePerformAllowanceAndBridge = () => {
 	// Allowance
-	const { chooseInitialTokenFn } = useChooseInitialToken({ loggerFn })
-	const { planningToBridgeFn } = usePlanningToBridge({ loggerFn })
-	const { createAllowanceTxForApprovalFn } = useCreateAllowanceTxForApproval({
-		loggerFn,
-	})
-	const { sendAllowanceToBlockchainFn } = useSendAllowanceToBlockchain({
-		loggerFn,
-	})
+	const { chooseInitialTokenFn } = useChooseInitialToken()
+	const { planningToBridgeFn } = usePlanningToBridge()
+	const { createAllowanceTxForApprovalFn } = useCreateAllowanceTxForApproval()
+	const { sendAllowanceToBlockchainFn } = useSendAllowanceToBlockchain()
 	// Bridge
-	const { createBridgeTxForApprovalFn } = useCreateBridgeTxForApproval({
-		loggerFn,
-	})
-	const { sendBridgeTxToBlockchainFn } = useSendBridgeTxToBlockchain({
-		loggerFn,
-	})
-	const { waitingForBridgeConfirmationFn } = useWaitingForBridgeConfirmation({
-		loggerFn,
-	})
+	const { createBridgeTxForApprovalFn } = useCreateBridgeTxForApproval()
+	const { sendBridgeTxToBlockchainFn } = useSendBridgeTxToBlockchain()
+	const { waitingForBridgeConfirmationFn } = useWaitingForBridgeConfirmation()
 
 	const updateAction = useActionHistory((state) => state.updateAction)
-
-	type PerformAllowanceAndBridgeProps = {
-		actionUid: string
-		selectedNetworks: string[]
-		wallet: Address
-	}
 
 	const generateAllowanceAndBridge = async ({
 		actionUid,
 		selectedNetworks,
 		wallet,
+		loggerFn,
 	}: PerformAllowanceAndBridgeProps) => {
 		try {
 			// Allowance creation - Step 1
 			const chooseInitialTokenHistory = await chooseInitialTokenFn({
 				selectedNetworks,
 				wallet,
+				loggerFn,
 			})
 
 			const { chainWithHighestBalanceToken } = chooseInitialTokenHistory
@@ -89,6 +76,7 @@ export const usePerformAllowanceAndBridge = ({
 				selectedNetworks,
 				chainWithHighestBalanceToken,
 				wallet,
+				loggerFn,
 			})
 
 			// Allowance creation - Step 3
@@ -96,6 +84,7 @@ export const usePerformAllowanceAndBridge = ({
 				await createAllowanceTxForApprovalFn({
 					wallet,
 					chainWithHighestBalanceToken,
+					loggerFn,
 				})
 
 			// Allowance creation - Step 4
@@ -104,6 +93,7 @@ export const usePerformAllowanceAndBridge = ({
 				client,
 				configObj,
 				nextNonce,
+				loggerFn,
 			})
 
 			await randomSleepAndLog({ wallet, loggerFn, max: 15 })
@@ -112,6 +102,7 @@ export const usePerformAllowanceAndBridge = ({
 			await chooseInitialTokenFn({
 				selectedNetworks,
 				wallet,
+				loggerFn,
 			})
 
 			// Bridge creation - Step 2
@@ -119,6 +110,7 @@ export const usePerformAllowanceAndBridge = ({
 				selectedNetworks,
 				chainWithHighestBalanceToken,
 				wallet,
+				loggerFn,
 			})
 
 			// Bridge creation - Step 3
@@ -128,6 +120,7 @@ export const usePerformAllowanceAndBridge = ({
 					client,
 					chainWithHighestBalanceToken,
 					destination,
+					loggerFn,
 				})
 
 			// Bridge creation - Step 4
@@ -136,6 +129,7 @@ export const usePerformAllowanceAndBridge = ({
 				client,
 				bridgeConfigObj,
 				nextBridgeNonce,
+				loggerFn,
 			})
 
 			updateAction({
@@ -150,6 +144,7 @@ export const usePerformAllowanceAndBridge = ({
 			await waitingForBridgeConfirmationFn({
 				txHash: receipt.transactionHash,
 				wallet,
+				loggerFn,
 			})
 
 			await randomSleepAndLog({ wallet, loggerFn })
@@ -157,11 +152,12 @@ export const usePerformAllowanceAndBridge = ({
 			return value
 		} catch (error: any) {
 			console.error(error)
+			const message = error?.shortMessage ?? error.message
 			loggerFn({
 				timestamp: new Date(),
 				wallet: privateKeyToAccount(wallet).address,
 				status: TxStatusType.ERROR,
-				message: error.shortMessage,
+				message,
 			})
 			throw new Error(error)
 		}

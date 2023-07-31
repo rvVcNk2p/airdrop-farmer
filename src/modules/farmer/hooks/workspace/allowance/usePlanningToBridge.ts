@@ -7,14 +7,11 @@ import { privateKeyToAccount } from 'viem/accounts'
 
 import type { BlancesResponseWithSelectedToken } from './useChooseInitialToken'
 
-type PlanningToBridgeProps = {
-	loggerFn: ({}: TxHistoryRecordType) => void
-}
-
 type PlanningToBridgeFnProps = {
 	selectedNetworks: string[]
 	chainWithHighestBalanceToken: BlancesResponseWithSelectedToken
 	wallet: Address
+	loggerFn: ({}: TxHistoryRecordType) => void
 }
 
 type MessageGeneratorProps = {
@@ -36,11 +33,12 @@ const generateMessage = ({
 }: MessageGeneratorProps): string =>
 	`<p>Planning to bridge with ${bridegName} from <span className="text-yellow-500">${source.network}</span> <span className="text-purple-500">${source.token}</span> to <span className="text-yellow-500">${destination.network}</span> <span className="text-purple-500">${destination.token}</span>.</p>`
 
-export const usePlanningToBridge = ({ loggerFn }: PlanningToBridgeProps) => {
+export const usePlanningToBridge = () => {
 	const planningToBridgeFn = ({
 		selectedNetworks,
 		chainWithHighestBalanceToken,
 		wallet,
+		loggerFn,
 	}: PlanningToBridgeFnProps) => {
 		const networksWithoutHighestBalance = selectedNetworks.filter(
 			(network) => network !== chainWithHighestBalanceToken.network,

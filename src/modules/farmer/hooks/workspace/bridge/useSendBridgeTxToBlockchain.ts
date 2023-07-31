@@ -6,14 +6,12 @@ import { shortenerAddress } from '@modules/shared/utils'
 import { Address } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
 
-type SendAllowanceToBlockchainProps = {
-	loggerFn: ({}: TxHistoryRecordType) => void
-}
 type SendBridgeToBlockchainFnProps = {
 	wallet: Address
 	client: any
 	bridgeConfigObj: any
 	nextBridgeNonce: number
+	loggerFn: ({}: TxHistoryRecordType) => void
 }
 
 const getScanLink = (chainId: number, txHash: string) => {
@@ -58,14 +56,13 @@ const generateMessage = ({
 	)}</a>.`
 }
 
-export const useSendBridgeTxToBlockchain = ({
-	loggerFn,
-}: SendAllowanceToBlockchainProps) => {
+export const useSendBridgeTxToBlockchain = () => {
 	const sendBridgeTxToBlockchainFn = async ({
 		wallet,
 		client,
 		bridgeConfigObj,
 		nextBridgeNonce,
+		loggerFn,
 	}: SendBridgeToBlockchainFnProps) => {
 		// TODO: Handle LayerZero: not enough native for fees
 		// TODO: Not enough native for fees

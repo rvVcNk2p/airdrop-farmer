@@ -12,10 +12,6 @@ import { ChainIds } from '@modules/shared/constants'
 import { Address, parseUnits } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
 
-type CreateTxForApprovalProps = {
-	loggerFn: ({}: TxHistoryRecordType) => void
-}
-
 type DestinationType = {
 	network: string
 	token: string
@@ -27,6 +23,7 @@ type CreateTxForApprovalFnProps = {
 	client: ReturnType<typeof createWalletClientFactory>
 	chainWithHighestBalanceToken: BlancesResponseWithSelectedToken
 	destination: DestinationType
+	loggerFn: ({}: TxHistoryRecordType) => void
 }
 
 export type MessageGeneratorProps = {
@@ -64,14 +61,13 @@ const calculateMinAmountLD = (amount: number) => {
 	return amount - amount * 0.002 // ≈ 0.2% lower than _amountLD
 }
 
-export const useCreateBridgeTxForApproval = ({
-	loggerFn,
-}: CreateTxForApprovalProps) => {
+export const useCreateBridgeTxForApproval = () => {
 	const createBridgeTxForApprovalFn = async ({
 		wallet,
 		client,
 		chainWithHighestBalanceToken,
 		destination,
+		loggerFn,
 	}: CreateTxForApprovalFnProps) => {
 		const { selected, network, chainId } = chainWithHighestBalanceToken
 

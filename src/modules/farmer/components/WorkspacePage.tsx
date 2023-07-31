@@ -43,10 +43,13 @@ export const WorkspacePage = () => {
 	const isLoading = !strategy || !group?.wallets.length
 
 	// LOGIC
-	const history = useActionHistory((state) => state.history)
+	const histories = useActionHistory((state) => state.history)
+	const history = histories.filter((h) => h.groupUid === group?.uid)
 	const initWorkspace = useActionHistory((state) => state.initWorkspace)
 	const resetWorkspace = useActionHistory((state) => state.resetWorkspace)
-	const resetHistory = useActionHistory((state) => state.resetHistory)
+	const resetHistoryByGroupUid = useActionHistory(
+		(state) => state.resetHistoryByGroupUid,
+	)
 	const updateWorkspaceStatus = useActionHistory(
 		(state) => state.updateWorkspaceStatus,
 	)
@@ -66,7 +69,7 @@ export const WorkspacePage = () => {
 		const groupUid = group.uid
 
 		resetWorkspace(groupUid)
-		resetHistory()
+		resetHistoryByGroupUid(groupUid)
 
 		updateWorkspaceStatus(groupUid, WorkspaceStatusType.RUNNING)
 

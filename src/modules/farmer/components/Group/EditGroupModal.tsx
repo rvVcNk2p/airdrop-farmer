@@ -171,6 +171,7 @@ export const EditGroupModal = ({ selectedGroup, close }: EditGroupModal) => {
 									<Input
 										name="wallet"
 										value={newWallet}
+										disabled={groupDetails.wallets.length >= 1}
 										onChange={(e) => setNewWallet(e.currentTarget.value)}
 									/>
 									<Button

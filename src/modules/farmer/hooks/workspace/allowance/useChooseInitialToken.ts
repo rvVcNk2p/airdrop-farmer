@@ -5,13 +5,10 @@ import { balancesFetcher } from '@modules/shared/fetchers'
 import { Address } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
 
-type ChooseInitialTokenProps = {
-	loggerFn: ({}: TxHistoryRecordType) => void
-}
-
 type ChooseInitialTokenFnProps = {
 	selectedNetworks: string[]
 	wallet: Address
+	loggerFn: ({}: TxHistoryRecordType) => void
 }
 
 type MessageGeneratorProps = {
@@ -76,12 +73,11 @@ const generateMessage = ({
 }: MessageGeneratorProps): string =>
 	`<p>Choose <span className="text-purple-500">${nameOfToken}</span> on <span className="text-yellow-500">${network}</span> with $${amount} as initial token</p>`
 
-export const useChooseInitialToken = ({
-	loggerFn,
-}: ChooseInitialTokenProps) => {
+export const useChooseInitialToken = () => {
 	const chooseInitialTokenFn = async ({
 		selectedNetworks,
 		wallet,
+		loggerFn,
 	}: ChooseInitialTokenFnProps) => {
 		const activechainIds = selectedNetworks.map((network) => ({
 			network,

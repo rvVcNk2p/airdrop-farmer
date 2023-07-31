@@ -2,7 +2,7 @@ import { usePerformAllowanceAndBridge } from '@modules/farmer/hooks/workspace/ac
 import { useActionHistory } from '@modules/farmer/stores'
 import { WorkspaceStatusType } from '@modules/farmer/stores/useActionHistory'
 import { TxStatusType } from '@modules/farmer/types'
-import type { UserGroupType } from '@modules/farmer/types'
+import type { TxHistoryRecordType, UserGroupType } from '@modules/farmer/types'
 import { v4 as uuidv4 } from 'uuid'
 import { privateKeyToAccount } from 'viem/accounts'
 
@@ -19,6 +19,7 @@ type GenerateAllowanceAndBridgeProps = {
 	selectedNetworks: string[]
 	addNewAction: ({}: any) => void
 	generateAllowanceAndBridge: ({}: any) => void
+	loggerFn: ({}: TxHistoryRecordType) => void
 }
 
 const generateAllowanceAndBridgeFn = async ({
@@ -26,6 +27,7 @@ const generateAllowanceAndBridgeFn = async ({
 	selectedNetworks,
 	addNewAction,
 	generateAllowanceAndBridge,
+	loggerFn,
 }: GenerateAllowanceAndBridgeProps) => {
 	const actionUid = uuidv4()
 	const newAction = {
@@ -43,6 +45,7 @@ const generateAllowanceAndBridgeFn = async ({
 				actionUid,
 				wallet: group.wallets[0],
 				selectedNetworks,
+				loggerFn,
 			}),
 	}
 
@@ -59,9 +62,7 @@ export const useActionsCoordinator = () => {
 	)
 
 	// TODO: Add support for multiple wallet support
-	const { generateAllowanceAndBridge } = usePerformAllowanceAndBridge({
-		loggerFn,
-	})
+	const { generateAllowanceAndBridge } = usePerformAllowanceAndBridge()
 	const { executeNextAction } = usePerformActions()
 
 	const coordinateActions = async ({
@@ -70,6 +71,7 @@ export const useActionsCoordinator = () => {
 		selectedNetworks,
 	}: CoordinateActionsProps) => {
 		loggerFn({
+			groupUid: group.uid,
 			timestamp: new Date(),
 			wallet: privateKeyToAccount(group?.wallets[0]).address,
 			status: TxStatusType.STARTING,
@@ -82,6 +84,7 @@ export const useActionsCoordinator = () => {
 				selectedNetworks,
 				addNewAction,
 				generateAllowanceAndBridge,
+				loggerFn: (args) => loggerFn({ groupUid: group.uid, ...args }),
 			})
 
 			try {
@@ -89,6 +92,7 @@ export const useActionsCoordinator = () => {
 			} catch (error: any) {
 				console.error(error)
 				loggerFn({
+					groupUid: group.uid,
 					timestamp: new Date(),
 					wallet: privateKeyToAccount(group?.wallets[0]).address,
 					status: TxStatusType.ERROR,
@@ -99,6 +103,7 @@ export const useActionsCoordinator = () => {
 		}
 
 		loggerFn({
+			groupUid: group.uid,
 			timestamp: new Date(),
 			wallet: privateKeyToAccount(group?.wallets[0]).address,
 			status: TxStatusType.END,

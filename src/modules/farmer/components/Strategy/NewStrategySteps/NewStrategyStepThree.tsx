@@ -13,18 +13,66 @@ interface NewStrategyStepOneProps {
 }
 
 const selectableTokens = [
-	{ network: LayerZeroNetworks.ETHEREUM, tokenName: 'USDC' },
-	{ network: LayerZeroNetworks.ETHEREUM, tokenName: 'USDT' },
-	{ network: LayerZeroNetworks.POLYGON, tokenName: 'USDC' },
-	{ network: LayerZeroNetworks.POLYGON, tokenName: 'USDT' },
-	{ network: 'BSC', tokenName: 'USDT' },
-	{ network: LayerZeroNetworks.ARBITRUM, tokenName: 'USDC' },
-	{ network: LayerZeroNetworks.ARBITRUM, tokenName: 'USDT' },
-	{ network: LayerZeroNetworks.AVALANCHE, tokenName: 'USDC' },
-	{ network: LayerZeroNetworks.AVALANCHE, tokenName: 'USDT' },
-	{ network: LayerZeroNetworks.OPTIMISM, tokenName: 'USDC' },
-	{ network: LayerZeroNetworks.OPTIMISM, tokenName: 'USDT' },
+	{
+		network: LayerZeroNetworks.ETHEREUM,
+		tokenName: 'USDC',
+		nativeCurrency: 'ETH',
+	},
+	{
+		network: LayerZeroNetworks.ETHEREUM,
+		tokenName: 'USDT',
+		nativeCurrency: 'ETH',
+	},
+	{
+		network: LayerZeroNetworks.POLYGON,
+		tokenName: 'USDC',
+		nativeCurrency: 'MATIC',
+	},
+	{
+		network: LayerZeroNetworks.POLYGON,
+		tokenName: 'USDT',
+		nativeCurrency: 'MATIC',
+	},
+	{ network: LayerZeroNetworks.BSC, tokenName: 'USDT', nativeCurrency: 'BNB' },
+	{
+		network: LayerZeroNetworks.ARBITRUM,
+		tokenName: 'USDC',
+		nativeCurrency: 'ETH',
+	},
+	{
+		network: LayerZeroNetworks.ARBITRUM,
+		tokenName: 'USDT',
+		nativeCurrency: 'ETH',
+	},
+	{
+		network: LayerZeroNetworks.AVALANCHE,
+		tokenName: 'USDC',
+		nativeCurrency: 'AVAX',
+	},
+	{
+		network: LayerZeroNetworks.AVALANCHE,
+		tokenName: 'USDT',
+		nativeCurrency: 'AVAX',
+	},
+	{
+		network: LayerZeroNetworks.OPTIMISM,
+		tokenName: 'USDC',
+		nativeCurrency: 'ETH',
+	},
+	{
+		network: LayerZeroNetworks.FANTOM,
+		tokenName: 'USDC',
+		nativeCurrency: 'FTM',
+	},
 ]
+
+const findNativeCurrency = (network: string) => {
+	return (
+		selectableTokens.find(
+			(token) => token.network.toUpperCase() === network,
+		) || { nativeCurrency: 'ETH' }
+	)
+}
 
 const ActiveTokenLabel = ({
 	network,
@@ -43,7 +91,17 @@ const ActiveTokenLabel = ({
 export const NewStrategyStepThree = ({
 	selectedNetworks,
 }: NewStrategyStepOneProps) => {
-	const concatenatedNetworks = selectedNetworks.join(',')
+	const concatenatedNetworks = selectedNetworks.reduce(
+		(acc, network, index) => {
+			return (
+				acc +
+				`${index === 0 ? '' : ', '}` +
+				network +
+				` (${findNativeCurrency(network).nativeCurrency})`
+			)
+		},
+		'',
+	)
 
 	const activeTokens = selectableTokens.filter((token) =>
 		selectedNetworks.includes(token.network.toUpperCase()),
@@ -57,14 +115,14 @@ export const NewStrategyStepThree = ({
 			<AlertDialogDescription asChild={true}>
 				<ScrollArea className="h-[400px] w-full">
 					<Label>
-						Make sure you met all the criteria from the list below before you
-						start:
+						Make sure you met all the criteria from the list before you start:
 					</Label>
 					<div className="mt-4 flex flex-col gap-2">
 						<Label>1. All your wallets are not connected to each other.</Label>
 
-						<Label>
-							2. You have native currency balance in {concatenatedNetworks}.
+						<Label className="leading-6">
+							2. You have minimum $10 worth of native currency in{' '}
+							{concatenatedNetworks}.
 						</Label>
 
 						<Label>

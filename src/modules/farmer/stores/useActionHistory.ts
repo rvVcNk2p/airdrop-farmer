@@ -1,4 +1,3 @@
-import type { PerformAllowanceProps } from '@modules/farmer/hooks/workspace/actions/usePerformAllowanceAndBridge'
 import { TxStatusType } from '@modules/farmer/types'
 import { ActionStatusType } from '@modules/farmer/types/action'
 import { Address } from 'viem'
@@ -35,6 +34,10 @@ export type TxHistoryRecordType = {
 	message: string
 }
 
+export type ExtendedTxHistoryRecordType = TxHistoryRecordType & {
+	groupUid: string
+}
+
 type ActionsType = {
 	uid: string
 	wallet: Address
@@ -51,7 +54,7 @@ type ActionsType = {
 
 interface ActionHistory {
 	actions: ActionsType[]
-	history: TxHistoryRecordType[]
+	history: ExtendedTxHistoryRecordType[]
 	workspaces: WorkspaceType[]
 
 	getAction: (actionUid: string, groupUid: string) => ActionsType | undefined
@@ -60,7 +63,9 @@ interface ActionHistory {
 	addNewAction: (newAction: ActionsType) => void
 	updateAction: (newAction: Partial<ActionsType>) => void
 
-	addHistory: (newHistory: TxHistoryRecordType) => void
+	addHistory: (newHistory: ExtendedTxHistoryRecordType) => void
+	getHistoryByGroupUid: (groupUid: string) => ExtendedTxHistoryRecordType[]
+	resetHistoryByGroupUid: (groupUid: string) => void
 	resetHistory: () => void
 
 	initWorkspace: (groupUid: string) => void
@@ -113,9 +118,25 @@ export const useActionHistory = create<ActionHistory>()(
 				}))
 			},
 
-			addHistory: (newHistory: TxHistoryRecordType) => {
+			addHistory: (newHistory: ExtendedTxHistoryRecordType) => {
 				set((state) => ({
 					history: [...state.history, newHistory],
+				}))
+			},
+
+			getHistoryByGroupUid: (groupUid: string) => {
+				const { history } = get()
+
+				return history.filter(
+					(historyItem) => historyItem.groupUid === groupUid,
+				)
+			},
+
+			resetHistoryByGroupUid: (groupUid: string) => {
+				set((state) => ({
+					history: state.history.filter(
+						(historyItem) => historyItem.groupUid !== groupUid,
+					),
 				}))
 			},
 
@@ -228,6 +249,7 @@ export const useActionHistory = create<ActionHistory>()(
 				}))
 			},
 		}),
+		//,
 		// 	{
 		// 		name: 'action-history',
 		// 		storage: createJSONStorage(() => SecureLocalStorage),
