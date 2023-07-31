@@ -23,11 +23,8 @@ interface NewStrategyStepOneProps {
 }
 
 const choosableNetworks = enumToArrayObject(LayerZeroNetworks, [
-	'AVALANCHE',
-	'BSC',
 	'APTOS',
 	'METIS',
-	'FANTOM',
 ])
 const choosableBridges = enumToArrayObject(LayerZeroBridges, [
 	'STARGATE',

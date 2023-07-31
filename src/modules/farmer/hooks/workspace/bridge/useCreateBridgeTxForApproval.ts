@@ -54,7 +54,7 @@ const generateFeeMessage = ({
 	parsedLayerZeroFee,
 	parsedNativeToken,
 }: FeeMessageGeneratorProps): string => {
-	return `Need: Layer Zero fee ${parsedLayerZeroFee} native token + gass fee. User has: ${parsedNativeToken} native token.`
+	return `Need: Layer Zero fee ${parsedLayerZeroFee} native token + gas fee. User has: ${parsedNativeToken} native token.`
 }
 
 const calculateMinAmountLD = (amount: number) => {

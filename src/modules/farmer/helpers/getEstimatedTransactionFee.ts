@@ -25,6 +25,7 @@ export const getEstimatedTransactionFee = async ({
 	client,
 	rawConfigObj,
 }: GetEstimatedTransactionFeeProps) => {
+	// ERROR: FeeLibrary: not enough balance => wrong PoolId
 	const estimatedGas = await client.estimateContractGas(rawConfigObj)
 	const baseGasPrice = await client.getGasPrice()
 	const tip = await getFeeHistory({ client })

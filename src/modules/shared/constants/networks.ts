@@ -7,7 +7,7 @@ interface TokenAddresses {
 		[key: string]: Address | undefined
 	}
 }
-
+// https://stargateprotocol.gitbook.io/stargate/developers/official-erc20-addresses
 export const tokenAddresses: TokenAddresses = {
 	[ChainIds.BSC]: {
 		USDT: '0x55d398326f99059ff775485246999027b3197955', // 18 decimals // (BSC-USD) // ATTENTION
@@ -38,7 +38,7 @@ export const tokenAddresses: TokenAddresses = {
 		NATIVE_TOKEN: undefined,
 	},
 	[ChainIds.FANTOM]: {
-		USDC: '0x04068da6c83afcfa0e13ba15a6696662335d5b75', // 6 decimals // USDC
+		USDC: '0x28a92dde19d9989f39a49905d7c9c2fac7799bdf', // 6 decimals // USDC_LZ // ATTENTION
 		NATIVE_TOKEN: undefined,
 	},
 }
@@ -51,71 +51,6 @@ export const chainAvailableTokens = {
 	[ChainIds.OPTIMISM]: ['USDC', 'NATIVE_TOKEN'],
 	[ChainIds.AVALANCHE]: ['USDC', 'USDT', 'NATIVE_TOKEN'],
 	[ChainIds.BSC]: ['USDT', 'NATIVE_TOKEN'],
-	[ChainIds.AVALANCHE]: ['USDC', 'NATIVE_TOKEN'],
+	[ChainIds.AVALANCHE]: ['USDC', 'USDT', 'NATIVE_TOKEN'],
+	[ChainIds.FANTOM]: ['USDC', 'NATIVE_TOKEN'],
 }
-
-// export const tokenAddresses = [
-// 	{
-// 		network: LayerZeroNetworks.BSC,
-// 		tokenList: [
-// 			{
-// 				name: 'BNB',
-// 				address: '0xB8c77482e45F1F44dE1745F52C74426C631bDD52',
-// 				decimals: 18,
-// 				symbol: 'BNB',
-// 			},
-// 			{
-// 				name: 'USDT',
-// 				address: '0x55d398326f99059ff775485246999027b3197955',
-// 				decimals: 18,
-// 				symbol: 'USDT',
-// 			},
-// 		],
-// 	},
-// 	{
-// 		network: LayerZeroNetworks.POLYGON,
-// 		tokenList: [
-// 			{
-// 				name: 'MATIC',
-// 				address: '0x7d1afa7b718fb893db30a3abc0cfc608aacfebb0',
-// 				decimals: 18,
-// 				symbol: 'BNB',
-// 			},
-// 			{
-// 				name: 'USDC',
-// 				address: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
-// 				decimals: 6,
-// 				symbol: 'USDC',
-// 			},
-// 			{
-// 				name: 'USDT',
-// 				address: '0x55d398326f99059ff775485246999027b3197955',
-// 				decimals: 18,
-// 				symbol: 'USDT',
-// 			},
-// 		],
-// 	},
-// 	{
-// 		network: LayerZeroNetworks.ARBITRUM,
-// 		tokenList: [
-// 			{
-// 				name: 'ARBITRUM',
-// 				address: '0x912ce59144191c1204e64559fe8253a0e49e6548',
-// 				decimals: 18,
-// 				symbol: 'ARB',
-// 			},
-// 			{
-// 				name: 'USDC',
-// 				address: '0xaf88d065e77c8cC2239327C5EDb3A432268e5831',
-// 				decimals: 6,
-// 				symbol: 'USDC',
-// 			},
-// 			{
-// 				name: 'USDT',
-// 				address: '0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9',
-// 				decimals: 6,
-// 				symbol: 'USDT',
-// 			},
-// 		],
-// 	},
-// ]

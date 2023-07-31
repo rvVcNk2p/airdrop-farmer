@@ -33,10 +33,14 @@ const selectableTokens = [
 		tokenName: 'USDT',
 		nativeCurrency: 'MATIC',
 	},
-	{ network: LayerZeroNetworks.BSC, tokenName: 'USDT', nativeCurrency: 'BNB' },
+	{
+		network: LayerZeroNetworks.BSC,
+		tokenName: 'BSC-USD (USDT)',
+		nativeCurrency: 'BNB',
+	},
 	{
 		network: LayerZeroNetworks.ARBITRUM,
-		tokenName: 'USDC',
+		tokenName: 'USDC.e (USDC)',
 		nativeCurrency: 'ETH',
 	},
 	{
@@ -51,7 +55,7 @@ const selectableTokens = [
 	},
 	{
 		network: LayerZeroNetworks.AVALANCHE,
-		tokenName: 'USDT',
+		tokenName: 'USDt (USDT)',
 		nativeCurrency: 'AVAX',
 	},
 	{
@@ -61,7 +65,7 @@ const selectableTokens = [
 	},
 	{
 		network: LayerZeroNetworks.FANTOM,
-		tokenName: 'USDC',
+		tokenName: 'USDC_LZ (USDC)',
 		nativeCurrency: 'FTM',
 	},
 ]

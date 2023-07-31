@@ -3,13 +3,22 @@
 import { Footer } from '@/modules/landing/components'
 import { configureChains, createConfig } from 'wagmi'
 import { WagmiConfig } from 'wagmi'
-import { arbitrum, bsc, mainnet, optimism, polygon } from 'wagmi/chains'
+import {
+	arbitrum,
+	avalanche,
+	bsc,
+	fantom,
+	mainnet,
+	optimism,
+	polygon,
+} from 'wagmi/chains'
 import { publicProvider } from 'wagmi/providers/public'
 
 import '../globals.css'
 
+// If you want to integrate with more networks, you can add them here.
 const { chains, publicClient, webSocketPublicClient } = configureChains(
-	[mainnet, arbitrum, bsc, polygon, optimism],
+	[mainnet, arbitrum, bsc, polygon, optimism, avalanche, fantom],
 	[publicProvider()],
 )
 

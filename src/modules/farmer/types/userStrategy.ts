@@ -37,9 +37,9 @@ export enum LayerZeroNetworks {
 	OPTIMISM = 'Optimism',
 	BSC = 'Bsc',
 	AVALANCHE = 'Avalanche',
+	FANTOM = 'Fantom',
 	METIS = 'Metis',
 	APTOS = 'Aptos',
-	FANTOM = 'Fantom',
 }
 
 export enum LayerZeroBridges {

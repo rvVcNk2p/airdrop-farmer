@@ -25,6 +25,6 @@ export const poolsIds = {
 		USDC: 1,
 	},
 	[ChainIds.FANTOM]: {
-		USDC: 1,
+		USDC: 21,
 	},
 }
