@@ -63,9 +63,26 @@ export const EditGroupModal = ({ selectedGroup, close }: EditGroupModal) => {
 		})
 	}
 
+	const isValidPrivateKey = (privateKey: Address) => {
+		try {
+			privateKeyToAccount(privateKey)
+			return true
+		} catch (error) {
+			return false
+		}
+	}
+
 	const handleAddWallet = () => {
+		// TODO: Be more specific with the error message
 		const appendableWallet: Address = ('0x' + newWallet) as Address
+
 		if (groupDetails.wallets.includes(appendableWallet)) return
+
+		if (!isValidPrivateKey(appendableWallet)) {
+			console.error('Invalid private key. Please try again.')
+			setNewWallet('')
+			return
+		}
 
 		setGroupDetails({
 			...groupDetails,
@@ -73,6 +90,7 @@ export const EditGroupModal = ({ selectedGroup, close }: EditGroupModal) => {
 		})
 		setNewWallet('')
 	}
+
 	const handleRemoveWallet = (wallet: Address) => {
 		if (!groupDetails.wallets.includes(wallet)) return
 
