@@ -1,6 +1,6 @@
 import Image from 'next/image'
 
-import './Features.css'
+import './features.css'
 
 const Features = () => {
 	return (
