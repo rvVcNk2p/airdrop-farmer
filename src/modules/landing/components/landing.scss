@@ -1,0 +1,223 @@
+[type='button'] {
+	appearance: none;
+}
+
+/* Firefox */
+.hideNumberInputArrows[type='number'] {
+	-moz-appearance: textfield;
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+input {
+	caret-color: #76cb9f;
+}
+
+button {
+	@apply cursor-pointer;
+}
+
+button:disabled {
+	@apply cursor-not-allowed;
+}
+
+.text-main-color {
+	--tw-text-opacity: 1;
+	color: rgb(118 203 159 / var(--tw-text-opacity));
+}
+
+.hideScrollBar {
+	-ms-overflow-style: none; /* Internet Explorer 10+ */
+	scrollbar-width: none; /* Firefox */
+}
+
+.hideScrollBar::-webkit-scrollbar {
+	display: none; /* Safari and Chrome */
+}
+
+.apple-anime-container {
+	position: absolute;
+	z-index: -1;
+	transition: opacity 0.25s ease-in-out 0s;
+	pointer-events: none;
+	display: flex;
+	transform: scaleX(1);
+	opacity: 1;
+	inset: -100px;
+}
+
+.apple-anime-inside {
+	width: 100%;
+	height: 100%;
+	margin: auto;
+	max-width: 100%;
+}
+
+.apple-anime-first {
+	top: 9%;
+	bottom: 9%;
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	background: radial-gradient(
+		rgba(255, 215, 15, 0.1) 30%,
+		rgba(255, 95, 15, 0) 70%
+	);
+	z-index: -1;
+	animation: 8s linear 0s infinite reverse none running typ-k-jKHfrQ;
+	pointer-events: none;
+}
+
+.apple-anime-second {
+	top: 6%;
+	bottom: 6%;
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	background: radial-gradient(
+		rgba(255, 15, 175, 0.14) 30%,
+		rgba(255, 15, 175, 0) 70%
+	);
+	z-index: -1;
+	animation: 14s linear 0s infinite reverse none running typ-k-jKHfrQ;
+	pointer-events: none;
+}
+
+.apple-anime-third {
+	top: 6%;
+	bottom: 6%;
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	background: radial-gradient(
+		rgba(15, 163, 255, 0.22) 30%,
+		rgba(15, 163, 255, 0) 70%
+	);
+	animation: 12s linear 0s infinite normal none running typ-k-jKHfrQ;
+	pointer-events: none;
+}
+
+.fancyText {
+	-webkit-background-clip: text;
+	background-clip: text;
+	background-image: linear-gradient(180deg, #b1ffd6, #76cb9f);
+}
+
+.text-main-airdrop {
+	--tw-text-opacity: 1;
+	color: rgb(161 160 171 / var(--tw-text-opacity));
+}
+
+@keyframes typ-k-jKHfrQ {
+	0% {
+		transform: rotate(0deg);
+		opacity: 1;
+	}
+	50% {
+		transform: rotate(180deg);
+		opacity: 0.5;
+	}
+	100% {
+		transform: rotate(360deg);
+		opacity: 1;
+	}
+}
+
+.heyLini::before {
+	content: '';
+	pointer-events: none;
+	user-select: none;
+	position: absolute;
+	inset: 0px;
+	border-radius: inherit;
+	padding: 1px;
+	background: linear-gradient(rgb(46 53 72 / 100%), rgb(34 40 56 / 0%) 120%);
+	-webkit-mask: linear-gradient(black, black) content-box content-box,
+		linear-gradient(black, black);
+	-webkit-mask-composite: xor;
+}
+
+.heyLiniAfter::after {
+	content: '';
+	position: absolute;
+	pointer-events: none;
+	user-select: none;
+	inset: 0px;
+	opacity: 0;
+	background: radial-gradient(
+		ellipse 50% 50% at center,
+		rgb(118 203 159 / 10%),
+		rgba(255, 255, 255, 0)
+	);
+	transition: opacity 960ms ease 0s;
+	opacity: 0.8;
+}
+
+.heyLiniGrain,
+.heyLiniGrainBtn {
+	z-index: 1;
+	position: absolute;
+	inset: 0px;
+	-webkit-mask-image: linear-gradient(black, transparent);
+}
+
+.heyLiniGrainBtn {
+	-webkit-mask-image: linear-gradient(black, black);
+}
+
+.heyLiniGrain::before,
+.heyLiniGrainBtn::before {
+	content: '';
+	position: absolute;
+	inset: 0px;
+}
+.heyLiniGrain::before {
+	background: rgba(255, 255, 255, 0);
+}
+.heyLiniGrainBtn::before {
+	background: rgb(120 120 120 / 10%);
+}
+
+.heyLiniGrain::after,
+.heyLiniGrainBtn::after {
+	content: '';
+	position: absolute;
+	inset: 0px;
+	opacity: 0.2;
+	filter: url(#noiseFilter);
+}
+
+.grainFilter {
+	border: 0;
+	clip: rect(0 0 0 0);
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	width: 1px;
+	white-space: nowrap;
+	word-wrap: normal;
+}
+
+.heyLiniGradient {
+	background: linear-gradient(transparent, rgb(6 12 26 / 50%));
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	z-index: 2;
+	top: 0;
+	left: 0;
+}
+
+.liniGradient {
+	background: linear-gradient(107.56deg, #eaffee, #76cb9f 1%, #103a39),
+		hsla(0, 0%, 100%, 0.1);
+}

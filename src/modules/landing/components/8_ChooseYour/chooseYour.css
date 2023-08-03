@@ -1,0 +1,26 @@
+.oneTime {
+	align-self: flex-start;
+	background: linear-gradient(
+		100.41deg,
+		#76cb9f 0.52%,
+		#a6ffaf 23.61%,
+		#b6ffbd 50%,
+		#d8ffe1 75%,
+		#8dffca 100.52%
+	);
+	-webkit-background-clip: text;
+	background-clip: text;
+	font-size: 32px;
+	font-weight: 600;
+	-webkit-text-fill-color: transparent;
+}
+
+.presale {
+	background: linear-gradient(180deg, #b1ffd6, #76cb9f);
+	-webkit-background-clip: text;
+	background-clip: text;
+	font-size: 14px;
+	font-weight: 600;
+	-webkit-text-fill-color: transparent;
+	margin-bottom: 4px;
+}
