@@ -47,9 +47,9 @@ const SellingPoints = () => {
 							</h1>
 							<p className="text-xl md:text-2xl text-center lg:text-left text-main-airdrop mb-8 lg:mb-0 animate-reveal-description max-w-[750px]">
 								You no longer need to keep track of all your transactions in
-								Excel &amp; Sheets and calculate your fees manually. We'll do
-								everything automatically for each wallet. You'll have a real
-								automated control room for your farm.
+								Excel &amp; Sheets and calculate your fees manually. We&apos;ll
+								do everything automatically for each wallet. You&apos;ll have a
+								real automated control room for your farm.
 							</p>
 						</div>
 						<div className="relative overflow-hidden w-full">

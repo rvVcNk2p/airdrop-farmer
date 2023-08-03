@@ -9,15 +9,16 @@ const GotYouCovered = () => {
 			<div className="max-w-5xl mx-auto">
 				<div className="flex flex-col items-center w-full text-center mb-8 lg:mb-16">
 					<h1 className="font-semibold text-3xl md:text-5xl text-white text-center mb-6 ">
-						<span className="mr-4">We've Got</span>
+						<span className="mr-4">We&apos;ve Got</span>
 						<span className="text-transparent bg-clip-text fancyText">
 							You Covered
 						</span>
 					</h1>
 					<div className="text-xl md:text-2xl text-center text-main-airdrop animate-reveal-description max-w-[700px]">
 						At Copilot, we understand the importance of safety and security when
-						it comes to your crypto assets. That's why we've taken every measure
-						to create a truly safe and reliable airdrop farming autopilot.
+						it comes to your crypto assets. That&apos;s why we&apos;ve taken
+						every measure to create a truly safe and reliable airdrop farming
+						autopilot.
 					</div>
 				</div>
 				<div className="w-full flex flex-col items-center heyLiniAfter">

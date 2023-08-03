@@ -8,7 +8,7 @@ const Calculate = () => {
 				<div className="w-full flex flex-col items-center">
 					<div className="max-w-6xl flex flex-col items-center w-full text-center mb-8 lg:mb-16">
 						<h1 className="font-semibold text-3xl md:text-5xl text-white text-center mb-4 md:mb-8">
-							Let's Calculate
+							Let&apos;s Calculate
 						</h1>
 						<p className="max-w-[800px] text-xl md:text-2xl text-main-airdrop">
 							How much would you earn with Airdrop Farmer on Arbitrum Airdrop.

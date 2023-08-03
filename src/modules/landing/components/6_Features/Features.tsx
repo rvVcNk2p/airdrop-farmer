@@ -174,7 +174,7 @@ const Features = () => {
 													></path>
 												</svg>
 											</i>
-											25+ customizable parameters including "sleeping"
+											25+ customizable parameters including &quot;sleeping&quot;
 											intervals, max spend per tx, routes and others.
 										</li>
 									</ul>
@@ -332,7 +332,7 @@ const Features = () => {
 													></path>
 												</svg>
 											</i>
-											30+ customizable parameters including "sleeping"
+											30+ customizable parameters including &quot;sleeping&quot;
 											intervals, max spend per tx, routes and others.
 										</li>
 									</ul>
@@ -490,7 +490,7 @@ const Features = () => {
 													></path>
 												</svg>
 											</i>
-											30+ customizable parameters including "sleeping"
+											30+ customizable parameters including &quot;sleeping&quot;
 											intervals, max spend per tx, routes and others.
 										</li>
 									</ul>
