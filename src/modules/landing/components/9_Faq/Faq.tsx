@@ -11,128 +11,131 @@ const Faq = () => {
 			id: uuidv4(),
 			title: 'Do you keep private keys?',
 			content:
-				'No. We provide a farming option that does not require us to store your private keys. Instead, they are only stored securely in your browser, which technically means they are completely safe and we do not have access to them. We use them to sign transactions on your device in the background.<br/><br/>We also have an option to use farmer without private keys, than you will sign transactions manually with metamask.<br><br>Furthermore, we understand that our reputation rests on our commitment to honesty and integrity. That is why we would never consider engaging in fraudulent or unethical activities that could harm our users or our reputation. We are dedicated to building great products that benefit everyone in the long term and the numbers reflect this approach. Playing win win game.',
+				'No. Introducing our unique farming option that ensures utmost security for your private keys. Unlike other platforms, we never store your private keys. Instead, they remain securely within your browser, making them completely safe and inaccessible to us. Your transactions are seamlessly signed on your device in the background. <br/> <br/> At our core, we value honesty and integrity. Our commitment to you, our users, and our reputation is unwavering. We pledge to never engage in fraudulent or unethical activities that could jeopardize your trust in us. Our focus is on building exceptional products that bring long-term benefits to all, fostering a true win-win environment. Playing win win game.',
 		},
 		{
 			id: uuidv4(),
-			title: 'Why not to use the tool just for yourself?',
+			title:
+				'Why limit ourselves to using the tool exclusively for personal gain?',
 			content:
-				'Building products, infrastructure and brand are more profitable in the future than farming airdrops alone. The opportunities that trust opens up with people and sharing value with the community are much more valuable than money from airdrops for us.',
+				'By concentrating on developing products, establishing a robust infrastructure, and cultivating a reputable brand, we are poised for greater long-term profitability compared to solely relying on airdrop farming. <br/><br/>The immense potential that arises from fostering trust among individuals and contributing value to the community holds far more significance for us than mere airdrop earnings.',
 		},
 		{
 			id: uuidv4(),
 			title: 'Can I become sybil due to the bot activity?',
 			content:
-				'To be identified as Sybil you need to do four things:<br>1. Link addresses farming same airdrop between each other<br>2. Send same amount in the same time to multiple addresses from CEX<br>3. Farm from one wallet multiple airdrops<br>4. Do the same sequence of actions at the same time<br>On our part system completely randomizes the actions taken by your wallets to eliminate any potential identification them as Sybil. Even wallets within the same group will have different timings, orders, and sums, ensuring a diverse and unpredictable strategy. On your part, you must make sure that you do not allow 1, 2 and 3 points.',
+				'To be identified as Sybil you need to do four things:<br/>1. Linking addresses engaged in farming the same airdrop among themselves.<br/>2. Sending identical amounts simultaneously to multiple addresses from a centralized exchange (CEX).<br/>3. Conducting multiple airdrop farming using a single wallet.<br/>4. Executing an identical sequence of actions concurrently.<br/><br/>To guarantee your wallets are not identified as Sybil, our system employs a comprehensive randomization process for wallet actions. This means that even wallets within the same cluster will exhibit distinct timings, sequences, and sums, establishing a varied and unforeseeable approach. It is vital on your end to ensure that points 1, 2, and 3 are strictly avoided to prevent any issues.',
 		},
 		{
 			id: uuidv4(),
 			title: 'Can I run the bot for multiple wallet groups at the same time?',
 			content:
-				'Yes, you can create up to 20 groups of wallets, which will work on different strategies, scripts will run in parallel.',
+				'Yes, absolutely. Our system allows you to establish a maximum of 1 or 10 wallet groups, each independently executing distinct strategies. These groups will seamlessly operate in parallel, ensuring efficient and effective script execution.',
 		},
 		{
 			id: uuidv4(),
 			title:
 				'Is it possible to make the bot work specifically for my strategy, goals and needs?',
 			content:
-				'Yes. On Pro plan we can help you to automate your routine will 100+ wallets and create custom solutions for you. Open ticket in our Discord to discuss your case. If the team will approve your candidacy, we will work with you.',
+				'Currently, this feature is not available. However, we are diligently working towards introducing a Pro plan that will offer you the ability to automate tasks across multiple wallets and develop tailor-made solutions to address your specific needs. To explore this further, kindly initiate a ticket within our Discord channel to initiate a discussion about your unique requirements. If our team finds your case aligns with our criteria, we will be more than willing to collaborate closely with you. Your satisfaction and success are our top priorities.',
 		},
 		{
 			id: uuidv4(),
 			title: 'Does the bot make the interval between transactions?',
 			content:
-				'Yes, the bot makes a random interval between every transaction. You could also set the interval manually.',
+				'Absolutely, our bot implements a randomized time gap between each transaction, adding an extra layer of security and authenticity. Alternatively, if you prefer, you have the option to manually configure and set the transaction intervals according to your specific preferences. Your control and flexibility are paramount to us.',
 		},
 		{
 			id: uuidv4(),
 			title:
 				'Can it happen that the bot will interrupt and not complete its work? What will happen to the money in the wallet?',
 			content:
-				'If an error happens, you will see which wallet is the problem and you will be able to restart the script. The money will remain on your wallet.',
+				'In the event of an error, our system provides transparent visibility into the specific wallet encountering the issue, empowering you to promptly address the situation by restarting the script. Rest assured, your funds will remain securely within your wallet throughout this process. Your peace of mind is our utmost priority.',
 		},
 		{
 			id: uuidv4(),
 			title: 'Do the bot have randomization among a group of accounts?',
 			content:
-				'Yes, you set the randomization ratio yourself before running the script.',
+				'Indeed, you have the authority to define the randomization ratio according to your preferences before initiating the script. Your control over this crucial aspect ensures a personalized and secure experience.',
 		},
 		{
 			id: uuidv4(),
 			title: 'Is there a minimum amount that must be in the wallet?',
 			content:
-				'Yes, it depends on what criteria and goals of the script you choose. In order for the script to be executed to the end, the amount in the wallet must not be less than the amount that will be shown when you set up the script.',
+				'Yes, the script outcomes are contingent upon the specific criteria and objectives you establish. To ensure the successful execution of the script, it is essential that the wallet balance remains equal to or exceeds the predetermined amount you configure during the script setup. This precautionary measure guarantees a seamless and reliable script performance aligned with your intentions.',
 		},
 		{
 			id: uuidv4(),
 			title: 'Is there a risk that the accounts will turn out to be sibyls?',
 			content:
-				'There is no risk to be identified as sibyl. Here’s why:<ul class="list-none"><li>1. Your wallets are not linked together</li><li>2. Actions our script do are completely random: random time, bridges, amounts, volumes and networks.</li></ul>',
+				'Rest assured, the risk of being identified as a Sybil entity is entirely mitigated. Here is a comprehensive explanation of why:<ul class="list-none"><li>1. Your wallets maintain complete independence and are not interlinked.</li><li>2. Our script operates with absolute randomness across various parameters, including timing, bridges, amounts, volumes, and networks.</li></ul> <br/>This meticulous randomness ensures your activities remain genuinely unpredictable and secure.',
 		},
 		{
 			id: uuidv4(),
 			title: 'Do I need to download something on my computer?',
-			content: 'No, Copilot Airdrop Farmer is the web application.',
+			content:
+				'Absolutely not, the Copilot Airdrop Farmer functions exclusively as a web application.',
 		},
 		{
 			id: uuidv4(),
 			title: 'Why is your software better than others?',
 			content:
-				'Unlike other software that offers you one script for all accounts with only one bridge function, Сopilot has the strongest customization and randomization of the script. So your chances of getting a juicy drop are greatly increased.',
+				'Unlike other software that uses a single script for all accounts with limited bridge options, our application offers robust customization and randomization. This means your chances of scoring rewarding drops are significantly boosted.',
 		},
 		{
 			id: uuidv4(),
 			title: 'Is the price of a monthly subscription fixed?',
 			content:
-				'No. The price will increase from month to month with each product update and with the addition of new Airdrops.',
+				'No, the price will gradually rise each month as we update the product and introduce new Airdrops.',
 		},
 		{
 			id: uuidv4(),
 			title: 'Can I upgrade my plan?',
-			content: 'No, you can not upgrade your plan.',
+			content: 'Sorry, but plan upgrades are not available.',
 		},
 		{
 			id: uuidv4(),
 			title: 'Why can I trust you?',
 			content:
-				'Сopilot has a proven technical background, our products are used by over a thousand people for more than 9 months. Our ambition is to become the #1 airdrop automation software in the world and we are not interested in scamming our users.',
+				'Backed by strong technical expertise, we have previously collaborated with reputable DeFi projects like comb.financial and topia.fi. Our aim is to lead as the world premier airdrop automation software, driven by unwavering integrity – absolutely no room for scams.',
 		},
 		{
 			id: uuidv4(),
 			title: 'Will you support other airdrops later?',
-			content: `Yes, if you want to automate any airdrop that we don nott have, contact us on <a href="${DISCORD_URL}" target="_blank" rel="noreferrer" class="text-main-color cursor-pointer">Discord</a></p>`,
+			content: `Certainly! Should you wish to automate an airdrop not currently supported by us, please feel free to reach out to us on <a href="${DISCORD_URL}" target="_blank" rel="noreferrer" class="text-main-color cursor-pointer">Discord</a>. We're here to assist you.</p>`,
 		},
 		{
 			id: uuidv4(),
 			title: 'What Is a Crypto Airdrop?',
 			content:
-				'Crypto airdrop is a marketing strategy to promote the Web3 project and their new token. It involves distributing their native cryptocurrency to current or potential users for free. There are different types of airdrops, but most airdrops have the same goal: increase awareness and overall interest in the project.',
+				'A crypto airdrop is a promotional tactic used by Web3 projects to introduce their new token. It entails giving away their native cryptocurrency at no cost to existing or potential users. While various types of airdrops exist, their core objective remains consistent: to boost awareness and generate heightened interest in the project.',
 		},
 		{
 			id: uuidv4(),
 			title: 'What Is LayerZero Airdrop?',
 			content:
-				'LayerZero is an omnichain interoperability protocol designed for lightweight message passing across chains. LayerZero provides authentic and guaranteed message delivery with configurable trustlessness.</p><br>LayerZero doesn’t have an own token yet but they have raised more than $280M in funding from investors like Alameda Research and Andreessen Horowitz so it’s very likely that they will launch a token in the future. Users who use the dApps built on LayerZero may get an airdrop if they launch an own token.',
+				'LayerZero is a versatile protocol that enhances how different chains communicate. It ensures reliable message delivery with adjustable levels of trust. <br/><br/> Although LayerZero does not currently have its own token, it has secured substantial funding, exceeding $280 million, from notable investors such as Alameda Research and Andreessen Horowitz. This makes it highly probable that they will introduce a token in the future. Users of LayerZero-based dApps might even receive an airdrop when this token launches.',
 		},
 		{
 			id: uuidv4(),
 			title: 'What Is zkSync Airdrop?',
 			content:
-				'zkSync is a ZK rollup, a trustless protocol that uses cryptographic validity proofs to provide scalable and low-cost transactions on Ethereum. In zkSync, computation is performed off-chain and most data is stored off-chain as well. As all transactions are proven on the Ethereum mainchain, users enjoy the same security level as in Ethereum.<br><br>zkSync has raised a total of $458 million from leading investors like Blockchain Capital and Dragonfly Capital. They’ve hinted that they will launch their native token in the future, so trying out their mainnet may make you eligible for an airdrop when they launch their token.',
+				'zkSync operates as a ZK rollup – a secure method that leverages cryptographic proofs to offer efficient, cost-effective transactions on Ethereum. In zkSync, computations and much of the data occur off-chain. Since all transactions are verified on the Ethereum mainchain, the security level matches Ethereum. <br/><br/> With substantial funding amounting to $458 million from top investors including Blockchain Capital and Dragonfly Capital, zkSync is set to potentially introduce its own token. Exploring their mainnet could potentially qualify you for an airdrop once their token is launched.',
 		},
 		{
 			id: uuidv4(),
 			title: 'What Is StarkNet Airdrop?',
 			content:
-				'StarkNet is a permissionless decentralized Validity-Rollup (also known as a “ZK-Rollup”). It operates as an L2 network over Ethereum, enabling any dApp to achieve unlimited scale for its computation – without compromising Ethereum’s composability and security, thanks to StarkNet’s reliance on the safest and most scalable cryptographic proof system – STARK.<br><br>StarkNet has confirmed to launch an own token and 9% of the total supply has been allocated to end users and developers who’ve built dApps using StarkNet. StarkNet end users are those who used dApps built on StarkNet. StarkNet dApps include dydx, Immutable, Celer, DeversiFi, Argent and many more. So early users who’ve StarkNet Dapps by the snapshot date are likely to be eligible for the airdrop.',
+				'StarkNet is like a turbocharged engine for Ethereum – a decentralized Validity-Rollup (also known as a “ZK-Rollup”) that operates on its own. It acts as an extra boost for any dApp, allowing it to perform large-scale tasks without affecting Ethereum core speed and security. StarkNet secret weapon is its super-strong cryptographic proof system, known as STARK. <br/><br/> Exciting news: StarkNet is gearing up to introduce its very own token. They have set aside 9% of the total token supply for those who have helped build the StarkNet ecosystem – that developers and everyday users who have engaged with StarkNet dApps. Speaking of which, some popular StarkNet dApps include dydx, Immutable, Celer, DeversiFi, Argent, and more. If you have been part of the StarkNet journey by using these dApps before a certain snapshot date, you might just be in line for an airdrop.',
 		},
 		{
 			id: uuidv4(),
 			title: 'How do I increase the chances of getting a drop?',
 			content:
-				'<ul class="text-lg text-main-airdrop pr-6"><li>1. Warm up accounts: Empty accounts with no transactions are suspicious to the project. It is recommended that you perform at least small transactions on various networks before participating in the drop. It is important that these transactions are not made on the same day. It is better to accumulate them over a long period of time and in different networks.</li> <br><li>2. Transaction variety: If you create a wallet and make 1000 transactions in one day, you may be excluded from participation if the project screens out users based on activity. So keep your wallets open and do occasional transactions, both in other networks and in the network from which you want to get the drop. Do activity once a week or a couple of weeks for a few months.</li> <br><li>3. Transaction volume: It is recommended that you make as many transactions as possible, with each transaction adding up. If you don not have the ability to spend large amounts, try to run accounts of $1,000 or more. This can increase your chances of getting a drop and the number of tokens you get.</li> <br><li>4. Participate in project votes and events: Participate in project votes on the Snapshot platform, if available. Also participate in events hosted by the project.</li></ul>',
+				'<ul class="text-lg text-main-airdrop pr-6"><li>1. Account Warm-up: To avoid suspicion, consider making small transactions on different networks before joining the airdrop. It is best not to perform all transactions on the same day. Spreading them out over time and across various networks is advisable.</li><br><li>2. Diversify Transactions: Instead of making a high number of transactions in a single day, engage in occasional transactions over time across different networks, including the one offering the airdrop. Activity once a week or every few weeks over several months is recommended.</li><br><li>3. Transaction Volume: Whenever possible, aim to make multiple transactions, with each contributing to your activity. If significant spending is not feasible, aim for an account balance of $1,000 or more. This can enhance your chances of receiving the airdrop and the amount of tokens you are eligible for.</li><br><li>4. Join Project Activities: Participate in project votes using the Snapshot platform, if available. Additionally, engage in events hosted by the project to further increase your involvement.</li></ul>',
 		},
 	]
+
 	return (
 		<section className="px-8 py-16 md:py-36" id="faq">
 			<div className="max-w-6xl mx-auto">

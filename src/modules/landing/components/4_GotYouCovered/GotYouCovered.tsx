@@ -15,10 +15,9 @@ const GotYouCovered = () => {
 						</span>
 					</h1>
 					<div className="text-xl md:text-2xl text-center text-main-airdrop animate-reveal-description max-w-[700px]">
-						At Copilot, we understand the importance of safety and security when
-						it comes to your crypto assets. That&apos;s why we&apos;ve taken
-						every measure to create a truly safe and reliable airdrop farming
-						autopilot.
+						Here, we value the safety and security of your crypto assets just
+						like you do. That&apos;s why we&apos;ve gone the extra mile to
+						develop an airdrop farming autopilot that you can trust completely.
 					</div>
 				</div>
 				<div className="w-full flex flex-col items-center heyLiniAfter">
@@ -35,9 +34,11 @@ const GotYouCovered = () => {
 										1-Click Auto Refill
 									</p>
 									<p className="text-lg text-main-airdrop">
-										We took care of everything. All you need to do is to top up
-										your wallet once and we will refill it with native tokens on
-										all chains you farm. Saving days of manual work.
+										Sit back and relax - we&apos;ve got it all covered! Just top
+										up your wallet once, and we&apos;ll take care of
+										automatically refilling it with native tokens on all farming
+										chains. No more tedious manual work, saving you days of
+										effort.
 									</p>
 								</div>
 							</div>
@@ -56,18 +57,18 @@ const GotYouCovered = () => {
 									</div>
 									<p className="text-3xl font-medium text-white mb-8">
 										<span className="text-transparent bg-clip-text fancyText">
-											No Risk
+											Zero Risk
 										</span>
 										<span className="block xs:inline-block">
 											to Become a Sybil
 										</span>
 									</p>
 									<p className="text-lg text-main-airdrop">
-										System completely randomizes actions taken by your wallets
-										to eliminate any potential identification them as Sybil.
-										Each wallet have different timings, orders, and sums,
-										creating a diverse and unpredictable strategy that prevents
-										identification.
+										Our system ensures complete randomization of actions
+										performed by your wallets, preventing any possibility of
+										them being identified as Sybil. Each wallet has distinct
+										timings, orders, and sums, forming a diverse and
+										unpredictable strategy that effectively avoids detection.
 									</p>
 								</div>
 							</div>
@@ -85,14 +86,17 @@ const GotYouCovered = () => {
 							<div className="w-full md:w-2/5 text-center md:text-left">
 								<p className="text-3xl font-medium text-white mb-8">
 									Your Private Keys
-									<span className="block xs:inline-block">Stay Private</span>
+									<span className="block xs:inline-block">
+										Protect Your Privacy
+									</span>
 								</p>
 								<p
 									className="text-lg"
 									style={{ color: 'hsla(0, 0%, 100%, 0.8)' }}
 								>
-									All keys are stored encrypted in your browser and only you
-									have access to them. We store nothing on our end.
+									Your privacy is our top priority. We do not store any data
+									about your keys, everything is stored encrypted in your
+									session. Only you have access to your private keys.
 								</p>
 							</div>
 						</div>

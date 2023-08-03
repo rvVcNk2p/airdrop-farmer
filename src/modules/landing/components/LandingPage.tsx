@@ -17,7 +17,7 @@ const LandingPage = () => {
 			<SectionBreaker />
 			<HowItWorks />
 			<GotYouCovered />
-			<SellingPoints />
+			{/* <SellingPoints /> */}
 			<Features />
 			<Calculate />
 			<ChooseYourPlan />

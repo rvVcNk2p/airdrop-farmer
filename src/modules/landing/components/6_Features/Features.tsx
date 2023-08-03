@@ -13,13 +13,13 @@ const Features = () => {
 					<div className="relative flex flex-col items-center">
 						<h1 className="font-semibold text-3xl md:text-5xl text-white text-center mb-6 ">
 							<span className="text-transparent bg-clip-text fancyText">
-								Copilot Features
+								Features
 							</span>{' '}
 							<span className="block md:inline-block">We Can Disclose</span>
 						</h1>
 						<p className="text-xl md:text-2xl text-center text-main-airdrop mb-8 lg:mb-0">
-							Just the tip of the Iceberg. Real capabilities are hidden from
-							public eyes.
+							This is only the beginning. The true potential is kept away from
+							public view. <br /> Constantly expanding!
 						</p>
 					</div>
 					<div className="flex flex-col lg:flex-row gap-4 lg:gap-8">
@@ -76,8 +76,8 @@ const Features = () => {
 													></path>
 												</svg>
 											</i>
-											11+ chains including Ethereum, BSC, Polygon, Avalanche,
-											Arbitrum, Optimism, Fantom, Aptos, Metis, zkSync, Merkly.
+											7+ chains including Ethereum, BSC, Polygon, Avalanche,
+											Arbitrum, Optimism, Fantom.
 										</li>
 										<li className="flex items-center gap-[12px] lg:text-lg">
 											<i className="text-[24px] items-start text-main-color">
@@ -96,8 +96,7 @@ const Features = () => {
 													></path>
 												</svg>
 											</i>
-											6+ bridges including Stargate, Merkly, Woofi, Aptos,
-											Stargate Testnets and others.
+											2+ bridges including Stargate and Woofi.
 										</li>
 										<li className="flex items-center gap-[12px] lg:text-lg">
 											<i className="text-[24px] items-start text-main-color">
@@ -116,7 +115,8 @@ const Features = () => {
 													></path>
 												</svg>
 											</i>
-											Random actions between bridges.
+											Protection against Sybil attacks by utilizing a generative
+											randomness algorithm.
 										</li>
 										<li className="flex items-center gap-[12px] lg:text-lg">
 											<i className="text-[24px] items-start text-main-color">
@@ -155,7 +155,7 @@ const Features = () => {
 													></path>
 												</svg>
 											</i>
-											Sign transactions with Private keys or Metamask.
+											Sign transactions with Private keys
 										</li>
 										<li className="flex items-center gap-[12px] lg:text-lg">
 											<i className="text-[24px] items-start text-main-color">
@@ -174,7 +174,7 @@ const Features = () => {
 													></path>
 												</svg>
 											</i>
-											25+ customizable parameters including &quot;sleeping&quot;
+											5+ customizable parameters including &quot;sleeping&quot;
 											intervals, max spend per tx, routes and others.
 										</li>
 									</ul>
@@ -184,7 +184,7 @@ const Features = () => {
 						<div className="plan relative overflow-hidden w-full bg-[#13121d] border border-[#33323e] rounded-xl p-10 !max-w-full lg:!max-w-[500px]">
 							<div className="heyLiniGradient rounded-xl"></div>
 							<div className="heyLiniGrain rounded-xl"></div>
-							<div className="relative z-10">
+							<div className="relative z-10 h-full">
 								<div className="flex items-center gap-4 mb-8">
 									<Image
 										src="/images/f_zksync-logo.png"
@@ -196,7 +196,7 @@ const Features = () => {
 									<p className="text-3xl font-medium text-white">ZkSync</p>
 								</div>
 								<hr />
-								<div className="text-left mt-8 text-main-airdrop relative z-50">
+								{/* <div className="text-left mt-8 text-main-airdrop relative z-50">
 									<ul className="flex flex-col mt-4 gap-4">
 										<li className="flex items-center gap-[12px] lg:text-lg">
 											<i className="text-[24px] items-start text-main-color">
@@ -336,13 +336,16 @@ const Features = () => {
 											intervals, max spend per tx, routes and others.
 										</li>
 									</ul>
+								</div> */}
+								<div className="text-main-airdrop flex flex-col min-h-[200px] h-full justify-center items-center text-xl">
+									Coming soon
 								</div>
 							</div>
 						</div>
 						<div className="plan relative overflow-hidden w-full bg-[#13121d] border border-[#33323e] rounded-xl p-10 !max-w-full lg:!max-w-[500px]">
 							<div className="heyLiniGradient rounded-xl"></div>
 							<div className="heyLiniGrain rounded-xl"></div>
-							<div className="relative z-10">
+							<div className="relative z-10 h-full">
 								<div className="flex items-center gap-4 mb-[27px]">
 									<Image
 										src="/images/f_starknet-logo.png"
@@ -354,7 +357,7 @@ const Features = () => {
 									<p className="text-3xl font-medium text-white">Starknet</p>
 								</div>
 								<hr />
-								<div className="text-left mt-8 text-main-airdrop relative z-50">
+								{/* <div className="text-left mt-8 text-main-airdrop relative z-50">
 									<ul className="flex flex-col mt-4 gap-4">
 										<li className="flex items-center gap-[12px] lg:text-lg">
 											<i className="text-[24px] items-start text-main-color">
@@ -494,6 +497,9 @@ const Features = () => {
 											intervals, max spend per tx, routes and others.
 										</li>
 									</ul>
+								</div> */}
+								<div className="text-main-airdrop flex flex-col min-h-[200px] h-full justify-center items-center text-xl">
+									Coming soon
 								</div>
 							</div>
 						</div>

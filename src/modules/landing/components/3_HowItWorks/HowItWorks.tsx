@@ -9,12 +9,12 @@ const HowItWorks = () => {
 
 	const steps = [
 		{
-			title: 'Create Task',
+			title: 'Add Group and Strategy',
 			img: '1_create-airdrop.png',
 			icon: () => <Gear />,
 		},
 		{
-			title: 'Top Up Your Wallet',
+			title: 'Add funds to your wallet',
 			img: '2_dashboard.png',
 			icon: () => <Wallet />,
 		},
@@ -24,7 +24,7 @@ const HowItWorks = () => {
 			icon: () => <Key />,
 		},
 		{
-			title: 'Run Copilot',
+			title: 'Run the Farmer',
 			img: '4_logs.png',
 			icon: () => <Play />,
 		},
@@ -58,8 +58,9 @@ const HowItWorks = () => {
 							</span>
 						</h1>
 						<p className="max-w-[800px] text-xl md:text-2xl text-main-airdrop text-center">
-							Select your goals: set transactions amount, choose activities,
-							volume and set other parameters like level of randomness.
+							Set your goals: decide how much you want to transact, pick
+							activities and quantity, and customize extra settings like
+							randomness level.
 						</p>
 					</div>
 					<div className="w-full relative">
@@ -71,7 +72,7 @@ const HowItWorks = () => {
 									<button
 										key={index}
 										className={`text-white text-lg flex-1 justify-center ${
-											activeStep === index ? 'bg-[#221f2c] rounded-lg' : ''
+											activeStep === index ? 'bg-[#35323e] rounded-lg' : ''
 										}`}
 										onClick={() => setActiveStep(index)}
 									>

@@ -8,11 +8,12 @@ const Calculate = () => {
 				<div className="w-full flex flex-col items-center">
 					<div className="max-w-6xl flex flex-col items-center w-full text-center mb-8 lg:mb-16">
 						<h1 className="font-semibold text-3xl md:text-5xl text-white text-center mb-4 md:mb-8">
-							Let&apos;s Calculate
+							Let&apos;s Do The Math
 						</h1>
 						<p className="max-w-[800px] text-xl md:text-2xl text-main-airdrop">
-							How much would you earn with Airdrop Farmer on Arbitrum Airdrop.
-							On average, each Arbitrum recipient received $2,342
+							What would be your earnings using Airdrop Farmer on the Arbitrum
+							Airdrop? Typically, each recipient from Arbitrum received an
+							average of $2,342.
 							<sup className="text-xs relative -top-3">
 								<a
 									href="https://www.forbes.com/sites/leeorshimron/2023/03/30/arbitrums-token-airdrop-sends-network-adoption-soaring/"
