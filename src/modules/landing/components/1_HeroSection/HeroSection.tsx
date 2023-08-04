@@ -27,7 +27,7 @@ const HeroSection = () => {
 						</h1>
 						<div className="text-xl md:text-2xl text-center text-main-airdrop mb-8 animate-reveal-description max-w-2xl">
 							Boost your airdrop earnings by saving valuable time spent manually
-							clicking on the Metamask popup and ensuring protection against
+							clicking on the Metamask popups and ensuring protection against
 							potential Sybil attacks.
 						</div>
 					</div>

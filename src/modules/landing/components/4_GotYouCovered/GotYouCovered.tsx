@@ -67,8 +67,8 @@ const GotYouCovered = () => {
 										Our system ensures complete randomization of actions
 										performed by your wallets, preventing any possibility of
 										them being identified as Sybil. Each wallet has distinct
-										timings, orders, and sums, forming a diverse and
-										unpredictable strategy that effectively avoids detection.
+										timings, orders, and amounts, forming a diverse and
+										unpredictable strategy that avoids sybil detection.
 									</p>
 								</div>
 							</div>
@@ -85,10 +85,8 @@ const GotYouCovered = () => {
 							</div>
 							<div className="w-full md:w-2/5 text-center md:text-left">
 								<p className="text-3xl font-medium text-white mb-8">
-									Your Private Keys
-									<span className="block xs:inline-block">
-										Protect Your Privacy
-									</span>
+									We Value
+									<span className="block xs:inline-block">Your Privacy</span>
 								</p>
 								<p
 									className="text-lg"

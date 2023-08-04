@@ -59,8 +59,8 @@ const HowItWorks = () => {
 						</h1>
 						<p className="max-w-[800px] text-xl md:text-2xl text-main-airdrop text-center">
 							Set your goals: decide how much you want to transact, pick
-							activities and quantity, and customize extra settings like
-							randomness level.
+							activities, quantity, and customize extra settings like randomness
+							level.
 						</p>
 					</div>
 					<div className="w-full relative">

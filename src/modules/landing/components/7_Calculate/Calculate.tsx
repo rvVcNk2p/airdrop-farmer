@@ -12,8 +12,8 @@ const Calculate = () => {
 						</h1>
 						<p className="max-w-[800px] text-xl md:text-2xl text-main-airdrop">
 							What would be your earnings using Airdrop Farmer on the Arbitrum
-							Airdrop? Typically, each recipient from Arbitrum received an
-							average of $2,342.
+							Airdrop? Typically, each recipient of Arbitrum received an average
+							of $2,342.
 							<sup className="text-xs relative -top-3">
 								<a
 									href="https://www.forbes.com/sites/leeorshimron/2023/03/30/arbitrums-token-airdrop-sends-network-adoption-soaring/"

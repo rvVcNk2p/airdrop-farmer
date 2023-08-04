@@ -9,7 +9,7 @@ const Faq = () => {
 	const faqs = [
 		{
 			id: uuidv4(),
-			title: 'Do you keep private keys?',
+			title: 'Do you keep my private keys?',
 			content:
 				'No. Introducing our unique farming option that ensures utmost security for your private keys. Unlike other platforms, we never store your private keys. Instead, they remain securely within your browser, making them completely safe and inaccessible to us. Your transactions are seamlessly signed on your device in the background. <br/> <br/> At our core, we value honesty and integrity. Our commitment to you, our users, and our reputation is unwavering. We pledge to never engage in fraudulent or unethical activities that could jeopardize your trust in us. Our focus is on building exceptional products that bring long-term benefits to all, fostering a true win-win environment. Playing win win game.',
 		},

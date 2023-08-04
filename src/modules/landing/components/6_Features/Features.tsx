@@ -98,7 +98,7 @@ const Features = () => {
 											</i>
 											2+ bridges including Stargate and Woofi.
 										</li>
-										<li className="flex items-center gap-[12px] lg:text-lg">
+										{/* <li className="flex items-center gap-[12px] lg:text-lg">
 											<i className="text-[24px] items-start text-main-color">
 												<svg
 													xmlns="http://www.w3.org/2000/svg"
@@ -117,7 +117,7 @@ const Features = () => {
 											</i>
 											Protection against Sybil attacks by utilizing a generative
 											randomness algorithm.
-										</li>
+										</li> */}
 										<li className="flex items-center gap-[12px] lg:text-lg">
 											<i className="text-[24px] items-start text-main-color">
 												<svg
