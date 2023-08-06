@@ -31,7 +31,7 @@ const ChooseYour = () => {
 							</p>
 							<span className="flex gap-[8px] mb-8 text-main-airdrop relative z-50">
 								<strong className="text-white text-[48px] opacity-80 font-semibold">
-									Ξ0.1
+									Ξ0.075
 								</strong>{' '}
 								ETH / month
 							</span>
@@ -140,7 +140,7 @@ const ChooseYour = () => {
 							<div className=" relative z-50 md:whitespace-nowrap">
 								<span className="text-white">25 spots left.</span>
 								<span className="text-main-airdrop ml-2">
-									0/25 claimed. Next price: Ξ0.2 ETH
+									0/25 claimed. Next price: Ξ0.15 ETH
 								</span>
 							</div>
 							<button

@@ -30,9 +30,14 @@ const GotYouCovered = () => {
 									<p className="text-8xl font-bold text-transparent bg-clip-text fancyText mb-6 leading-none -mt-8">
 										∞
 									</p>
-									<p className="text-3xl font-medium text-white mb-8">
-										1-Click Auto Refill
-									</p>
+									<div className="mb-8">
+										<p className="text-3xl font-medium text-white">
+											1-Click Auto Refill
+										</p>
+										<p className="text-main-airdrop text-sm">
+											(this feature is in progress)
+										</p>
+									</div>
 									<p className="text-lg text-main-airdrop">
 										Sit back and relax - we&apos;ve got it all covered! Just top
 										up your wallet once, and we&apos;ll take care of
@@ -76,7 +81,7 @@ const GotYouCovered = () => {
 						<div className="relative flex flex-col md:flex-row items-center rounded-xl px-10 md:px-32 py-12 liniGradient gap-10 md:gap-20">
 							<div className="overflow-hidden drop-shadow-[0_20px_30px_rgba(0,0,0,0.4)] w-full md:w-3/5">
 								<Image
-									src="/images/gyc_c_private-keys.png"
+									src="/images/gyc_c_add-your-private-keys.png"
 									width={1000}
 									height={1000}
 									alt="Private Keys Stay Private"

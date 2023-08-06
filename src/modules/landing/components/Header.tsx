@@ -8,13 +8,13 @@ const Header = () => {
 			<header className="relative flex justify-between items-center w-full max-w-6xl h-14 mx-auto py-0">
 				<div className="h-auto relative mr-4">
 					<div className="relative">
-						{/* <Image
-							src="/images/logo.png"
+						<Image
+							src="/logo.svg"
 							alt="Airdrop Hunter logo"
-							width={100}
-							height={100}
-							className="min-w-[100px] w-[100px] cursor-pointer"
-						/> */}
+							width={200}
+							height={200}
+							className="cursor-pointer"
+						/>
 					</div>
 				</div>
 				<div className="flex items-center whitespace-nowrap">

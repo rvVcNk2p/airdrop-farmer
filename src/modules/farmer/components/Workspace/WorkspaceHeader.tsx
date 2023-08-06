@@ -77,7 +77,7 @@ export const WorkspaceHeader = ({
 							<span
 								className={`${statusColor(
 									workspaceStatus,
-								)} rounded-full h-4 w-4 block`}
+								)} rounded-full h-3 w-3 block`}
 							/>
 						</div>
 						<Button

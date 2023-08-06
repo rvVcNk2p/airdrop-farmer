@@ -9,23 +9,23 @@ const HowItWorks = () => {
 
 	const steps = [
 		{
-			title: 'Add Group and Strategy',
-			img: '1_create-airdrop.png',
+			title: 'Select a Strategy',
+			img: '1_a_create-strategy.png',
 			icon: () => <Gear />,
 		},
 		{
-			title: 'Add funds to your wallet',
-			img: '2_dashboard.png',
-			icon: () => <Wallet />,
-		},
-		{
 			title: 'Add Private Keys',
-			img: '3_private-keys.png',
+			img: '2_edit-and-add-group.png',
 			icon: () => <Key />,
 		},
 		{
+			title: 'Add funds to your wallet',
+			img: '3_top-up-wallet.png',
+			icon: () => <Wallet />,
+		},
+		{
 			title: 'Run the Farmer',
-			img: '4_logs.png',
+			img: '4_in-action-logs.png',
 			icon: () => <Play />,
 		},
 	]

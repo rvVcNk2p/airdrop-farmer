@@ -187,6 +187,7 @@ export const EditGroupModal = ({ selectedGroup, close }: EditGroupModal) => {
 								<Label>Add private key:</Label>
 								<div className="flex gap-4">
 									<Input
+										type="password"
 										name="wallet"
 										value={newWallet}
 										disabled={groupDetails.wallets.length >= 1}

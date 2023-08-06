@@ -67,7 +67,7 @@ export const GroupSection = () => {
 												<span
 													className={`${statusColor(
 														getWorkspaceByUid(group.uid),
-													)} rounded-full h-4 w-4 block`}
+													)} rounded-full h-3 w-3 block`}
 												/>
 											</div>
 											{group.wallets.map((wallet) => (

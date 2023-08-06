@@ -1,6 +1,7 @@
 'use client'
 
 import { Footer } from '@/modules/landing/components'
+import Header from '@modules/landing/components/Header'
 import { configureChains, createConfig } from 'wagmi'
 import { WagmiConfig } from 'wagmi'
 import {
@@ -34,8 +35,9 @@ export default function RootLayout({
 }) {
 	return (
 		<>
+			<Header />
 			<WagmiConfig config={config}>
-				<main className="bg-[#13121d]">{children}</main>
+				<main className="bg-[#13121d] pt-8">{children}</main>
 			</WagmiConfig>
 			<Footer />
 		</>
