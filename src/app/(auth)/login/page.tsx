@@ -1,6 +1,7 @@
 'use client'
 
 import { useIsMounted } from '@modules/shared/hooks'
+import { CircleNotch } from '@phosphor-icons/react'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import moment from 'moment'
 import { useRouter } from 'next/navigation'
@@ -72,7 +73,7 @@ const LoginPage = () => {
 										autoComplete="off"
 										required
 										placeholder="you@example.com"
-										className="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
+										className="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-valid sm:text-sm sm:leading-6"
 									/>
 								</div>
 							</div>
@@ -105,7 +106,7 @@ const LoginPage = () => {
 										autoComplete="off"
 										placeholder="••••••••"
 										required
-										className="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
+										className="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-valid sm:text-sm sm:leading-6"
 									/>
 								</div>
 							</div>
@@ -115,9 +116,12 @@ const LoginPage = () => {
 									disabled={loading}
 									onClick={handleSignIn}
 									type="submit"
-									className="flex w-full justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+									className="flex w-full justify-center rounded-md bg-valid px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-valid"
 								>
-									Sign in
+									{loading && (
+										<CircleNotch className="animate-spin ml-2 h-6 w-6" />
+									)}
+									{!loading && 'Sign in'}
 								</button>
 							</div>
 						</form>

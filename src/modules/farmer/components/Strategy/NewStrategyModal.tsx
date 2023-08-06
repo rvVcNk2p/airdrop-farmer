@@ -109,8 +109,8 @@ export const NewStrategyModal = ({ children }: NewStrategyModalProps) => {
 		defaultValues: {
 			firstStepFileds: {
 				name: '',
-				txsNumberPerWallet: 0,
-				maxGasPerTxs: 0,
+				txsNumberPerWallet: undefined,
+				maxGasPerTxs: undefined,
 				airdropType: AirdropTypes.LAYER_ZERO,
 				signTransactionType: SignTransactionType.PRIVATE_KEY,
 				bridges: ['STARGATE'],

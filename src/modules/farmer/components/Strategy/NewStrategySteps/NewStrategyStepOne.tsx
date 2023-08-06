@@ -74,7 +74,8 @@ export const NewStrategyStepOne = ({ form }: NewStrategyStepOneProps) => {
 							>
 								{({ field, error }) => (
 									<Input
-										placeholder="zkSync Farming - 1"
+										placeholder="Start typing..."
+										autoComplete="off"
 										className={error && '!border-invalid'}
 										{...field}
 									/>
@@ -97,6 +98,9 @@ export const NewStrategyStepOne = ({ form }: NewStrategyStepOneProps) => {
 								{({ field, error }) => (
 									<Input
 										type="number"
+										placeholder="0"
+										autoComplete="off"
+										min={0}
 										className={error && '!border-invalid'}
 										{...field}
 									/>
@@ -127,6 +131,9 @@ export const NewStrategyStepOne = ({ form }: NewStrategyStepOneProps) => {
 								{({ field, error }) => (
 									<Input
 										type="number"
+										min={0}
+										placeholder="0"
+										autoComplete="off"
 										className={error && '!border-invalid'}
 										{...field}
 									/>

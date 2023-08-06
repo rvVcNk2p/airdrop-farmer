@@ -190,6 +190,7 @@ export const EditGroupModal = ({ selectedGroup, close }: EditGroupModal) => {
 										type="password"
 										name="wallet"
 										value={newWallet}
+										autoComplete="off"
 										disabled={groupDetails.wallets.length >= 1}
 										onChange={(e) => setNewWallet(e.currentTarget.value)}
 									/>

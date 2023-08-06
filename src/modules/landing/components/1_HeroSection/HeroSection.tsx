@@ -45,8 +45,8 @@ const HeroSection = () => {
 							<div className="absolute h-px bg-gradient-to-r from-sky-300/0 via-[rgb(118,203,159,0.6)] to-sky-300/0 -top-px left-20 right-11"></div>
 							<iframe
 								className="max-w-[1120px] w-screen h-auto px-4 aspect-video"
-								src="https://www.youtube.com/embed/p6YxJGk8HVM"
-								title="Copilot Airdrop Farming Bot"
+								src="https://www.youtube.com/embed/O0Ho8dj3ApE"
+								title="Airdrop Copilot - LayerZero Farming Bot"
 								allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
 							></iframe>
 							<div className="absolute h-px bg-gradient-to-r from-sky-300/0 via-[rgb(118,203,159,0.6)] to-sky-300/0 -bottom-px left-11 right-20"></div>

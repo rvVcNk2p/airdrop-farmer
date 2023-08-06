@@ -88,6 +88,7 @@ export const AddNewGroupModal = ({ children }: AddNewAddressModalProps) => {
 							<Input
 								name="name"
 								placeholder="Start typing..."
+								autoComplete="off"
 								onChange={(e) => handleSetGroupDetails(e)}
 							/>
 						</div>
