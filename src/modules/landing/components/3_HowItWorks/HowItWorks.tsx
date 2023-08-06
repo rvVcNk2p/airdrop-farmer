@@ -10,7 +10,7 @@ const HowItWorks = () => {
 	const steps = [
 		{
 			title: 'Select a Strategy',
-			img: '1_a_create-strategy.png',
+			img: '1_create-strategy.png',
 			icon: () => <Gear />,
 		},
 		{
