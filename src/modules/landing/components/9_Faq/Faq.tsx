@@ -1,9 +1,6 @@
 import DefaultAccordion from '@modules/shared/components/atoms/DefaultAccordion'
+import { discordLink } from '@modules/shared/constants'
 import { v4 as uuidv4 } from 'uuid'
-
-// TODO: DISCORD URK
-
-const DISCORD_URL = 'https://discord.gg/'
 
 const Faq = () => {
 	const faqs = [
@@ -102,7 +99,7 @@ const Faq = () => {
 		{
 			id: uuidv4(),
 			title: 'Will you support other airdrops later?',
-			content: `Certainly! Should you wish to automate an airdrop not currently supported by us, please feel free to reach out to us on <a href="${DISCORD_URL}" target="_blank" rel="noreferrer" class="text-main-color cursor-pointer">Discord</a>. We're here to assist you.</p>`,
+			content: `Certainly! Should you wish to automate an airdrop not currently supported by us, please feel free to reach out to us on <a href="${discordLink}" target="_blank" rel="noreferrer" class="text-main-color cursor-pointer">Discord</a>. We're here to assist you.</p>`,
 		},
 		{
 			id: uuidv4(),

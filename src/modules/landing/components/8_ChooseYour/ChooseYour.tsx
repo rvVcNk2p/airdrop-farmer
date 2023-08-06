@@ -1,3 +1,5 @@
+import { discordLink } from '@modules/shared/constants'
+
 import './chooseYour.css'
 
 const ChooseYour = () => {
@@ -143,14 +145,18 @@ const ChooseYour = () => {
 									0/25 claimed. Next price: Ξ0.15 ETH
 								</span>
 							</div>
-							<button
-								aria-expanded="false"
-								aria-haspopup="dialog"
+							<a
+								href={`${discordLink}`}
 								className="flex items-center justify-center font-medium rounded-md whitespace-nowrap duration-200 focus:outline-none focus:shadow-outline bg-transparent border border-[#33323e] text-white hover:bg-[#211f2d] text-base py-[7px] px-2.5 relative z-50 h-[46px] !text-lg py-2 px-4 tracking-tight active:scale-95 Button_btn__oCnKT"
-								type="button"
 							>
-								Claim Your Spot
-							</button>
+								<button
+									aria-expanded="false"
+									aria-haspopup="dialog"
+									type="button"
+								>
+									Claim Your Spot
+								</button>
+							</a>
 						</div>
 						<div className="relative">
 							<div className="absolute inset-[-100px] top-[-5%] left-[0] right-[0] mx-auto z-[-1]">
@@ -313,14 +319,18 @@ const ChooseYour = () => {
 										0/25 claimed. Next price: Ξ0.6 ETH
 									</span>
 								</div>
-								<button
-									aria-expanded="false"
-									aria-haspopup="dialog"
-									className="flex items-center justify-center font-medium rounded-md whitespace-nowrap duration-200 focus:outline-none focus:shadow-outline bg-transparent border border-[#244835] text-[#a2ffcf] hover:bg-[#121f18] text-base py-[7px] px-2.5 relative z-50 h-[46px] w-full !text-lg py-2 px-4 tracking-tight active:scale-95 border border-[#33323e] cursor-pointer duration-200 hover:opacity-80 Button_btn__oCnKT"
-									type="button"
+								<a
+									href={`${discordLink}`}
+									className="flex items-center justify-center font-medium rounded-md whitespace-nowrap duration-200 focus:outline-none focus:shadow-outline bg-transparent border border-[#33323e] text-white hover:bg-[#211f2d] text-base py-[7px] px-2.5 relative z-50 h-[46px] !text-lg py-2 px-4 tracking-tight active:scale-95 Button_btn__oCnKT"
 								>
-									Claim Your Spot
-								</button>
+									<button
+										aria-expanded="false"
+										aria-haspopup="dialog"
+										type="button"
+									>
+										Claim Your Spot
+									</button>
+								</a>
 							</div>
 						</div>
 						{/* <div className="plan bg-[#181622] relative rounded-tl-xl l:rounded-tl-none rounded-bl-xl l:rounded-bl-none rounded-tr-xl rounded-br-xl">

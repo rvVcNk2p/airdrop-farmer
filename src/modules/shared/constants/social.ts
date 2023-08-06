@@ -1,5 +1,5 @@
-const twitterHandle = 'airdrop-hunter'
-const discordHandle = 'airdrop-hunter'
+const twitterHandle = 'airdrop-copilot'
+const discordHandle = '6sHEgp2H'
 
-export const twitterLink = `https://twitter.com/${twitterHandle}`
+export const twitterLink = '/' //`https://twitter.com/${twitterHandle}`
 export const discordLink = `https://discord.gg/${discordHandle}`
