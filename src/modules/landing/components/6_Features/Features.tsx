@@ -6,7 +6,7 @@ const Features = () => {
 	return (
 		<section
 			className="relative z-10 px-4 md:px-8 py-12 lg:py-28"
-			id="what-airdrop-farmer-can-do? "
+			id="what-airdrop-copilot-can-do"
 		>
 			<div className="max-w-8xl mx-auto">
 				<div className="flex flex-col items-center justify-center flex-wrap lg:gap-16 w-full ">
