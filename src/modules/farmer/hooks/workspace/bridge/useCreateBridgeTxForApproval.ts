@@ -58,7 +58,7 @@ const generateFeeMessage = ({
 }
 
 const calculateMinAmountLD = (amount: number) => {
-	return amount - amount * 0.002 // ≈ 0.2% lower than _amountLD
+	return amount - amount * 0.005 // ≈ 0.5% lower than _amountLD
 }
 
 export const useCreateBridgeTxForApproval = () => {
