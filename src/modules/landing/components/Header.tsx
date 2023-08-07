@@ -1,5 +1,9 @@
-import { discordLink, twitterLink } from '@/modules/shared/constants'
+'use client'
+
+import { discordLink } from '@/modules/shared/constants'
 import Image from 'next/image'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
 const Header = () => {
 	return (
@@ -26,14 +30,22 @@ const Header = () => {
 					>
 						Check LayerZero Rank
 					</a> */}
-					<a
+					{usePathname() === '/' ? (
+						<Link
+							href="/farmer"
+							className="text-main-airdrop hover:opacity-80 text-white mr-6"
+						>
+							Airdrop Farmer
+						</Link>
+					) : null}
+					<Link
 						href={discordLink}
 						target="_blank"
 						rel="noreferrer"
-						className="text-main-airdrop hover:opacity-80 text-white mr-2"
+						className="text-main-airdrop hover:opacity-80 text-white"
 					>
 						Join Discord
-					</a>
+					</Link>
 				</div>
 			</header>
 		</div>
