@@ -3,6 +3,7 @@ import { NewStrategyStepOne } from '@modules/farmer/components/Strategy/NewStrat
 import { NewStrategyStepThree } from '@modules/farmer/components/Strategy/NewStrategySteps/NewStrategyStepThree'
 import { useUserStrategies } from '@modules/farmer/stores'
 import { AirdropTypes, SignTransactionType } from '@modules/farmer/types'
+import type { UserStrategyType } from '@modules/farmer/types'
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -15,11 +16,12 @@ import {
 import { Button } from '@modules/shared/components/ui/button'
 import { toast } from '@modules/shared/hooks/useToast'
 import { Plus } from '@phosphor-icons/react'
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { set, useForm } from 'react-hook-form'
 import * as z from 'zod'
 
 interface NewStrategyModalProps {
+	selectedStrategy?: UserStrategyType | undefined
 	children: React.ReactNode
 }
 
@@ -86,23 +88,25 @@ const formSchema = z.object({
 		bridges: z.array(z.string()).refine((value) => value.some((item) => item), {
 			message: 'You have to select at least one item.',
 		}),
-		networks: z
-			.array(z.string())
-			.refine((value) => value.some((item) => item), {
-				message: 'You have to select at least one item.',
-			}),
+		networks: z.array(z.string()).refine((value) => value.length > 1, {
+			message: 'You have to select at least two item.',
+		}),
 		// randomActions: z.boolean(),
 		// farmingTestnets: z.boolean(),
 	}),
 })
 
-export const NewStrategyModal = ({ children }: NewStrategyModalProps) => {
+export const NewStrategyModal = ({
+	children,
+	selectedStrategy,
+}: NewStrategyModalProps) => {
 	const [activeStep, setActiveStep] = useState(1)
 	const [isOpen, setIsOpen] = useState(false)
 
 	const createNewStrategy = useUserStrategies(
 		(state) => state.createNewStrategy,
 	)
+	const updateStrategy = useUserStrategies((state) => state.updateStrategy)
 
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
@@ -115,11 +119,28 @@ export const NewStrategyModal = ({ children }: NewStrategyModalProps) => {
 				signTransactionType: SignTransactionType.PRIVATE_KEY,
 				bridges: ['STARGATE'],
 				networks: [],
-				// randomActions: false,
-				// farmingTestnets: false,
 			},
 		},
 	})
+
+	const { setValue } = form
+
+	useEffect(() => {
+		if (selectedStrategy) {
+			const { txsNumberPerWallet, maxGasPerTxs, bridges, networks } =
+				selectedStrategy.mainnet
+			setValue('firstStepFileds.name', selectedStrategy.name)
+			setValue('firstStepFileds.txsNumberPerWallet', txsNumberPerWallet)
+			setValue('firstStepFileds.maxGasPerTxs', maxGasPerTxs)
+			setValue('firstStepFileds.airdropType', selectedStrategy.airdropType)
+			setValue(
+				'firstStepFileds.signTransactionType',
+				selectedStrategy.signTransactionType,
+			)
+			setValue('firstStepFileds.bridges', bridges)
+			setValue('firstStepFileds.networks', networks)
+		}
+	}, [isOpen, selectedStrategy, setValue])
 
 	const onSubmit = (values: z.infer<typeof formSchema>) => {
 		// ✅ This will be type-safe and validated.
@@ -138,21 +159,40 @@ export const NewStrategyModal = ({ children }: NewStrategyModalProps) => {
 			bridges,
 		} = firstStepFileds
 
-		createNewStrategy({
-			name,
-			airdropType,
-			mainnet: { txsNumberPerWallet, maxGasPerTxs, networks, bridges },
-			testnet: null,
-			randomActions: false,
-			farmingTestnet: false,
-			signTransactionType,
-		})
+		if (selectedStrategy) {
+			updateStrategy({
+				uid: selectedStrategy.uid,
+				name,
+				airdropType,
+				mainnet: { txsNumberPerWallet, maxGasPerTxs, networks, bridges },
+				testnet: null,
+				randomActions: false,
+				farmingTestnet: false,
+				signTransactionType,
+			})
 
-		toast({
-			title: '✅ New strategy created!',
-			description: name,
-			duration: 5000,
-		})
+			toast({
+				title: '✅ Strategy updated!',
+				description: name,
+				duration: 5000,
+			})
+		} else {
+			createNewStrategy({
+				name,
+				airdropType,
+				mainnet: { txsNumberPerWallet, maxGasPerTxs, networks, bridges },
+				testnet: null,
+				randomActions: false,
+				farmingTestnet: false,
+				signTransactionType,
+			})
+
+			toast({
+				title: '✅ New strategy created!',
+				description: name,
+				duration: 5000,
+			})
+		}
 
 		closeModal()
 	}
@@ -194,7 +234,7 @@ export const NewStrategyModal = ({ children }: NewStrategyModalProps) => {
 									onClick={handleAddNewStrategy}
 								>
 									<Plus className="mr-2" />
-									Add new strategy
+									{selectedStrategy ? 'Update strategy' : 'Add new strategy'}
 								</Button>
 							</Stepper>
 						</>
