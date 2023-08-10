@@ -33,9 +33,10 @@ const ChooseYour = () => {
 							</p>
 							<span className="flex gap-[8px] mb-8 text-main-airdrop relative z-50">
 								<strong className="text-white text-[48px] opacity-80 font-semibold">
-									Ξ0.075
+									{/* Ξ0.075 */}
+									$100
 								</strong>{' '}
-								ETH / month
+								/ month
 							</span>
 							<hr />
 							<div className="text-left mt-4 text-main-airdrop relative z-50">
@@ -142,7 +143,8 @@ const ChooseYour = () => {
 							<div className=" relative z-50 md:whitespace-nowrap">
 								<span className="text-white">25 spots left.</span>
 								<span className="text-main-airdrop ml-2">
-									0/25 claimed. Next price: Ξ0.15 ETH
+									0/25 claimed. Next price: $200
+									{/* Ξ0.15 ETH */}
 								</span>
 							</div>
 							<a
@@ -179,9 +181,10 @@ const ChooseYour = () => {
 								</p>
 								<span className="flex gap-[8px] mb-8 text-main-airdrop relative z-50">
 									<strong className="text-white text-[48px] font-semibold">
-										Ξ0.3
+										{/* Ξ0.3 */}
+										$300
 									</strong>{' '}
-									ETH / one time
+									/ one time
 								</span>
 								<hr />
 								<div className="text-left mt-4 text-main-airdrop relative z-50">
@@ -316,7 +319,8 @@ const ChooseYour = () => {
 								<div className=" relative z-50 md:whitespace-nowrap">
 									<span className="text-white">25 spots left.</span>
 									<span className="text-main-airdrop ml-2">
-										0/25 claimed. Next price: Ξ0.6 ETH
+										0/25 claimed. Next price: $600
+										{/* Ξ0.6 ETH */}
 									</span>
 								</div>
 								<a
