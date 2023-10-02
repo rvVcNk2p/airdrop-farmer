@@ -1,7 +1,6 @@
 'use server'
 
 import { discordLink } from '@/modules/shared/constants'
-import { useUser } from '@modules/shared/hooks'
 import Image from 'next/image'
 import Link from 'next/link'
 
