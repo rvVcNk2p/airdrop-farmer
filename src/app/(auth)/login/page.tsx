@@ -1,5 +1,6 @@
 'use client'
 
+import LoadingSpinner from '@modules/shared/components/atoms/LoadingSpinner/LoadingSpinner'
 import { useIsMounted } from '@modules/shared/hooks'
 import { CircleNotch } from '@phosphor-icons/react'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
@@ -12,15 +13,17 @@ const LoginPage = () => {
 	const [password, setPassword] = useState('')
 	const router = useRouter()
 	const supabase = createClientComponentClient()
-	const [loading, isLoading] = useState(false)
+	const [isLoading, setIsLoading] = useState(false)
+
+	const [isError, setIsError] = useState(false)
 
 	const handleSignIn = async () => {
-		isLoading(true)
+		setIsError(false)
+		setIsLoading(true)
 		const result = await supabase.auth.signInWithPassword({
 			email,
 			password,
 		})
-		isLoading(false)
 
 		if (result.error === null) {
 			// TODO: https://supabase.com/docs/reference/javascript/select
@@ -33,8 +36,10 @@ const LoginPage = () => {
 			// const { error } = await supabase
 			// 	.from('subscription')
 			// 	.insert(newSubscription)
-
 			router.push('/farmer')
+		} else {
+			setIsLoading(false)
+			setIsError(true)
 		}
 	}
 
@@ -108,16 +113,23 @@ const LoginPage = () => {
 
 							<div className="flex flex-col gap-2">
 								<button
-									disabled={loading}
+									disabled={isLoading}
 									onClick={handleSignIn}
 									type="submit"
 									className="flex w-full justify-center rounded-md bg-valid px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-valid"
 								>
-									{loading && (
+									{isLoading && (
 										<CircleNotch className="animate-spin ml-2 h-6 w-6" />
 									)}
-									{!loading && 'Sign in'}
+									{!isLoading && 'Sign in'}
 								</button>
+								<div>
+									{isError && (
+										<p className="text-red-500 text-sm">
+											Invalid email or password.
+										</p>
+									)}
+								</div>
 							</div>
 						</form>
 
@@ -133,7 +145,9 @@ const LoginPage = () => {
 					</div>
 				</div>
 			) : (
-				<div className="text-center w-full">Loading...</div>
+				<div className="text-center w-full">
+					<LoadingSpinner />
+				</div>
 			)}
 		</>
 	)

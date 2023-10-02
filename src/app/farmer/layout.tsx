@@ -1,7 +1,6 @@
 'use server'
 
-import Footer from '@modules/landing/components/Footer'
-import Header from '@modules/landing/components/Header'
+import { Footer, Header } from '@modules/landing/components'
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'

@@ -1,5 +1,4 @@
-import Footer from '@modules/landing/components/Footer'
-import Header from '@modules/landing/components/Header'
+import { Footer, Header } from '@modules/landing/components'
 
 import '../globals.css'
 

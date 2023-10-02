@@ -1,7 +1,6 @@
 'use client'
 
-import { Footer } from '@/modules/landing/components'
-import Header from '@modules/landing/components/Header'
+import { Footer, Header } from '@/modules/landing/components'
 import { configureChains, createConfig } from 'wagmi'
 import { WagmiConfig } from 'wagmi'
 import {

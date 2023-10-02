@@ -4,6 +4,7 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
 export async function GET(request: NextRequest) {
+	// https://supabase.com/docs/guides/auth/auth-helpers/nextjs?language=ts#managing-sign-in-with-code-exchange
 	const requestUrl = new URL(request.url)
 	const code = requestUrl.searchParams.get('code')
 
@@ -12,6 +13,5 @@ export async function GET(request: NextRequest) {
 		await supabase.auth.exchangeCodeForSession(code)
 	}
 
-	// URL to redirect to after sign in process completes
 	return NextResponse.redirect(requestUrl.origin)
 }
