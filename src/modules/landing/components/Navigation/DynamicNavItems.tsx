@@ -1,21 +1,22 @@
 'use client'
 
+import type { Database } from '@/supabase.types'
 import Settings from '@modules/shared/components/atoms/Settings'
 import { useSession } from '@modules/shared/hooks'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useRouter } from 'next/navigation'
 import { useMemo } from 'react'
 
 const DynamicNavItems = () => {
+	const supabase = createClientComponentClient<Database>()
 	const router = useRouter()
 	const pathName = usePathname()
 	const { userSession } = useSession()
 
 	const handleSignOut = async () => {
-		await fetch('/auth/signout', {
-			method: 'POST',
-		})
+		await supabase.auth.signOut()
 		router.refresh()
 	}
 

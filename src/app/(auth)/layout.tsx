@@ -1,6 +1,6 @@
 import { Footer, Header } from '@modules/landing/components'
 
-import '../../globals.css'
+import '../globals.css'
 
 export default function RootLayout({
 	children,

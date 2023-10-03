@@ -1,14 +1,13 @@
 'use client'
 
+import type { Database } from '@/supabase.types'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { capitalize } from '@utils/string'
 import { useEffect, useState } from 'react'
 
-// import type { Plan } from '@supabase/supabase-js'
-
 export const useGetPlan = () => {
-	const supabase = createClientComponentClient()
-	const [plan, setPlan] = useState<any>()
+	const supabase = createClientComponentClient<Database>()
+	const [plans, setPlan] = useState<Plan[] | null>()
 
 	const fetchPlanByLoggedInUser = async () => {
 		try {
@@ -40,8 +39,9 @@ export const useGetPlan = () => {
 		}
 	}, [])
 
-	const tier = (plan && plan.length > 0 && capitalize(plan[0].tier)) ?? 'Free'
-	const quota = (plan && plan.length > 0 && plan[0].quota) ?? 10
+	const tier =
+		(plans && plans.length > 0 && capitalize(plans[0].tier)) ?? 'Free'
+	const quota = (plans && plans.length > 0 && plans[0].quota) ?? 10
 
 	return { tier, quota }
 }

@@ -1,10 +1,11 @@
 'use client'
 
+import type { Database } from '@/supabase.types'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import type { Session } from '@supabase/supabase-js'
 import { useEffect, useState } from 'react'
 
-const supabase = createClientComponentClient()
+const supabase = createClientComponentClient<Database>()
 
 export function useSession() {
 	const [isLoading, setIsLoading] = useState(true)

@@ -1,18 +1,20 @@
 'use client'
 
+import type { Database } from '@/supabase.types'
 import LoadingSpinner from '@modules/shared/components/atoms/LoadingSpinner/LoadingSpinner'
 import { useIsMounted } from '@modules/shared/hooks'
 import { CircleNotch } from '@phosphor-icons/react'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import moment from 'moment'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
-const LoginPage = () => {
+const SinginPage = () => {
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 	const router = useRouter()
-	const supabase = createClientComponentClient()
+	const supabase = createClientComponentClient<Database>()
 	const [isLoading, setIsLoading] = useState(false)
 
 	const [isError, setIsError] = useState(false)
@@ -20,22 +22,12 @@ const LoginPage = () => {
 	const handleSignIn = async () => {
 		setIsError(false)
 		setIsLoading(true)
-		const result = await supabase.auth.signInWithPassword({
+		const { error } = await supabase.auth.signInWithPassword({
 			email,
 			password,
 		})
 
-		if (result.error === null) {
-			// TODO: https://supabase.com/docs/reference/javascript/select
-			// const newSubscription = {
-			// 	id: uuidv4(),
-			// 	valid_until: moment(new Date()).add(1, 'M'),
-			// 	user_id: result.data.user?.id,
-			// }
-
-			// const { error } = await supabase
-			// 	.from('subscription')
-			// 	.insert(newSubscription)
+		if (error === null) {
 			router.push('/farmer')
 		} else {
 			setIsLoading(false)
@@ -133,15 +125,15 @@ const LoginPage = () => {
 							</div>
 						</form>
 
-						{/* <p className="mt-10 text-center text-sm text-gray-400">
+						<p className="mt-10 text-center text-sm text-gray-400">
 							Not a member?{' '}
-							<a
-								href="#"
-								className="font-semibold leading-6 text-indigo-400 hover:text-indigo-300"
+							<Link
+								href="/signup"
+								className="font-semibold leading-6 text-valid hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-valid"
 							>
-								Start a 14 day free trial
-							</a>
-						</p> */}
+								Start a free acocunt today
+							</Link>
+						</p>
 					</div>
 				</div>
 			) : (
@@ -153,4 +145,4 @@ const LoginPage = () => {
 	)
 }
 
-export default LoginPage
+export default SinginPage

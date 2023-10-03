@@ -6,7 +6,10 @@
 		"dev": "next dev",
 		"build": "next build",
 		"start": "next start",
-		"lint": "next lint"
+		"lint": "next lint",
+		"login-supabase": "npx supabase login",
+		"update-types": "npx supabase gen types  typescript --project-id unxcwktkdkhmtlbaazbr > ./src/supabase.types.ts"
+
 	},
 	"dependencies": {
 		"@hookform/resolvers": "^3.1.1",
