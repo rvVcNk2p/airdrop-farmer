@@ -20,10 +20,11 @@ const SinginPage = () => {
 	const handleSignIn = async () => {
 		setIsError(false)
 		setIsLoading(true)
-		const { error } = await supabase.auth.signInWithPassword({
+		const { data, error } = await supabase.auth.signInWithPassword({
 			email,
 			password,
 		})
+
 
 		if (error === null) {
 			router.push('/farmer')
