@@ -1,5 +1,6 @@
 'use client'
 
+import Settings from '@modules/shared/components/atoms/Settings'
 import { useSession } from '@modules/shared/hooks'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -30,13 +31,16 @@ const DynamicNavItems = () => {
 	) : (
 		<>
 			{userEmail && (
-				<a
-					rel="noreferrer"
-					onClick={handleSignOut}
-					className="text-main-airdrop hover:opacity-80 text-white mr-6 cursor-pointer"
-				>
-					Logout
-				</a>
+				<>
+					<Settings />
+					<a
+						rel="noreferrer"
+						onClick={handleSignOut}
+						className="text-main-airdrop hover:opacity-80 text-white mr-6 cursor-pointer"
+					>
+						Logout
+					</a>
+				</>
 			)}
 		</>
 	)
