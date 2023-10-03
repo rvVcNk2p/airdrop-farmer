@@ -30,6 +30,7 @@ export const WorkspacePage = () => {
 
 	useEffect(() => {
 		const initialize = async () => {
+			// @ts-ignore
 			const group = await getGroupByUid(params.groupUid)
 			setGroup(group)
 
