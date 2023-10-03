@@ -3,7 +3,7 @@
 import { FarmerPage } from '@modules/farmer/components/FarmerPage'
 import { useEffect } from 'react'
 
-export default function Home() {
+const Home = () => {
 	const onUnload = (e: BeforeUnloadEvent) => {
 		e.preventDefault()
 		return (e.returnValue = '')
@@ -19,3 +19,5 @@ export default function Home() {
 
 	return <FarmerPage />
 }
+
+export default Home

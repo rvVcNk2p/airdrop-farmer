@@ -16,7 +16,7 @@ const DynamicNavItems = () => {
 
 	const handleSignOut = async () => {
 		await supabase.auth.signOut()
-		router.refresh()
+		router.push('/signin')
 	}
 
 	const userEmail = useMemo(() => userSession?.user.email || '', [userSession])

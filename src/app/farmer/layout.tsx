@@ -1,8 +1,7 @@
 'use server'
 
 import { Footer, Header } from '@modules/landing/components'
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
-import { cookies } from 'next/headers'
+import { createServerClient } from '@modules/supabase/server-utils'
 import { redirect } from 'next/navigation'
 
 import '../globals.css'
@@ -12,7 +11,7 @@ export default async function RootLayout({
 }: {
 	children: React.ReactNode
 }) {
-	const supabase = createServerComponentClient({ cookies })
+	const supabase = createServerClient()
 
 	const {
 		data: { user },
