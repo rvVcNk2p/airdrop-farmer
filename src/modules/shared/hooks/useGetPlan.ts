@@ -1,6 +1,5 @@
 'use client'
 
-import type { Database } from '@/supabase.types'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { capitalize } from '@utils/string'
 import { useEffect, useState } from 'react'
@@ -11,7 +10,7 @@ export const useGetPlan = () => {
 
 	const fetchPlanByLoggedInUser = async () => {
 		try {
-			const { data } = await supabase.from('plan').select()
+			const { data } = await supabase.from('plans').select()
 			setPlan(data)
 		} catch (error) {
 			console.error('Error fetching session:', error)
@@ -28,14 +27,14 @@ export const useGetPlan = () => {
 				{
 					event: 'UPDATE',
 					schema: 'public',
-					table: 'plan',
+					table: 'plans',
 				},
 				() => fetchPlanByLoggedInUser(),
 			)
 			.subscribe()
 
 		return () => {
-			channel.unsubscribe()
+			// channel.unsubscribe()
 		}
 	}, [])
 

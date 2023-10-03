@@ -1,6 +1,5 @@
 'use client'
 
-import type { Database } from '@/supabase.types'
 import LoadingSpinner from '@modules/shared/components/atoms/LoadingSpinner/LoadingSpinner'
 import { useIsMounted } from '@modules/shared/hooks'
 import { CircleNotch } from '@phosphor-icons/react'
@@ -9,16 +8,16 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 const SignupPage = () => {
+	const supabase = createClientComponentClient<Database>()
+	const router = useRouter()
+
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
-	const router = useRouter()
-	const supabase = createClientComponentClient<Database>()
-	const [isLoading, setIsLoading] = useState(false)
-
-	const [isError, setIsError] = useState(false)
+	const [isLoading, setIsLoading] = useState<boolean>(false)
+	const [error, setError] = useState<string | null>(null)
 
 	const handleSignUp = async () => {
-		setIsError(false)
+		setError(null)
 		setIsLoading(true)
 
 		const { data, error } = await supabase.auth.signUp({
@@ -26,23 +25,12 @@ const SignupPage = () => {
 			password,
 		})
 
-		console.log(data, error)
-
 		if (error === null) {
-			// TODO: https://supabase.com/docs/reference/javascript/select
-			// const newSubscription = {
-			// 	id: uuidv4(),
-			// 	valid_until: moment(new Date()).add(1, 'M'),
-			// 	user_id: result.data.user?.id,
-			// }
-
-			// const { error } = await supabase
-			// 	.from('subscription')
-			// 	.insert(newSubscription)
+			await supabase.from('plans').insert({ user_id: data.user?.id })
 			router.push('/farmer')
 		} else {
 			setIsLoading(false)
-			setIsError(true)
+			setError(error?.message)
 		}
 	}
 
@@ -119,11 +107,7 @@ const SignupPage = () => {
 									{!isLoading && 'Sign up'}
 								</button>
 								<div>
-									{isError && (
-										<p className="text-red-500 text-sm">
-											User already registered.
-										</p>
-									)}
+									{error && <p className="text-red-500 text-sm">{error}!</p>}
 								</div>
 							</div>
 						</form>

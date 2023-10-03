@@ -1,11 +1,9 @@
 'use client'
 
-import type { Database } from '@/supabase.types'
 import LoadingSpinner from '@modules/shared/components/atoms/LoadingSpinner/LoadingSpinner'
 import { useIsMounted } from '@modules/shared/hooks'
 import { CircleNotch } from '@phosphor-icons/react'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import moment from 'moment'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'

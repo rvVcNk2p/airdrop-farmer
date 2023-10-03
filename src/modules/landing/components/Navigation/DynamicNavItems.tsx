@@ -1,6 +1,5 @@
 'use client'
 
-import type { Database } from '@/supabase.types'
 import Settings from '@modules/shared/components/atoms/Settings'
 import { useSession } from '@modules/shared/hooks'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
@@ -22,7 +21,9 @@ const DynamicNavItems = () => {
 
 	const userEmail = useMemo(() => userSession?.user.email || '', [userSession])
 
-	return pathName === '/' ? (
+	const publicPaths = ['/signin', '/signup', '/']
+
+	return publicPaths.includes(pathName) ? (
 		<Link
 			href="/farmer"
 			className="text-main-airdrop hover:opacity-80 text-white mr-6"
