@@ -114,7 +114,7 @@ export const useChooseInitialToken = () => {
 
 		if (chainWithHighestBalanceToken === null) {
 			throw new Error(
-				'Please top up your USDT and/or USDT balances in the target networks.',
+				'Please top up your USDC and/or USDT balances in the target networks.',
 			)
 		}
 

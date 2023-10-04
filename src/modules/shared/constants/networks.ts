@@ -14,7 +14,7 @@ export const tokenAddresses: TokenAddresses = {
 		NATIVE_TOKEN: undefined,
 	},
 	[ChainIds.ARBITRUM]: {
-		USDC: '0xaf88d065e77c8cC2239327C5EDb3A432268e5831', // 6 decimals // USDC.e // ATTENTION
+		USDC: '0xff970a61a04b1ca14834a43f5de4533ebddb5cc8', // 6 decimals // USDC.e // ATTENTION
 		USDT: '0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9', // 6 decimals // USDT
 		NATIVE_TOKEN: undefined,
 	},

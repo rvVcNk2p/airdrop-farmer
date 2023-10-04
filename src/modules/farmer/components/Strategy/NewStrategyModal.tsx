@@ -16,8 +16,8 @@ import {
 import { Button } from '@modules/shared/components/ui/button'
 import { toast } from '@modules/shared/hooks/useToast'
 import { Plus } from '@phosphor-icons/react'
-import { useEffect, useMemo, useRef, useState } from 'react'
-import { set, useForm } from 'react-hook-form'
+import { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 
 interface NewStrategyModalProps {

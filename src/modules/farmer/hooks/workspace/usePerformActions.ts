@@ -1,8 +1,10 @@
+import { useUpdateDatabase } from '@/modules/shared/hooks/useUpdateDatabase'
 import { useActionHistory } from '@modules/farmer/stores'
 import { WorkspaceTransactionStatusType } from '@modules/farmer/stores/useActionHistory'
 import { ActionStatusType } from '@modules/farmer/types'
 
 export const usePerformActions = () => {
+	const { incrementUsedQuota } = useUpdateDatabase()
 	const updateAction = useActionHistory((state) => state.updateAction)
 	const updateWorkspaceTransactions = useActionHistory(
 		(state) => state.updateWorkspaceTransactions,
@@ -11,7 +13,7 @@ export const usePerformActions = () => {
 		(state) => state.updateWorkspaceAggregatedValue,
 	)
 
-	const executeNextAction = async (nextAction: any) => {
+	const executeNextAction = async (nextAction: any, usedQuota: number) => {
 		return new Promise(async (resolve, reject) => {
 			updateAction({
 				...nextAction,
@@ -30,6 +32,9 @@ export const usePerformActions = () => {
 					WorkspaceTransactionStatusType.FINISHED,
 				)
 				updateWorkspaceAggregatedValue(nextAction.groupUid, bridgedValue)
+
+				await incrementUsedQuota(usedQuota)
+
 				resolve('OK')
 			} catch (error) {
 				updateAction({

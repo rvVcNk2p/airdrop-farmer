@@ -3,6 +3,7 @@ import { useActionHistory } from '@modules/farmer/stores'
 import { WorkspaceStatusType } from '@modules/farmer/stores/useActionHistory'
 import { TxStatusType } from '@modules/farmer/types'
 import type { TxHistoryRecordType, UserGroupType } from '@modules/farmer/types'
+import { fetchPlanByLoggedInUser } from '@modules/shared/fetchers/planFetcher'
 import { v4 as uuidv4 } from 'uuid'
 import { privateKeyToAccount } from 'viem/accounts'
 
@@ -88,7 +89,14 @@ export const useActionsCoordinator = () => {
 			})
 
 			try {
-				await executeNextAction(nextAction)
+				const plans = await fetchPlanByLoggedInUser()
+				const quota = (plans && plans[0].quota) ?? 10
+				const usedQuota = (plans && plans[0].used_quota) ?? 0
+
+				if (usedQuota >= quota) {
+					throw new Error('Quota reached. Please upgrade your plan.')
+				}
+				await executeNextAction(nextAction, usedQuota)
 			} catch (error: any) {
 				console.error(error)
 				loggerFn({

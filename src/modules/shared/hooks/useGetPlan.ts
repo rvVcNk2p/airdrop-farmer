@@ -1,16 +1,16 @@
 'use client'
 
+import { fetchPlanByLoggedInUser } from '@modules/shared/fetchers/planFetcher'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import { capitalize } from '@utils/string'
 import { useEffect, useState } from 'react'
 
 export const useGetPlan = () => {
 	const supabase = createClientComponentClient<Database>()
 	const [plans, setPlan] = useState<Plan[] | null>()
 
-	const fetchPlanByLoggedInUser = async () => {
+	const fetchPlan = async () => {
 		try {
-			const { data } = await supabase.from('plans').select()
+			const data = await fetchPlanByLoggedInUser()
 			setPlan(data)
 		} catch (error) {
 			console.error('Error fetching session:', error)
@@ -18,7 +18,7 @@ export const useGetPlan = () => {
 	}
 
 	useEffect(() => {
-		fetchPlanByLoggedInUser()
+		fetchPlan()
 
 		const channel = supabase
 			.channel('Plan of the logged User')
@@ -29,18 +29,19 @@ export const useGetPlan = () => {
 					schema: 'public',
 					table: 'plans',
 				},
-				() => fetchPlanByLoggedInUser(),
+				() => fetchPlan(),
 			)
 			.subscribe()
 
 		return () => {
-			// channel.unsubscribe()
+			channel.unsubscribe()
 		}
 	}, [])
 
-	const tier =
-		(plans && plans.length > 0 && capitalize(plans[0].tier)) ?? 'Free'
-	const quota = (plans && plans.length > 0 && plans[0].quota) ?? 10
+	const tier = (plans && plans[0].tier) ?? 'Free'
+	const quota = (plans && plans[0].quota) ?? 10
+	const usedQuota = (plans && plans[0].used_quota) ?? 0
+	const bindedWallet = (plans && plans[0].wallet) ?? null
 
-	return { tier, quota }
+	return { tier, quota, usedQuota, bindedWallet, plans }
 }

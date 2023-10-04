@@ -16,7 +16,9 @@ export interface Database {
           quota: number
           tier: string | null
           updated_at: string
+          used_quota: number
           user_id: string | null
+          wallet: string | null
         }
         Insert: {
           created_at?: string
@@ -24,7 +26,9 @@ export interface Database {
           quota?: number
           tier?: string | null
           updated_at?: string
+          used_quota?: number
           user_id?: string | null
+          wallet?: string | null
         }
         Update: {
           created_at?: string
@@ -32,7 +36,9 @@ export interface Database {
           quota?: number
           tier?: string | null
           updated_at?: string
+          used_quota?: number
           user_id?: string | null
+          wallet?: string | null
         }
         Relationships: []
       }

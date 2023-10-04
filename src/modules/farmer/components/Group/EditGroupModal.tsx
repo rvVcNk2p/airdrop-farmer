@@ -1,5 +1,6 @@
 'use client'
 
+import { useGetPlan } from '@/modules/shared/hooks/useGetPlan'
 import { useUserGroups } from '@modules/farmer/stores'
 import { useUserStrategies } from '@modules/farmer/stores'
 import type { UserGroupType } from '@modules/farmer/types'
@@ -24,6 +25,7 @@ import {
 	SelectValue,
 } from '@modules/shared/components/ui/select'
 import { toast } from '@modules/shared/hooks/useToast'
+import { useUpdateDatabase } from '@modules/shared/hooks/useUpdateDatabase'
 import { DownloadSimple, Plus, Trash } from '@phosphor-icons/react'
 import { padWallet } from '@utils'
 import { useEffect, useState } from 'react'
@@ -100,6 +102,9 @@ export const EditGroupModal = ({ selectedGroup, close }: EditGroupModal) => {
 		})
 	}
 
+	const { updateBindedWallet } = useUpdateDatabase()
+	const { bindedWallet } = useGetPlan()
+
 	const handleUpdateGroup = () => {
 		updateGroup(groupDetails)
 		toast({
@@ -107,6 +112,27 @@ export const EditGroupModal = ({ selectedGroup, close }: EditGroupModal) => {
 			description: groupDetails.name,
 			duration: 5000,
 		})
+
+		const wallet =
+			groupDetails.wallets[0] &&
+			privateKeyToAccount(groupDetails.wallets[0]).address
+
+		if (bindedWallet === null && wallet) {
+			updateBindedWallet(wallet)
+			toast({
+				title: `✅ ${wallet} successfully binded to your account!`,
+				description:
+					'During the free plan, you can only use THIS wallet to farm. No other wallet will be accepted.',
+				duration: 10000,
+			})
+		} else if (wallet !== bindedWallet && wallet) {
+			toast({
+				title: `⚠️ You already have a binded a wallet.`,
+				description: `Please, use the following address: ${bindedWallet}. No other wallet will be accepted.`,
+				duration: 5000,
+			})
+		}
+
 		close()
 	}
 
