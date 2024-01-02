@@ -64,6 +64,7 @@ export const createWalletClientFactory = (
 		account,
 		chain: getChainConfiguration(chainId),
 		transport: webSocket(getAlchemyUrl(chainId)),
+		// @ts-ignore
 	}).extend(publicActions)
 
 	return client

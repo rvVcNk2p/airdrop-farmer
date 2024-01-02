@@ -71,7 +71,9 @@ export const useCreateBridgeTxForApproval = () => {
 	}: CreateTxForApprovalFnProps) => {
 		const { selected, network, chainId } = chainWithHighestBalanceToken
 
+		// @ts-ignore
 		const transactionCount = await client.getTransactionCount({
+			// @ts-ignore
 			address: client.account.address,
 			blockTag: 'pending',
 		})
@@ -93,6 +95,7 @@ export const useCreateBridgeTxForApproval = () => {
 
 		const _dstChainId =
 			layertZeroDestinationChains[ChainIds[destination.network]].chainId
+		// @ts-ignore
 		const _to: Address = client.account.address
 
 		const estimatedFees = await getEstimatedLayerOneFee({
@@ -160,6 +163,7 @@ export const useCreateBridgeTxForApproval = () => {
 				args._to,
 				args._payload,
 			],
+			// @ts-ignore
 			account: client.account,
 			value: estimatedFees.feeWei,
 		}

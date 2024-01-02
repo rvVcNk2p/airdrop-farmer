@@ -43,7 +43,9 @@ export const useCreateAllowanceTxForApproval = () => {
 
 		// TODO: Check if allowance is already set.
 
+		// @ts-ignore
 		const transactionCount = await client.getTransactionCount({
+			// @ts-ignore
 			address: client.account.address,
 			blockTag: 'pending',
 		})
@@ -81,6 +83,7 @@ export const useCreateAllowanceTxForApproval = () => {
 				stargateFinance[chainWithHighestBalanceToken.chainId],
 				parseUnits(selected.amount + '', decimal),
 			],
+			// @ts-ignore
 			account: client.account,
 		}
 
