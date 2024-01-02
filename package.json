@@ -7,7 +7,7 @@
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",
-		"test": "vitest",
+		"test": "vitest run",
 		"coverage": "vitest run --coverage",
 		"login-supabase": "npx supabase login",
 		"update-types": "npx supabase gen types  typescript --project-id unxcwktkdkhmtlbaazbr > ./src/supabase.types.ts"
