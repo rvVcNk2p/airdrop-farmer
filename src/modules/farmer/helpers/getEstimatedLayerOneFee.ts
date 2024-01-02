@@ -23,7 +23,6 @@ export const getEstimatedLayerOneFee = async ({
 	_to,
 }: GetEstimatedLayerOneFeeProps) => {
 	const address = privateKeyToAccount(wallet).address
-	// @ts-ignore
 	const nativeTokenInWei = await client.getBalance({
 		address,
 		// @ts-ignore
@@ -44,7 +43,6 @@ export const getEstimatedLayerOneFee = async ({
 			dstNativeAddr: '0x0000000000000000000000000000000000000001',
 		},
 	}
-	// @ts-ignore
 	const quoteData = await client.readContract({
 		address: stargateFinance[chainId],
 		abi: LAYER_ZERO_ABI.abi,

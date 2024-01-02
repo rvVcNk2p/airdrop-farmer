@@ -1,5 +1,11 @@
 import { ChainIds } from '@modules/shared/constants/chains'
-import { Address, createWalletClient, publicActions, webSocket } from 'viem'
+import {
+	Address,
+	Chain,
+	createWalletClient,
+	publicActions,
+	webSocket,
+} from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
 import {
 	arbitrum,
@@ -11,7 +17,7 @@ import {
 	polygon,
 } from 'viem/chains'
 
-const getChainConfiguration = (chainId: number) => {
+const getChainConfiguration = (chainId: number): Chain => {
 	switch (chainId) {
 		case ChainIds.ETHEREUM:
 			return mainnet
@@ -64,7 +70,6 @@ export const createWalletClientFactory = (
 		account,
 		chain: getChainConfiguration(chainId),
 		transport: webSocket(getAlchemyUrl(chainId)),
-		// @ts-ignore
 	}).extend(publicActions)
 
 	return client
