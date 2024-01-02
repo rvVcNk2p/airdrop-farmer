@@ -7,6 +7,8 @@
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",
+		"test": "vitest",
+		"coverage": "vitest run --coverage",
 		"login-supabase": "npx supabase login",
 		"update-types": "npx supabase gen types  typescript --project-id unxcwktkdkhmtlbaazbr > ./src/supabase.types.ts"
 	},
@@ -42,7 +44,7 @@
 		"html-react-parser": "^4.0.0",
 		"lucide-react": "^0.252.0",
 		"moment": "^2.29.4",
-		"next": "13.4.9",
+		"next": "^13.4.9",
 		"postcss": "8.4.24",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
@@ -61,9 +63,14 @@
 	},
 	"devDependencies": {
 		"@tanstack/eslint-plugin-query": "^4.29.9",
+		"@testing-library/react": "^14.1.2",
 		"@trivago/prettier-plugin-sort-imports": "^4.1.1",
 		"@types/uuid": "^9.0.2",
+		"@vitejs/plugin-react": "^4.2.1",
+		"@vitest/coverage-v8": "^1.1.1",
+		"jsdom": "^23.0.1",
 		"prettier": "^2.8.8",
-		"prettier-plugin-tailwindcss": "^0.3.0"
+		"prettier-plugin-tailwindcss": "^0.3.0",
+		"vitest": "^1.1.1"
 	}
 }
