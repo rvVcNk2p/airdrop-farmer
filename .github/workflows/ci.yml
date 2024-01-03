@@ -25,7 +25,6 @@ jobs:
 
   lint:
     name: Lint
-    if: github.event.pull_request.state == 'OPEN' && (github.event.pull_request.draft == false) && (github.event.action != 'edited' || github.event.changes.base.ref.from != null)
     runs-on: ubuntu-latest
     timeout-minutes: 20
 
@@ -51,7 +50,6 @@ jobs:
 
   format:
     name: Format
-    if: github.event.pull_request.state == 'OPEN' && (github.event.pull_request.draft == false) && (github.event.action != 'edited' || github.event.changes.base.ref.from != null)
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
