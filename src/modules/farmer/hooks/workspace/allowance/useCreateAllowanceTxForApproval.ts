@@ -43,6 +43,7 @@ export const useCreateAllowanceTxForApproval = () => {
 
 		// TODO: Check if allowance is already set.
 
+		// @ts-ignore
 		const transactionCount = await client.getTransactionCount({
 			address: client.account.address,
 			blockTag: 'pending',

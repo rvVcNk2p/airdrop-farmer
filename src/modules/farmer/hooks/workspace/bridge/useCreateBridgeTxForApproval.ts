@@ -93,6 +93,7 @@ export const useCreateBridgeTxForApproval = () => {
 
 		const _dstChainId =
 			layertZeroDestinationChains[ChainIds[destination.network]].chainId
+		// @ts-ignore
 		const _to: Address = client.account.address
 
 		const estimatedFees = await getEstimatedLayerOneFee({

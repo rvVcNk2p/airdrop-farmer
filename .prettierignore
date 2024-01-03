@@ -1,0 +1,7 @@
+.next
+.github
+.output
+.eslintrc.json
+components.json
+node_modules
+coverage

@@ -23,7 +23,6 @@ export const getEstimatedLayerOneFee = async ({
 	_to,
 }: GetEstimatedLayerOneFeeProps) => {
 	const address = privateKeyToAccount(wallet).address
-
 	const nativeTokenInWei = await client.getBalance({
 		address,
 		// @ts-ignore

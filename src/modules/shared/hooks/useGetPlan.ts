@@ -36,7 +36,7 @@ export const useGetPlan = () => {
 		return () => {
 			channel.unsubscribe()
 		}
-	}, [])
+	}, [supabase])
 
 	const tier = (plans && plans[0].tier) ?? 'Free'
 	const quota = (plans && plans[0].quota) ?? 10
