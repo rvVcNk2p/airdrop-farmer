@@ -1,3 +1,5 @@
+[![codecov](https://codecov.io/gh/rvVcNk2p/airdrop-farmer/graph/badge.svg?token=98YU9XALVU)](https://codecov.io/gh/rvVcNk2p/airdrop-farmer)
+
 # Airdrop Copilot
 
 Enhance Your Airdrop Farming Efficiency with Automated Processes. Simplify your airdrop acquisition strategy with a fully automated solution. By automating Metamask transactions, you not only streamline the process but also mitigate potential risks, ensuring a secure and efficient approach to maximizing your airdrop profits.
