@@ -7,14 +7,16 @@ export default defineConfig({
 		globals: true,
 		environment: 'jsdom',
 		setupFiles: ['./setupTests.ts'],
-		exclude: [
-			'**/node_modules/**',
-			'./src/modules/shared/utils/remToPx.ts',
-			'./src/modules/shared/utils/tailwind-merge.ts',
-		],
+		coverage: {
+			exclude: [
+				'src/modules/shared/utils/remToPx.ts',
+				'src/modules/shared/utils/index.ts',
+				'src/modules/shared/utils/tailwind-merge.ts',
+			],
+		},
 	},
 	coverage: {
 		provider: 'v8',
-		reporter: ['text', 'json'],
+		reporter: ['text', 'json', 'html'],
 	},
 })
