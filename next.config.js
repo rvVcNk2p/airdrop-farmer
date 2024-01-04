@@ -33,7 +33,7 @@ module.exports = withSentryConfig(
 		// Suppresses source map uploading logs during build
 		silent: true,
 		org: 'rvvcnk2p',
-		project: 'javascript-nextjs',
+		project: 'airdrop-copilot',
 	},
 	{
 		// For all available options, see:
