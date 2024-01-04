@@ -1,6 +1,8 @@
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vitest/config'
 
+import excludedCoveragePathAliases from './excludedPathsAliases.ts'
+
 export default defineConfig({
 	plugins: [react()],
 	test: {
@@ -8,11 +10,7 @@ export default defineConfig({
 		environment: 'jsdom',
 		setupFiles: ['./setupTests.ts'],
 		coverage: {
-			exclude: [
-				'src/modules/shared/utils/remToPx.ts',
-				'src/modules/shared/utils/index.ts',
-				'src/modules/shared/utils/tailwind-merge.ts',
-			],
+			exclude: excludedCoveragePathAliases,
 		},
 	},
 	coverage: {
