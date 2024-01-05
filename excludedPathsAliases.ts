@@ -19,6 +19,7 @@ const excludedCoveragePathAliases = [
 	'supabase.types.ts',
 	'src/modules/supabase/server-utils.ts',
 	'src/modules/landing/components/index.ts',
+	'src/modules/farmer/constants/**/*.ts',
 ]
 
 export default excludedCoveragePathAliases
