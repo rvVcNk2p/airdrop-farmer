@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Link from 'next/link'
 
 const GotYouCovered = () => {
 	return (
@@ -62,11 +63,15 @@ const GotYouCovered = () => {
 									</div>
 									<p className="text-3xl font-medium text-white mb-8">
 										<span className="text-transparent bg-clip-text fancyText">
-											Zero Risk
+											Don&apos;t
 										</span>
-										<span className="block xs:inline-block">
-											to Become a Sybil
-										</span>
+										<span> Become a Sybil</span>
+										<sup className="text-main-color text-xs relative -top-3 left-1">
+											<a className="cursor-pointer" href="#can-i-become-sybil">
+												[1]
+											</a>
+											<Link href="/blog/sybil-protection"> [2]</Link>
+										</sup>
 									</p>
 									<p className="text-lg text-main-airdrop">
 										Our system ensures complete randomization of actions

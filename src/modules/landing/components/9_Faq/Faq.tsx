@@ -18,7 +18,7 @@ const Faq = () => {
 				'By concentrating on developing products, establishing a robust infrastructure, and cultivating a reputable brand, we are poised for greater long-term profitability compared to solely relying on airdrop farming. <br/><br/>The immense potential that arises from fostering trust among individuals and contributing value to the community holds far more significance for us than mere airdrop earnings.',
 		},
 		{
-			id: uuidv4(),
+			id: 'can-i-become-sybil',
 			title: 'Can I become sybil due to the bot activity?',
 			content:
 				'To be identified as Sybil you need to do four things:<br/>1. Linking addresses engaged in farming the same airdrop among themselves.<br/>2. Sending identical amounts simultaneously to multiple addresses from a centralized exchange (CEX).<br/>3. Conducting multiple airdrop farming using a single wallet.<br/>4. Executing an identical sequence of actions concurrently.<br/><br/>To guarantee your wallets are not identified as Sybil, our system employs a comprehensive randomization process for wallet actions. This means that even wallets within the same cluster will exhibit distinct timings, sequences, and sums, establishing a varied and unforeseeable approach. It is vital on your end to ensure that points 1, 2, and 3 are strictly avoided to prevent any issues.',

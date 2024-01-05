@@ -22,7 +22,7 @@ describe('GotYouCovered', () => {
 
 	test.each([
 		['You Covered', 'Here, we value the'],
-		['Zero Risk', 'Our system ensures'],
+		['Become a Sybil', 'Our system ensures'],
 	])(
 		`should render a paragraph with text '%s' and '%s'`,
 		(expectedTitle, expectedDescription) => {

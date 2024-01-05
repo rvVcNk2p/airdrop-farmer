@@ -40,9 +40,15 @@ Set your goals: decide how much you want to transact, pick activities, quantity,
 
 - **1-Click Auto Refill** (in progress): Sit back and relax - we've got it all covered! Just top up your wallet once, and we'll take care of automatically refilling it with native tokens on all farming chains. No more tedious manual work, saving you days of effort.
 
-- **Zero Risk to Become a Sybil**: Our system ensures complete randomization of actions performed by your wallets, preventing any possibility of them being identified as Sybil. Each wallet has distinct timings, orders, and amounts, forming a diverse and unpredictable strategy that avoids sybil detection.
+- **Don't Become a Sybil**: Our system ensures complete randomization of actions performed by your wallets, preventing any possibility of them being identified as Sybil. Each wallet has distinct timings, orders, and amounts, forming a diverse and unpredictable strategy that avoids sybil detection.
 
 - **We Value Your Privacy**: Your privacy is our top priority. We do not store any data about your keys; everything is stored encrypted in your session. Only you have access to your private keys.
+
+## Where to find KEY and PROJECT-UID from `.env`
+
+[Alchemy - Quickstart Guide](https://docs.alchemy.com/docs/alchemy-quickstart-guide)
+[Supabase - API URL and keys](https://supabase.com/docs/guides/api#api-url-and-keys)
+[GetBlock - Auth with Access Token](https://getblock.io/docs/get-started/auth-with-access-token/)
 
 ## Contributing
 
