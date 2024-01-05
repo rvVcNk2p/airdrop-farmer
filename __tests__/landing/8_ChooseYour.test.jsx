@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 
-import ChooseYour from '../../src/modules/landing/components/8_ChooseYour/Faq'
+import ChooseYour from '../../src/modules/landing/components/8_ChooseYour/ChooseYour'
 
 describe('ChooseYour', () => {
 	test.each([['Pricing', 'Eager to boost your profits']])(
