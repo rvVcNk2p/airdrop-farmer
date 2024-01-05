@@ -13,7 +13,7 @@ const Calculate = () => {
 						<p className="max-w-[800px] text-xl md:text-2xl text-main-airdrop">
 							What would be your earnings using Airdrop Farmer on the Arbitrum
 							Airdrop? Typically, each recipient of Arbitrum received an average
-							of $2,342.
+							of $2,300+.
 							<sup className="text-xs relative -top-3">
 								<a
 									href="https://www.forbes.com/sites/leeorshimron/2023/03/30/arbitrums-token-airdrop-sends-network-adoption-soaring/"
@@ -66,7 +66,10 @@ const Calculate = () => {
 									</div>
 									<p className="text-3xl sm:text-2xl lg:text-3xl mt-10 text-white">
 										Profit
-										<span className="text-main-color font-medium">$23,420</span>
+										<span className="text-main-color font-medium">
+											{' '}
+											$23,420
+										</span>
 									</p>
 								</div>
 								<div className="flex flex-col items-center">
@@ -87,6 +90,7 @@ const Calculate = () => {
 									<p className="text-3xl sm:text-2xl lg:text-3xl mt-10 text-white">
 										Profit
 										<span className="text-main-color font-semibold">
+											{' '}
 											$234,000
 										</span>
 									</p>

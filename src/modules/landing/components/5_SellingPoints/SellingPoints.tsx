@@ -90,7 +90,7 @@ const SellingPoints = () => {
 								src="/images/sp_c_consolidation-withdrawal.png"
 								width={800}
 								height={600}
-								alt="Metamask Signing"
+								alt="Consolidation Withdrawal"
 								className="w-full rounded-xl"
 							/>
 						</div>

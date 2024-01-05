@@ -191,7 +191,7 @@ const Features = () => {
 										height={50}
 										width={50}
 										className="w-10 h-auto"
-										alt="Layerzero logo"
+										alt="Zksync logo"
 									/>
 									<p className="text-3xl font-medium text-white">ZkSync</p>
 								</div>
@@ -352,7 +352,7 @@ const Features = () => {
 										height={50}
 										width={50}
 										className="w-11 h-auto"
-										alt="Layerzero logo"
+										alt="Starknet logo"
 									/>
 									<p className="text-3xl font-medium text-white">Starknet</p>
 								</div>

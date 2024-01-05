@@ -1,15 +1,10 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react'
-import { beforeEach, clearAllMocks, describe, expect, test, vi } from 'vitest'
-
-import HeroSection from '../src/modules/landing/components/1_HeroSection/HeroSection'
-
-// https://testing-library.com/docs/react-testing-library/api
+import HeroSection from '@/modules/landing/components/1_HeroSection/HeroSection'
+import { render, screen } from '@testing-library/react'
 
 describe('HeroSection', () => {
-	// ARRANGE
-	render(<HeroSection />)
-
 	test('should renders the hero title with text "Automate Your"', () => {
+		// ARRANGE
+		render(<HeroSection />)
 		// ACT
 		const heroTitle1 = screen.getByText(/Automate Your/i)
 		const heroTitle2 = screen.getByRole('heading', {
@@ -21,6 +16,8 @@ describe('HeroSection', () => {
 	})
 
 	test('should renders the hero description', () => {
+		// ARRANGE
+		render(<HeroSection />)
 		// ACT
 		const heroDescription = screen.getByText(/Maximize your airdrop/i)
 		// ASSERT
@@ -31,14 +28,3 @@ describe('HeroSection', () => {
 // await waitFor(() => expect(mockApi.getTasks)).toHaveBeenCalled())
 // fireEvent.click(screen.getText('Text 1'))
 // await waitFor(() => expect(mockApi.markTaskAsCompleted)).toHaveBeenCalledWith(1))
-
-// const mockApi = {
-// 	getTasks: vi.fn().mockReturnValue([
-// 		{
-// 			id: 1,
-// 			title: 'Task 1',
-// 			completed: false,
-// 		},
-// 	]),
-// 	markTaskAsCompleted: vi.fn().mockReturnValue(undefined),
-// }

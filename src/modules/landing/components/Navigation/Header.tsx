@@ -6,7 +6,7 @@ import Link from 'next/link'
 
 import DynamicNavItems from './DynamicNavItems'
 
-const Header = async () => {
+const Header = () => {
 	return (
 		<div className="fixed top-0 left-0 z-20 w-full px-4 md:px-8">
 			<div className="header-mask"></div>
