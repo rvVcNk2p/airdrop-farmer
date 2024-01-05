@@ -11,21 +11,25 @@ const HowItWorks = () => {
 		{
 			title: 'Select a Strategy',
 			img: '1_create-strategy.png',
+			alt: 'Create Strategy',
 			icon: () => <Gear />,
 		},
 		{
 			title: 'Add Private Keys',
 			img: '2_edit-and-add-group.png',
+			alt: 'Edit and Add group',
 			icon: () => <Key />,
 		},
 		{
 			title: 'Add funds to your wallet',
 			img: '3_top-up-wallet.png',
+			alt: 'Top up wallet',
 			icon: () => <Wallet />,
 		},
 		{
 			title: 'Run the Farmer',
 			img: '4_in-action-logs.png',
+			alt: 'In action logs',
 			icon: () => <Play />,
 		},
 	]
@@ -138,7 +142,7 @@ const HowItWorks = () => {
 								<div className="relative bg-gray-1 opacity-100 block animate-image-appear rounded-b-xl">
 									<Image
 										src={`/images/${steps[activeStep].img}`}
-										alt="Create Task"
+										alt={`${steps[activeStep].alt}`}
 										width={1200}
 										height={691}
 										className="w-full rounded-b-xl"

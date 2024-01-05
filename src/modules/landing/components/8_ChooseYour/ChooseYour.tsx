@@ -141,9 +141,9 @@ const ChooseYour = () => {
 								</ul>
 							</div>
 							<div className=" relative z-50 md:whitespace-nowrap">
-								<span className="text-white">25 spots left.</span>
+								<span className="text-white">14 spots left.</span>
 								<span className="text-main-airdrop ml-2">
-									0/25 claimed. Next price: $200
+									11/25 claimed. Next price: $200
 									{/* Ξ0.15 ETH */}
 								</span>
 							</div>
@@ -317,9 +317,9 @@ const ChooseYour = () => {
 									</ul>
 								</div>
 								<div className=" relative z-50 md:whitespace-nowrap">
-									<span className="text-white">25 spots left.</span>
+									<span className="text-white">19 spots left.</span>
 									<span className="text-main-airdrop ml-2">
-										0/25 claimed. Next price: $600
+										6/25 claimed. Next price: $600
 										{/* Ξ0.6 ETH */}
 									</span>
 								</div>

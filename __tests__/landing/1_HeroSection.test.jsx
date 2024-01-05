@@ -6,7 +6,7 @@ import {
 	waitFor,
 } from '@testing-library/react'
 
-import HeroSection from '../src/modules/landing/components/1_HeroSection/HeroSection'
+import HeroSection from '../../src/modules/landing/components/1_HeroSection/HeroSection'
 
 // https://testing-library.com/docs/react-testing-library/api
 
