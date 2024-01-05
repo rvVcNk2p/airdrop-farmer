@@ -1,4 +1,4 @@
-import Footer from '@/modules/landing/components/navigation/Footer'
+import Footer from '@/modules/landing/components/Navigation/Footer'
 import { discordLink } from '@/modules/shared/constants/social'
 import { render, screen } from '@testing-library/react'
 

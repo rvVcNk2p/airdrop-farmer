@@ -1,4 +1,4 @@
-import Header from '@/modules/landing/components/navigation/Header'
+import Header from '@/modules/landing/components/Navigation/Header'
 import { discordLink } from '@/modules/shared/constants/social'
 import { render, screen, waitFor } from '@testing-library/react'
 

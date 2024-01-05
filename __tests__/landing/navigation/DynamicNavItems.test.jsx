@@ -1,4 +1,4 @@
-import DynamicNavItems from '@/modules/landing/components/navigation/DynamicNavItems'
+import DynamicNavItems from '@/modules/landing/components/Navigation/DynamicNavItems'
 import { render, screen, waitFor } from '@testing-library/react'
 
 vi.mock('next/navigation', async (importOriginal) => {
