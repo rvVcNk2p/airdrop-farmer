@@ -10,16 +10,15 @@ describe('HowItWorks', () => {
 		['4_in-action-logs.png', 'In action logs'],
 	])(
 		`should render an image with src '%s' and alt text '%s'`,
-		(img, altText) => {
+		(expextedImg, expectedAlt) => {
 			// ARRANGE
 			render(<HowItWorks />)
 			// ACT
 			const imageWithAlt = screen.getByRole('img', {
-				src: img,
-				alt: altText,
+				src: expextedImg,
+				alt: expectedAlt,
 			})
 			// ASSERT
-
 			expect(imageWithAlt).toBeDefined()
 		},
 	)

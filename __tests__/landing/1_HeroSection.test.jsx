@@ -8,8 +8,6 @@ import {
 
 import HeroSection from '../../src/modules/landing/components/1_HeroSection/HeroSection'
 
-// https://testing-library.com/docs/react-testing-library/api
-
 describe('HeroSection', () => {
 	test('should renders the hero title with text "Automate Your"', () => {
 		// ARRANGE
@@ -37,14 +35,3 @@ describe('HeroSection', () => {
 // await waitFor(() => expect(mockApi.getTasks)).toHaveBeenCalled())
 // fireEvent.click(screen.getText('Text 1'))
 // await waitFor(() => expect(mockApi.markTaskAsCompleted)).toHaveBeenCalledWith(1))
-
-// const mockApi = {
-// 	getTasks: vi.fn().mockReturnValue([
-// 		{
-// 			id: 1,
-// 			title: 'Task 1',
-// 			completed: false,
-// 		},
-// 	]),
-// 	markTaskAsCompleted: vi.fn().mockReturnValue(undefined),
-// }

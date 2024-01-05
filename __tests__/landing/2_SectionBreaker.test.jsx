@@ -7,19 +7,24 @@ describe('SectionBreaker', () => {
 		// ARRANGE
 		const { container } = render(<SectionBreaker />)
 		// ACT
-		const alma = container.getElementsByClassName('starry-sky-airdrop')
+		const breaker = container.getElementsByClassName('starry-sky-airdrop')
 		// ASSERT
-		expect(alma[0]).toBeTruthy()
+		expect(breaker[0]).toBeTruthy()
 	})
 
 	test(`should renders the section breaker with class 'rotate-180'`, async () => {
 		// ARRANGE
 		const { container } = render(<SectionBreaker className="rotate-180" />)
 		// ACT
-		const alma = container.getElementsByClassName(
+		const breaker = container.getElementsByClassName(
 			'starry-sky-airdrop rotate-180',
 		)
 		// ASSERT
-		expect(alma[0]).toBeTruthy()
+		expect(breaker[0].classList).toEqual(
+			expect.objectContaining(['starry-sky-airdrop', 'rotate-180']),
+		)
+		expect(breaker[0].classList).toEqual(
+			expect.not.objectContaining(['undefined']),
+		)
 	})
 })

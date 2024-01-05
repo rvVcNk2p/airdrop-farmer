@@ -11,11 +11,11 @@ describe('GotYouCovered', () => {
 		['/images/gyc_c_add-your-private-keys.png', 'Private Keys Stay Private'],
 	])(
 		`should render an image with src '%s' and alt text '%s'`,
-		(img, altText) => {
+		(expectedImg, expectedAltText) => {
 			// ARRANGE
 			render(<GotYouCovered />)
 			// ACT
-			const imageWithAlt = screen.getByAltText(altText)
+			const imageWithAlt = screen.getByAltText(expectedAltText)
 			// ASSERT
 			expect(imageWithAlt).toBeDefined()
 		},
@@ -26,13 +26,15 @@ describe('GotYouCovered', () => {
 		['Zero Risk', 'Our system ensures'],
 	])(
 		`should render a paragraph with text '%s' and '%s'`,
-		(title, description) => {
+		(expectedTitle, expectedDescription) => {
 			// ARRANGE
 			render(<GotYouCovered />)
 			// ACT
-			const titleParagraph = screen.getByText(new RegExp(`${title}`, 'i'))
+			const titleParagraph = screen.getByText(
+				new RegExp(`${expectedTitle}`, 'i'),
+			)
 			const descriptionParagraph = screen.getByText(
-				new RegExp(`${description}`, 'i'),
+				new RegExp(`${expectedDescription}`, 'i'),
 			)
 			// ASSERT
 			expect(titleParagraph).toBeDefined()

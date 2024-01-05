@@ -7,22 +7,25 @@ describe('Features', () => {
 		['l0', 'Layerzero'],
 		['zksync', 'Zksync'],
 		['starknet', 'Starknet'],
-	])(`should render an image with src '%s' and alt text '%s'`, (img, alt) => {
-		// ARRANGE
-		render(<Features />)
-		// ACT
-		const image = screen.getByAltText(`${alt} logo`)
-		// ASSERT
-		expect(image.src).toContain(`f_${img}-logo.png`)
-	})
-
-	test.each(['LayerZero', 'ZkSync', 'Starknet'])(
-		`should render an paragrah with text '%s'`,
-		(text) => {
+	])(
+		`should render an image with src '%s' and alt text '%s'`,
+		(expectedImg, expectedAlt) => {
 			// ARRANGE
 			render(<Features />)
 			// ACT
-			const paragraph = screen.getByText(text)
+			const image = screen.getByAltText(`${expectedAlt} logo`)
+			// ASSERT
+			expect(image.src).toContain(`f_${expectedImg}-logo.png`)
+		},
+	)
+
+	test.each(['LayerZero', 'ZkSync', 'Starknet'])(
+		`should render an paragrah with text '%s'`,
+		(expectedText) => {
+			// ARRANGE
+			render(<Features />)
+			// ACT
+			const paragraph = screen.getByText(expectedText)
 			// ASSERT
 			expect(paragraph).toBeDefined()
 		},

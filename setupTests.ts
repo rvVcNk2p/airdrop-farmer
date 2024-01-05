@@ -1,6 +1,10 @@
 import { cleanup } from '@testing-library/react'
-import { afterEach } from 'vitest'
+import { afterEach, beforeEach, vi } from 'vitest'
 
 afterEach(() => {
 	cleanup()
+})
+
+beforeEach(() => {
+	vi.clearAllMocks()
 })

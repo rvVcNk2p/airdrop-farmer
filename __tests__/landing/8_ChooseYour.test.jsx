@@ -5,12 +5,14 @@ import ChooseYour from '../../src/modules/landing/components/8_ChooseYour/Choose
 describe('ChooseYour', () => {
 	test.each([['Pricing', 'Eager to boost your profits']])(
 		`should render heading and description`,
-		(text, desc) => {
+		(expectedText, expectedDescription) => {
 			// ARRANGE
 			render(<ChooseYour />)
 			// ACT
-			const heading = screen.getByRole('heading', { name: text })
-			const description = screen.getByText(new RegExp(`${desc}`, 'i'))
+			const heading = screen.getByRole('heading', { name: expectedText })
+			const description = screen.getByText(
+				new RegExp(`${expectedDescription}`, 'i'),
+			)
 			// ASSERT
 			expect(heading).toBeDefined()
 			expect(description).toBeDefined()
