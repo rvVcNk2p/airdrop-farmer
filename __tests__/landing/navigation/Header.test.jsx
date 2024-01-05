@@ -1,7 +1,6 @@
+import Header from '@/modules/landing/components/navigation/Header'
+import { discordLink } from '@/modules/shared/constants/social'
 import { render, screen, waitFor } from '@testing-library/react'
-
-import Header from '../../../src/modules/landing/components/navigation/Header'
-import { discordLink } from '../../../src/modules/shared/constants/social'
 
 vi.mock('next/navigation', async (importOriginal) => {
 	const actual = await importOriginal()

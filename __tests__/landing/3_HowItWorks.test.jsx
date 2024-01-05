@@ -1,6 +1,5 @@
+import HowItWorks from '@/modules/landing/components/3_HowItWorks/HowItWorks'
 import { render, screen } from '@testing-library/react'
-
-import HowItWorks from '../../src/modules/landing/components/3_HowItWorks/HowItWorks'
 
 describe('HowItWorks', () => {
 	test.each([

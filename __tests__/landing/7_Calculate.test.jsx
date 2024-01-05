@@ -1,6 +1,5 @@
+import Calculate from '@/modules/landing/components/7_Calculate/Calculate'
 import { render, screen } from '@testing-library/react'
-
-import Calculate from '../../src/modules/landing/components/7_Calculate/Calculate'
 
 describe('Calculate', () => {
 	test.each([["Let's Do The Math", 'What would be your']])(

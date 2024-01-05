@@ -1,6 +1,5 @@
+import SellingPoints from '@/modules/landing/components/5_SellingPoints/SellingPoints'
 import { render, screen } from '@testing-library/react'
-
-import SellingPoints from '../../src/modules/landing/components/5_SellingPoints/SellingPoints'
 
 describe('SellingPoints', () => {
 	test.each([

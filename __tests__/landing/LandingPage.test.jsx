@@ -1,6 +1,5 @@
+import LandingPage from '@/modules/landing/components/LandingPage'
 import { render, screen, waitFor } from '@testing-library/react'
-
-import LandingPage from '../../src/modules/landing/components/LandingPage'
 
 describe('LandingPage', () => {
 	test(`check if every section is rendered`, () => {

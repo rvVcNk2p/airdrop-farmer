@@ -1,6 +1,5 @@
+import Features from '@/modules/landing/components/6_Features/Features'
 import { render, screen } from '@testing-library/react'
-
-import Features from '../../src/modules/landing/components/6_Features/Features'
 
 describe('Features', () => {
 	test.each([

@@ -1,6 +1,5 @@
+import SectionBreaker from '@/modules/landing/components/2_SectionBreaker/SectionBreaker'
 import { render } from '@testing-library/react'
-
-import SectionBreaker from '../../src/modules/landing/components/2_SectionBreaker/SectionBreaker'
 
 describe('SectionBreaker', () => {
 	test(`should renders the section breaker with class 'starry-sky-airdrop'`, async () => {

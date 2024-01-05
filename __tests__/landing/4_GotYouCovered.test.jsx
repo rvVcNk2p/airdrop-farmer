@@ -1,6 +1,5 @@
+import GotYouCovered from '@/modules/landing/components/4_GotYouCovered/GotYouCovered'
 import { render, screen } from '@testing-library/react'
-
-import GotYouCovered from '../../src/modules/landing/components/4_GotYouCovered/GotYouCovered'
 
 describe('GotYouCovered', () => {
 	test.each([

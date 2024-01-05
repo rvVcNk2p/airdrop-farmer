@@ -1,6 +1,5 @@
+import Faq from '@/modules/landing/components/9_Faq/Faq'
 import { render, screen, waitFor } from '@testing-library/react'
-
-import Faq from '../../src/modules/landing/components/9_Faq/Faq'
 
 describe('Faq', () => {
 	test.each([

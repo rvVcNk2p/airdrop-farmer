@@ -1,12 +1,5 @@
-import {
-	cleanup,
-	fireEvent,
-	render,
-	screen,
-	waitFor,
-} from '@testing-library/react'
-
-import HeroSection from '../../src/modules/landing/components/1_HeroSection/HeroSection'
+import HeroSection from '@/modules/landing/components/1_HeroSection/HeroSection'
+import { render, screen } from '@testing-library/react'
 
 describe('HeroSection', () => {
 	test('should renders the hero title with text "Automate Your"', () => {
