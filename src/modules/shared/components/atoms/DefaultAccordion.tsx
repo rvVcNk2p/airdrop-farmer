@@ -20,7 +20,7 @@ const DefaultAccordion = ({
 	collapsible = true,
 }: DefaultAccordionType) => {
 	return (
-		<Accordion type="single" collapsible={collapsible}>
+		<Accordion type="single" collapsible={collapsible} id={id}>
 			<AccordionItem value={id} className="border-[#33323e]">
 				<AccordionTrigger className="text-xl text-left text-white pr-6 !no-underline">
 					{title}
