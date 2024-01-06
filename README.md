@@ -46,9 +46,9 @@ Set your goals: decide how much you want to transact, pick activities, quantity,
 
 ## Where to find KEY and PROJECT-UID from `.env`
 
-[Alchemy - Quickstart Guide](https://docs.alchemy.com/docs/alchemy-quickstart-guide)
-[Supabase - API URL and keys](https://supabase.com/docs/guides/api#api-url-and-keys)
-[GetBlock - Auth with Access Token](https://getblock.io/docs/get-started/auth-with-access-token/)
+- [Alchemy - Quickstart Guide](https://docs.alchemy.com/docs/alchemy-quickstart-guide)
+- [Supabase - API URL and keys](https://supabase.com/docs/guides/api#api-url-and-keys)
+- [GetBlock - Auth with Access Token](https://getblock.io/docs/get-started/auth-with-access-token/)
 
 ## Contributing
 
