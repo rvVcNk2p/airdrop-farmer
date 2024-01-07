@@ -3,7 +3,7 @@ name: Docker Image CI
 on:
   push:
     branches:
-      - 'master'
+      - 'rvVcNk2p/feature/#25-update-ci-pipeline-for-docker-image-history'
   workflow_run:
     workflows: ["Test and Coverage"]
     types:
