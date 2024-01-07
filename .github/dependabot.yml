@@ -1,12 +1,9 @@
-# https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
-
 version: 2
 updates:
   - package-ecosystem: 'npm'
     directory: '/'
     schedule:
-      interval: 'weekly'
-      day: 'sunday'
+      interval: 'monthly'
     assignees:
       - 'rvVcNk2p'
     labels:
@@ -15,3 +12,22 @@ updates:
       prefix: 'npm prod'
       prefix-development: 'npm dev'
       include: 'scope'
+
+registries:
+  dockerhub:
+    type: docker-registry
+    url: registry.hub.docker.com
+    username: ${{secrets.DOCKERHUB_USERNAME}}
+    password: ${{secrets.DOCKERHUB_TOKEN}}
+    replaces-base: true
+updates:
+  - package-ecosystem: "docker"
+    directory: "/docker-registry/dockerhub"
+    registries:
+      - dockerhub
+    schedule:
+      interval: "monthly"
+    labels:
+      - "docker"
+    commit-message:
+      prefix: "docker"
