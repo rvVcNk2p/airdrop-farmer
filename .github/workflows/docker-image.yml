@@ -8,7 +8,7 @@ on:
 
   workflow_run:
     workflows: 
-      - Test_and_Coverage
+      - Test and Coverage
     types:
       - completed
 
