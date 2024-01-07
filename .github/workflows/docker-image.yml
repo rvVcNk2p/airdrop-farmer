@@ -9,6 +9,7 @@ on:
     workflows: 
       - Test and Coverage
     types:
+      - requested
       - completed
 
 jobs:
