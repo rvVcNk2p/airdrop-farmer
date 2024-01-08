@@ -28,7 +28,6 @@ jobs:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Send Dispatch Event
-        if: github.ref == 'refs/heads/rvVcNk2p/feature/#25-update-ci-pipeline-for-docker-image-history'
         run: |
           curl -X POST \
             -H "Accept: application/vnd.github.v3+json" \
