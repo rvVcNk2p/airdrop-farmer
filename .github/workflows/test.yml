@@ -27,12 +27,9 @@ jobs:
         uses: codecov/codecov-action@v3
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-      
-      - name: Print ref name
-        run: echo ${{ github.ref }}
 
       - name: Invoke 'Docker Image CI' without inputs
-        if: ${{ github.ref }} == 'refs/heads/master' || ${{ github.ref }} == 'refs/pull/43/merge'
+        if: ${{ github.ref }} == 'refs/heads/master'
         uses: benc-uk/workflow-dispatch@v1.2.2
         with:
           workflow: docker-image.yml
