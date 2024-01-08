@@ -27,14 +27,3 @@ jobs:
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
-      - name: Send Dispatch Event
-        # 'refs/heads/master'
-        if: github.ref == 'refs/pull/43/merge'
-        run: |
-          curl -X POST \
-            -H "Accept: application/vnd.github.v3+json" \
-            -H "Authorization: token ${{ secrets.TOKEN_GITHUB }}" \
-            --data '{"event_type": "test-and-coverage"}' \
-            https://api.github.com/repos/${{ github.repository }}/dispatches
-
-

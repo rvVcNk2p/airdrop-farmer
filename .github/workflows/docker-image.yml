@@ -1,23 +1,14 @@
 name: Docker Image CI
 
 on:
-  repository_dispatch:
-    types: [test-and-coverage]
-  # push:
-  #   branches:
-  #     - master
-  #     - rvVcNk2p/feature/#25-update-ci-pipeline-for-docker-image-history
-  # workflow_run:
-  #   workflows: ['Test and Coverage']
-  #   types:
-  #     - completed
-  #   branches:
-  #     - master
-  #     - rvVcNk2p/feature/#25-update-ci-pipeline-for-docker-image-history
-
+  workflow_run:
+    workflows: [Test and Coverage]
+    types: [completed]
+    branches: [master, rvVcNk2p/feature/#25-update-ci-pipeline-for-docker-image-history]
 jobs:
   login-build-push:
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
 
       - name: Login to Docker Hub
