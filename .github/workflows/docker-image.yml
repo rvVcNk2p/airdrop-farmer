@@ -1,11 +1,11 @@
 name: Docker Image CI
 
-on:
-  workflow_dispatch:
-  workflow_run:
-    workflows: [Test and Coverage]
-    types: [completed]
-    # branches: [master, rvVcNk2p/feature/#25-update-ci-pipeline-for-docker-image-history]
+on: [workflow_dispatch]
+  # workflow_dispatch:
+  # workflow_run:
+  #   workflows: [Test and Coverage]
+  #   types: [completed]
+  #   branches: [master, rvVcNk2p/feature/#25-update-ci-pipeline-for-docker-image-history]
 jobs:
   login-build-push:
     runs-on: ubuntu-latest

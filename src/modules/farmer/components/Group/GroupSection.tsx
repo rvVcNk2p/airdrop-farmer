@@ -26,7 +26,6 @@ export const GroupSection = () => {
 
 	const handleDeleteGroup = (groupUid: string, groupName: string) => {
 		// TODO: Add confirmation
-		// RANDOM CHANGE
 		deleteGroup(groupUid)
 		toast({
 			title: '❌ Group deleted!',
