@@ -29,7 +29,7 @@ jobs:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Invoke 'Docker Image CI' without inputs
-        if: ${{ github.ref }} == 'refs/heads/master'
+        if: github.ref == 'refs/heads/master'
         uses: benc-uk/workflow-dispatch@v1.2.2
         with:
           workflow: docker-image.yml
