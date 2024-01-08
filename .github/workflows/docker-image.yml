@@ -2,7 +2,7 @@ name: Docker Image CI
 
 on:
   repository_dispatch:
-    types: ['test-and-coverage']
+    types: [test-and-coverage]
   # push:
   #   branches:
   #     - master
