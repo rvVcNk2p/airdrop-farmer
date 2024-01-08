@@ -27,10 +27,9 @@ jobs:
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
-      - name: Echo
-        run: echo "🔎 The name of your branch is ${{ github.ref_name }} and your repository is ${{ github.repository }}."
       - name: Send Dispatch Event
-        
+        # 'refs/heads/master'
+        if: github.ref == 'refs/pull/43/merge'
         run: |
           curl -X POST \
             -H "Accept: application/vnd.github.v3+json" \
