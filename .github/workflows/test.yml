@@ -32,6 +32,6 @@ jobs:
         uses: benc-uk/workflow-dispatch@v1
         with:
           workflow: docker-image.yml
-          token: ${{ secrets.TOKEN_GITHUB }}
+          token: ${{ secrets.PERSONAL_TOKEN }}}
           ref: ${{ github.event.pull_request.head.ref }}
 
