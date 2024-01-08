@@ -33,5 +33,5 @@ jobs:
         with:
           workflow: docker-image.yml
           token: ${{ secrets.TOKEN_GITHUB }}
-          ref: ${{ github.ref }}
+          ref: ${{ github.event.ref }}
 
