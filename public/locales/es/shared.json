@@ -1,0 +1,9 @@
+{
+	"shared": {
+		"email": "Correo electrónico",
+		"password": "Contraseña",
+		"error": {
+			"password_min_length": "La contraseña debe tener al menos 6 caracteres!"
+		}
+	}
+}
