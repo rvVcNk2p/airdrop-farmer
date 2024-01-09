@@ -21,6 +21,10 @@ const excludedCoveragePathAliases = [
 	'src/modules/landing/components/index.ts',
 	'src/modules/farmer/constants/**/*.ts',
 	'src/app/blog/layout.tsx',
+	'i18n.ts',
+	'src/modules/shared/hooks/useI18n.ts',
+	'public/locales/en/index.ts',
+	'public/locales/es/index.ts',
 ]
 
 export default excludedCoveragePathAliases
