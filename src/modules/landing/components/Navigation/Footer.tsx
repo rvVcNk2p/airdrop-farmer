@@ -16,7 +16,7 @@ const Footer = () => {
 								Contact us
 							</a>
 							<a
-								href="/"
+								href="/terms"
 								target="_blank"
 								rel="noreferrer"
 								className="text-main-airdrop hover:text-white"
