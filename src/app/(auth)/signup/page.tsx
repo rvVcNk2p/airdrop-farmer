@@ -17,10 +17,10 @@ const SignupPage = () => {
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 	const [isLoading, setIsLoading] = useState<boolean>(false)
-	const [error, setError] = useState<string | null>(null)
+	const [errorMsg, setErrorMsg] = useState<string | null>(null)
 
 	const handleSignUp = async () => {
-		setError(null)
+		setErrorMsg(null)
 		setIsLoading(true)
 
 		const { data, error } = await supabase.auth.signUp({
@@ -33,7 +33,7 @@ const SignupPage = () => {
 			router.refresh()
 		} else {
 			setIsLoading(false)
-			setError(error?.message)
+			setErrorMsg(error?.message)
 		}
 	}
 
@@ -46,7 +46,7 @@ const SignupPage = () => {
 						email={email}
 						password={password}
 						isLoading={isLoading}
-						isError={error !== null}
+						errorMsg={errorMsg}
 						onEmailChange={(email: string) => setEmail(email)}
 						onPasswordChange={(password) => setPassword(password)}
 						onSubmit={handleSignUp}

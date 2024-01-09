@@ -16,10 +16,10 @@ const SinginPage = () => {
 	const router = useRouter()
 	const supabase = createClientComponentClient<Database>()
 	const [isLoading, setIsLoading] = useState(false)
-	const [isError, setIsError] = useState(false)
+	const [errorMsg, setErrorMsg] = useState<string | null>(null)
 
 	const handleSignIn = async () => {
-		setIsError(false)
+		setErrorMsg(null)
 		setIsLoading(true)
 		const { error } = await supabase.auth.signInWithPassword({
 			email,
@@ -30,7 +30,8 @@ const SinginPage = () => {
 			router.refresh()
 		} else {
 			setIsLoading(false)
-			setIsError(true)
+			console.log(error)
+			setErrorMsg(error.message)
 		}
 	}
 
@@ -43,7 +44,7 @@ const SinginPage = () => {
 						email={email}
 						password={password}
 						isLoading={isLoading}
-						isError={isError}
+						errorMsg={errorMsg}
 						onEmailChange={(email: string) => setEmail(email)}
 						onPasswordChange={(password) => setPassword(password)}
 						onSubmit={handleSignIn}

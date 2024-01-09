@@ -1,3 +1,4 @@
+import { DefaultTooltip } from '@modules/shared/components/atoms/DefaultTooltip'
 import { CircleNotch } from '@phosphor-icons/react'
 import Link from 'next/link'
 
@@ -11,7 +12,7 @@ export const LoginForm = ({
 	email,
 	password,
 	isLoading,
-	isError,
+	errorMsg,
 	onEmailChange,
 	onPasswordChange,
 	onSubmit,
@@ -20,7 +21,7 @@ export const LoginForm = ({
 	email: string
 	password: string
 	isLoading: boolean
-	isError: boolean
+	errorMsg: string | null
 	onEmailChange: (e: string) => void
 	onPasswordChange: (e: string) => void
 	onSubmit: () => void
@@ -68,6 +69,10 @@ export const LoginForm = ({
 							>
 								Password
 							</label>
+							<DefaultTooltip
+								content={<p>Password should be at least 6 characters!</p>}
+								size={14}
+							/>
 						</div>
 						<div className="mt-2">
 							<input
@@ -100,11 +105,7 @@ export const LoginForm = ({
 								: 'Sign up'}
 						</button>
 						<div>
-							{isError && (
-								<p className="text-red-500 text-sm">
-									Invalid email or password.
-								</p>
-							)}
+							{errorMsg && <p className="text-red-500 text-sm">{errorMsg}</p>}
 						</div>
 					</div>
 				</form>
