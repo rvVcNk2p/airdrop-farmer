@@ -1,0 +1,9 @@
+{
+	"shared": {
+		"email": "Email address",
+		"password": "Password",
+		"error": {
+			"password_min_length": "Password should be at least 6 characters!"
+		}
+	}
+}

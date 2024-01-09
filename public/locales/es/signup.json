@@ -1,0 +1,8 @@
+{
+	"signup": {
+		"title": "Crear una nueva cuenta",
+		"signup": "Regístrate",
+		"already_has_account": "¿Ya tiene una cuenta?",
+		"log_in_here": "Conéctese aquí!"
+	}
+}
