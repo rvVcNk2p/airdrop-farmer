@@ -3,6 +3,10 @@
 		"title": "Sign in to your account",
 		"signin": "Sign in",
 		"not_a_member": "Not a member?",
-		"start_free_account": "Start a free acocunt today!"
+		"password_forgotten": "I forgot my password.",
+		"change_password": "Change password",
+		"request_new_password": "Request a new password",
+		"start_free_account": "Start a free acocunt today!",
+		"save": "Save"
 	}
 }
