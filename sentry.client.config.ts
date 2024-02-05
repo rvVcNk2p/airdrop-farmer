@@ -26,4 +26,7 @@ Sentry.init({
 			blockAllMedia: true,
 		}),
 	],
+
+	enabled:
+		process.env.NEXT_PUBLIC_BASE_PATH === 'https://www.airdropcopilot.com',
 })

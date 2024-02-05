@@ -81,12 +81,6 @@ export const WorkspacePage = () => {
 		})
 	}
 
-	const messagesEndRef = useRef<null | HTMLDivElement>(null)
-
-	useEffect(() => {
-		messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
-	}, [history])
-
 	return (
 		<div className="flex flex-col min-h-screen items-center p-8 xl:p-16 pt-[3rem] gap-4">
 			<WorkspaceHeader
@@ -114,7 +108,6 @@ export const WorkspacePage = () => {
 							<div className="text-sm">{parse(step.message)}</div>
 						</div>
 					))}
-					<div ref={messagesEndRef} />
 				</WorkspaceContent>
 			)}
 		</div>

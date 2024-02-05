@@ -57,7 +57,7 @@ type GenerateBridgeConfimationMessageProps = {
 }
 
 // Waiting for bridge confirmation. Scan: https://<SCANNER>.com/tx/{HASH}
-const generateBridgeConfirmationMessage = ({
+const generateBridgeConfirmationMessageDEPRECATED = ({
 	srcChainId,
 	srcUaAddress,
 	dstChainId,
@@ -66,6 +66,17 @@ const generateBridgeConfirmationMessage = ({
 }: GenerateBridgeConfimationMessageProps): string => {
 	return `Waiting for bridge confirmation. Scan: <a href="https://layerzeroscan.com/${srcChainId}/address/${srcUaAddress}/message/${dstChainId}/address/${dstUaAddress}/nonce/${srcUaNonce}" target="_blank" className="text-blue-500">
 		https://layerzeroscan.com/${srcChainId}/.../nonce/${srcUaNonce}
+	</a>.`
+}
+
+const generateBridgeConfirmationMessage = ({
+	txHash,
+}: {
+	txHash: string
+}): string => {
+	const href = `https://layerzeroscan.com/tx/${txHash}`
+	return `Waiting for bridge confirmation. Scan: <a href="${href}" target="_blank" className="text-blue-500">
+		https://layerzeroscan.com/tx/${shortenerAddress(txHash)}
 	</a>.`
 }
 
@@ -121,11 +132,7 @@ export const useWaitingForBridgeConfirmation = () => {
 				wallet: privateKeyToAccount(wallet).address,
 				status: TxStatusType.INFO,
 				message: generateBridgeConfirmationMessage({
-					srcChainId,
-					srcUaAddress,
-					dstChainId,
-					dstUaAddress,
-					srcUaNonce,
+					txHash,
 				}),
 			})
 
