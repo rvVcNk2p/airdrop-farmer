@@ -3,6 +3,10 @@
 		"title": "Acceda a su cuenta",
 		"signin": "Iniciar sesión",
 		"not_a_member": "¿No está afiliado?",
-		"start_free_account": "Inicie hoy mismo una búsqueda gratuita!"
+		"password_forgotten": "I forgot my password.",
+		"change_password": "Change password",
+		"request_new_password": "Request a new password",
+		"start_free_account": "Inicie hoy mismo una búsqueda gratuita!",
+		"save": "Save"
 	}
 }

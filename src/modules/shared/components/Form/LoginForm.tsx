@@ -137,15 +137,26 @@ export const LoginForm = ({
 				</form>
 
 				{type === LoginOptions.SIGN_IN && (
-					<p className="mt-10 text-center text-sm text-gray-400">
-						{t('signin:not_a_member')}{' '}
-						<Link
-							href="/signup"
-							className="font-semibold leading-6 text-valid hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-valid"
-						>
-							{t('signin:start_free_account')}
-						</Link>
-					</p>
+					<>
+						<p className="mt-10 text-center text-sm text-gray-400">
+							{t('signin:password_forgotten')}{' '}
+							<Link
+								href="/password-reset"
+								className="font-semibold underline leading-6 text-valid hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-valid"
+							>
+								{t('signin:request_new_password')}.
+							</Link>
+						</p>
+						<p className="text-center text-sm text-gray-400">
+							{t('signin:not_a_member')}{' '}
+							<Link
+								href="/signup"
+								className="font-semibold leading-6 text-valid hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-valid"
+							>
+								{t('signin:start_free_account')}
+							</Link>
+						</p>
+					</>
 				)}
 				{type === LoginOptions.SIGN_UP && (
 					<p className="mt-10 text-center text-sm text-gray-400">
