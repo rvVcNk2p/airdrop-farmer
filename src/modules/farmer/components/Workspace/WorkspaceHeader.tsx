@@ -9,6 +9,7 @@ import { Skeleton } from '@modules/shared/components/ui/skeleton'
 import { capitalize } from '@modules/shared/utils'
 import { ArrowLeft } from '@phosphor-icons/react'
 import { Play } from '@phosphor-icons/react'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
 type HeaderElementProps = {
@@ -63,10 +64,12 @@ export const WorkspaceHeader = ({
 
 	return (
 		<div className="flex flex-col items-start w-full gap-4">
-			<ArrowLeft
-				onClick={() => router.push('/farmer')}
-				className="hover:opacity-60 flex gap-1 justify-center items-center cursor-pointer text-xl"
-			/>
+			<Link
+				href="/farmer"
+				className="hover:opacity-60 flex gap-1 justify-center items-center cursor-pointer"
+			>
+				<ArrowLeft className="text-xl" />
+			</Link>
 			<h1 className="text-3xl font-bold w-full">
 				{isLoading ? (
 					<Skeleton className="w-[30px] h-[20px]" />

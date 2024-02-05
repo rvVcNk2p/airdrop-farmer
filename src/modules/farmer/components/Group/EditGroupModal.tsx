@@ -20,7 +20,9 @@ import { Label } from '@modules/shared/components/ui/label'
 import {
 	Select,
 	SelectContent,
+	SelectGroup,
 	SelectItem,
+	SelectLabel,
 	SelectTrigger,
 	SelectValue,
 } from '@modules/shared/components/ui/select'
@@ -158,24 +160,27 @@ export const EditGroupModal = ({ selectedGroup, close }: EditGroupModal) => {
 
 								<div className="flex flex-col gap-2 w-full">
 									<Label>Select strategy:</Label>
+
 									<Select
 										value={groupDetails.strategyUid}
-										onValueChange={(value: string) =>
+										onValueChange={(value: string) => {
 											setGroupDetails({
 												...groupDetails,
 												strategyUid: value,
 											})
-										}
+										}}
 									>
 										<SelectTrigger className="w-full">
 											<SelectValue placeholder="Strategy" />
 										</SelectTrigger>
 										<SelectContent>
-											{userStrategies.map((strategy) => (
-												<SelectItem key={strategy.uid} value={strategy.uid}>
-													{strategy.name}
-												</SelectItem>
-											))}
+											<SelectGroup>
+												{userStrategies.map((strategy) => (
+													<SelectItem key={strategy.uid} value={strategy.uid}>
+														{strategy.name}
+													</SelectItem>
+												))}
+											</SelectGroup>
 										</SelectContent>
 									</Select>
 								</div>

@@ -17,8 +17,8 @@ const Header = () => {
 							<Image
 								src="/logo.svg"
 								alt="Airdrop Hunter logo"
-								width={200}
-								height={200}
+								width={150}
+								height={100}
 								className="cursor-pointer"
 								priority
 							/>
