@@ -15,7 +15,7 @@ export const RequestPasswordResetForm = ({
 	isSuccessful: boolean
 	errorMsg: string | null
 	onPasswordChange: (e: string) => void
-	onSubmit: (e: Event) => void
+	onSubmit: (e: MouseEvent) => void
 }) => {
 	const { t } = useI18n()
 
@@ -69,7 +69,7 @@ export const RequestPasswordResetForm = ({
 							<>
 								<button
 									disabled={isLoading}
-									onClick={(e) => onSubmit(e)}
+									onClick={(e) => onSubmit(e as unknown as MouseEvent)}
 									type="submit"
 									className="flex w-full justify-center items-center rounded-md bg-valid px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-valid"
 								>
