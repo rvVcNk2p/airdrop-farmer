@@ -1,36 +1,30 @@
 'use client'
 
-import {
-	LoginForm,
-	LoginOptions,
-} from '@modules/shared/components/Form/LoginForm'
+import { PasswordResetForm } from '@modules/shared/components/Form/PasswordResetForm'
 import LoadingSpinner from '@modules/shared/components/atoms/LoadingSpinner/LoadingSpinner'
 import { useIsMounted } from '@modules/shared/hooks'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 const SinginPage = () => {
-	const router = useRouter()
 	const supabase = createClientComponentClient<Database>()
 
 	const [email, setEmail] = useState('')
-	const [password, setPassword] = useState('')
-	const [isLoading, setIsLoading] = useState(false)
+	const [hasSent, setHasSent] = useState(false)
 	const [errorMsg, setErrorMsg] = useState<string | null>(null)
 
-	const handleSignIn = async () => {
+	const handlePasswordReset = async (e: Event) => {
+		e.preventDefault()
+
+		setHasSent(true)
 		setErrorMsg(null)
-		setIsLoading(true)
-		const { error } = await supabase.auth.signInWithPassword({
-			email,
-			password,
+
+		const { error } = await supabase.auth.resetPasswordForEmail(email, {
+			redirectTo: `${process.env.NEXT_PUBLIC_BASE_PATH}/update-password`,
 		})
 
-		if (error === null) {
-			router.refresh()
-		} else {
-			setIsLoading(false)
+		if (error !== null) {
+			setHasSent(false)
 			setErrorMsg(error.message)
 		}
 	}
@@ -39,15 +33,12 @@ const SinginPage = () => {
 		<>
 			{useIsMounted() ? (
 				<div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-					<LoginForm
-						type={LoginOptions.SIGN_IN}
+					<PasswordResetForm
 						email={email}
-						password={password}
-						isLoading={isLoading}
+						hasSent={hasSent}
 						errorMsg={errorMsg}
 						onEmailChange={(email: string) => setEmail(email)}
-						onPasswordChange={(password) => setPassword(password)}
-						onSubmit={handleSignIn}
+						onSubmit={handlePasswordReset}
 					/>
 				</div>
 			) : (

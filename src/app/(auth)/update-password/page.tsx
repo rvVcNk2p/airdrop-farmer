@@ -1,53 +1,55 @@
 'use client'
 
-import {
-	LoginForm,
-	LoginOptions,
-} from '@modules/shared/components/Form/LoginForm'
+import { RequestPasswordResetForm } from '@modules/shared/components/Form/RequestPasswordResetForm'
 import LoadingSpinner from '@modules/shared/components/atoms/LoadingSpinner/LoadingSpinner'
 import { useIsMounted } from '@modules/shared/hooks'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
-const SinginPage = () => {
+const UpdatePasswordPage = () => {
 	const router = useRouter()
 	const supabase = createClientComponentClient<Database>()
 
-	const [email, setEmail] = useState('')
-	const [password, setPassword] = useState('')
+	const [newPassword, setNewPassword] = useState('')
 	const [isLoading, setIsLoading] = useState(false)
+	const [isSuccessful, setIsSuccessful] = useState(false)
 	const [errorMsg, setErrorMsg] = useState<string | null>(null)
 
-	const handleSignIn = async () => {
-		setErrorMsg(null)
+	const handlePasswordReset = async (e: Event) => {
+		e.preventDefault()
+
 		setIsLoading(true)
-		const { error } = await supabase.auth.signInWithPassword({
-			email,
-			password,
+		setErrorMsg(null)
+
+		const { data, error } = await supabase.auth.updateUser({
+			password: newPassword,
 		})
 
-		if (error === null) {
-			router.refresh()
-		} else {
-			setIsLoading(false)
+		if (data) {
+			setIsSuccessful(true)
+			setTimeout(() => {
+				router.push('/farmer')
+			}, 3000)
+		}
+		if (error !== null) {
 			setErrorMsg(error.message)
 		}
+
+		setIsLoading(false)
 	}
 
 	return (
 		<>
 			{useIsMounted() ? (
 				<div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-					<LoginForm
-						type={LoginOptions.SIGN_IN}
-						email={email}
-						password={password}
+					<RequestPasswordResetForm
+						password={newPassword}
 						isLoading={isLoading}
+						isSuccessful={isSuccessful}
 						errorMsg={errorMsg}
-						onEmailChange={(email: string) => setEmail(email)}
-						onPasswordChange={(password) => setPassword(password)}
-						onSubmit={handleSignIn}
+						onPasswordChange={(email: string) => setNewPassword(email)}
+						onSubmit={handlePasswordReset}
 					/>
 				</div>
 			) : (
@@ -59,4 +61,4 @@ const SinginPage = () => {
 	)
 }
 
-export default SinginPage
+export default UpdatePasswordPage
