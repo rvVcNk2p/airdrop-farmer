@@ -17,6 +17,7 @@
 		"update-types": "npx supabase gen types  typescript --project-id unxcwktkdkhmtlbaazbr > ./src/supabase.types.ts"
 	},
 	"dependencies": {
+		"@heroicons/react": "^2.1.1",
 		"@hookform/resolvers": "^3.1.1",
 		"@layerzerolabs/scan-client": "^0.0.6",
 		"@phosphor-icons/react": "^2.0.10",
