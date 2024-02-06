@@ -29,7 +29,7 @@ import {
 import { toast } from '@modules/shared/hooks/useToast'
 import { useUpdateDatabase } from '@modules/shared/hooks/useUpdateDatabase'
 import { DownloadSimple, Plus, Trash } from '@phosphor-icons/react'
-import { padWallet } from '@utils'
+import { isValidPrivateKey, padWallet } from '@utils'
 import { useEffect, useState } from 'react'
 import { Address, privateKeyToAccount } from 'viem/accounts'
 
@@ -65,15 +65,6 @@ export const EditGroupModal = ({ selectedGroup, close }: EditGroupModal) => {
 			...groupDetails,
 			[event.currentTarget.name]: event.currentTarget.value,
 		})
-	}
-
-	const isValidPrivateKey = (privateKey: Address) => {
-		try {
-			privateKeyToAccount(privateKey)
-			return true
-		} catch (error) {
-			return false
-		}
 	}
 
 	const handleAddWallet = () => {

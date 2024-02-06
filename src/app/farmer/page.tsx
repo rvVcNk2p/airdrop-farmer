@@ -1,21 +1,21 @@
 'use client'
 
 import { FarmerPage } from '@modules/farmer/components/FarmerPage'
-import { useEffect } from 'react'
 
 const Home = () => {
-	const onUnload = (e: BeforeUnloadEvent) => {
-		e.preventDefault()
-		return (e.returnValue = '')
-	}
+	// TODO - Add beforeunload event guard
+	// const onUnload = (e: BeforeUnloadEvent) => {
+	// 	e.preventDefault()
+	// 	return (e.returnValue = '')
+	// }
 
-	useEffect(() => {
-		window.addEventListener('beforeunload', onUnload)
+	// useEffect(() => {
+	// 	window.addEventListener('beforeunload', onUnload)
 
-		return () => {
-			window.removeEventListener('beforeunload', onUnload)
-		}
-	}, [])
+	// 	return () => {
+	// 		window.removeEventListener('beforeunload', onUnload)
+	// 	}
+	// }, [])
 
 	return <FarmerPage />
 }

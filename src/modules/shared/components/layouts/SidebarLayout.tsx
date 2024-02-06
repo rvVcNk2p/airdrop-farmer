@@ -10,7 +10,7 @@ import Image from 'next/image'
 const navigation = [
 	{
 		name: 'LayerZero',
-		href: '#',
+		href: '/farmer',
 		logo: '/images/layer-zero-logo-vector_1.svg',
 		height: 35,
 		width: 24,
@@ -21,7 +21,7 @@ const navigation = [
 	},
 	{
 		name: 'ZkSync',
-		href: '#',
+		href: '/farmer',
 		logo: '/images/zksync-logo-vector_1.svg',
 		height: 25,
 		width: 25,
@@ -35,7 +35,7 @@ const supportItems = [
 	{
 		id: 1,
 		name: 'Wallets',
-		href: '#',
+		href: '/wallets',
 		icon: WalletIcon,
 		current: false,
 	},
