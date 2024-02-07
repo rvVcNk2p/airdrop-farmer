@@ -7,7 +7,7 @@
 		"build": "next build",
 		"start": "next start",
 		"format": "prettier --check \"./**/*.{js,jsx,ts,tsx,css,scss,json,md}\"",
-		"format:fix": "prettier --write \"./**/*.{js,jsx,ts,tsx,css,scss,json,md}\"",
+		"format:fix": "prettier --write \"./**/*.{js,jsx,ts,tsx,css,scss,json,md}\" --plugin=prettier-plugin-tailwindcss",
 		"lint": "next lint",
 		"lint:fix": "eslint . --ext .js,.ts,.jsx,.tsx --fix",
 		"lint:staged": "lint-staged",
