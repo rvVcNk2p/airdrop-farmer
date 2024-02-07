@@ -1,5 +1,6 @@
 import { AddNewWalletModal } from '@modules/farmer/components/Group/AddNewWalletModal'
-import { Cube, Plus } from '@phosphor-icons/react'
+import { Cube } from '@phosphor-icons/react'
+import { PlusIcon } from '@heroicons/react/24/outline'
 import { cn } from '@utils'
 
 export const EmptyWallet = ({ classes }: { classes?: string }) => {
@@ -17,7 +18,10 @@ export const EmptyWallet = ({ classes }: { classes?: string }) => {
 						<Cube weight="light" size={32} />
 					</div>
 					<span className="mt-2 flex items-center text-sm font-medium">
-						<Plus weight="regular" className="mr-1" size={12} />
+						<PlusIcon
+							className="mr-2 h-4 w-4 shrink-0 stroke-2"
+							aria-hidden="true"
+						/>
 						Add new wallet
 					</span>
 				</div>

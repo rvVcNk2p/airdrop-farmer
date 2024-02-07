@@ -8,6 +8,7 @@ import {
 	FormFieldCheckboxWrapper,
 	FormFieldSelectWrapper,
 	FormFieldWrapper,
+	FromMultipleWalletSelect,
 } from '@modules/shared/components/Form'
 import {
 	AlertDialogDescription,
@@ -81,7 +82,6 @@ export const NewStrategyStepOne = ({ form }: NewStrategyStepOneProps) => {
 									/>
 								)}
 							</FormFieldWrapper>
-
 							<FormFieldSelectWrapper
 								label="Strategy type:"
 								name="firstStepFileds.airdropType"
@@ -89,7 +89,6 @@ export const NewStrategyStepOne = ({ form }: NewStrategyStepOneProps) => {
 								options={airdropOptions}
 								disabled
 							/>
-
 							<FormFieldWrapper
 								label="Tsx number per wallet:"
 								name="firstStepFileds.txsNumberPerWallet"
@@ -106,21 +105,18 @@ export const NewStrategyStepOne = ({ form }: NewStrategyStepOneProps) => {
 									/>
 								)}
 							</FormFieldWrapper>
-
 							<FormFieldCheckboxWrapper
 								name="firstStepFileds.networks"
 								label="Choose networks:"
 								form={form}
 								options={choosableNetworks}
 							/>
-
 							<FormFieldCheckboxWrapper
 								name="firstStepFileds.bridges"
 								label="Choose bridges:"
 								form={form}
 								options={choosableBridges}
 							/>
-
 							<FormFieldWrapper
 								label={`Max gas per txs in ${JSON.stringify(
 									selectedNetworks,
@@ -139,13 +135,17 @@ export const NewStrategyStepOne = ({ form }: NewStrategyStepOneProps) => {
 									/>
 								)}
 							</FormFieldWrapper>
-
 							<FormFieldSelectWrapper
 								label="Sign transacition type:"
 								name="firstStepFileds.signTransactionType"
 								form={form}
 								options={signTransactionOptions}
 								disabled
+							/>
+
+							<FromMultipleWalletSelect
+								name="firstStepFileds.wallets"
+								form={form}
 							/>
 
 							{/*TODO: Random actions, Farming testnets */}

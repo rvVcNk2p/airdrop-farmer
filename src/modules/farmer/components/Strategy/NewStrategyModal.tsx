@@ -91,6 +91,16 @@ const formSchema = z.object({
 		networks: z.array(z.string()).refine((value) => value.length > 1, {
 			message: 'You have to select at least two item.',
 		}),
+		wallets: z
+			.array(
+				z.object({
+					label: z.string(), // wallet.name
+					value: z.string(), // wallet.uid
+				}),
+			)
+			.min(1, {
+				message: 'You have to select at least one wallet.',
+			}),
 		// randomActions: z.boolean(),
 		// farmingTestnets: z.boolean(),
 	}),
@@ -119,6 +129,7 @@ export const NewStrategyModal = ({
 				signTransactionType: SignTransactionType.PRIVATE_KEY,
 				bridges: ['STARGATE'],
 				networks: [],
+				wallets: [],
 			},
 		},
 	})
@@ -139,6 +150,7 @@ export const NewStrategyModal = ({
 			)
 			setValue('firstStepFileds.bridges', bridges)
 			setValue('firstStepFileds.networks', networks)
+			setValue('firstStepFileds.wallets', selectedStrategy.wallets)
 		}
 	}, [isOpen, selectedStrategy, setValue])
 
@@ -157,6 +169,7 @@ export const NewStrategyModal = ({
 			signTransactionType,
 			networks,
 			bridges,
+			wallets,
 		} = firstStepFileds
 
 		if (selectedStrategy) {
@@ -169,6 +182,7 @@ export const NewStrategyModal = ({
 				randomActions: false,
 				farmingTestnet: false,
 				signTransactionType,
+				wallets,
 			})
 
 			toast({
@@ -185,6 +199,7 @@ export const NewStrategyModal = ({
 				randomActions: false,
 				farmingTestnet: false,
 				signTransactionType,
+				wallets,
 			})
 
 			toast({

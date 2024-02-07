@@ -20,7 +20,7 @@ import { Form } from '@modules/shared/components/ui/form'
 import { Input } from '@modules/shared/components/ui/input'
 import { ScrollArea } from '@modules/shared/components/ui/scroll-area'
 import { toast } from '@modules/shared/hooks/useToast'
-import { Plus } from '@phosphor-icons/react'
+import { PlusIcon } from '@heroicons/react/24/outline'
 
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -35,7 +35,10 @@ const AddNewWallet = ({ addNewWallet }: { addNewWallet: () => void }) => {
 				className="flex sm:w-fit"
 				onClick={addNewWallet}
 			>
-				<Plus className="mr-2" />
+				<PlusIcon
+					className="mr-2 h-4 w-4 shrink-0 stroke-2"
+					aria-hidden="true"
+				/>
 				Add new wallet
 			</Button>
 		</div>

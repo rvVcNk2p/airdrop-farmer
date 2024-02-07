@@ -8,6 +8,7 @@ export interface UserStrategyType {
 	signTransactionType: SignTransactionType
 	farmingTestnet: boolean
 	testnet?: TestnetType | null
+	wallets: { label: string; value: string }[]
 }
 
 export interface MainnetType {

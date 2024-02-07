@@ -25,7 +25,7 @@ import { ScrollArea } from '@modules/shared/components/ui/scroll-area'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 import { Button } from '@/modules/shared/components/ui/button'
-import { PlusIcon } from '@heroicons/react/24/outline'
+import { ArrowPathIcon } from '@heroicons/react/24/outline'
 
 interface EditWalletModal {
 	selectedWallet: WalletType | null
@@ -40,8 +40,8 @@ const UpdateWallet = ({ updateWallet }: { updateWallet: () => void }) => {
 				className="flex sm:w-fit"
 				onClick={updateWallet}
 			>
-				<PlusIcon
-					className="mr-2 h-6 w-6 shrink-0 stroke-2"
+				<ArrowPathIcon
+					className="mr-2 h-4 w-4 shrink-0 stroke-2"
 					aria-hidden="true"
 				/>
 				Update wallet
