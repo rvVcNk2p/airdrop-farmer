@@ -82,7 +82,7 @@ export const WorkspacePage = () => {
 	}
 
 	return (
-		<div className="flex flex-col min-h-screen items-center p-8 xl:p-16 pt-[3rem] gap-4">
+		<div className="flex min-h-screen flex-col items-center gap-4 p-8 pt-[3rem] xl:p-16">
 			<WorkspaceHeader
 				title={group?.name || ''}
 				workspaceUid={group?.uid}
@@ -92,7 +92,7 @@ export const WorkspacePage = () => {
 				startWorkspace={startWorkspace}
 			/>
 			{isLoading ? (
-				<Skeleton className="p-2 flex-grow w-full" />
+				<Skeleton className="w-full flex-grow p-2" />
 			) : (
 				<WorkspaceContent>
 					{history?.map((step, index) => (
@@ -104,7 +104,7 @@ export const WorkspacePage = () => {
 								{moment(step.timestamp).format('DD dddd, hh:mm:ss')}
 							</div>
 							<div className="text-sm">{shortenerAddress(step.wallet)}</div>
-							<div className="text-sm flex justify-center">{step.status}</div>
+							<div className="flex justify-center text-sm">{step.status}</div>
 							<div className="text-sm">{parse(step.message)}</div>
 						</div>
 					))}

@@ -131,7 +131,7 @@ export const NewStrategyStepThree = ({
 
 						<Label>
 							3. You have USDT or USDC in one of these tokens:
-							<div className="flex flex-col mt-2 gap-1">
+							<div className="mt-2 flex flex-col gap-1">
 								{activeTokens.map((activeToken) => (
 									<ActiveTokenLabel
 										key={activeToken.network + activeToken.tokenName}

@@ -4,46 +4,46 @@ import './chooseYour.css'
 
 const ChooseYour = () => {
 	return (
-		<section className="relative z-10 px-4 md:px-8 py-12 lg:py-28" id="pricing">
+		<section className="relative z-10 px-4 py-12 md:px-8 lg:py-28" id="pricing">
 			<div className="mx-auto">
-				<div className="w-full flex flex-col items-center">
-					<div className="max-w-6xl flex flex-col items-center w-full text-center mb-8 lg:mb-16">
+				<div className="flex w-full flex-col items-center">
+					<div className="mb-8 flex w-full max-w-6xl flex-col items-center text-center lg:mb-16">
 						<p className="presale">PRESALE</p>
-						<h1 className="font-semibold text-3xl md:text-5xl text-white text-center mb-4 md:mb-8">
+						<h1 className="mb-4 text-center text-3xl font-semibold text-white md:mb-8 md:text-5xl">
 							Pricing{' '}
 							{/* <span className="text-transparent bg-clip-text fancyText">
 								Farmer
 							</span> */}
 						</h1>
-						<p className="max-w-[770px] text-xl md:text-2xl text-main-airdrop">
+						<p className="text-main-airdrop max-w-[770px] text-xl md:text-2xl">
 							Eager to boost your profits and save time? Pick between our
 							monthly subscription and one-time package to start experiencing
 							automated airdrop farming.
 						</p>
 					</div>
-					<div className="flex flex-col xl:flex-row items-center gap-8 l:gap-0">
-						<div className="plan bg-[#181622] relative rounded-tr-xl l:rounded-tr-none rounded-br-xl l:rounded-br-none rounded-tl-xl rounded-bl-xl">
-							<div className="heyLiniGradient rounded-tr-xl l:rounded-tr-none rounded-br-xl l:rounded-br-none rounded-tl-xl rounded-bl-xl"></div>
-							<div className="heyLiniGrain rounded-tr-xl l:rounded-tr-none rounded-br-xl l:rounded-br-none rounded-tl-xl rounded-bl-xl"></div>
-							<div className="text-left text-white text-[28px] relative z-50">
+					<div className="l:gap-0 flex flex-col items-center gap-8 xl:flex-row">
+						<div className="plan l:rounded-tr-none l:rounded-br-none relative rounded-bl-xl rounded-br-xl rounded-tl-xl rounded-tr-xl bg-[#181622]">
+							<div className="heyLiniGradient l:rounded-tr-none l:rounded-br-none rounded-bl-xl rounded-br-xl rounded-tl-xl rounded-tr-xl"></div>
+							<div className="heyLiniGrain l:rounded-tr-none l:rounded-br-none rounded-bl-xl rounded-br-xl rounded-tl-xl rounded-tr-xl"></div>
+							<div className="relative z-50 text-left text-[28px] text-white">
 								Monthly{' '}
 							</div>
-							<p className="mb-8 text-left text-main-airdrop relative z-50">
+							<p className="text-main-airdrop relative z-50 mb-8 text-left">
 								Best option for farming upcoming airdrops.
 							</p>
-							<span className="flex gap-[8px] mb-8 text-main-airdrop relative z-50">
-								<strong className="text-white text-[48px] opacity-80 font-semibold">
+							<span className="text-main-airdrop relative z-50 mb-8 flex gap-[8px]">
+								<strong className="text-[48px] font-semibold text-white opacity-80">
 									{/* Ξ0.075 */}
 									$100
 								</strong>{' '}
 								/ month
 							</span>
 							<hr />
-							<div className="text-left mt-4 text-main-airdrop relative z-50">
+							<div className="text-main-airdrop relative z-50 mt-4 text-left">
 								<span>What’s included</span>
-								<ul className="flex flex-col mt-4 gap-4 min-h-[328px]">
+								<ul className="mt-4 flex min-h-[328px] flex-col gap-4">
 									<li className="flex items-center gap-[12px]">
-										<i className="text-[24px] items-start">
+										<i className="items-start text-[24px]">
 											<svg
 												xmlns="http://www.w3.org/2000/svg"
 												fill="none"
@@ -63,7 +63,7 @@ const ChooseYour = () => {
 										<div></div>
 									</li>
 									<li className="flex items-center gap-[12px]">
-										<i className="text-[24px] items-start">
+										<i className="items-start text-[24px]">
 											<svg
 												xmlns="http://www.w3.org/2000/svg"
 												fill="none"
@@ -82,7 +82,7 @@ const ChooseYour = () => {
 										Automated Airdrop Farming for LayerZero
 									</li>
 									<li className="flex items-center gap-[12px]">
-										<i className="text-[24px] items-start">
+										<i className="items-start text-[24px]">
 											<svg
 												xmlns="http://www.w3.org/2000/svg"
 												fill="none"
@@ -101,7 +101,7 @@ const ChooseYour = () => {
 										Anti-Sybil Protection
 									</li>
 									<li className="flex items-center gap-[12px]">
-										<i className="text-[24px] items-start">
+										<i className="items-start text-[24px]">
 											<svg
 												xmlns="http://www.w3.org/2000/svg"
 												fill="none"
@@ -149,7 +149,7 @@ const ChooseYour = () => {
 							</div>
 							<a
 								href={`${discordLink}`}
-								className="flex items-center justify-center font-medium rounded-md whitespace-nowrap duration-200 focus:outline-none focus:shadow-outline bg-transparent border border-[#33323e] text-white hover:bg-[#211f2d] text-base py-[7px] px-2.5 relative z-50 h-[46px] !text-lg py-2 px-4 tracking-tight active:scale-95 Button_btn__oCnKT"
+								className="focus:shadow-outline Button_btn__oCnKT relative z-50 flex h-[46px] items-center justify-center whitespace-nowrap rounded-md border border-[#33323e] bg-transparent px-2.5 px-4 py-2 py-[7px] !text-lg text-base font-medium tracking-tight text-white duration-200 hover:bg-[#211f2d] focus:outline-none active:scale-95"
 							>
 								<button
 									aria-expanded="false"
@@ -161,7 +161,7 @@ const ChooseYour = () => {
 							</a>
 						</div>
 						<div className="relative">
-							<div className="absolute inset-[-100px] top-[-5%] left-[0] right-[0] mx-auto z-[-1]">
+							<div className="absolute inset-[-100px] left-[0] right-[0] top-[-5%] z-[-1] mx-auto">
 								<div className="apple-anime-container">
 									<div className="apple-anime-inside">
 										<div className="apple-anime-first"></div>
@@ -170,28 +170,28 @@ const ChooseYour = () => {
 									</div>
 								</div>
 							</div>
-							<div className="plan planHighlighted bg-[#181622] relative">
+							<div className="plan planHighlighted relative bg-[#181622]">
 								<div className="heyLiniGradient rounded-xl"></div>
 								<div className="heyLiniGrain rounded-xl"></div>
-								<div className="text-left text-white text-[28px] relative z-50">
+								<div className="relative z-50 text-left text-[28px] text-white">
 									<span className="oneTime">Lifetime</span>
 								</div>
-								<p className="mb-8 text-left text-main-airdrop relative z-50">
+								<p className="text-main-airdrop relative z-50 mb-8 text-left">
 									Designed for dedicated airdrop farmers.
 								</p>
-								<span className="flex gap-[8px] mb-8 text-main-airdrop relative z-50">
-									<strong className="text-white text-[48px] font-semibold">
+								<span className="text-main-airdrop relative z-50 mb-8 flex gap-[8px]">
+									<strong className="text-[48px] font-semibold text-white">
 										{/* Ξ0.3 */}
 										$300
 									</strong>{' '}
 									/ one time
 								</span>
 								<hr />
-								<div className="text-left mt-4 text-main-airdrop relative z-50">
+								<div className="text-main-airdrop relative z-50 mt-4 text-left">
 									<span>What’s included</span>
-									<ul className="flex flex-col mt-4 gap-4 min-h-[328px]">
+									<ul className="mt-4 flex min-h-[328px] flex-col gap-4">
 										<li className="flex items-center gap-[12px]">
-											<i className="text-[24px] items-start text-main-color">
+											<i className="text-main-color items-start text-[24px]">
 												<svg
 													xmlns="http://www.w3.org/2000/svg"
 													fill="none"
@@ -214,7 +214,7 @@ const ChooseYour = () => {
 											<div> </div>
 										</li>
 										<li className="flex items-center gap-[12px]">
-											<i className="text-[24px] items-start text-main-color">
+											<i className="text-main-color items-start text-[24px]">
 												<svg
 													xmlns="http://www.w3.org/2000/svg"
 													fill="none"
@@ -234,7 +234,7 @@ const ChooseYour = () => {
 											like zkSync, StarkNet, Linea and others.
 										</li>
 										<li className="flex items-center gap-[12px]">
-											<i className="text-[24px] items-start text-main-color">
+											<i className="text-main-color items-start text-[24px]">
 												<svg
 													xmlns="http://www.w3.org/2000/svg"
 													fill="none"
@@ -254,7 +254,7 @@ const ChooseYour = () => {
 										</li>
 
 										<li className="flex items-center gap-[12px]">
-											<i className="text-[24px] items-start text-main-color">
+											<i className="text-main-color items-start text-[24px]">
 												<svg
 													xmlns="http://www.w3.org/2000/svg"
 													fill="none"
@@ -273,7 +273,7 @@ const ChooseYour = () => {
 											Private Airdrop Farmers Community
 										</li>
 										<li className="flex items-center gap-[12px]">
-											<i className="text-[24px] items-start text-main-color">
+											<i className="text-main-color items-start text-[24px]">
 												<svg
 													xmlns="http://www.w3.org/2000/svg"
 													fill="none"
@@ -297,7 +297,7 @@ const ChooseYour = () => {
 													xmlns="http://www.w3.org/2000/svg"
 													fill="none"
 													viewBox="0 0 16 16"
-													className="icon !w-6 !h-5"
+													className="icon !h-5 !w-6"
 												>
 													<path
 														fill="#76cb9f"
@@ -325,7 +325,7 @@ const ChooseYour = () => {
 								</div>
 								<a
 									href={`${discordLink}`}
-									className="flex items-center justify-center font-medium rounded-md whitespace-nowrap duration-200 focus:outline-none focus:shadow-outline bg-transparent border border-[#33323e] text-white hover:bg-[#211f2d] text-base py-[7px] px-2.5 relative z-50 h-[46px] !text-lg py-2 px-4 tracking-tight active:scale-95 Button_btn__oCnKT"
+									className="focus:shadow-outline Button_btn__oCnKT relative z-50 flex h-[46px] items-center justify-center whitespace-nowrap rounded-md border border-[#33323e] bg-transparent px-2.5 px-4 py-2 py-[7px] !text-lg text-base font-medium tracking-tight text-white duration-200 hover:bg-[#211f2d] focus:outline-none active:scale-95"
 								>
 									<button
 										aria-expanded="false"

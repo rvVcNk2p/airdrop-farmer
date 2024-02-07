@@ -21,7 +21,7 @@ const LandingPage = () => {
 			<Features />
 			<Calculate />
 			<ChooseYourPlan />
-			<SectionBreaker className="rotate-180 !-mt-40" />
+			<SectionBreaker className="!-mt-40 rotate-180" />
 			<Faq />
 		</div>
 	)

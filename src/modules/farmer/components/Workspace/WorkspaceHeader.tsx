@@ -63,24 +63,24 @@ export const WorkspaceHeader = ({
 	}
 
 	return (
-		<div className="flex flex-col items-start w-full gap-4">
+		<div className="flex w-full flex-col items-start gap-4">
 			<Link
 				href="/farmer"
-				className="hover:opacity-60 flex gap-1 justify-center items-center cursor-pointer"
+				className="flex cursor-pointer items-center justify-center gap-1 hover:opacity-60"
 			>
 				<ArrowLeft className="text-xl" />
 			</Link>
-			<h1 className="text-3xl font-bold w-full">
+			<h1 className="w-full text-3xl font-bold">
 				{isLoading ? (
-					<Skeleton className="w-[30px] h-[20px]" />
+					<Skeleton className="h-[20px] w-[30px]" />
 				) : (
-					<div className="flex gap-2 justify-between items-center">
-						<div className="flex gap-2 justify-center items-center ">
+					<div className="flex items-center justify-between gap-2">
+						<div className="flex items-center justify-center gap-2 ">
 							{title}{' '}
 							<span
 								className={`${statusColor(
 									workspaceStatus,
-								)} rounded-full h-3 w-3 block`}
+								)} block h-3 w-3 rounded-full`}
 							/>
 						</div>
 						<Button
@@ -93,10 +93,10 @@ export const WorkspaceHeader = ({
 					</div>
 				)}
 			</h1>
-			<div className="flex justify-start w-full gap-2">
+			<div className="flex w-full justify-start gap-2">
 				<HeaderElement title="Transactions">
 					{isLoading ? (
-						<Skeleton className="w-[25px] h-[10px]" />
+						<Skeleton className="h-[10px] w-[25px]" />
 					) : (
 						<div className="flex gap-1">
 							<div>
@@ -109,7 +109,7 @@ export const WorkspaceHeader = ({
 
 				<HeaderElement title="Chains:">
 					{isLoading ? (
-						<Skeleton className="w-[125px] h-[10px]" />
+						<Skeleton className="h-[10px] w-[125px]" />
 					) : (
 						strategy?.mainnet.networks
 							.map((network) => capitalize(network))
@@ -119,14 +119,14 @@ export const WorkspaceHeader = ({
 
 				<HeaderElement title="Volume:">
 					{isLoading ? (
-						<Skeleton className="w-[25px] h-[10px]" />
+						<Skeleton className="h-[10px] w-[25px]" />
 					) : (
 						`$ ${aggregateVolume}`
 					)}
 				</HeaderElement>
 
 				<HeaderElement title="Wallets:">
-					{isLoading ? <Skeleton className="w-[25px] h-[10px]" /> : wallets}
+					{isLoading ? <Skeleton className="h-[10px] w-[25px]" /> : wallets}
 				</HeaderElement>
 			</div>
 		</div>

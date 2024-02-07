@@ -18,7 +18,7 @@ export const CardTemplate = ({
 	return (
 		<Card
 			className={cn(
-				'w-full p-4 flex flex-col gap-4',
+				'flex w-full flex-col gap-4 p-4',
 				rootClasses ? rootClasses : null,
 			)}
 		>

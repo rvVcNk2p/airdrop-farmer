@@ -4,23 +4,23 @@ const SellingPoints = () => {
 	return (
 		<>
 			<section
-				className="relative z-10 px-4 md:px-8 py-12 lg:py-28"
+				className="relative z-10 px-4 py-12 md:px-8 lg:py-28"
 				id="metamask-signing"
 			>
-				<div className="max-w-5xl mx-auto">
-					<div className="flex flex-col lg:flex-row-reverse items-center lg:gap-16 w-full ">
+				<div className="mx-auto max-w-5xl">
+					<div className="flex w-full flex-col items-center lg:flex-row-reverse lg:gap-16 ">
 						<div className="relative flex flex-col items-center lg:items-start">
-							<h1 className="font-semibold text-3xl md:text-5xl text-white text-center lg:text-left mb-6 ">
+							<h1 className="mb-6 text-center text-3xl font-semibold text-white md:text-5xl lg:text-left ">
 								Metamask Signing
-								<span className="text-transparent bg-clip-text fancyText"></span>
+								<span className="fancyText bg-clip-text text-transparent"></span>
 							</h1>
-							<p className="text-xl md:text-2xl text-center lg:text-left text-main-airdrop mb-8 lg:mb-0 animate-reveal-description max-w-[750px]">
+							<p className="text-main-airdrop animate-reveal-description mb-8 max-w-[750px] text-center text-xl md:text-2xl lg:mb-0 lg:text-left">
 								An exclusive opportunity for those who are used to securing
 								themselves twice. You can farm without providing your private
 								keys, sign everything with metamask.
 							</p>
 						</div>
-						<div className="relative overflow-hidden w-full">
+						<div className="relative w-full overflow-hidden">
 							<div className="heyLiniGrain rounded-xl"></div>
 							<div className="heyLiniGradient"></div>
 							<Image
@@ -35,24 +35,24 @@ const SellingPoints = () => {
 				</div>
 			</section>
 			<section
-				className="relative z-10 px-4 md:px-8 py-12 lg:py-28"
+				className="relative z-10 px-4 py-12 md:px-8 lg:py-28"
 				id="wallets-stats"
 			>
-				<div className="max-w-5xl mx-auto">
-					<div className="flex flex-col lg:flex-row items-center lg:gap-16 w-full ">
+				<div className="mx-auto max-w-5xl">
+					<div className="flex w-full flex-col items-center lg:flex-row lg:gap-16 ">
 						<div className="relative flex flex-col items-center lg:items-start">
-							<h1 className="font-semibold text-3xl md:text-5xl text-white text-center lg:text-left mb-6 ">
+							<h1 className="mb-6 text-center text-3xl font-semibold text-white md:text-5xl lg:text-left ">
 								Auto Expense Tracking
-								<span className="text-transparent bg-clip-text fancyText"></span>
+								<span className="fancyText bg-clip-text text-transparent"></span>
 							</h1>
-							<p className="text-xl md:text-2xl text-center lg:text-left text-main-airdrop mb-8 lg:mb-0 animate-reveal-description max-w-[750px]">
+							<p className="text-main-airdrop animate-reveal-description mb-8 max-w-[750px] text-center text-xl md:text-2xl lg:mb-0 lg:text-left">
 								You no longer need to keep track of all your transactions in
 								Excel &amp; Sheets and calculate your fees manually. We&apos;ll
 								do everything automatically for each wallet. You&apos;ll have a
 								real automated control room for your farm.
 							</p>
 						</div>
-						<div className="relative overflow-hidden w-full">
+						<div className="relative w-full overflow-hidden">
 							<div className="heyLiniGrain rounded-xl"></div>
 							<div className="heyLiniGradient"></div>
 							<Image
@@ -67,23 +67,23 @@ const SellingPoints = () => {
 				</div>
 			</section>
 			<section
-				className="relative z-10 px-4 md:px-8 py-12 lg:py-28"
+				className="relative z-10 px-4 py-12 md:px-8 lg:py-28"
 				id="metamask-signing"
 			>
-				<div className="max-w-5xl mx-auto">
-					<div className="flex flex-col lg:flex-row-reverse items-center lg:gap-16 w-full ">
+				<div className="mx-auto max-w-5xl">
+					<div className="flex w-full flex-col items-center lg:flex-row-reverse lg:gap-16 ">
 						<div className="relative flex flex-col items-center lg:items-start">
-							<h1 className="font-semibold text-3xl md:text-5xl text-white text-center lg:text-left mb-6 ">
+							<h1 className="mb-6 text-center text-3xl font-semibold text-white md:text-5xl lg:text-left ">
 								Consolidation &amp; Withdrawal
-								<span className="text-transparent bg-clip-text fancyText"></span>
+								<span className="fancyText bg-clip-text text-transparent"></span>
 							</h1>
-							<p className="text-xl md:text-2xl text-center lg:text-left text-main-airdrop mb-8 lg:mb-0 animate-reveal-description max-w-[750px]">
+							<p className="text-main-airdrop animate-reveal-description mb-8 max-w-[750px] text-center text-xl md:text-2xl lg:mb-0 lg:text-left">
 								After your goal achieved, money could automatically consolidated
 								on chosen chain &amp; token and withdrawn to your CEX wallet. No
 								more spending hours managing your funds.
 							</p>
 						</div>
-						<div className="relative overflow-hidden w-full">
+						<div className="relative w-full overflow-hidden">
 							<div className="heyLiniGrain rounded-xl"></div>
 							<div className="heyLiniGradient"></div>
 							<Image

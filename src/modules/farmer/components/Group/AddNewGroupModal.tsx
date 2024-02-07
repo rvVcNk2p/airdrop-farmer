@@ -32,7 +32,7 @@ const initialGroupDetails = {
 
 const AddGroup = ({ addNewGroup }: { addNewGroup: () => void }) => {
 	return (
-		<div className="w-full flex justify-end">
+		<div className="flex w-full justify-end">
 			<Button variant="outline" className="flex sm:w-fit" onClick={addNewGroup}>
 				<Plus className="mr-2" />
 				Add new group

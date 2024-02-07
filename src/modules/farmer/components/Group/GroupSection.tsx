@@ -51,7 +51,7 @@ export const GroupSection = () => {
 				<div>
 					{useIsMounted() ? (
 						<>
-							<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+							<div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4">
 								{userGroups.map((group) => (
 									<CardTemplate
 										key={group.uid}
@@ -62,12 +62,12 @@ export const GroupSection = () => {
 											onClick={() => setSelectedGroup(group.uid)}
 											className="cursor-pointer"
 										>
-											<div className="flex gap-2 items-center">
+											<div className="flex items-center gap-2">
 												{group.name}{' '}
 												<span
 													className={`${statusColor(
 														getWorkspaceByUid(group.uid),
-													)} rounded-full h-3 w-3 block`}
+													)} block h-3 w-3 rounded-full`}
 												/>
 											</div>
 											{group.wallets.map((wallet) => (
@@ -76,7 +76,7 @@ export const GroupSection = () => {
 												</p>
 											))}
 										</div>
-										<div className="flex justify-between gap-4 w-full">
+										<div className="flex w-full justify-between gap-4">
 											<Button
 												variant="outline"
 												className="flex w-full sm:w-fit"

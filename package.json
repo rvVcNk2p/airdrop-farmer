@@ -7,7 +7,7 @@
 		"build": "next build",
 		"start": "next start",
 		"format": "prettier --check \"./**/*.{js,jsx,ts,tsx,css,scss,json,md}\"",
-		"format:fix": "prettier --write \"./**/*.{js,jsx,ts,tsx,css,scss,json,md}\" --plugin=prettier-plugin-tailwindcss",
+		"format:fix": "prettier --write \"./**/*.{js,jsx,ts,tsx,css,scss,json,md}\"",
 		"lint": "next lint",
 		"lint:fix": "eslint . --ext .js,.ts,.jsx,.tsx --fix",
 		"lint:staged": "lint-staged",
@@ -81,8 +81,8 @@
 		"husky": "^9.0.10",
 		"jsdom": "^23.0.1",
 		"lint-staged": "^15.2.2",
-		"prettier": "^2.8.8",
-		"prettier-plugin-tailwindcss": "^0.3.0",
+		"prettier": "^3.2.5",
+		"prettier-plugin-tailwindcss": "^0.5.11",
 		"vitest": "^1.1.1"
 	}
 }

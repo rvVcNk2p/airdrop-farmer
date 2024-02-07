@@ -53,7 +53,7 @@ const UpdatePasswordPage = () => {
 					/>
 				</div>
 			) : (
-				<div className="text-center w-full">
+				<div className="w-full text-center">
 					<LoadingSpinner />
 				</div>
 			)}

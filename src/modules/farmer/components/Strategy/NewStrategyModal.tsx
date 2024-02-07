@@ -52,7 +52,7 @@ const Stepper = ({
 		// updateActiveStep(nextStep)
 	}
 	return (
-		<div className="flex gap-2 w-full justify-end">
+		<div className="flex w-full justify-end gap-2">
 			{minStep !== activeStep && (
 				<Button variant="outline" onClick={setBack}>
 					Back

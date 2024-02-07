@@ -16,11 +16,11 @@ export const EmptyGroup = ({ classes }: EmptyGroupProps) => {
 					classes ? classes : null,
 				)}
 			>
-				<div className="mx-auto w-full flex flex-col justify-center items-center">
-					<div className="flex justify-center items-center">
+				<div className="mx-auto flex w-full flex-col items-center justify-center">
+					<div className="flex items-center justify-center">
 						<Cube weight="light" size={32} />
 					</div>
-					<span className="mt-2 flex text-sm font-medium items-center">
+					<span className="mt-2 flex items-center text-sm font-medium">
 						<Plus weight="regular" className="mr-1" size={12} />
 						Add new group
 					</span>

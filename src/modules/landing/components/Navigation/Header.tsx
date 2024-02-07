@@ -8,10 +8,10 @@ import DynamicNavItems from './DynamicNavItems'
 
 const Header = () => {
 	return (
-		<div className="fixed top-0 left-0 z-20 w-full px-4 md:px-8">
+		<div className="fixed left-0 top-0 z-20 w-full px-4 md:px-8">
 			<div className="header-mask"></div>
-			<header className="relative flex justify-between items-center w-full max-w-6xl h-14 mx-auto py-0">
-				<div className="h-auto relative mr-4">
+			<header className="relative mx-auto flex h-14 w-full max-w-6xl items-center justify-between py-0">
+				<div className="relative mr-4 h-auto">
 					<div className="relative">
 						<Link href="/">
 							<Image
@@ -31,7 +31,7 @@ const Header = () => {
 						href={discordLink}
 						target="_blank"
 						rel="noreferrer"
-						className="text-main-airdrop hover:opacity-80 text-white"
+						className="text-main-airdrop text-white hover:opacity-80"
 					>
 						Join Discord
 					</Link>

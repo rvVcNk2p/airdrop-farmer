@@ -21,7 +21,7 @@ export const WorkspaceContent = ({ children }: WorkspaceContentProps) => {
 		<>
 			<Card
 				ref={historyRef}
-				className="p-4 w-full h-[450px] overflow-y-scroll flex gap-2 flex-col"
+				className="flex h-[450px] w-full flex-col gap-2 overflow-y-scroll p-4"
 			>
 				{children}
 			</Card>

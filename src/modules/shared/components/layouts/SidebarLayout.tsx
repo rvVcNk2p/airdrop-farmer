@@ -54,7 +54,7 @@ export default function SidebarLayout({
 	return (
 		<>
 			<div className="fixed inset-y-0 z-50 flex w-24 flex-col">
-				<div className="flex grow flex-col gap-y-5 overflow-y-auto bg-background text-foreground border-r px-6">
+				<div className="flex grow flex-col gap-y-5 overflow-y-auto border-r bg-background px-6 text-foreground">
 					<div className="flex h-16 shrink-0 items-center">
 						<img
 							className="h-8 w-auto"
@@ -64,19 +64,19 @@ export default function SidebarLayout({
 					</div>
 					<nav className="flex flex-1 flex-col">
 						<ul role="list" className="flex flex-1 flex-col">
-							<li className="border-b pb-2 flex justify-center">
+							<li className="flex justify-center border-b pb-2">
 								<ul role="list" className="-mx-2 space-y-2">
 									{navigation.map((item) => (
 										<li key={item.name}>
 											<a
 												href={item.href}
-												className={`group flex justify-center gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold`}
+												className={`group flex justify-center gap-x-3 rounded-md p-2 text-sm font-semibold leading-6`}
 											>
 												<span
 													className={classNames(
 														item.current
-															? 'text-valid border-valid'
-															: 'hover:text-valid hover:border-valid',
+															? 'border-valid text-valid'
+															: 'hover:border-valid hover:text-valid',
 														`flex items-center justify-center rounded-lg border border-gray-700 bg-gray-800 p-2 py-${item.py}`,
 													)}
 												>
@@ -101,15 +101,15 @@ export default function SidebarLayout({
 											<a
 												href={supportItem.href}
 												className={
-													'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
+													'group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6'
 												}
 											>
 												<span
 													className={classNames(
 														supportItem.current
-															? 'text-white border-valid'
-															: 'hover:text-white hover:border-valid',
-														'flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-gray-700 bg-gray-800 text-[0.625rem] font-medium text-gray-400 p-2',
+															? 'border-valid text-white'
+															: 'hover:border-valid hover:text-white',
+														'flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-gray-700 bg-gray-800 p-2 text-[0.625rem] font-medium text-gray-400',
 													)}
 												>
 													<supportItem.icon
@@ -128,7 +128,7 @@ export default function SidebarLayout({
 									href="#"
 									className="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6"
 								>
-									<span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-gray-700 hover:border-valid bg-gray-800 text-[0.625rem] font-medium text-gray-400 hover:text-white p-4">
+									<span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-gray-700 bg-gray-800 p-4 text-[0.625rem] font-medium text-gray-400 hover:border-valid hover:text-white">
 										<ArrowLeftStartOnRectangleIcon
 											className="h-6 w-6 shrink-0"
 											aria-hidden="true"

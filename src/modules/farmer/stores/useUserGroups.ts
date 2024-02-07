@@ -67,7 +67,7 @@ export const useUserGroups = create<UserGroups>()(
 										wallets: group.wallets.filter(
 											(groupWallet) => groupWallet !== wallet,
 										),
-								  }
+									}
 								: group,
 						),
 					})),

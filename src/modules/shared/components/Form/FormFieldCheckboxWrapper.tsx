@@ -61,7 +61,7 @@ export const FormFieldCheckboxWrapper = ({
 																	field.value?.filter(
 																		(value: any) => value !== item.id,
 																	),
-															  )
+																)
 													}}
 												/>
 											</FormControl>

@@ -198,7 +198,7 @@ export const useActionHistory = create<ActionHistory>()(
 										...workspace.transactions,
 										[status]: workspace.transactions[status] + 1,
 									},
-							  }
+								}
 							: workspace,
 					),
 				}))
@@ -211,7 +211,7 @@ export const useActionHistory = create<ActionHistory>()(
 							? {
 									...workspace,
 									aggregatedValue: workspace.aggregatedValue + value,
-							  }
+								}
 							: workspace,
 					),
 				}))
@@ -229,7 +229,7 @@ export const useActionHistory = create<ActionHistory>()(
 										failed: 0,
 									},
 									aggregatedValue: 0,
-							  }
+								}
 							: workspace,
 					),
 				}))

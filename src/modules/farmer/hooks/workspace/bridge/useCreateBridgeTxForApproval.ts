@@ -180,7 +180,7 @@ export const useCreateBridgeTxForApproval = () => {
 						gas,
 						maxFeePerGas,
 						maxPriorityFeePerGas,
-				  }
+					}
 
 		return {
 			bridgeConfigObj,

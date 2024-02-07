@@ -22,10 +22,10 @@ const DefaultAccordion = ({
 	return (
 		<Accordion type="single" collapsible={collapsible} id={id}>
 			<AccordionItem value={id} className="border-[#33323e]">
-				<AccordionTrigger className="text-xl text-left text-white pr-6 !no-underline">
+				<AccordionTrigger className="pr-6 text-left text-xl text-white !no-underline">
 					{title}
 				</AccordionTrigger>
-				<AccordionContent className="text-lg text-main-airdrop pr-6">
+				<AccordionContent className="text-main-airdrop pr-6 text-lg">
 					{parse(content)}
 				</AccordionContent>
 			</AccordionItem>

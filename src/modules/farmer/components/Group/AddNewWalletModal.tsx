@@ -28,7 +28,7 @@ import * as z from 'zod'
 
 const AddNewWallet = ({ addNewWallet }: { addNewWallet: () => void }) => {
 	return (
-		<div className="w-full flex justify-end">
+		<div className="flex w-full justify-end">
 			<Button
 				variant="outline"
 				className="flex sm:w-fit"

@@ -24,7 +24,7 @@ const WalletsPage = () => {
 				<div>
 					{useIsMounted() ? (
 						<>
-							<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+							<div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4">
 								{userWallets.map((wallet) => (
 									<CardTemplate
 										key={wallet.uid}
@@ -32,7 +32,7 @@ const WalletsPage = () => {
 										contentClasses="flex flex-col justify-between items-between h-full"
 									>
 										<div className="cursor-pointer">
-											<div className="flex gap-2 items-center">
+											<div className="flex items-center gap-2">
 												{wallet.name}
 											</div>
 										</div>
@@ -46,11 +46,11 @@ const WalletsPage = () => {
 											</p>
 										</div>
 										<div className="cursor-pointer">
-											<div className="flex gap-2 items-center">
+											<div className="flex items-center gap-2">
 												{wallet.description || 'No description'}
 											</div>
 										</div>
-										<div className="flex justify-between gap-4 w-full">
+										<div className="flex w-full justify-between gap-4">
 											<Button
 												variant="outline"
 												className="flex w-full sm:w-fit"

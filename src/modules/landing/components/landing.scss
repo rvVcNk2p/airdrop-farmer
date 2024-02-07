@@ -139,7 +139,8 @@ button:disabled {
 	border-radius: inherit;
 	padding: 1px;
 	background: linear-gradient(rgb(46 53 72 / 100%), rgb(34 40 56 / 0%) 120%);
-	-webkit-mask: linear-gradient(black, black) content-box content-box,
+	-webkit-mask:
+		linear-gradient(black, black) content-box content-box,
 		linear-gradient(black, black);
 	-webkit-mask-composite: xor;
 }

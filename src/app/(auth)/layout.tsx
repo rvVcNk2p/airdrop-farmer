@@ -22,9 +22,9 @@ export default async function RootLayout({
 	}
 
 	return (
-		<div className="flex flex-col min-h-screen">
+		<div className="flex min-h-screen flex-col">
 			<Header />
-			<main className="bg-[#13121d] flex-1 flex flex-col justify-center">
+			<main className="flex flex-1 flex-col justify-center bg-[#13121d]">
 				{children}
 			</main>
 			<Footer />

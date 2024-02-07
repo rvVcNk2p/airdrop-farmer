@@ -51,44 +51,44 @@ const HowItWorks = () => {
 	}
 
 	return (
-		<section className="relative z-10 px-4 md:px-8 py-12 lg:py-28">
-			<div className="max-w-6xl mx-auto">
-				<div className="w-full flex flex-col items-center heyLiniAfter">
-					<div className="flex flex-col items-center w-full text-center mb-8 lg:mb-16">
-						<h1 className="max-w-[800px] font-semibold text-3xl md:text-5xl text-white text-center mb-4 md:mb-8">
+		<section className="relative z-10 px-4 py-12 md:px-8 lg:py-28">
+			<div className="mx-auto max-w-6xl">
+				<div className="heyLiniAfter flex w-full flex-col items-center">
+					<div className="mb-8 flex w-full flex-col items-center text-center lg:mb-16">
+						<h1 className="mb-4 max-w-[800px] text-center text-3xl font-semibold text-white md:mb-8 md:text-5xl">
 							<span className="mr-4">How</span>
-							<span className="text-transparent bg-clip-text fancyText">
+							<span className="fancyText bg-clip-text text-transparent">
 								It Works
 							</span>
 						</h1>
-						<p className="max-w-[800px] text-xl md:text-2xl text-main-airdrop text-center">
+						<p className="text-main-airdrop max-w-[800px] text-center text-xl md:text-2xl">
 							Set your goals: decide how much you want to transact, pick
 							activities, quantity, and customize extra settings like randomness
 							level.
 						</p>
 					</div>
-					<div className="w-full relative">
-						<div className="flex flex-col w-full min-[h-auto] rounded-xl overflow-hidden bg-[#181622] heyLini p-[1px] min-h-[initial] lm:min-h-[691px]">
+					<div className="relative w-full">
+						<div className="min-[h-auto] heyLini lm:min-h-[691px] flex min-h-[initial] w-full flex-col overflow-hidden rounded-xl bg-[#181622] p-[1px]">
 							<div className="heyLiniGradient rounded-xl"></div>
 							<div className="heyLiniGrain rounded-xl"></div>
-							<div className="hidden lg:flex w-full items-center justify-between p-2.5 border-none rounded-t-xl z-10 gap-4">
+							<div className="z-10 hidden w-full items-center justify-between gap-4 rounded-t-xl border-none p-2.5 lg:flex">
 								{steps.map((step, index) => (
 									<button
 										key={index}
-										className={`text-white text-lg flex-1 justify-center ${
-											activeStep === index ? 'bg-[#35323e] rounded-lg' : ''
+										className={`flex-1 justify-center text-lg text-white ${
+											activeStep === index ? 'rounded-lg bg-[#35323e]' : ''
 										}`}
 										onClick={() => setActiveStep(index)}
 									>
-										<span className="flex justify-center items-center py-1.5 px-5 rounded-lg whitespace-nowrap">
+										<span className="flex items-center justify-center whitespace-nowrap rounded-lg px-5 py-1.5">
 											{step.title}
 										</span>
 									</button>
 								))}
 							</div>
-							<div className="flex lg:hidden w-full items-center justify-between py-2 px-4 border-none rounded-t-xl z-10">
+							<div className="z-10 flex w-full items-center justify-between rounded-t-xl border-none px-4 py-2 lg:hidden">
 								<button
-									className="flex items-center justify-center w-9 h-9 md:w-10 md:h-10 bg-gray-2 rounded-full hover:opacity-75"
+									className="bg-gray-2 flex h-9 w-9 items-center justify-center rounded-full hover:opacity-75 md:h-10 md:w-10"
 									onClick={previouseStep}
 								>
 									<svg
@@ -99,7 +99,7 @@ const HowItWorks = () => {
 										height="1em"
 										width="1em"
 										xmlns="http://www.w3.org/2000/svg"
-										className="w-4 h-4 md:w-5 md:h-5 text-white rotate-90"
+										className="h-4 w-4 rotate-90 text-white md:h-5 md:w-5"
 									>
 										<path
 											fill="none"
@@ -110,12 +110,12 @@ const HowItWorks = () => {
 										></path>
 									</svg>
 								</button>
-								<button className="flex items-center py-1 px-2 md:py-2 md:px-4 md:text-lg font-semibold text-white whitespace-nowrap">
+								<button className="flex items-center whitespace-nowrap px-2 py-1 font-semibold text-white md:px-4 md:py-2 md:text-lg">
 									<span className="mr-2">{steps[activeStep].icon()}</span>
 									{steps[activeStep].title}
 								</button>
 								<button
-									className="flex items-center justify-center w-9 h-9 md:w-10 md:h-10 bg-gray-2 rounded-full hover:opacity-75"
+									className="bg-gray-2 flex h-9 w-9 items-center justify-center rounded-full hover:opacity-75 md:h-10 md:w-10"
 									onClick={nextStep}
 								>
 									<svg
@@ -126,7 +126,7 @@ const HowItWorks = () => {
 										height="1em"
 										width="1em"
 										xmlns="http://www.w3.org/2000/svg"
-										className="w-4 h-4 md:w-5 md:h-5 text-white -rotate-90"
+										className="h-4 w-4 -rotate-90 text-white md:h-5 md:w-5"
 									>
 										<path
 											fill="none"
@@ -139,7 +139,7 @@ const HowItWorks = () => {
 								</button>
 							</div>
 							<div className="relative block h-full overflow-hidden">
-								<div className="relative bg-gray-1 opacity-100 block animate-image-appear rounded-b-xl">
+								<div className="bg-gray-1 animate-image-appear relative block rounded-b-xl opacity-100">
 									<Image
 										src={`/images/${steps[activeStep].img}`}
 										alt={`${steps[activeStep].alt}`}

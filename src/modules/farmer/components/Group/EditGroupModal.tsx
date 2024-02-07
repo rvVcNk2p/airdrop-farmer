@@ -139,7 +139,7 @@ export const EditGroupModal = ({ selectedGroup, close }: EditGroupModal) => {
 					<AlertDialogDescription asChild={true}>
 						<div className="grid grid-cols-1 gap-6 pb-10">
 							<div className="flex gap-4">
-								<div className="flex flex-col gap-2 w-full">
+								<div className="flex w-full flex-col gap-2">
 									<Label>Name:</Label>
 									<Input
 										name="name"
@@ -149,7 +149,7 @@ export const EditGroupModal = ({ selectedGroup, close }: EditGroupModal) => {
 									/>
 								</div>
 
-								<div className="flex flex-col gap-2 w-full">
+								<div className="flex w-full flex-col gap-2">
 									<Label>Select strategy:</Label>
 
 									<Select
@@ -183,7 +183,7 @@ export const EditGroupModal = ({ selectedGroup, close }: EditGroupModal) => {
 									? groupDetails.wallets.map((wallet, idx) => (
 											<div
 												key={wallet}
-												className="flex justify-between items-center"
+												className="flex items-center justify-between"
 											>
 												<div>
 													{idx + 1}
@@ -201,7 +201,7 @@ export const EditGroupModal = ({ selectedGroup, close }: EditGroupModal) => {
 													<Trash size={18} />
 												</Button>
 											</div>
-									  ))
+										))
 									: 'No Private Keys added yet'}
 							</div>
 
