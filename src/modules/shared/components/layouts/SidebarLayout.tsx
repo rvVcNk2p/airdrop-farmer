@@ -4,6 +4,7 @@ import {
 	ArrowLeftStartOnRectangleIcon,
 	Cog6ToothIcon,
 	WalletIcon,
+	CreditCardIcon,
 } from '@heroicons/react/24/outline'
 import Image from 'next/image'
 
@@ -39,7 +40,14 @@ const supportItems = [
 		icon: WalletIcon,
 		current: false,
 	},
-	{ id: 2, name: 'Settings', href: '#', icon: Cog6ToothIcon, current: false },
+	{
+		id: 2,
+		name: 'Billing',
+		href: '/billing',
+		icon: CreditCardIcon,
+		current: false,
+	},
+	{ id: 3, name: 'Settings', href: '#', icon: Cog6ToothIcon, current: false },
 ]
 
 function classNames(...classes: any) {

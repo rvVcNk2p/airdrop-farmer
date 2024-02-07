@@ -8,6 +8,7 @@ export const useUpdateDatabase = () => {
 	const supabase = createClientComponentClient<Database>()
 	const { userSession } = useSession()
 
+	// TODO: Remove this function and after the GroupSection is removed
 	const updateBindedWallet = async (wallet: string) => {
 		try {
 			await supabase

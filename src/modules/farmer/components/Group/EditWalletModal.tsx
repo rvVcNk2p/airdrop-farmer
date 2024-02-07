@@ -1,9 +1,7 @@
 'use client'
 
-import { isValidPrivateKey } from '@/modules/shared/utils'
-import { zodResolver } from '@hookform/resolvers/zod'
 import { useUserWallets } from '@modules/farmer/stores'
-import { FormFieldWrapper } from '@modules/shared/components/Form'
+import type { WalletType } from '@modules/farmer/types'
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -13,49 +11,50 @@ import {
 	AlertDialogFooter,
 	AlertDialogHeader,
 	AlertDialogTitle,
-	AlertDialogTrigger,
 } from '@modules/shared/components/ui/alert-dialog'
-import { Button } from '@modules/shared/components/ui/button'
-import { Form } from '@modules/shared/components/ui/form'
 import { Input } from '@modules/shared/components/ui/input'
-import { ScrollArea } from '@modules/shared/components/ui/scroll-area'
+
 import { toast } from '@modules/shared/hooks/useToast'
-import { Plus } from '@phosphor-icons/react'
+import { isValidPrivateKey } from '@utils'
+import { Address } from 'viem/accounts'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { FormFieldWrapper } from '@modules/shared/components/Form'
 
-import { useState } from 'react'
+import { Form } from '@modules/shared/components/ui/form'
+import { ScrollArea } from '@modules/shared/components/ui/scroll-area'
 import { useForm } from 'react-hook-form'
-import { Address } from 'viem'
 import * as z from 'zod'
+import { Button } from '@/modules/shared/components/ui/button'
+import { PlusIcon } from '@heroicons/react/24/outline'
 
-const AddNewWallet = ({ addNewWallet }: { addNewWallet: () => void }) => {
+interface EditWalletModal {
+	selectedWallet: WalletType | null
+	close: () => void
+}
+
+const UpdateWallet = ({ updateWallet }: { updateWallet: () => void }) => {
 	return (
 		<div className="flex w-full justify-end">
 			<Button
 				variant="outline"
 				className="flex sm:w-fit"
-				onClick={addNewWallet}
+				onClick={updateWallet}
 			>
-				<Plus className="mr-2" />
-				Add new wallet
+				<PlusIcon
+					className="mr-2 h-6 w-6 shrink-0 stroke-2"
+					aria-hidden="true"
+				/>
+				Update wallet
 			</Button>
 		</div>
 	)
 }
 
-export const AddNewWalletModal = ({
-	children,
-}: {
-	children: React.ReactNode
-}) => {
-	const [isOpen, setIsOpen] = useState(false)
+export const EditWalletModal = ({ selectedWallet, close }: EditWalletModal) => {
+	const updateWallet = useUserWallets((state) => state.updateWallet)
 
-	const addNewWallet = useUserWallets((state) => state.addNewWallet)
 	const isPrivateKeyUnique = useUserWallets((state) => state.isPrivateKeyUnique)
-
-	const cancel = () => {
-		setIsOpen(false)
-		form.reset()
-	}
+	const getWalletByUid = useUserWallets((state) => state.getWalletByUid)
 
 	const formSchema = z.object({
 		name: z.string().min(3, {
@@ -81,7 +80,9 @@ export const AddNewWalletModal = ({
 			.refine(
 				(value) => {
 					const appendableWallet: Address = ('0x' + value) as Address
-					return isPrivateKeyUnique(appendableWallet)
+					const wallet = getWalletByUid(selectedWallet?.uid ?? '')
+					if (wallet?.privateKey === appendableWallet) return true
+					else return isPrivateKeyUnique(appendableWallet)
 				},
 				{
 					message: 'Wallet with this private key already exists.',
@@ -93,34 +94,39 @@ export const AddNewWalletModal = ({
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
-			name: '',
-			description: '',
-			privateKey: '',
+			name: selectedWallet?.name,
+			description: selectedWallet?.description ?? '',
+			privateKey: selectedWallet?.privateKey.slice(2),
 		},
 	})
 
 	const onSubmit = (values: z.infer<typeof formSchema>) => {
-		addNewWallet({
+		updateWallet({
+			uid: selectedWallet?.uid ?? '',
 			name: values.name,
 			privateKey: ('0x' + values.privateKey) as Address,
 			description: values.description,
 		})
 		toast({
-			title: '✅ New wallet created!',
+			title: '✅ Wallet updated!',
 			description: values.name,
 			duration: 5000,
 		})
 		cancel()
 	}
 
+	const cancel = () => {
+		form.reset()
+		close()
+	}
+
+	const isOpen = selectedWallet !== null
+
 	return (
 		<AlertDialog open={isOpen}>
-			<AlertDialogTrigger asChild={true} onClick={() => setIsOpen(true)}>
-				{children}
-			</AlertDialogTrigger>
 			<AlertDialogContent>
 				<AlertDialogHeader>
-					<AlertDialogTitle className="mb-6">Add new wallet</AlertDialogTitle>
+					<AlertDialogTitle className="mb-6">Update wallet</AlertDialogTitle>
 					<AlertDialogDescription asChild={true}>
 						<ScrollArea className="h-[400px] w-full">
 							<Form {...form}>
@@ -174,9 +180,9 @@ export const AddNewWalletModal = ({
 					</AlertDialogDescription>
 				</AlertDialogHeader>
 				<AlertDialogFooter className="mt-6">
-					<AlertDialogCancel onClick={cancel}>Cancel</AlertDialogCancel>
+					<AlertDialogCancel onClick={close}>Cancel</AlertDialogCancel>
 					<AlertDialogAction asChild={true}>
-						<AddNewWallet addNewWallet={form.handleSubmit(onSubmit)} />
+						<UpdateWallet updateWallet={form.handleSubmit(onSubmit)} />
 					</AlertDialogAction>
 				</AlertDialogFooter>
 			</AlertDialogContent>

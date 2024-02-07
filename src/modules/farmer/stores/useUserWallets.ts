@@ -8,7 +8,7 @@ import { SecureLocalStorage } from './helpers'
 interface useUserWallets {
 	userWallets: WalletType[]
 
-	getWalletByUid: (uid: string) => WalletType | undefined
+	getWalletByUid: (uid: string) => WalletType | null
 	isPrivateKeyUnique: (privateKey: string) => boolean
 
 	addNewWallet: (rawWallet: RawWalletType) => void
@@ -23,7 +23,7 @@ export const useUserWallets = create<useUserWallets>()(
 				userWallets: [],
 
 				getWalletByUid: (uid: string) =>
-					get().userWallets.find((wallet) => wallet.uid === uid),
+					get().userWallets.find((wallet) => wallet.uid === uid) || null,
 
 				isPrivateKeyUnique: (privateKey: string) =>
 					!get().userWallets.some((wallet) => wallet.privateKey === privateKey),
