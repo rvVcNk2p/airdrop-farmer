@@ -5,43 +5,43 @@ import './features.css'
 const Features = () => {
 	return (
 		<section
-			className="relative z-10 px-4 md:px-8 py-12 lg:py-28"
+			className="relative z-10 px-4 py-12 md:px-8 lg:py-28"
 			id="what-airdrop-copilot-can-do"
 		>
 			<div className="max-w-8xl mx-auto">
-				<div className="flex flex-col items-center justify-center flex-wrap lg:gap-16 w-full ">
+				<div className="flex w-full flex-col flex-wrap items-center justify-center lg:gap-16 ">
 					<div className="relative flex flex-col items-center">
-						<h1 className="font-semibold text-3xl md:text-5xl text-white text-center mb-6 ">
-							<span className="text-transparent bg-clip-text fancyText">
+						<h1 className="mb-6 text-center text-3xl font-semibold text-white md:text-5xl ">
+							<span className="fancyText bg-clip-text text-transparent">
 								Features
 							</span>{' '}
 							<span className="block md:inline-block">We Can Disclose</span>
 						</h1>
-						<p className="text-xl md:text-2xl text-center text-main-airdrop mb-8 lg:mb-0">
+						<p className="text-main-airdrop mb-8 text-center text-xl md:text-2xl lg:mb-0">
 							This is only the beginning. The true potential is kept away from
 							public view. <br /> Constantly expanding!
 						</p>
 					</div>
-					<div className="flex flex-col lg:flex-row gap-4 lg:gap-8">
-						<div className="plan relative overflow-hidden w-full bg-[#13121d] border border-[#33323e] rounded-xl p-10 !max-w-full lg:!max-w-[500px]">
+					<div className="flex flex-col gap-4 lg:flex-row lg:gap-8">
+						<div className="plan relative w-full !max-w-full overflow-hidden rounded-xl border border-[#33323e] bg-[#13121d] p-10 lg:!max-w-[500px]">
 							<div className="heyLiniGradient rounded-xl"></div>
 							<div className="heyLiniGrain rounded-xl"></div>
 							<div className="relative z-10">
-								<div className="flex items-center gap-4 mb-[27px]">
+								<div className="mb-[27px] flex items-center gap-4">
 									<Image
 										src="/images/f_l0-logo.png"
 										height={50}
 										width={50}
-										className="w-6 h-auto"
+										className="h-auto w-6"
 										alt="Layerzero logo"
 									/>
 									<p className="text-3xl font-medium text-white">LayerZero</p>
 								</div>
 								<hr />
-								<div className="text-left mt-8 text-main-airdrop relative z-50">
-									<ul className="flex flex-col mt-4 gap-4">
+								<div className="text-main-airdrop relative z-50 mt-8 text-left">
+									<ul className="mt-4 flex flex-col gap-4">
 										<li className="flex items-center gap-[12px] lg:text-lg">
-											<i className="text-[24px] items-start text-main-color">
+											<i className="text-main-color items-start text-[24px]">
 												<svg
 													xmlns="http://www.w3.org/2000/svg"
 													fill="none"
@@ -60,7 +60,7 @@ const Features = () => {
 											Achieve Top 3% of airdrop farmers for each wallet.
 										</li>
 										<li className="flex items-center gap-[12px] lg:text-lg">
-											<i className="text-[24px] items-start text-main-color">
+											<i className="text-main-color items-start text-[24px]">
 												<svg
 													xmlns="http://www.w3.org/2000/svg"
 													fill="none"
@@ -80,7 +80,7 @@ const Features = () => {
 											Arbitrum, Optimism, Fantom.
 										</li>
 										<li className="flex items-center gap-[12px] lg:text-lg">
-											<i className="text-[24px] items-start text-main-color">
+											<i className="text-main-color items-start text-[24px]">
 												<svg
 													xmlns="http://www.w3.org/2000/svg"
 													fill="none"
@@ -139,7 +139,7 @@ const Features = () => {
 											algorithm.
 										</li> */}
 										<li className="flex items-center gap-[12px] lg:text-lg">
-											<i className="text-[24px] items-start text-main-color">
+											<i className="text-main-color items-start text-[24px]">
 												<svg
 													xmlns="http://www.w3.org/2000/svg"
 													fill="none"
@@ -158,7 +158,7 @@ const Features = () => {
 											Sign transactions with Private keys
 										</li>
 										<li className="flex items-center gap-[12px] lg:text-lg">
-											<i className="text-[24px] items-start text-main-color">
+											<i className="text-main-color items-start text-[24px]">
 												<svg
 													xmlns="http://www.w3.org/2000/svg"
 													fill="none"
@@ -181,16 +181,16 @@ const Features = () => {
 								</div>
 							</div>
 						</div>
-						<div className="plan relative overflow-hidden w-full bg-[#13121d] border border-[#33323e] rounded-xl p-10 !max-w-full lg:!max-w-[500px]">
+						<div className="plan relative w-full !max-w-full overflow-hidden rounded-xl border border-[#33323e] bg-[#13121d] p-10 lg:!max-w-[500px]">
 							<div className="heyLiniGradient rounded-xl"></div>
 							<div className="heyLiniGrain rounded-xl"></div>
 							<div className="relative z-10 h-full">
-								<div className="flex items-center gap-4 mb-8">
+								<div className="mb-8 flex items-center gap-4">
 									<Image
 										src="/images/f_zksync-logo.png"
 										height={50}
 										width={50}
-										className="w-10 h-auto"
+										className="h-auto w-10"
 										alt="Zksync logo"
 									/>
 									<p className="text-3xl font-medium text-white">ZkSync</p>
@@ -337,21 +337,21 @@ const Features = () => {
 										</li>
 									</ul>
 								</div> */}
-								<div className="text-main-airdrop flex flex-col min-h-[200px] h-full justify-center items-center text-xl">
+								<div className="text-main-airdrop flex h-full min-h-[200px] flex-col items-center justify-center text-xl">
 									Coming soon
 								</div>
 							</div>
 						</div>
-						<div className="plan relative overflow-hidden w-full bg-[#13121d] border border-[#33323e] rounded-xl p-10 !max-w-full lg:!max-w-[500px]">
+						<div className="plan relative w-full !max-w-full overflow-hidden rounded-xl border border-[#33323e] bg-[#13121d] p-10 lg:!max-w-[500px]">
 							<div className="heyLiniGradient rounded-xl"></div>
 							<div className="heyLiniGrain rounded-xl"></div>
 							<div className="relative z-10 h-full">
-								<div className="flex items-center gap-4 mb-[27px]">
+								<div className="mb-[27px] flex items-center gap-4">
 									<Image
 										src="/images/f_starknet-logo.png"
 										height={50}
 										width={50}
-										className="w-11 h-auto"
+										className="h-auto w-11"
 										alt="Starknet logo"
 									/>
 									<p className="text-3xl font-medium text-white">Starknet</p>
@@ -498,7 +498,7 @@ const Features = () => {
 										</li>
 									</ul>
 								</div> */}
-								<div className="text-main-airdrop flex flex-col min-h-[200px] h-full justify-center items-center text-xl">
+								<div className="text-main-airdrop flex h-full min-h-[200px] flex-col items-center justify-center text-xl">
 									Coming soon
 								</div>
 							</div>

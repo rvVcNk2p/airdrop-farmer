@@ -1,17 +1,17 @@
 export default function Home() {
 	return (
 		<>
-			<section className="relative z-10 px-4 md:px-8 py-12 lg:py-28">
-				<div className="max-w-6xl mx-auto">
-					<div className="w-full flex flex-col items-center heyLiniAfter">
-						<div className="flex flex-col items-center w-full text-center mb-8 lg:mb-16">
-							<h1 className="max-w-[800px] font-semibold text-3xl md:text-5xl text-white text-center mb-4 md:mb-8">
+			<section className="relative z-10 px-4 py-12 md:px-8 lg:py-28">
+				<div className="mx-auto max-w-6xl">
+					<div className="heyLiniAfter flex w-full flex-col items-center">
+						<div className="mb-8 flex w-full flex-col items-center text-center lg:mb-16">
+							<h1 className="mb-4 max-w-[800px] text-center text-3xl font-semibold text-white md:mb-8 md:text-5xl">
 								<span className="mr-4">Terms of use & Privacy policy</span>
 							</h1>
 						</div>
-						<div className="w-full relative">
-							<div className="flex flex-col w-full min-[h-auto] rounded-xl overflow-hidden bg-[#181622] heyLini p-[1px] min-h-[initial]">
-								<div className="relative overflow-hidden w-full bg-[#13121d] border border-[#33323e] rounded-xl p-10">
+						<div className="relative w-full">
+							<div className="min-[h-auto] heyLini flex min-h-[initial] w-full flex-col overflow-hidden rounded-xl bg-[#181622] p-[1px]">
+								<div className="relative w-full overflow-hidden rounded-xl border border-[#33323e] bg-[#13121d] p-10">
 									<div className="heyLiniGradient rounded-xl"></div>
 									<div className="heyLiniGrain rounded-xl"></div>
 									<div className="flex flex-col gap-4">

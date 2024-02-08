@@ -7,32 +7,32 @@ const HeroSection = () => {
 	}
 
 	return (
-		<section className="px-4 md:px-8 py-16 lg:pb-36 lg:pt-64 lg:min-h-screen lg:-mt-[72px]">
-			<div className="max-w-6xl mx-auto z-10">
+		<section className="px-4 py-16 md:px-8 lg:-mt-[72px] lg:min-h-screen lg:pb-36 lg:pt-64">
+			<div className="z-10 mx-auto max-w-6xl">
 				<div className="flex flex-col items-center justify-center gap-4 lg:gap-16">
-					<div className="flex flex-col items-center w-full mt-6 md:mt-8 lg:mt-0 relative z-10">
-						<h1 className="font-semibold text-4xl md:text-6xl md:leading-tight text-center mb-6 animate-reveal-title text-white header relative">
+					<div className="relative z-10 mt-6 flex w-full flex-col items-center md:mt-8 lg:mt-0">
+						<h1 className="animate-reveal-title header relative mb-6 text-center text-4xl font-semibold text-white md:text-6xl md:leading-tight">
 							Automate Your
 							<span className="block">
 								<span
 									style={inlineStyle}
 									// data="LayerZero,ZkSync,StarkNet"
 									// effect="topDown"
-									className="text-main-color w-[175px] md:w-[271px] mr-6 text-valid"
+									className="text-main-color mr-6 w-[175px] text-valid md:w-[271px]"
 								>
 									LayerZero
 								</span>
 								Airdrop Farming
 							</span>
 						</h1>
-						<div className="text-xl md:text-2xl text-center text-main-airdrop mb-8 animate-reveal-description max-w-2xl">
+						<div className="text-main-airdrop animate-reveal-description mb-8 max-w-2xl text-center text-xl md:text-2xl">
 							Maximize your airdrop profits with a simple solution: save
 							valuable time by automating Metamask popups and stay safeguarded
 							from Sybil risks.
 						</div>
 					</div>
 					<div className="relative mt-8">
-						<div className="absolute inset-[-100px] top-[-5%] left-[0] right-[0] mx-auto z-0">
+						<div className="absolute inset-[-100px] left-[0] right-[0] top-[-5%] z-0 mx-auto">
 							<div className="apple-anime-container">
 								<div className="apple-anime-inside">
 									<div className="apple-anime-first"></div>
@@ -42,14 +42,14 @@ const HeroSection = () => {
 							</div>
 						</div>
 						<div className="relative">
-							<div className="absolute h-px bg-gradient-to-r from-sky-300/0 via-[rgb(118,203,159,0.6)] to-sky-300/0 -top-px left-20 right-11"></div>
+							<div className="absolute -top-px left-20 right-11 h-px bg-gradient-to-r from-sky-300/0 via-[rgb(118,203,159,0.6)] to-sky-300/0"></div>
 							<iframe
-								className="max-w-[1120px] w-screen h-auto px-4 aspect-video"
+								className="aspect-video h-auto w-screen max-w-[1120px] px-4"
 								src="https://www.youtube.com/embed/O0Ho8dj3ApE"
 								title="Airdrop Copilot - LayerZero Farming Bot"
 								allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
 							></iframe>
-							<div className="absolute h-px bg-gradient-to-r from-sky-300/0 via-[rgb(118,203,159,0.6)] to-sky-300/0 -bottom-px left-11 right-20"></div>
+							<div className="absolute -bottom-px left-11 right-20 h-px bg-gradient-to-r from-sky-300/0 via-[rgb(118,203,159,0.6)] to-sky-300/0"></div>
 						</div>
 					</div>
 				</div>

@@ -25,7 +25,7 @@ const DynamicNavItems = () => {
 	return publicPaths.includes(pathName) ? (
 		<Link
 			href="/farmer"
-			className="text-main-airdrop hover:opacity-80 text-white mr-6"
+			className="text-main-airdrop mr-6 text-white hover:opacity-80"
 		>
 			Airdrop Farmer
 		</Link>
@@ -38,7 +38,7 @@ const DynamicNavItems = () => {
 						href="#"
 						rel="noreferrer"
 						onClick={handleSignOut}
-						className="text-main-airdrop hover:opacity-80 text-white mr-6 cursor-pointer"
+						className="text-main-airdrop mr-6 cursor-pointer text-white hover:opacity-80"
 					>
 						Logout
 					</a>

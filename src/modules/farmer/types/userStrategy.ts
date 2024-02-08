@@ -8,6 +8,7 @@ export interface UserStrategyType {
 	signTransactionType: SignTransactionType
 	farmingTestnet: boolean
 	testnet?: TestnetType | null
+	wallets: { label: string; value: string }[]
 }
 
 export interface MainnetType {
@@ -28,6 +29,9 @@ export enum AirdropTypes {
 	LAYER_ZERO = 'LAYER_ZERO',
 	ZK_SYNC = 'ZK_SYNC',
 	STARK_NET = 'STARK_NET',
+	BASE = 'BASE',
+	SCROLL = 'SCROLL',
+	LINEA = 'LINEA',
 }
 
 export enum LayerZeroNetworks {

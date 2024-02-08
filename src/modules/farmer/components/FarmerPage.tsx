@@ -1,11 +1,10 @@
-import { GroupSection } from '@modules/farmer/components/Group/GroupSection'
 import { StrategySection } from '@modules/farmer/components/StrategySection'
+import { AirdropTypes } from '@modules/farmer/types'
 
-export const FarmerPage = () => {
+export const FarmerPage = ({ type }: { type: AirdropTypes }) => {
 	return (
-		<div className="flex min-h-screen flex-col items-center justify-between p-8 xl:p-16 pt-[7rem] gap-4">
-			<GroupSection />
-			<StrategySection />
+		<div className="mt-12 flex flex-col items-center gap-4">
+			<StrategySection type={type} />
 		</div>
 	)
 }

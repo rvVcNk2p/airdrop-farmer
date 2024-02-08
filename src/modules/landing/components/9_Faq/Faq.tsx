@@ -25,9 +25,9 @@ const Faq = () => {
 		},
 		{
 			id: uuidv4(),
-			title: 'Can I run the bot for multiple wallet groups at the same time?',
+			title: 'Can I run the bot for multiple strategy at the same time?',
 			content:
-				'Yes, absolutely. Our system allows you to establish a maximum of 1 or 10 wallet groups, each independently executing distinct strategies. These groups will seamlessly operate in parallel, ensuring efficient and effective script execution.',
+				'Yes, absolutely. Our system allows you to establish multiple stratgies, each independently executing distinct strategies. These strategies will seamlessly operate in parallel, ensuring efficient and effective script execution.',
 		},
 		{
 			id: uuidv4(),
@@ -51,7 +51,7 @@ const Faq = () => {
 		},
 		{
 			id: uuidv4(),
-			title: 'Do the bot have randomization among a group of accounts?',
+			title: 'Do the bot have randomization among a strategy of accounts?',
 			content:
 				'Indeed, you have the authority to define the randomization ratio according to your preferences before initiating the script. Your control over this crucial aspect ensures a personalized and secure experience.',
 		},
@@ -135,16 +135,16 @@ const Faq = () => {
 
 	return (
 		<section className="px-8 py-16 md:py-36" id="faq">
-			<div className="max-w-6xl mx-auto">
+			<div className="mx-auto max-w-6xl">
 				<div className="mb-8 md:mb-20">
-					<h1 className="font-semibold text-3xl md:text-5xl text-center text-white uppercase mb-4 md:mb-6">
+					<h1 className="mb-4 text-center text-3xl font-semibold uppercase text-white md:mb-6 md:text-5xl">
 						FAQ
 					</h1>
-					<p className="text-xl md:text-2xl text-center text-main-airdrop">
+					<p className="text-main-airdrop text-center text-xl md:text-2xl">
 						If you still have questions
 					</p>
 				</div>
-				<div className="max-w-3xl mx-auto">
+				<div className="mx-auto max-w-3xl">
 					{faqs.map((faq, index) => (
 						<DefaultAccordion
 							key={index}

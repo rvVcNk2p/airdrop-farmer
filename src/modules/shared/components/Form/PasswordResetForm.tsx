@@ -73,14 +73,14 @@ export const PasswordResetForm = ({
 									disabled={hasSent}
 									onClick={(e) => onSubmit(e as unknown as MouseEvent)}
 									type="submit"
-									className="flex w-full justify-center items-center rounded-md bg-valid px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-valid"
+									className="flex w-full items-center justify-center rounded-md bg-valid px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-valid"
 								>
 									{t('signin:request_new_password')}{' '}
 									<ArrowRight className="ml-2" />
 								</button>
 								<div>
 									{errorMsg && (
-										<p className="text-red-500 text-sm">{errorMsg}</p>
+										<p className="text-sm text-red-500">{errorMsg}</p>
 									)}
 								</div>
 							</>

@@ -52,7 +52,7 @@ const Stepper = ({
 		// updateActiveStep(nextStep)
 	}
 	return (
-		<div className="flex gap-2 w-full justify-end">
+		<div className="flex w-full justify-end gap-2">
 			{minStep !== activeStep && (
 				<Button variant="outline" onClick={setBack}>
 					Back
@@ -80,6 +80,9 @@ const formSchema = z.object({
 			z.literal(AirdropTypes.LAYER_ZERO),
 			z.literal(AirdropTypes.STARK_NET),
 			z.literal(AirdropTypes.ZK_SYNC),
+			z.literal(AirdropTypes.BASE),
+			z.literal(AirdropTypes.SCROLL),
+			z.literal(AirdropTypes.LINEA),
 		]),
 		signTransactionType: z.union([
 			z.literal(SignTransactionType.MANUAL),
@@ -91,6 +94,16 @@ const formSchema = z.object({
 		networks: z.array(z.string()).refine((value) => value.length > 1, {
 			message: 'You have to select at least two item.',
 		}),
+		wallets: z
+			.array(
+				z.object({
+					label: z.string(), // wallet.name
+					value: z.string(), // wallet.uid
+				}),
+			)
+			.min(1, {
+				message: 'You have to select at least one wallet.',
+			}),
 		// randomActions: z.boolean(),
 		// farmingTestnets: z.boolean(),
 	}),
@@ -113,12 +126,13 @@ export const NewStrategyModal = ({
 		defaultValues: {
 			firstStepFileds: {
 				name: '',
-				txsNumberPerWallet: undefined,
-				maxGasPerTxs: undefined,
+				txsNumberPerWallet: 1,
+				maxGasPerTxs: 1,
 				airdropType: AirdropTypes.LAYER_ZERO,
 				signTransactionType: SignTransactionType.PRIVATE_KEY,
 				bridges: ['STARGATE'],
 				networks: [],
+				wallets: [],
 			},
 		},
 	})
@@ -139,6 +153,7 @@ export const NewStrategyModal = ({
 			)
 			setValue('firstStepFileds.bridges', bridges)
 			setValue('firstStepFileds.networks', networks)
+			setValue('firstStepFileds.wallets', selectedStrategy.wallets)
 		}
 	}, [isOpen, selectedStrategy, setValue])
 
@@ -157,6 +172,7 @@ export const NewStrategyModal = ({
 			signTransactionType,
 			networks,
 			bridges,
+			wallets,
 		} = firstStepFileds
 
 		if (selectedStrategy) {
@@ -169,6 +185,7 @@ export const NewStrategyModal = ({
 				randomActions: false,
 				farmingTestnet: false,
 				signTransactionType,
+				wallets,
 			})
 
 			toast({
@@ -185,6 +202,7 @@ export const NewStrategyModal = ({
 				randomActions: false,
 				farmingTestnet: false,
 				signTransactionType,
+				wallets,
 			})
 
 			toast({

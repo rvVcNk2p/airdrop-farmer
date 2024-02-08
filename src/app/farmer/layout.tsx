@@ -1,6 +1,7 @@
 'use server'
 
 import { Footer, Header } from '@modules/landing/components'
+import SidebarLayout from '@modules/shared/components/layouts/SidebarLayout'
 import { createServerClient } from '@modules/supabase/server-utils'
 import { redirect } from 'next/navigation'
 
@@ -23,9 +24,7 @@ export default async function RootLayout({
 
 	return (
 		<>
-			<Header />
-			<main className="bg-[#13121d]">{children}</main>
-			<Footer />
+			<SidebarLayout>{children}</SidebarLayout>
 		</>
 	)
 }

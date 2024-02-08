@@ -7,20 +7,35 @@ import { CardTemplate } from '@modules/shared/components/templates/CardTemplate'
 import { Button } from '@modules/shared/components/ui/button'
 import { useIsMounted } from '@modules/shared/hooks'
 import { toast } from '@modules/shared/hooks/useToast'
-import { Pencil, Trash } from '@phosphor-icons/react'
 import { useState } from 'react'
+import {
+	WorkspaceStatusType,
+	useActionHistory,
+} from '@modules/farmer/stores/useActionHistory'
 
-import { UserStrategyType } from '../types'
+import { AirdropTypes, UserStrategyType } from '@modules/farmer/types'
+import { statusColor } from '../helpers/status'
+import { useRouter } from 'next/navigation'
+import {
+	PlayIcon,
+	TrashIcon,
+	PencilSquareIcon,
+} from '@heroicons/react/24/outline'
 
-export const StrategySection = () => {
-	const userStrategies = useUserStrategies((state) => state.userStrategies)
+export const StrategySection = ({ type }: { type: AirdropTypes }) => {
+	// Will keep the strategiesByType fresh by re-rendering the component
+	useUserStrategies((state) => state.userStrategies)
+
+	const getStrategiesByType = useUserStrategies(
+		(state) => state.getStrategiesByType,
+	)
 	const getStrategy = useUserStrategies((state) => state.getStrategy)
 	const deleteStrategy = useUserStrategies((state) => state.deleteStrategy)
 	const [selectedStrategy, setSelectedStrategy] = useState<
 		UserStrategyType | undefined
 	>()
 
-	const handleDeleteStretegy = (uid: string, name: string) => {
+	const handleDeleteStrategy = (uid: string, name: string) => {
 		// TODO: Add confirmation
 		deleteStrategy(uid)
 		toast({
@@ -34,35 +49,60 @@ export const StrategySection = () => {
 		setSelectedStrategy(getStrategy(uid))
 	}
 
+	const workspaces = useActionHistory((state) => state.workspaces)
+
+	const getWorkspaceByUid = (strategyUid: string) =>
+		workspaces.find((w) => w.uid === strategyUid)?.status ||
+		WorkspaceStatusType.IDLE
+
+	const router = useRouter()
+
 	return (
-		<CardTemplate title="Strategies">
+		<CardTemplate title={`[${type}] Strategies`}>
 			{useIsMounted() ? (
 				<>
-					<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-						{userStrategies.map((strategy) => (
+					<div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4">
+						{getStrategiesByType(type).map((strategy) => (
 							<CardTemplate
 								key={strategy.uid}
 								rootClasses="min-h-[200px]"
 								contentClasses="flex flex-col justify-between items-between h-full"
 							>
-								<div className="cursor-pointer">{strategy.name}</div>
-								<div className="flex justify-between gap-4 w-full">
+								<div className="flex cursor-pointer items-center">
+									{strategy.name}
+									<span
+										className={`${statusColor(
+											getWorkspaceByUid(strategy.uid),
+										)} ml-2 block h-3 w-3 rounded-full`}
+									/>
+								</div>
+								<div className="flex w-full justify-between gap-4">
+									{/* TODO: Add disabled state while running */}
 									<Button
 										variant="outline"
 										className="flex w-full sm:w-fit"
 										onClick={() =>
-											handleDeleteStretegy(strategy.uid, strategy.name)
+											handleDeleteStrategy(strategy.uid, strategy.name)
 										}
 									>
-										<Trash size={18} />
+										<TrashIcon className="h-4 w-4 shrink-0" />
 									</Button>
+									<Button
+										variant="outline"
+										className="flex w-full sm:w-fit"
+										disabled={strategy.wallets.length === 0}
+										onClick={() => router.push(`/workspace/${strategy.uid}`)}
+									>
+										<PlayIcon className="h-4 w-4 shrink-0" />
+									</Button>
+									{/* TODO: Add disabled state while running */}
 									<NewStrategyModal selectedStrategy={selectedStrategy}>
 										<Button
 											variant="outline"
 											className="flex w-full sm:w-fit"
 											onClick={() => handleStrategySelect(strategy.uid)}
 										>
-											<Pencil size={16} />
+											<PencilSquareIcon className="h-4 w-4 shrink-0" />
 										</Button>
 									</NewStrategyModal>
 								</div>

@@ -28,10 +28,10 @@ export const usePerformActions = () => {
 					status: ActionStatusType.FINISHED,
 				})
 				updateWorkspaceTransactions(
-					nextAction.groupUid,
+					nextAction.strategyUid,
 					WorkspaceTransactionStatusType.FINISHED,
 				)
-				updateWorkspaceAggregatedValue(nextAction.groupUid, bridgedValue)
+				updateWorkspaceAggregatedValue(nextAction.strategyUid, bridgedValue)
 
 				await incrementUsedQuota(usedQuota)
 
@@ -42,7 +42,7 @@ export const usePerformActions = () => {
 					status: ActionStatusType.FAILED,
 				})
 				updateWorkspaceTransactions(
-					nextAction.groupUid,
+					nextAction.strategyUid,
 					WorkspaceTransactionStatusType.FAILED,
 				)
 

@@ -18,6 +18,7 @@ export const useUpdateDatabase = () => {
 			console.error('Error fetching session:', error)
 		}
 	}
+
 	const incrementUsedQuota = (used_quota: number) => {
 		return new Promise(async (resolve, reject) => {
 			try {

@@ -126,12 +126,12 @@ export const LoginForm = ({
 							className="flex w-full justify-center rounded-md bg-valid px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-valid"
 						>
 							{isLoading && (
-								<CircleNotch className="animate-spin ml-2 h-6 w-6" />
+								<CircleNotch className="ml-2 h-6 w-6 animate-spin" />
 							)}
 							{button_text}
 						</button>
 						<div>
-							{errorMsg && <p className="text-red-500 text-sm">{errorMsg}</p>}
+							{errorMsg && <p className="text-sm text-red-500">{errorMsg}</p>}
 						</div>
 					</div>
 				</form>
@@ -142,7 +142,7 @@ export const LoginForm = ({
 							{t('signin:password_forgotten')}{' '}
 							<Link
 								href="/password-reset"
-								className="font-semibold underline leading-6 text-valid hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-valid"
+								className="font-semibold leading-6 text-valid underline hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-valid"
 							>
 								{t('signin:request_new_password')}.
 							</Link>

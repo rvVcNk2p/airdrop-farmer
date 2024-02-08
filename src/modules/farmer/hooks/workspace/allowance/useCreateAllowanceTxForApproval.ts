@@ -100,7 +100,7 @@ export const useCreateAllowanceTxForApproval = () => {
 						gas,
 						maxFeePerGas,
 						maxPriorityFeePerGas,
-				  }
+					}
 
 		return {
 			client,
