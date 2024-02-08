@@ -1,10 +1,10 @@
 'use client'
 
 import { FarmerPage } from '@modules/farmer/components/FarmerPage'
-import { FarmerOption } from '@modules/farmer/types'
+import { AirdropTypes } from '@modules/farmer/types'
 
 const Home = () => {
-	return <FarmerPage type={FarmerOption.ZKSYNC} />
+	return <FarmerPage type={AirdropTypes.LAYER_ZERO} />
 }
 
 export default Home

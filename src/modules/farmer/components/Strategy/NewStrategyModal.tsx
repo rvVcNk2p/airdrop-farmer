@@ -80,6 +80,9 @@ const formSchema = z.object({
 			z.literal(AirdropTypes.LAYER_ZERO),
 			z.literal(AirdropTypes.STARK_NET),
 			z.literal(AirdropTypes.ZK_SYNC),
+			z.literal(AirdropTypes.BASE),
+			z.literal(AirdropTypes.SCROLL),
+			z.literal(AirdropTypes.LINEA),
 		]),
 		signTransactionType: z.union([
 			z.literal(SignTransactionType.MANUAL),
