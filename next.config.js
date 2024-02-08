@@ -9,11 +9,11 @@ const nextConfig = {
 	},
 	redirects() {
 		return [
-			// {
-			// 	source: '/',
-			// 	destination: '/farmer',
-			// 	permanent: true,
-			// },
+			{
+				source: '/farmer',
+				destination: '/farmer/layer-zero',
+				permanent: true,
+			},
 		]
 	},
 }

@@ -20,7 +20,7 @@ const WalletsPage = () => {
 	const [selectedWallet, setSelectedWallet] = useState<null | WalletType>(null)
 
 	const handleDelete = (uid: string) => {
-		// TODO: Check if the wallet is being used in any group
+		// TODO: Check if the wallet is being used in any strategy
 		deleteWallet(uid)
 	}
 

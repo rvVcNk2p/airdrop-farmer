@@ -36,15 +36,15 @@ export const WorkspacePage = () => {
 	// LOGIC
 	const initWorkspace = useActionHistory((state) => state.initWorkspace)
 	const resetWorkspace = useActionHistory((state) => state.resetWorkspace)
-	const resetHistoryByGroupUid = useActionHistory(
-		(state) => state.resetHistoryByGroupUid,
+	const resetHistoryByStrategyUid = useActionHistory(
+		(state) => state.resetHistoryByStrategyUid,
 	)
 	const updateWorkspaceStatus = useActionHistory(
 		(state) => state.updateWorkspaceStatus,
 	)
 
 	const histories = useActionHistory((state) => state.history)
-	const history = histories.filter((h) => h.groupUid === strategy?.uid)
+	const history = histories.filter((h) => h.strategyUid === strategy?.uid)
 
 	const { coordinateActions } = useActionsCoordinator()
 
@@ -59,7 +59,7 @@ export const WorkspacePage = () => {
 		const strategyUid = strategy.uid
 
 		resetWorkspace(strategyUid)
-		resetHistoryByGroupUid(strategyUid)
+		resetHistoryByStrategyUid(strategyUid)
 
 		updateWorkspaceStatus(strategyUid, WorkspaceStatusType.RUNNING)
 

@@ -25,9 +25,9 @@ const Faq = () => {
 		},
 		{
 			id: uuidv4(),
-			title: 'Can I run the bot for multiple wallet groups at the same time?',
+			title: 'Can I run the bot for multiple strategy at the same time?',
 			content:
-				'Yes, absolutely. Our system allows you to establish a maximum of 1 or 10 wallet groups, each independently executing distinct strategies. These groups will seamlessly operate in parallel, ensuring efficient and effective script execution.',
+				'Yes, absolutely. Our system allows you to establish multiple stratgies, each independently executing distinct strategies. These strategies will seamlessly operate in parallel, ensuring efficient and effective script execution.',
 		},
 		{
 			id: uuidv4(),
@@ -51,7 +51,7 @@ const Faq = () => {
 		},
 		{
 			id: uuidv4(),
-			title: 'Do the bot have randomization among a group of accounts?',
+			title: 'Do the bot have randomization among a strategy of accounts?',
 			content:
 				'Indeed, you have the authority to define the randomization ratio according to your preferences before initiating the script. Your control over this crucial aspect ensures a personalized and secure experience.',
 		},

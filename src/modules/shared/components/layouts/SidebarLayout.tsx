@@ -8,12 +8,13 @@ import {
 } from '@heroicons/react/24/outline'
 import Image from 'next/image'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 
 const navigation = [
 	{
 		name: 'LayerZero',
-		href: '/farmer',
+		href: '/farmer/layer-zero',
 		logo: '/images/layer-zero-logo-vector_1.svg',
 		height: 35,
 		width: 24,
@@ -23,7 +24,7 @@ const navigation = [
 	},
 	{
 		name: 'ZkSync',
-		href: '/farmer',
+		href: '/farmer/zksync',
 		logo: '/images/zksync-logo-vector_1.svg',
 		disabled: true,
 		height: 25,
@@ -67,8 +68,14 @@ export default function SidebarLayout({
 }) {
 	const pathName = usePathname()
 
-	const isActivePage = (href: string) => {
-		return pathName === href
+	const isActivePage = (href: string) => pathName === href
+
+	const supabase = createClientComponentClient<Database>()
+	const router = useRouter()
+
+	const handleSignOut = async () => {
+		await supabase.auth.signOut()
+		router.refresh()
 	}
 
 	return (
@@ -150,6 +157,7 @@ export default function SidebarLayout({
 								<Link
 									href="/"
 									className="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6"
+									onClick={handleSignOut}
 								>
 									<span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-gray-700 bg-gray-800 p-4 text-[0.625rem] font-medium text-gray-400 hover:border-valid hover:text-white">
 										<ArrowLeftStartOnRectangleIcon

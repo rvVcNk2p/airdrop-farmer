@@ -1,4 +1,5 @@
 import type {
+	AirdropTypes,
 	RawUserStrategyType,
 	UserStrategyType,
 } from '@modules/farmer/types'
@@ -8,16 +9,17 @@ import { createJSONStorage, devtools, persist } from 'zustand/middleware'
 
 import { SecureLocalStorage } from './helpers'
 import { useActionHistory } from './useActionHistory'
-import { useUserGroups } from './useUserGroups'
 
 interface UserStrategies {
 	userStrategies: UserStrategyType[]
 
 	getStrategy: (uid: string) => UserStrategyType | undefined
+	getStrategiesByType: (type: AirdropTypes) => UserStrategyType[]
 
 	createNewStrategy: (rawStrategy: RawUserStrategyType) => void
 	deleteStrategy: (uid: string) => void
-	updateStrategy: (updatedGroup: UserStrategyType) => void
+	updateStrategy: (updatedStrategy: UserStrategyType) => void
+	removeWalletFromStrategies: (walletUid: string) => void
 }
 
 export const useUserStrategies = create<UserStrategies>()(
@@ -28,6 +30,12 @@ export const useUserStrategies = create<UserStrategies>()(
 
 				getStrategy: (uid: string) => {
 					return get().userStrategies.find((strategy) => strategy.uid === uid)
+				},
+
+				getStrategiesByType: (type: AirdropTypes) => {
+					return get().userStrategies.filter(
+						(strategy) => strategy.airdropType === type,
+					)
 				},
 
 				createNewStrategy: (rawStrategy: RawUserStrategyType) => {
@@ -46,7 +54,6 @@ export const useUserStrategies = create<UserStrategies>()(
 				},
 
 				deleteStrategy: (uid: string) => {
-					useUserGroups.getState().removeStrategyFromGroups(uid)
 					useActionHistory.getState().resetHistory()
 					useActionHistory.getState().resetEveryWorkspace()
 
@@ -67,6 +74,20 @@ export const useUserStrategies = create<UserStrategies>()(
 							}
 
 							return strategy
+						}),
+					}))
+				},
+
+				removeWalletFromStrategies: (walletUid: string) => {
+					set((state) => ({
+						...state,
+						userStrategies: get().userStrategies.map((strategy) => {
+							return {
+								...strategy,
+								wallets: strategy.wallets.filter(
+									(wallet) => wallet.value !== walletUid,
+								),
+							}
 						}),
 					}))
 				},

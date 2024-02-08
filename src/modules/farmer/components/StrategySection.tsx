@@ -13,7 +13,7 @@ import {
 	useActionHistory,
 } from '@modules/farmer/stores/useActionHistory'
 
-import { UserStrategyType } from '../types'
+import { AirdropTypes, UserStrategyType } from '@modules/farmer/types'
 import { statusColor } from '../helpers/status'
 import { useRouter } from 'next/navigation'
 import {
@@ -22,15 +22,20 @@ import {
 	PencilSquareIcon,
 } from '@heroicons/react/24/outline'
 
-export const StrategySection = () => {
-	const userStrategies = useUserStrategies((state) => state.userStrategies)
+export const StrategySection = ({ type }: { type: AirdropTypes }) => {
+	// Will keep the strategiesByType fresh by re-rendering the component
+	useUserStrategies((state) => state.userStrategies)
+
+	const getStrategiesByType = useUserStrategies(
+		(state) => state.getStrategiesByType,
+	)
 	const getStrategy = useUserStrategies((state) => state.getStrategy)
 	const deleteStrategy = useUserStrategies((state) => state.deleteStrategy)
 	const [selectedStrategy, setSelectedStrategy] = useState<
 		UserStrategyType | undefined
 	>()
 
-	const handleDeleteStretegy = (uid: string, name: string) => {
+	const handleDeleteStrategy = (uid: string, name: string) => {
 		// TODO: Add confirmation
 		deleteStrategy(uid)
 		toast({
@@ -53,11 +58,11 @@ export const StrategySection = () => {
 	const router = useRouter()
 
 	return (
-		<CardTemplate title="Strategies">
+		<CardTemplate title={`[${type}] Strategies`}>
 			{useIsMounted() ? (
 				<>
 					<div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4">
-						{userStrategies.map((strategy) => (
+						{getStrategiesByType(type).map((strategy) => (
 							<CardTemplate
 								key={strategy.uid}
 								rootClasses="min-h-[200px]"
@@ -72,11 +77,12 @@ export const StrategySection = () => {
 									/>
 								</div>
 								<div className="flex w-full justify-between gap-4">
+									{/* TODO: Add disabled state while running */}
 									<Button
 										variant="outline"
 										className="flex w-full sm:w-fit"
 										onClick={() =>
-											handleDeleteStretegy(strategy.uid, strategy.name)
+											handleDeleteStrategy(strategy.uid, strategy.name)
 										}
 									>
 										<TrashIcon className="h-4 w-4 shrink-0" />
@@ -84,10 +90,12 @@ export const StrategySection = () => {
 									<Button
 										variant="outline"
 										className="flex w-full sm:w-fit"
-										onClick={() => router.push(`workspace/${strategy.uid}`)}
+										disabled={strategy.wallets.length === 0}
+										onClick={() => router.push(`/workspace/${strategy.uid}`)}
 									>
 										<PlayIcon className="h-4 w-4 shrink-0" />
 									</Button>
+									{/* TODO: Add disabled state while running */}
 									<NewStrategyModal selectedStrategy={selectedStrategy}>
 										<Button
 											variant="outline"

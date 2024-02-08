@@ -14,10 +14,11 @@ const HowItWorks = () => {
 			alt: 'Create Strategy',
 			icon: () => <Gear />,
 		},
+		// TODO: Rework image
 		{
 			title: 'Add Private Keys',
 			img: '2_edit-and-add-group.png',
-			alt: 'Edit and Add group',
+			alt: 'Edit and Add strategy',
 			icon: () => <Key />,
 		},
 		{

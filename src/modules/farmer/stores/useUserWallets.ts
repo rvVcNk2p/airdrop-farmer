@@ -2,6 +2,7 @@ import type { RawWalletType, WalletType } from '@modules/farmer/types'
 import { v4 as uuidv4 } from 'uuid'
 import { create } from 'zustand'
 import { createJSONStorage, devtools, persist } from 'zustand/middleware'
+import { useUserStrategies } from '@modules/farmer/stores/useUserStrategies'
 
 import { SecureLocalStorage } from './helpers'
 
@@ -43,13 +44,17 @@ export const useUserWallets = create<useUserWallets>()(
 					}))
 				},
 
-				deleteWallet: (uid: string) =>
+				deleteWallet: (uid: string) => {
+					// TODO: Do not allow to delete wallet if it's used in an ACTIVE strategy
 					set((state) => ({
 						...state,
 						userWallets: get().userWallets.filter(
 							(wallet) => wallet.uid !== uid,
 						),
-					})),
+					}))
+					// Attention! The wallet will be removed from the strategies as well.
+					useUserStrategies.getState().removeWalletFromStrategies(uid)
+				},
 
 				updateWallet: (updatedWallet: WalletType) =>
 					set((state) => ({

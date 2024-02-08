@@ -96,58 +96,58 @@ export const usePerformAllowanceAndBridge = () => {
 				loggerFn,
 			})
 
-			await randomSleepAndLog({ wallet, loggerFn, max: 15 })
+			// await randomSleepAndLog({ wallet, loggerFn, max: 15 })
 
-			// Bridge creation - Step 1
-			await chooseInitialTokenFn({
-				selectedNetworks,
-				wallet,
-				loggerFn,
-			})
+			// // Bridge creation - Step 1
+			// await chooseInitialTokenFn({
+			// 	selectedNetworks,
+			// 	wallet,
+			// 	loggerFn,
+			// })
 
-			// Bridge creation - Step 2
-			await planningToBridgeFn({
-				selectedNetworks,
-				chainWithHighestBalanceToken,
-				wallet,
-				loggerFn,
-			})
+			// // Bridge creation - Step 2
+			// await planningToBridgeFn({
+			// 	selectedNetworks,
+			// 	chainWithHighestBalanceToken,
+			// 	wallet,
+			// 	loggerFn,
+			// })
 
-			// Bridge creation - Step 3
-			const { bridgeConfigObj, nextBridgeNonce } =
-				await createBridgeTxForApprovalFn({
-					wallet,
-					client,
-					chainWithHighestBalanceToken,
-					destination,
-					loggerFn,
-				})
+			// // Bridge creation - Step 3
+			// const { bridgeConfigObj, nextBridgeNonce } =
+			// 	await createBridgeTxForApprovalFn({
+			// 		wallet,
+			// 		client,
+			// 		chainWithHighestBalanceToken,
+			// 		destination,
+			// 		loggerFn,
+			// 	})
 
-			// Bridge creation - Step 4
-			const receipt = await sendBridgeTxToBlockchainFn({
-				wallet,
-				client,
-				bridgeConfigObj,
-				nextBridgeNonce,
-				loggerFn,
-			})
+			// // Bridge creation - Step 4
+			// const receipt = await sendBridgeTxToBlockchainFn({
+			// 	wallet,
+			// 	client,
+			// 	bridgeConfigObj,
+			// 	nextBridgeNonce,
+			// 	loggerFn,
+			// })
 
-			updateAction({
-				uid: actionUid,
-				layerOneBridge: {
-					txHash: receipt.transactionHash,
-					srcChainId: chainWithHighestBalanceToken.chainId,
-				},
-			})
+			// updateAction({
+			// 	uid: actionUid,
+			// 	layerOneBridge: {
+			// 		txHash: receipt.transactionHash,
+			// 		srcChainId: chainWithHighestBalanceToken.chainId,
+			// 	},
+			// })
 
-			// Bridge creation - Step 5
-			await waitingForBridgeConfirmationFn({
-				txHash: receipt.transactionHash,
-				wallet,
-				loggerFn,
-			})
+			// // Bridge creation - Step 5
+			// await waitingForBridgeConfirmationFn({
+			// 	txHash: receipt.transactionHash,
+			// 	wallet,
+			// 	loggerFn,
+			// })
 
-			await randomSleepAndLog({ wallet, loggerFn })
+			// await randomSleepAndLog({ wallet, loggerFn })
 
 			return value
 		} catch (error: any) {

@@ -40,7 +40,7 @@ const generateAllowanceAndBridgeFn = async ({
 	const actionUid = uuidv4()
 	const newAction = {
 		uid: actionUid,
-		groupUid: strategyUid,
+		strategyUid,
 		wallet,
 		type: 'ALLOWANCE_AND_BRIDGE',
 		status: 'QUEUED',
@@ -85,7 +85,7 @@ export const useActionsCoordinator = () => {
 		const wallet = privateKeyToAccount(walletPrivateKey).address
 
 		loggerFn({
-			groupUid: strategy.uid,
+			strategyUid: strategy.uid,
 			timestamp: new Date(),
 			wallet,
 			status: TxStatusType.STARTING,
@@ -99,7 +99,7 @@ export const useActionsCoordinator = () => {
 				selectedNetworks,
 				addNewAction,
 				generateAllowanceAndBridge,
-				loggerFn: (args) => loggerFn({ groupUid: strategy.uid, ...args }),
+				loggerFn: (args) => loggerFn({ strategyUid: strategy.uid, ...args }),
 			})
 
 			try {
@@ -114,7 +114,7 @@ export const useActionsCoordinator = () => {
 			} catch (error: any) {
 				console.error(error)
 				loggerFn({
-					groupUid: strategy.uid,
+					strategyUid: strategy.uid,
 					timestamp: new Date(),
 					wallet,
 					status: TxStatusType.ERROR,
@@ -125,7 +125,7 @@ export const useActionsCoordinator = () => {
 		}
 
 		loggerFn({
-			groupUid: strategy.uid,
+			strategyUid: strategy.uid,
 			timestamp: new Date(),
 			wallet,
 			status: TxStatusType.END,

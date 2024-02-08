@@ -35,13 +35,13 @@ export type TxHistoryRecordType = {
 }
 
 export type ExtendedTxHistoryRecordType = TxHistoryRecordType & {
-	groupUid: string
+	strategyUid: string
 }
 
 type ActionsType = {
 	uid: string
 	wallet: Address
-	groupUid: string
+	strategyUid: string
 	type: 'ALLOWANCE_AND_BRIDGE'
 	status: 'QUEUED' | 'RUNNING' | 'FINISHED' | 'FAILED'
 	layerOneBridge: {
@@ -57,26 +57,31 @@ interface ActionHistory {
 	history: ExtendedTxHistoryRecordType[]
 	workspaces: WorkspaceType[]
 
-	getAction: (actionUid: string, groupUid: string) => ActionsType | undefined
+	getAction: (actionUid: string, strategyUid: string) => ActionsType | undefined
 	getAnyActionRunning: () => boolean
 
 	addNewAction: (newAction: ActionsType) => void
 	updateAction: (newAction: Partial<ActionsType>) => void
 
 	addHistory: (newHistory: ExtendedTxHistoryRecordType) => void
-	getHistoryByGroupUid: (groupUid: string) => ExtendedTxHistoryRecordType[]
-	resetHistoryByGroupUid: (groupUid: string) => void
+	getHistoryByStrategyUid: (
+		strategyUid: string,
+	) => ExtendedTxHistoryRecordType[]
+	resetHistoryByStrategyUid: (strategyUid: string) => void
 	resetHistory: () => void
 
 	initWorkspace: (strategyUid: string) => void
-	getWorkspace: (groupUid: string | undefined) => WorkspaceType | undefined
-	updateWorkspaceStatus: (groupUid: string, status: WorkspaceStatusType) => void
+	getWorkspace: (strategyUid: string | undefined) => WorkspaceType | undefined
+	updateWorkspaceStatus: (
+		strategyUid: string,
+		status: WorkspaceStatusType,
+	) => void
 	updateWorkspaceTransactions: (
-		groupUid: string,
+		strategyUid: string,
 		status: WorkspaceTransactionStatusType,
 	) => void
-	updateWorkspaceAggregatedValue: (groupUid: string, value: number) => void
-	resetWorkspace: (groupUid: string) => void
+	updateWorkspaceAggregatedValue: (strategyUid: string, value: number) => void
+	resetWorkspace: (strategyUid: string) => void
 	resetEveryWorkspace: () => void
 }
 
@@ -88,11 +93,12 @@ export const useActionHistory = create<ActionHistory>()(
 			history: [],
 			workspaces: [],
 
-			getAction: (actionUid: string, groupUid: string) => {
+			getAction: (actionUid: string, strategyUid: string) => {
 				const { actions } = get()
 
 				return actions.find(
-					(action) => action.uid === actionUid && action.groupUid === groupUid,
+					(action) =>
+						action.uid === actionUid && action.strategyUid === strategyUid,
 				)
 			},
 
@@ -124,18 +130,18 @@ export const useActionHistory = create<ActionHistory>()(
 				}))
 			},
 
-			getHistoryByGroupUid: (groupUid: string) => {
+			getHistoryByStrategyUid: (strategyUid: string) => {
 				const { history } = get()
 
 				return history.filter(
-					(historyItem) => historyItem.groupUid === groupUid,
+					(historyItem) => historyItem.strategyUid === strategyUid,
 				)
 			},
 
-			resetHistoryByGroupUid: (groupUid: string) => {
+			resetHistoryByStrategyUid: (strategyUid: string) => {
 				set((state) => ({
 					history: state.history.filter(
-						(historyItem) => historyItem.groupUid !== groupUid,
+						(historyItem) => historyItem.strategyUid !== strategyUid,
 					),
 				}))
 			},
@@ -166,32 +172,34 @@ export const useActionHistory = create<ActionHistory>()(
 				}))
 			},
 
-			getWorkspace: (groupUid: string | undefined) => {
-				if (!groupUid) return
+			getWorkspace: (strategyUid: string | undefined) => {
+				if (!strategyUid) return
 
 				const { workspaces } = get()
 
-				return workspaces.find((workspace) => workspace.uid === groupUid)
+				return workspaces.find((workspace) => workspace.uid === strategyUid)
 			},
 
 			updateWorkspaceStatus: (
-				groupUid: string,
+				strategyUid: string,
 				status: WorkspaceStatusType,
 			) => {
 				set((state) => ({
 					workspaces: state.workspaces.map((workspace) =>
-						workspace.uid === groupUid ? { ...workspace, status } : workspace,
+						workspace.uid === strategyUid
+							? { ...workspace, status }
+							: workspace,
 					),
 				}))
 			},
 
 			updateWorkspaceTransactions: (
-				groupUid: string,
+				strategyUid: string,
 				status: WorkspaceTransactionStatusType,
 			) => {
 				set((state) => ({
 					workspaces: state.workspaces.map((workspace) =>
-						workspace.uid === groupUid
+						workspace.uid === strategyUid
 							? {
 									...workspace,
 									transactions: {
@@ -204,10 +212,10 @@ export const useActionHistory = create<ActionHistory>()(
 				}))
 			},
 
-			updateWorkspaceAggregatedValue: (groupUid: string, value: number) => {
+			updateWorkspaceAggregatedValue: (strategyUid: string, value: number) => {
 				set((state) => ({
 					workspaces: state.workspaces.map((workspace) =>
-						workspace.uid === groupUid
+						workspace.uid === strategyUid
 							? {
 									...workspace,
 									aggregatedValue: workspace.aggregatedValue + value,
@@ -217,10 +225,10 @@ export const useActionHistory = create<ActionHistory>()(
 				}))
 			},
 
-			resetWorkspace: (groupUid: string) => {
+			resetWorkspace: (strategyUid: string) => {
 				set((state) => ({
 					workspaces: state.workspaces.map((workspace) =>
-						workspace.uid === groupUid
+						workspace.uid === strategyUid
 							? {
 									...workspace,
 									status: WorkspaceStatusType.IDLE,

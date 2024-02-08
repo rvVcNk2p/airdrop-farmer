@@ -1,9 +1,10 @@
 import { StrategySection } from '@modules/farmer/components/StrategySection'
+import { AirdropTypes } from '@modules/farmer/types'
 
-export const FarmerPage = () => {
+export const FarmerPage = ({ type }: { type: AirdropTypes }) => {
 	return (
 		<div className="mt-12 flex flex-col items-center gap-4">
-			<StrategySection />
+			<StrategySection type={type} />
 		</div>
 	)
 }
