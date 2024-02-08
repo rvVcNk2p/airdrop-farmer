@@ -3,49 +3,37 @@
 import { WorkspaceContent } from '@modules/farmer/components/Workspace/WorkspaceContent'
 import { WorkspaceHeader } from '@modules/farmer/components/Workspace/WorkspaceHeader'
 import { useActionsCoordinator } from '@modules/farmer/hooks/workspace/useActionsCoordinator'
-import {
-	useActionHistory,
-	useUserGroups,
-	useUserStrategies,
-} from '@modules/farmer/stores'
+import { useActionHistory, useUserStrategies } from '@modules/farmer/stores'
 import { Skeleton } from '@modules/shared/components/ui/skeleton'
 import { shortenerAddress } from '@modules/shared/utils'
 import parse from 'html-react-parser'
 import moment from 'moment'
 import { useParams } from 'next/navigation'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { WorkspaceStatusType } from '../stores/useActionHistory'
-import type { UserGroupType, UserStrategyType } from '../types'
+import type { UserStrategyType } from '../types'
 
 export const WorkspacePage = () => {
 	const params = useParams()
-	const getGroupByUid = useUserGroups((state) => state.getGroupByUid)
 	const getStrategy = useUserStrategies((state) => state.getStrategy)
 
-	const [group, setGroup] = useState<UserGroupType | undefined>(undefined)
 	const [strategy, setStrategy] = useState<UserStrategyType | undefined>(
 		undefined,
 	)
 
 	useEffect(() => {
 		const initialize = async () => {
-			// @ts-ignore
-			const group = await getGroupByUid(params.groupUid)
-			setGroup(group)
-
-			if (!group?.strategyUid) return
-			const strategy = await getStrategy(group?.strategyUid)
+			if (!params.strategyUid) return
+			const strategy = await getStrategy(params.strategyUid as string)
 			setStrategy(strategy)
 		}
 		initialize()
-	}, [params.groupUid, getGroupByUid, getStrategy])
+	}, [params.strategyUid, getStrategy])
 
-	const isLoading = !strategy || !group?.wallets.length
+	const isLoading = !strategy
 
 	// LOGIC
-	const histories = useActionHistory((state) => state.history)
-	const history = histories.filter((h) => h.groupUid === group?.uid)
 	const initWorkspace = useActionHistory((state) => state.initWorkspace)
 	const resetWorkspace = useActionHistory((state) => state.resetWorkspace)
 	const resetHistoryByGroupUid = useActionHistory(
@@ -55,28 +43,29 @@ export const WorkspacePage = () => {
 		(state) => state.updateWorkspaceStatus,
 	)
 
+	const histories = useActionHistory((state) => state.history)
+	const history = histories.filter((h) => h.groupUid === strategy?.uid)
+
 	const { coordinateActions } = useActionsCoordinator()
 
 	useEffect(() => {
 		if (!strategy) return
-		if (!group) return
-		const groupUid = group.uid
-		initWorkspace(groupUid)
-	}, [group, strategy, initWorkspace])
+		const strategyUid = strategy.uid
+		initWorkspace(strategyUid)
+	}, [strategy, initWorkspace])
 
 	const startWorkspace = () => {
-		if (!group) return
 		if (!strategy) return
-		const groupUid = group.uid
+		const strategyUid = strategy.uid
 
-		resetWorkspace(groupUid)
-		resetHistoryByGroupUid(groupUid)
+		resetWorkspace(strategyUid)
+		resetHistoryByGroupUid(strategyUid)
 
-		updateWorkspaceStatus(groupUid, WorkspaceStatusType.RUNNING)
+		updateWorkspaceStatus(strategyUid, WorkspaceStatusType.RUNNING)
 
 		coordinateActions({
 			iteration: strategy?.mainnet.txsNumberPerWallet || 0,
-			group: group,
+			strategy: strategy,
 			selectedNetworks: strategy?.mainnet.networks || [],
 		})
 	}
@@ -84,10 +73,10 @@ export const WorkspacePage = () => {
 	return (
 		<div className="flex min-h-screen flex-col items-center gap-4 p-8 pt-[3rem] xl:p-16">
 			<WorkspaceHeader
-				title={group?.name || ''}
-				workspaceUid={group?.uid}
+				title={strategy?.name || ''}
+				workspaceUid={strategy?.uid}
 				strategy={strategy}
-				wallets={group?.wallets.length}
+				wallets={strategy?.wallets.length}
 				isLoading={isLoading}
 				startWorkspace={startWorkspace}
 			/>

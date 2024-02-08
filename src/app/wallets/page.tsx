@@ -2,7 +2,7 @@
 
 import { WalletType } from '@/modules/farmer/types'
 import { padWallet } from '@/modules/shared/utils'
-import { EmptyWallet } from '@modules/farmer/components/Group/EmptyWallet'
+import { EmptyWallet } from '@modules/farmer/components/Wallet/EmptyWallet'
 import { useUserWallets } from '@modules/farmer/stores'
 import { CardTemplate } from '@modules/shared/components/templates/CardTemplate'
 import { Button } from '@modules/shared/components/ui/button'
@@ -10,7 +10,7 @@ import { useIsMounted } from '@modules/shared/hooks'
 import { Pencil, Trash } from '@phosphor-icons/react'
 import { useState } from 'react'
 import { privateKeyToAccount } from 'viem/accounts'
-import { EditWalletModal } from '@modules/farmer/components/Group/EditWalletModal'
+import { EditWalletModal } from '@modules/farmer/components/Wallet/EditWalletModal'
 
 const WalletsPage = () => {
 	const userWallets = useUserWallets((state) => state.userWallets)

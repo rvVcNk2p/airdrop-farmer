@@ -68,7 +68,7 @@ interface ActionHistory {
 	resetHistoryByGroupUid: (groupUid: string) => void
 	resetHistory: () => void
 
-	initWorkspace: (groupUid: string) => void
+	initWorkspace: (strategyUid: string) => void
 	getWorkspace: (groupUid: string | undefined) => WorkspaceType | undefined
 	updateWorkspaceStatus: (groupUid: string, status: WorkspaceStatusType) => void
 	updateWorkspaceTransactions: (
@@ -146,14 +146,14 @@ export const useActionHistory = create<ActionHistory>()(
 				}))
 			},
 
-			initWorkspace: (groupUid: string) => {
+			initWorkspace: (strategyUid: string) => {
 				const isWorkspaceExists = get().workspaces.find(
-					(workspace) => workspace.uid === groupUid,
+					(workspace) => workspace.uid === strategyUid,
 				)
 				if (isWorkspaceExists) return
 
 				const newWorkspace: WorkspaceType = {
-					uid: groupUid,
+					uid: strategyUid,
 					status: WorkspaceStatusType.IDLE,
 					transactions: {
 						finished: 0,

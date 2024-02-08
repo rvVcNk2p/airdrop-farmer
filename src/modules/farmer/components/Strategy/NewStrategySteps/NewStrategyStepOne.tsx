@@ -135,17 +135,18 @@ export const NewStrategyStepOne = ({ form }: NewStrategyStepOneProps) => {
 									/>
 								)}
 							</FormFieldWrapper>
+
+							<FromMultipleWalletSelect
+								name="firstStepFileds.wallets"
+								form={form}
+							/>
+
 							<FormFieldSelectWrapper
 								label="Sign transacition type:"
 								name="firstStepFileds.signTransactionType"
 								form={form}
 								options={signTransactionOptions}
 								disabled
-							/>
-
-							<FromMultipleWalletSelect
-								name="firstStepFileds.wallets"
-								form={form}
 							/>
 
 							{/*TODO: Random actions, Farming testnets */}

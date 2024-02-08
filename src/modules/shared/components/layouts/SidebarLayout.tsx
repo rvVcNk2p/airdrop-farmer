@@ -2,11 +2,13 @@
 
 import {
 	ArrowLeftStartOnRectangleIcon,
-	Cog6ToothIcon,
 	WalletIcon,
 	CreditCardIcon,
+	Cog6ToothIcon,
 } from '@heroicons/react/24/outline'
 import Image from 'next/image'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
 const navigation = [
 	{
@@ -18,17 +20,16 @@ const navigation = [
 		alt: 'LayerZero logo',
 		py: 2,
 		label: 'LayerZero',
-		current: true,
 	},
 	{
 		name: 'ZkSync',
 		href: '/farmer',
 		logo: '/images/zksync-logo-vector_1.svg',
+		disabled: true,
 		height: 25,
 		width: 25,
 		alt: 'ZkSync logo',
 		label: 'ZkSync',
-		current: false,
 		py: 3,
 	},
 ]
@@ -38,16 +39,21 @@ const supportItems = [
 		name: 'Wallets',
 		href: '/wallets',
 		icon: WalletIcon,
-		current: false,
 	},
 	{
 		id: 2,
 		name: 'Billing',
 		href: '/billing',
 		icon: CreditCardIcon,
-		current: false,
+		disabled: true,
 	},
-	{ id: 3, name: 'Settings', href: '#', icon: Cog6ToothIcon, current: false },
+	{
+		id: 3,
+		name: 'Settings',
+		href: '/settings',
+		icon: Cog6ToothIcon,
+		disabled: true,
+	},
 ]
 
 function classNames(...classes: any) {
@@ -59,6 +65,12 @@ export default function SidebarLayout({
 }: {
 	children: React.ReactNode
 }) {
+	const pathName = usePathname()
+
+	const isActivePage = (href: string) => {
+		return pathName === href
+	}
+
 	return (
 		<>
 			<div className="fixed inset-y-0 z-50 flex w-24 flex-col">
@@ -72,17 +84,19 @@ export default function SidebarLayout({
 					</div>
 					<nav className="flex flex-1 flex-col">
 						<ul role="list" className="flex flex-1 flex-col">
-							<li className="flex justify-center border-b pb-2">
-								<ul role="list" className="-mx-2 space-y-2">
+							<li className="flex justify-center border-b pb-4">
+								<ul role="list" className="-mx-2 space-y-4">
 									{navigation.map((item) => (
 										<li key={item.name}>
-											<a
+											<Link
+												aria-disabled={item.disabled}
+												tabIndex={item.disabled ? -1 : undefined}
 												href={item.href}
-												className={`group flex justify-center gap-x-3 rounded-md p-2 text-sm font-semibold leading-6`}
+												className={`${item.disabled ? 'pointer-events-none opacity-50' : ''} group flex justify-center gap-x-3 rounded-md px-2 text-sm font-semibold leading-6`}
 											>
 												<span
 													className={classNames(
-														item.current
+														isActivePage(item.href)
 															? 'border-valid text-valid'
 															: 'hover:border-valid hover:text-valid',
 														`flex items-center justify-center rounded-lg border border-gray-700 bg-gray-800 p-2 py-${item.py}`,
@@ -96,25 +110,25 @@ export default function SidebarLayout({
 														alt={item.alt}
 													/>
 												</span>
-											</a>
+											</Link>
 										</li>
 									))}
 								</ul>
 							</li>
 
 							<li className="flex justify-center">
-								<ul role="list" className="-mx-2 mt-2 space-y-1">
+								<ul role="list" className="-mx-2 mt-4 space-y-4">
 									{supportItems.map((supportItem) => (
 										<li key={supportItem.name}>
-											<a
+											<Link
+												aria-disabled={supportItem.disabled}
+												tabIndex={supportItem.disabled ? -1 : undefined}
 												href={supportItem.href}
-												className={
-													'group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6'
-												}
+												className={`${supportItem.disabled ? 'pointer-events-none opacity-50' : ''} group flex gap-x-3 rounded-md px-2 text-sm font-semibold leading-6`}
 											>
 												<span
 													className={classNames(
-														supportItem.current
+														isActivePage(supportItem.href)
 															? 'border-valid text-white'
 															: 'hover:border-valid hover:text-white',
 														'flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-gray-700 bg-gray-800 p-2 text-[0.625rem] font-medium text-gray-400',
@@ -125,15 +139,16 @@ export default function SidebarLayout({
 														aria-hidden="true"
 													/>
 												</span>
-											</a>
+											</Link>
 										</li>
 									))}
 								</ul>
 							</li>
 
 							<li className="-mx-6 mt-auto flex justify-center">
-								<a
-									href="#"
+								{/* Add logout functionality here */}
+								<Link
+									href="/"
 									className="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6"
 								>
 									<span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-gray-700 bg-gray-800 p-4 text-[0.625rem] font-medium text-gray-400 hover:border-valid hover:text-white">
@@ -142,14 +157,14 @@ export default function SidebarLayout({
 											aria-hidden="true"
 										/>
 									</span>
-								</a>
+								</Link>
 							</li>
 						</ul>
 					</nav>
 				</div>
 			</div>
 
-			<main className="py-10 pl-20">
+			<main className="py-10 pl-24">
 				<div className="px-8">{children}</div>
 			</main>
 		</>

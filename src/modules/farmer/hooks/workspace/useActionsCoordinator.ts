@@ -2,21 +2,27 @@ import { usePerformAllowanceAndBridge } from '@modules/farmer/hooks/workspace/ac
 import { useActionHistory } from '@modules/farmer/stores'
 import { WorkspaceStatusType } from '@modules/farmer/stores/useActionHistory'
 import { TxStatusType } from '@modules/farmer/types'
-import type { TxHistoryRecordType, UserGroupType } from '@modules/farmer/types'
+import type {
+	TxHistoryRecordType,
+	UserStrategyType,
+} from '@modules/farmer/types'
 import { fetchPlanByLoggedInUser } from '@modules/shared/fetchers/planFetcher'
 import { v4 as uuidv4 } from 'uuid'
 import { privateKeyToAccount } from 'viem/accounts'
+
+import { useUserWallets } from '@modules/farmer/stores/useUserWallets'
 
 import { usePerformActions } from './usePerformActions'
 
 type CoordinateActionsProps = {
 	iteration: number
-	group: UserGroupType
+	strategy: UserStrategyType
 	selectedNetworks: string[]
 }
 
 type GenerateAllowanceAndBridgeProps = {
-	group: UserGroupType
+	strategyUid: string
+	wallet: `0x${string}`
 	selectedNetworks: string[]
 	addNewAction: ({}: any) => void
 	generateAllowanceAndBridge: ({}: any) => void
@@ -24,7 +30,8 @@ type GenerateAllowanceAndBridgeProps = {
 }
 
 const generateAllowanceAndBridgeFn = async ({
-	group,
+	strategyUid,
+	wallet,
 	selectedNetworks,
 	addNewAction,
 	generateAllowanceAndBridge,
@@ -33,8 +40,8 @@ const generateAllowanceAndBridgeFn = async ({
 	const actionUid = uuidv4()
 	const newAction = {
 		uid: actionUid,
-		groupUid: group.uid,
-		wallet: group?.wallets[0] || '0x',
+		groupUid: strategyUid,
+		wallet,
 		type: 'ALLOWANCE_AND_BRIDGE',
 		status: 'QUEUED',
 		layerOneBridge: {
@@ -44,7 +51,7 @@ const generateAllowanceAndBridgeFn = async ({
 		action: () =>
 			generateAllowanceAndBridge({
 				actionUid,
-				wallet: group.wallets[0],
+				wallet,
 				selectedNetworks,
 				loggerFn,
 			}),
@@ -62,30 +69,37 @@ export const useActionsCoordinator = () => {
 		(state) => state.updateWorkspaceStatus,
 	)
 
-	// TODO: Add support for multiple wallet support
 	const { generateAllowanceAndBridge } = usePerformAllowanceAndBridge()
 	const { executeNextAction } = usePerformActions()
 
+	const getWalletByUid = useUserWallets((state) => state.getWalletByUid)
+
 	const coordinateActions = async ({
 		iteration,
-		group,
+		strategy,
 		selectedNetworks,
 	}: CoordinateActionsProps) => {
+		// TODO: Add support for multiple wallet support
+		const walletPrivateKey = getWalletByUid(strategy.wallets[0].value)
+			?.privateKey as `0x${string}`
+		const wallet = privateKeyToAccount(walletPrivateKey).address
+
 		loggerFn({
-			groupUid: group.uid,
+			groupUid: strategy.uid,
 			timestamp: new Date(),
-			wallet: privateKeyToAccount(group?.wallets[0]).address,
+			wallet,
 			status: TxStatusType.STARTING,
-			message: `Starting workspace ${group.name} with ${iteration} transactions.`,
+			message: `Starting workspace ${strategy.name} with ${iteration} transactions.`,
 		})
 
 		for (let i = 0; i < iteration; i++) {
 			const nextAction = await generateAllowanceAndBridgeFn({
-				group,
+				strategyUid: strategy.uid,
+				wallet: walletPrivateKey,
 				selectedNetworks,
 				addNewAction,
 				generateAllowanceAndBridge,
-				loggerFn: (args) => loggerFn({ groupUid: group.uid, ...args }),
+				loggerFn: (args) => loggerFn({ groupUid: strategy.uid, ...args }),
 			})
 
 			try {
@@ -100,9 +114,9 @@ export const useActionsCoordinator = () => {
 			} catch (error: any) {
 				console.error(error)
 				loggerFn({
-					groupUid: group.uid,
+					groupUid: strategy.uid,
 					timestamp: new Date(),
-					wallet: privateKeyToAccount(group?.wallets[0]).address,
+					wallet,
 					status: TxStatusType.ERROR,
 					message: error.message,
 				})
@@ -111,13 +125,13 @@ export const useActionsCoordinator = () => {
 		}
 
 		loggerFn({
-			groupUid: group.uid,
+			groupUid: strategy.uid,
 			timestamp: new Date(),
-			wallet: privateKeyToAccount(group?.wallets[0]).address,
+			wallet,
 			status: TxStatusType.END,
 			message: `Workspace finished.`,
 		})
-		updateWorkspaceStatus(group.uid, WorkspaceStatusType.FINISHED)
+		updateWorkspaceStatus(strategy.uid, WorkspaceStatusType.FINISHED)
 	}
 
 	return {
