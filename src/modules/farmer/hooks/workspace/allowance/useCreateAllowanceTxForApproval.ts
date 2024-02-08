@@ -6,7 +6,7 @@ import { TxHistoryRecordType, TxStatusType } from '@modules/farmer/types'
 import { ChainIds, tokenAddresses } from '@modules/shared/constants'
 import { Address, parseUnits } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
-import { erc20ABI } from 'wagmi'
+import { erc20Abi } from 'viem'
 
 import { BlancesResponseWithSelectedToken } from './useChooseInitialToken'
 
@@ -76,7 +76,7 @@ export const useCreateAllowanceTxForApproval = () => {
 		const rawConfigObj = {
 			chainId,
 			address: tokenAddresses[chainId][selected.token],
-			abi: erc20ABI,
+			abi: erc20Abi,
 			functionName: 'approve',
 			args: [
 				stargateFinance[chainWithHighestBalanceToken.chainId],

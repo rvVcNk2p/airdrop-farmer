@@ -1,7 +1,7 @@
 'use client'
-
-import { configureChains, createConfig } from 'wagmi'
-import { WagmiConfig } from 'wagmi'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { createConfig, webSocket } from 'wagmi'
+import { WagmiProvider } from 'wagmi'
 import {
 	arbitrum,
 	avalanche,
@@ -11,17 +11,30 @@ import {
 	optimism,
 	polygon,
 } from 'wagmi/chains'
-import { publicProvider } from 'wagmi/providers/public'
 
-// If you want to integrate with more networks, you can add them here.
-const { chains, publicClient, webSocketPublicClient } = configureChains(
-	[mainnet, arbitrum, bsc, polygon, optimism, avalanche, fantom],
-	[publicProvider()],
-)
-
-const config = createConfig({
-	publicClient,
-	webSocketPublicClient,
+export const config = createConfig({
+	chains: [mainnet, arbitrum, bsc, polygon, optimism, avalanche, fantom],
+	transports: {
+		[mainnet.id]: webSocket(
+			process.env.NEXT_PUBLIC_ALCHEMY_ETHEREUM_WEBSOCKET_API,
+		),
+		[arbitrum.id]: webSocket(
+			process.env.NEXT_PUBLIC_ALCHEMY_ARBITRUM_WEBSOCKET_API,
+		),
+		[bsc.id]: webSocket(process.env.NEXT_PUBLIC_GETBLOCK_BSC_WEBSOCKET_API),
+		[polygon.id]: webSocket(
+			process.env.NEXT_PUBLIC_ALCHEMY_POLYGON_WEBSOCKET_API,
+		),
+		[optimism.id]: webSocket(
+			process.env.NEXT_PUBLIC_ALCHEMY_OPTIMISM_WEBSOCKET_API,
+		),
+		[avalanche.id]: webSocket(
+			process.env.NEXT_PUBLIC_GETBLOCK_AVALANCHE_WEBSOCKET_API,
+		),
+		[fantom.id]: webSocket(
+			process.env.NEXT_PUBLIC_GETBLOCK_FANTOM_WEBSOCKET_API,
+		),
+	},
 })
 
 export default function RootLayout({
@@ -29,11 +42,15 @@ export default function RootLayout({
 }: {
 	children: React.ReactNode
 }) {
+	const queryClient = new QueryClient()
+
 	return (
 		<>
-			<WagmiConfig config={config}>
-				<main className="bg-[#13121d] pt-8">{children}</main>
-			</WagmiConfig>
+			<WagmiProvider config={config}>
+				<QueryClientProvider client={queryClient}>
+					<main className="bg-[#13121d] pt-8">{children}</main>
+				</QueryClientProvider>
+			</WagmiProvider>
 		</>
 	)
 }
