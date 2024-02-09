@@ -48,7 +48,7 @@ export default function RootLayout({
 		<>
 			<WagmiProvider config={config}>
 				<QueryClientProvider client={queryClient}>
-					<main className="bg-[#13121d] pt-8">{children}</main>
+					{children}
 				</QueryClientProvider>
 			</WagmiProvider>
 		</>

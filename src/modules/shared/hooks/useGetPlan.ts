@@ -38,10 +38,10 @@ export const useGetPlan = () => {
 		}
 	}, [supabase])
 
-	const tier = (plans && plans[0].tier) ?? 'Free'
+	const selectedPlan = (plans && plans[0].selectedPlan) ?? 'Free'
 	const quota = (plans && plans[0].quota) ?? 10
 	const usedQuota = (plans && plans[0].used_quota) ?? 0
 	const bindedWallet = (plans && plans[0].wallet) ?? null
 
-	return { tier, quota, usedQuota, bindedWallet, plans }
+	return { selectedPlan, quota, usedQuota, bindedWallet, plans }
 }

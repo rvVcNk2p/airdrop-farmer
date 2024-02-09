@@ -14,6 +14,7 @@ export const LoginForm = ({
 	password,
 	isLoading,
 	errorMsg,
+	isRegistrationSuccessful,
 	onEmailChange,
 	onPasswordChange,
 	onSubmit,
@@ -23,6 +24,7 @@ export const LoginForm = ({
 	password: string
 	isLoading: boolean
 	errorMsg: string | null
+	isRegistrationSuccessful: boolean | null
 	onEmailChange: (e: string) => void
 	onPasswordChange: (e: string) => void
 	onSubmit: () => void
@@ -128,8 +130,13 @@ export const LoginForm = ({
 							{isLoading && (
 								<CircleNotch className="ml-2 h-6 w-6 animate-spin" />
 							)}
-							{button_text}
+							{!isLoading && button_text}
 						</button>
+						{isRegistrationSuccessful && !errorMsg && !isLoading && (
+							<p className="text-sm text-valid">
+								{t('signup:registration_successful')}
+							</p>
+						)}
 						<div>
 							{errorMsg && <p className="text-sm text-red-500">{errorMsg}</p>}
 						</div>

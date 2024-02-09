@@ -3,6 +3,7 @@
 		"title": "Create a new account",
 		"signup": "Sign up",
 		"already_has_account": "Already has an account?",
-		"log_in_here": "Log in here!"
+		"log_in_here": "Log in here!",
+		"registration_successful": "Registration successful! Please check your email to activate your account."
 	}
 }

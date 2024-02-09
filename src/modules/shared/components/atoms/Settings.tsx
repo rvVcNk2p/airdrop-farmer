@@ -3,11 +3,11 @@
 import { useGetPlan } from '@/modules/shared/hooks/useGetPlan'
 
 const Settings = () => {
-	const { tier, quota, usedQuota } = useGetPlan()
+	const { selectedPlan, quota, usedQuota } = useGetPlan()
 
 	return (
 		<div className="mr-6">
-			<p>Tier: {tier}</p>
+			<p>Tier: {selectedPlan}</p>
 			<p>
 				Quota: {usedQuota} / {quota}
 			</p>

@@ -25,7 +25,7 @@ export default async function RootLayout({
 	return (
 		<>
 			<WagmiWrapper>
-				<main className="bg-background pt-8">
+				<main className="bg-background">
 					<SidebarLayout>{children}</SidebarLayout>
 				</main>
 			</WagmiWrapper>

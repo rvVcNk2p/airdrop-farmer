@@ -3,6 +3,7 @@
 		"title": "Crear una nueva cuenta",
 		"signup": "Regístrate",
 		"already_has_account": "¿Ya tiene una cuenta?",
-		"log_in_here": "Conéctese aquí!"
+		"log_in_here": "Conéctese aquí!",
+		"registration_successful": "Por favor, revise su correo electrónico para confirmar su cuenta."
 	}
 }
