@@ -21,7 +21,7 @@ vi.mock('@supabase/auth-helpers-nextjs', () => {
 						{
 							id: 1,
 							quota: 10,
-							tier: 'free',
+							selectedPlan: 'FREE',
 							used_quota: 0,
 							wallet: '0x12345671312312312389',
 						},

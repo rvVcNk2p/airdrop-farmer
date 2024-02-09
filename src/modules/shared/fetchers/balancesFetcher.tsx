@@ -1,7 +1,8 @@
 import { tokenAddresses } from '@modules/shared/constants'
 import { roundNum } from '@modules/shared/utils'
-import { fetchBalance } from '@wagmi/core'
+import { getBalance } from '@wagmi/core'
 import { Address, formatUnits } from 'viem'
+import { config } from '../components/wrappers/WagmiWrapper'
 
 type BalancesResult = {
 	[token: string]: string
@@ -9,7 +10,7 @@ type BalancesResult = {
 
 export const balancesFetcher = async (
 	address: Address | string,
-	chainId: number,
+	chainId: any, // number
 	tokens: string[],
 ): Promise<BalancesResult[]> => {
 	return await Promise.all(
@@ -18,9 +19,8 @@ export const balancesFetcher = async (
 			const tokenAddress: `0x${string}` | undefined =
 				tokenAddresses[chainId][token]
 
-			const balance = await fetchBalance({
-				// @ts-ignore
-				address,
+			const balance = await getBalance(config, {
+				address: address as `0x${string}`,
 				token: tokenAddress,
 				chainId,
 			})

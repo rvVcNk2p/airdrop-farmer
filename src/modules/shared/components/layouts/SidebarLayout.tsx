@@ -46,7 +46,6 @@ const supportItems = [
 		name: 'Billing',
 		href: '/billing',
 		icon: CreditCardIcon,
-		disabled: true,
 	},
 	{
 		id: 3,

@@ -7,17 +7,18 @@ import {
 import LoadingSpinner from '@modules/shared/components/atoms/LoadingSpinner/LoadingSpinner'
 import { useIsMounted } from '@modules/shared/hooks'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 const SignupPage = () => {
 	const supabase = createClientComponentClient<Database>()
-	const router = useRouter()
 
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 	const [isLoading, setIsLoading] = useState<boolean>(false)
 	const [errorMsg, setErrorMsg] = useState<string | null>(null)
+	const [isRegistrationSuccessful, setIsRegistrationSuccessful] = useState<
+		boolean | null
+	>(null)
 
 	const handleSignUp = async () => {
 		setErrorMsg(null)
@@ -29,8 +30,8 @@ const SignupPage = () => {
 		})
 
 		if (error === null) {
-			await supabase.from('plans').insert({ user_id: data.user?.id })
-			router.refresh()
+			setIsRegistrationSuccessful(true)
+			setIsLoading(false)
 		} else {
 			setIsLoading(false)
 			setErrorMsg(error?.message)
@@ -46,6 +47,7 @@ const SignupPage = () => {
 						email={email}
 						password={password}
 						isLoading={isLoading}
+						isRegistrationSuccessful={isRegistrationSuccessful}
 						errorMsg={errorMsg}
 						onEmailChange={(email: string) => setEmail(email)}
 						onPasswordChange={(password) => setPassword(password)}

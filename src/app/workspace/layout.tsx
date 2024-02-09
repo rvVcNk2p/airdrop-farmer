@@ -13,7 +13,9 @@ export default async function RootLayout({
 	return (
 		<>
 			<Header />
-			<WagmiWrapper>{children}</WagmiWrapper>
+			<WagmiWrapper>
+				<main className="bg-[#13121d] pt-8">{children}</main>
+			</WagmiWrapper>
 			<Footer />
 		</>
 	)
