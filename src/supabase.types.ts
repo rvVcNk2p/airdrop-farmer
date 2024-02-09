@@ -12,9 +12,9 @@ export type Database = {
 			plans: {
 				Row: {
 					created_at: string
+					discountCode: string | null
 					discountType: Database['public']['Enums']['discountType'] | null
 					discountValue: string | null
-					discoutCode: string | null
 					id: number
 					quota: number | null
 					referredBy: string | null
@@ -26,9 +26,9 @@ export type Database = {
 				}
 				Insert: {
 					created_at?: string
+					discountCode?: string | null
 					discountType?: Database['public']['Enums']['discountType'] | null
 					discountValue?: string | null
-					discoutCode?: string | null
 					id?: number
 					quota?: number | null
 					referredBy?: string | null
@@ -40,9 +40,9 @@ export type Database = {
 				}
 				Update: {
 					created_at?: string
+					discountCode?: string | null
 					discountType?: Database['public']['Enums']['discountType'] | null
 					discountValue?: string | null
-					discoutCode?: string | null
 					id?: number
 					quota?: number | null
 					referredBy?: string | null

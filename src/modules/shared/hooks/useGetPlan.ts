@@ -6,12 +6,12 @@ import { useEffect, useState } from 'react'
 
 export const useGetPlan = () => {
 	const supabase = createClientComponentClient<Database>()
-	const [plans, setPlan] = useState<Plan[] | null>()
+	const [plans, setPlan] = useState<Plan | null>()
 
 	const fetchPlan = async () => {
 		try {
 			const data = await fetchPlanByLoggedInUser()
-			setPlan(data)
+			if (data && data?.length > 0) setPlan(data[0])
 		} catch (error) {
 			console.error('Error fetching session:', error)
 		}
@@ -38,10 +38,59 @@ export const useGetPlan = () => {
 		}
 	}, [supabase])
 
-	const selectedPlan = (plans && plans[0].selectedPlan) ?? 'Free'
-	const quota = (plans && plans[0].quota) ?? 10
-	const usedQuota = (plans && plans[0].used_quota) ?? 0
-	const bindedWallet = (plans && plans[0].wallet) ?? null
+	const updateCoupon = async (
+		discountCode: string,
+		discountType: 'FIXED' | 'PERCENTAGE',
+		discountValue: string,
+		referredBy: string,
+	) => {
+		const {
+			data: { user },
+		} = await supabase.auth.getUser()
 
-	return { selectedPlan, quota, usedQuota, bindedWallet, plans }
+		if (user?.id) {
+			await supabase
+				.from('plans')
+				.update({ discountCode, discountType, discountValue, referredBy })
+				.eq('user_id', user?.id)
+		}
+	}
+
+	const isCouponAlreadyActivated = async (couponCode: string) => {
+		const { data } = await supabase
+			.from('plans')
+			.select('')
+			.eq('discountCode', couponCode ?? '')
+
+		const isCoupon = data?.length ?? 0 > 0
+
+		return new Promise((resolve, reject) => {
+			isCoupon ? reject({ message: 'Coupon already activated!' }) : resolve({})
+		})
+	}
+
+	const selectedPlan = (plans && plans.selectedPlan) ?? 'Free'
+	const quota = (plans && plans.quota) ?? 10
+	const usedQuota = (plans && plans.used_quota) ?? 0
+	const wallet = (plans && plans.wallet) ?? null
+
+	const discountCode = (plans && plans.discountCode) ?? null
+	const discountType = (plans && plans.discountType) ?? null
+	const discountValue = (plans && plans.discountValue) ?? null
+	const referredBy = (plans && plans.referredBy) ?? null
+
+	return {
+		selectedPlan,
+		quota,
+		usedQuota,
+		wallet,
+		discountCode,
+		discountType,
+		discountValue,
+		referredBy,
+		plans,
+
+		updateCoupon,
+		isCouponAlreadyActivated,
+	}
 }
