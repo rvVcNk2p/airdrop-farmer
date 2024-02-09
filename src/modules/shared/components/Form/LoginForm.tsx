@@ -24,7 +24,7 @@ export const LoginForm = ({
 	password: string
 	isLoading: boolean
 	errorMsg: string | null
-	isRegistrationSuccessful: boolean | null
+	isRegistrationSuccessful?: boolean | null
 	onEmailChange: (e: string) => void
 	onPasswordChange: (e: string) => void
 	onSubmit: () => void
