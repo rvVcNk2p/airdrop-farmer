@@ -1,9 +1,9 @@
+// TODO: Create a main NewStrate
 import { zodResolver } from '@hookform/resolvers/zod'
-import { NewStrategyStepOne } from '@modules/farmer/components/Strategy/NewStrategySteps/NewStrategyStepOne'
-import { NewStrategyStepThree } from '@modules/farmer/components/Strategy/NewStrategySteps/NewStrategyStepThree'
+import { NewStrategyStepOne } from '@/modules/farmer/components/Strategy/layer-zero/NewStrategyStepOne'
+import { NewStrategyStepThree } from '@/modules/farmer/components/Strategy/layer-zero/NewStrategyStepThree'
 import { useUserStrategies } from '@modules/farmer/stores'
 import { AirdropTypes, SignTransactionType } from '@modules/farmer/types'
-import type { UserStrategyType } from '@modules/farmer/types'
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -21,7 +21,6 @@ import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 
 interface NewStrategyModalProps {
-	selectedStrategy?: UserStrategyType | undefined
 	children: React.ReactNode
 }
 
@@ -109,12 +108,16 @@ const formSchema = z.object({
 	}),
 })
 
-export const NewStrategyModal = ({
-	children,
-	selectedStrategy,
-}: NewStrategyModalProps) => {
+export const NewZksynStrategyModal = ({ children }: NewStrategyModalProps) => {
 	const [activeStep, setActiveStep] = useState(1)
 	const [isOpen, setIsOpen] = useState(false)
+
+	const getSelectedStrategy = useUserStrategies(
+		(state) => state.getSelectedStrategy,
+	)
+	const setSelectedStrategy = useUserStrategies(
+		(state) => state.setSelectedStrategy,
+	)
 
 	const createNewStrategy = useUserStrategies(
 		(state) => state.createNewStrategy,
@@ -128,7 +131,7 @@ export const NewStrategyModal = ({
 				name: '',
 				txsNumberPerWallet: 1,
 				maxGasPerTxs: 1,
-				airdropType: AirdropTypes.LAYER_ZERO,
+				airdropType: AirdropTypes.ZK_SYNC,
 				signTransactionType: SignTransactionType.PRIVATE_KEY,
 				bridges: ['STARGATE'],
 				networks: [],
@@ -138,6 +141,8 @@ export const NewStrategyModal = ({
 	})
 
 	const { setValue } = form
+
+	const selectedStrategy = getSelectedStrategy()
 
 	useEffect(() => {
 		if (selectedStrategy) {
@@ -217,17 +222,17 @@ export const NewStrategyModal = ({
 
 	const closeModal = () => {
 		setIsOpen(false)
+		setSelectedStrategy(undefined)
 		form.reset()
 		setActiveStep(1)
 	}
 
 	return (
-		<AlertDialog open={isOpen}>
-			<AlertDialogTrigger asChild={true} onClick={() => setIsOpen(true)}>
-				{children}
-			</AlertDialogTrigger>
+		<AlertDialog open={isOpen} onOpenChange={setIsOpen}>
+			<AlertDialogTrigger asChild={false}>{children}</AlertDialogTrigger>
 			<AlertDialogContent>
 				<AlertDialogHeader>
+					<div>zkSync</div>
 					{activeStep === 1 && <NewStrategyStepOne form={form} />}
 					{activeStep === 2 && (
 						<NewStrategyStepThree

@@ -3,14 +3,25 @@ export interface UserStrategyType {
 	uid: string
 	name: string
 	airdropType: AirdropTypes
-	mainnet: MainnetType
-	randomActions: boolean
-	signTransactionType: SignTransactionType
-	farmingTestnet: boolean
+	mainnet: MainnetType // LayerZeroMainnetType | ZkSyncMainnetType
 	testnet?: TestnetType | null
+	farmingTestnet: boolean
+	signTransactionType: SignTransactionType
 	wallets: { label: string; value: string }[]
+	randomActions: boolean
+	shardedConfig?: ShardedConfig
 }
 
+interface ShardedConfig {
+	txsNumberPerWallet: number
+	sleepTimeBetweenTxs: number
+	maxGasPerTxs: number
+}
+
+interface LayerZeroMainnetType {
+	networks: LayerZeroNetworks[]
+	bridges: LayerZeroBridges[]
+}
 export interface MainnetType {
 	txsNumberPerWallet: number
 	networks: string[]
