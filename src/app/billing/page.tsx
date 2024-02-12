@@ -105,6 +105,22 @@ const BillingPage = () => {
 		}
 	}, [address])
 
+	const checkCouponValidityInDefiHungary = async (couponCode: string) => {
+		// TODO: Fetch coupon validity from the DeFi Hungary API
+		await new Promise((resolve, reject) =>
+			// setTimeout(() => reject({ message: 'Invalid coupon code!' }), 1000),
+			setTimeout(() => resolve({}), 1000),
+		)
+		// await fetch(
+		// 	`https://api.defihungary.com/v1/coupons/${couponCode}`,
+		// )
+	}
+
+	const updateCouponOnBlockchain = async (couponCode: string) => {
+		// TODO: Update the coupon code in the blockchain
+		await new Promise((resolve) => setTimeout(() => resolve({}), 1000))
+	}
+
 	const PlanValidity = () => {
 		// TODO: Fetch plan validity from the blockchain
 		// TODO: Error handling
@@ -120,28 +136,25 @@ const BillingPage = () => {
 	const CouponSection = () => {
 		const [couponCode, setCouponCode] = useState('')
 		const [error, setError] = useState<string | null>(null)
+		const [isLoadin, setIsLoading] = useState(false)
 
 		const validateAndUpdateCoupon = async () => {
 			setError(null)
+			setIsLoading(true)
 			try {
-				await new Promise((resolve, reject) =>
-					// setTimeout(() => reject({ message: 'Invalid coupon code!' }), 1000),
-					setTimeout(() => resolve({}), 1000),
-				)
-				// TODO: Fetch coupon validity from the DeFi Hungary API
-				// await fetch(
-				// 	`https://api.defihungary.com/v1/coupons/${couponCode}`,
-				// )
 				await isCouponAlreadyActivated(couponCode)
-				// TODO: Update the coupon code in the blockchain
+				await checkCouponValidityInDefiHungary(couponCode)
+				await updateCouponOnBlockchain(couponCode)
 				await updateCoupon(couponCode, 'PERCENTAGE', '20', 'DEFI_HUNGARY')
 				toast({
 					title: '🎁 Coupon activated!',
 					description: `You got 20% off! Referred by: DeFi Hungary.`,
 				})
+				setIsLoading(false)
 			} catch (error: any) {
 				if (error) {
 					setError(error?.message)
+					setIsLoading(false)
 				}
 			}
 		}
@@ -150,6 +163,7 @@ const BillingPage = () => {
 
 		return (
 			<>
+				{/* TODO: On page change there is a render glitch (blink) */}
 				{discountCode && <p>{activatedCouponMessage}</p>}
 				{!discountCode && (
 					<>
@@ -159,12 +173,14 @@ const BillingPage = () => {
 								placeholder="Enter your coupon code"
 								autoComplete="off"
 								value={couponCode}
+								disabled={isLoadin}
 								onChange={(e) => setCouponCode(e.target.value)}
 								className={error ? '!border-invalid' : undefined}
 							/>
 							<Button
 								variant="outline"
 								className="flex w-full px-2 sm:w-fit"
+								disabled={isLoadin}
 								onClick={() => validateAndUpdateCoupon()}
 							>
 								<ArrowPathRoundedSquareIcon className="h-6 w-6 shrink-0" />

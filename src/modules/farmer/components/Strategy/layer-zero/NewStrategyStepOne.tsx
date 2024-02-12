@@ -8,7 +8,7 @@ import {
 	FormFieldCheckboxWrapper,
 	FormFieldSelectWrapper,
 	FormFieldWrapper,
-	FromMultipleWalletSelect,
+	FormMultipleWalletSelect,
 } from '@modules/shared/components/Form'
 import {
 	AlertDialogDescription,
@@ -82,13 +82,13 @@ export const NewStrategyStepOne = ({ form }: NewStrategyStepOneProps) => {
 									/>
 								)}
 							</FormFieldWrapper>
-							<FormFieldSelectWrapper
+							{/* <FormFieldSelectWrapper
 								label="Strategy type:"
 								name="firstStepFileds.airdropType"
 								form={form}
 								options={airdropOptions}
 								disabled
-							/>
+							/> */}
 							<FormFieldWrapper
 								label="Tsx number per wallet:"
 								name="firstStepFileds.txsGoal"
@@ -136,7 +136,7 @@ export const NewStrategyStepOne = ({ form }: NewStrategyStepOneProps) => {
 								)}
 							</FormFieldWrapper> */}
 
-							<FromMultipleWalletSelect
+							<FormMultipleWalletSelect
 								name="firstStepFileds.wallets"
 								form={form}
 							/>

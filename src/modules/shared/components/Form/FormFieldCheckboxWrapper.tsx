@@ -35,10 +35,10 @@ export const FormFieldCheckboxWrapper = ({
 			render={() => (
 				<FormItem>
 					<div className="mb-2">
-						<FormLabel className="text-base">{label}</FormLabel>
+						<FormLabel className="text-sm">{label}</FormLabel>
 						{description && <FormDescription>{description}</FormDescription>}
 					</div>
-					<div className=" grid grid-cols-3 gap-4">
+					<div className="grid grid-cols-3 gap-4">
 						{options.map((item) => (
 							<FormField
 								key={item.id}

@@ -66,6 +66,7 @@ export const WorkspacePage = () => {
 		coordinateActions({
 			iteration: strategy?.txsGoal || 0,
 			strategy: strategy,
+			// @ts-ignore
 			selectedNetworks: strategy?.mainnet.networks || [],
 		})
 	}

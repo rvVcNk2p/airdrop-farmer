@@ -44,7 +44,7 @@ export const FormFieldSelectWrapper = ({
 			render={({ field }) => (
 				<FormItem>
 					<div className="mb-2">
-						<FormLabel className="text-base">{label}</FormLabel>
+						<FormLabel className="text-sm">{label}</FormLabel>
 						{description && <FormDescription>{description}</FormDescription>}
 					</div>
 					<Select onValueChange={field.onChange} defaultValue={field.value}>

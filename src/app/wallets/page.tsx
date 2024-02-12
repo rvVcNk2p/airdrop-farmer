@@ -11,6 +11,7 @@ import { Pencil, Trash } from '@phosphor-icons/react'
 import { useState } from 'react'
 import { privateKeyToAccount } from 'viem/accounts'
 import { EditWalletModal } from '@modules/farmer/components/Wallet/EditWalletModal'
+import { EmptyWalletSkeleton } from '@modules/farmer/components/Wallet/EmptyWalletSkeleton'
 
 const WalletsPage = () => {
 	const userWallets = useUserWallets((state) => state.userWallets)
@@ -19,18 +20,15 @@ const WalletsPage = () => {
 
 	const [selectedWallet, setSelectedWallet] = useState<null | WalletType>(null)
 
-	const handleDelete = (uid: string) => {
-		// TODO: Check if the wallet is being used in any strategy
-		deleteWallet(uid)
-	}
+	const handleDelete = (uid: string) => deleteWallet(uid)
 
 	return (
 		<div className="mt-12">
 			<CardTemplate title="Wallets">
 				<div>
-					{useIsMounted() ? (
-						<>
-							<div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4">
+					<div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4">
+						{useIsMounted() ? (
+							<>
 								{userWallets.map((wallet) => (
 									<CardTemplate
 										key={wallet.uid}
@@ -79,11 +77,11 @@ const WalletsPage = () => {
 								))}
 
 								<EmptyWallet classes="min-h-[200px]" />
-							</div>
-						</>
-					) : (
-						'Loading...'
-					)}
+							</>
+						) : (
+							<EmptyWalletSkeleton classes="h-[200px] w-full" />
+						)}
+					</div>
 				</div>
 			</CardTemplate>
 

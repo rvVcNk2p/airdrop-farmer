@@ -9,47 +9,47 @@ describe('modules/shared/utils - array.ts - enumToArrayObject', () => {
 			[
 				{
 					id: 'ETHEREUM',
-					value: 'Ethereum',
+					value: 'ETHEREUM',
 					invalid: false,
 				},
 				{
 					id: 'ARBITRUM',
-					value: 'Arbitrum',
+					value: 'ARBITRUM',
 					invalid: false,
 				},
 				{
 					id: 'POLYGON',
-					value: 'Polygon',
+					value: 'POLYGON',
 					invalid: false,
 				},
 				{
 					id: 'OPTIMISM',
-					value: 'Optimism',
+					value: 'OPTIMISM',
 					invalid: false,
 				},
 				{
 					id: 'BSC',
-					value: 'Bsc',
+					value: 'BSC',
 					invalid: false,
 				},
 				{
 					id: 'AVALANCHE',
-					value: 'Avalanche',
+					value: 'AVALANCHE',
 					invalid: false,
 				},
 				{
 					id: 'FANTOM',
-					value: 'Fantom',
+					value: 'FANTOM',
 					invalid: false,
 				},
 				{
 					id: 'METIS',
-					value: 'Metis',
+					value: 'METIS',
 					invalid: true,
 				},
 				{
 					id: 'APTOS',
-					value: 'Aptos',
+					value: 'APTOS',
 					invalid: true,
 				},
 			],

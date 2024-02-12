@@ -1,7 +1,10 @@
 import { statusColor } from '@modules/farmer/helpers/status'
 import { useActionHistory } from '@modules/farmer/stores'
 import { WorkspaceStatusType } from '@modules/farmer/stores/useActionHistory'
-import type { WorkspaceHeaderProps } from '@modules/farmer/types'
+import type {
+	LayerZeroMainnetType,
+	WorkspaceHeaderProps,
+} from '@modules/farmer/types'
 import { DefaultTooltip } from '@modules/shared/components/atoms/DefaultTooltip'
 import { Badge } from '@modules/shared/components/ui/badge'
 import { Button } from '@modules/shared/components/ui/button'
@@ -111,7 +114,9 @@ export const WorkspaceHeader = ({
 					{isLoading ? (
 						<Skeleton className="h-[10px] w-[125px]" />
 					) : (
+						// @ts-ignore
 						strategy?.mainnet.networks
+							// @ts-ignore
 							.map((network) => capitalize(network))
 							.join(', ')
 					)}

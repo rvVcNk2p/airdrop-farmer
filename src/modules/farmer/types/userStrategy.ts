@@ -15,6 +15,13 @@ export interface UserStrategyType {
 	farmingTestnet?: boolean
 }
 
+export type TypedUserStrategyType<T> = Omit<
+	UserStrategyType,
+	'mainnet' | 'uid'
+> & {
+	mainnet: T
+}
+
 // UserStrategyTypes
 export enum AirdropTypes {
 	LAYER_ZERO = 'LAYER_ZERO',
@@ -57,58 +64,59 @@ export interface ZkSyncMainnetType {
 		usdcToBridgeInPercentage: BalancePercentageType
 		ethToBridgeInPercentage: BalancePercentageType
 	}
-	actions: {
-		swap: {
-			providers: ZksyncSwapProviders[]
-			maxGasFee: number
-			minMaxUsdcInPercentage: BalancePercentageType
-			slippage: number
-		}
-		lending: {
-			providers: ZksyncLendingProviders[]
-			maxGasFee: number
-			maxTimes: number
-			timeIntervalToremoveAfterProvided: IntervalType
-			minMaxUsdcInPercentage: BalancePercentageType
-		}
-		liquidity: {
-			providers: ZksyncLiquidityProviders
-			maxGasFee: number
-			maxTimes: number
-			minMaxUsdcInPercentage: BalancePercentageType
-			slippage: number
-		}
-		mint: {
-			maxGasFee: number
-			maxTimes: number
-		}
-		wrapping: {}
-	}
+	// actions: {
+	// 	swap: {
+	// 		providers: ZksyncSwapProviders[]
+	// 		maxGasFee: number
+	// 		minMaxUsdcInPercentage: BalancePercentageType
+	// 		slippage: number
+	// 	}
+	// 	lending: {
+	// 		providers: ZksyncLendingProviders[]
+	// 		maxGasFee: number
+	// 		maxTimes: number
+	// 		timeIntervalToremoveAfterProvided: IntervalType
+	// 		minMaxUsdcInPercentage: BalancePercentageType
+	// 	}
+	// 	liquidity: {
+	// 		providers: ZksyncLiquidityProviders
+	// 		maxGasFee: number
+	// 		maxTimes: number
+	// 		minMaxUsdcInPercentage: BalancePercentageType
+	// 		slippage: number
+	// 	}
+	// 	mint: {
+	// 		maxGasFee: number
+	// 		maxTimes: number
+	// 	}
+	// 	wrapping: {}
+	// }
+
 	// useRpcNode: boolean // signTransactionType
 }
 
 // LayerZero constants
 export enum LayerZeroNetworks {
-	ETHEREUM = 'Ethereum',
-	ARBITRUM = 'Arbitrum',
-	POLYGON = 'Polygon',
-	OPTIMISM = 'Optimism',
-	BSC = 'Bsc',
-	AVALANCHE = 'Avalanche',
-	FANTOM = 'Fantom',
-	METIS = 'Metis',
-	APTOS = 'Aptos',
+	ETHEREUM = 'ETHEREUM',
+	ARBITRUM = 'ARBITRUM',
+	POLYGON = 'POLYGON',
+	OPTIMISM = 'OPTIMISM',
+	BSC = 'BSC',
+	AVALANCHE = 'AVALANCHE',
+	FANTOM = 'FANTOM',
+	METIS = 'METIS',
+	APTOS = 'APTOS',
 }
 
 export enum LayerZeroBridges {
-	STARGATE = 'Stargate',
-	WOOFI = 'Woofi',
+	STARGATE = 'STARGATE',
+	WOOFI = 'WOOFI',
 }
 
 // zkSync constants
 export enum ZksyncBridges {
-	ZKSYNC, // Official
-	ORBITER,
+	ZKSYNC = 'ZKSYNC', // Official
+	ORBITER = 'ORBITER',
 }
 
 export enum ZksyncSwapProviders {

@@ -1,10 +1,15 @@
-// TODO: Create a main NewStrate
+// TODO: Create a main HandlerModal for all strategies
 import { zodResolver } from '@hookform/resolvers/zod'
 import { NewStrategyStepOne } from '@/modules/farmer/components/Strategy/layer-zero/NewStrategyStepOne'
 import { NewStrategyStepThree } from '@/modules/farmer/components/Strategy/layer-zero/NewStrategyStepThree'
 import { useUserStrategies } from '@modules/farmer/stores'
-import { AirdropTypes, SignTransactionType } from '@modules/farmer/types'
-import type { UserStrategyType } from '@modules/farmer/types'
+import {
+	AirdropTypes,
+	LayerZeroBridges,
+	LayerZeroNetworks,
+	SignTransactionType,
+} from '@modules/farmer/types'
+import type { LayerZeroMainnetType } from '@modules/farmer/types'
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -88,12 +93,28 @@ const formSchema = z.object({
 			z.literal(SignTransactionType.MANUAL),
 			z.literal(SignTransactionType.PRIVATE_KEY),
 		]),
-		bridges: z.array(z.string()).refine((value) => value.some((item) => item), {
-			message: 'You have to select at least one item.',
-		}),
-		networks: z.array(z.string()).refine((value) => value.length > 1, {
-			message: 'You have to select at least two item.',
-		}),
+		bridges: z
+			.array(z.enum([LayerZeroBridges.STARGATE, LayerZeroBridges.WOOFI]))
+			.refine((value) => value.some((item) => item), {
+				message: 'You have to select at least one item.',
+			}),
+		networks: z
+			.array(
+				z.enum([
+					LayerZeroNetworks.APTOS,
+					LayerZeroNetworks.ARBITRUM,
+					LayerZeroNetworks.AVALANCHE,
+					LayerZeroNetworks.BSC,
+					LayerZeroNetworks.ETHEREUM,
+					LayerZeroNetworks.FANTOM,
+					LayerZeroNetworks.METIS,
+					LayerZeroNetworks.OPTIMISM,
+					LayerZeroNetworks.POLYGON,
+				]),
+			)
+			.refine((value) => value.length >= 2, {
+				message: 'You have to select at least two item.',
+			}),
 		wallets: z
 			.array(
 				z.object({
@@ -104,7 +125,6 @@ const formSchema = z.object({
 			.min(1, {
 				message: 'You have to select at least one wallet.',
 			}),
-		// farmingTestnets: z.boolean(),
 	}),
 })
 
@@ -134,7 +154,7 @@ export const NewLayerZeroStrategyModal = ({
 				txsGoal: 1,
 				airdropType: AirdropTypes.LAYER_ZERO,
 				signTransactionType: SignTransactionType.PRIVATE_KEY,
-				bridges: ['STARGATE'],
+				bridges: [LayerZeroBridges.STARGATE],
 				networks: [],
 				wallets: [],
 			},
@@ -148,7 +168,7 @@ export const NewLayerZeroStrategyModal = ({
 	useEffect(() => {
 		if (selectedStrategy) {
 			const { txsGoal, mainnet } = selectedStrategy
-			const { bridges, networks } = mainnet
+			const { bridges, networks } = mainnet as LayerZeroMainnetType
 			setValue('firstStepFileds.name', selectedStrategy.name)
 			setValue('firstStepFileds.txsGoal', txsGoal)
 			setValue('firstStepFileds.airdropType', selectedStrategy.airdropType)

@@ -1,14 +1,12 @@
-// TODO: Create a main NewStrate
 import { zodResolver } from '@hookform/resolvers/zod'
-import { NewStrategyStepOne } from '@/modules/farmer/components/Strategy/layer-zero/NewStrategyStepOne'
-import { NewStrategyStepThree } from '@/modules/farmer/components/Strategy/layer-zero/NewStrategyStepThree'
+import { NewStrategyStepOne } from '@/modules/farmer/components/Strategy/zksync/NewStrategyStepOne'
 import { useUserStrategies } from '@modules/farmer/stores'
 import {
 	AirdropTypes,
-	LayerZeroBridges,
-	LayerZeroNetworks,
 	SignTransactionType,
-	LayerZeroMainnetType,
+	ZksyncBridges,
+	ZkSyncMainnetType,
+	TypedUserStrategyType,
 } from '@modules/farmer/types'
 import {
 	AlertDialog,
@@ -25,6 +23,10 @@ import { Plus } from '@phosphor-icons/react'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
+import {
+	minMaxErrorObject,
+	minMaxValidator,
+} from '@/modules/shared/utils/validators'
 
 interface NewStrategyModalProps {
 	children: React.ReactNode
@@ -80,42 +82,11 @@ const formSchema = z.object({
 			message: 'Field must be at least 3 characters.',
 		}),
 		txsGoal: z.coerce.number().min(1),
-		// maxGasPerTxs: z.coerce.number().min(1),
-		airdropType: z.union([
-			z.literal(AirdropTypes.LAYER_ZERO),
-			z.literal(AirdropTypes.STARK_NET),
-			z.literal(AirdropTypes.ZK_SYNC),
-			z.literal(AirdropTypes.BASE),
-			z.literal(AirdropTypes.SCROLL),
-			z.literal(AirdropTypes.LINEA),
-		]),
+		airdropType: z.literal(AirdropTypes.ZK_SYNC),
 		signTransactionType: z.union([
 			z.literal(SignTransactionType.MANUAL),
 			z.literal(SignTransactionType.PRIVATE_KEY),
 		]),
-		// LayerZeroNetworks
-		bridges: z
-			.array(z.enum([LayerZeroBridges.STARGATE, LayerZeroBridges.WOOFI]))
-			.refine((value) => value.some((item) => item), {
-				message: 'You have to select at least one item.',
-			}),
-		networks: z
-			.array(
-				z.enum([
-					LayerZeroNetworks.APTOS,
-					LayerZeroNetworks.ARBITRUM,
-					LayerZeroNetworks.AVALANCHE,
-					LayerZeroNetworks.BSC,
-					LayerZeroNetworks.ETHEREUM,
-					LayerZeroNetworks.FANTOM,
-					LayerZeroNetworks.METIS,
-					LayerZeroNetworks.OPTIMISM,
-					LayerZeroNetworks.POLYGON,
-				]),
-			)
-			.refine((value) => value.length > 1, {
-				message: 'You have to select at least two item.',
-			}),
 		wallets: z
 			.array(
 				z.object({
@@ -126,7 +97,52 @@ const formSchema = z.object({
 			.min(1, {
 				message: 'You have to select at least one wallet.',
 			}),
-		// farmingTestnets: z.boolean(),
+		// TODO:
+		mainnet: z.object({
+			bridge: z.object({
+				isSkip: z.boolean(),
+				type: z.enum([ZksyncBridges.ZKSYNC, ZksyncBridges.ORBITER], {
+					required_error: 'You need to select a bridge type.',
+				}),
+				maxGasPerBridging: z.coerce.number().min(1),
+				bridgeFullbalance: z.boolean(),
+				usdcToBridgeInPercentage: z
+					.object({
+						min: z.coerce.number().min(1).max(100),
+						max: z.coerce.number().min(1).max(100),
+					})
+					.refine(minMaxValidator, minMaxErrorObject),
+				ethToBridgeInPercentage: z
+					.object({
+						min: z.coerce.number().min(1).max(100),
+						max: z.coerce.number().min(1).max(100),
+					})
+					.refine(minMaxValidator, minMaxErrorObject),
+			}),
+			// actions: z.object({}),
+		}),
+		// bridges: z
+		// 	.array(z.enum([LayerZeroBridges.STARGATE, LayerZeroBridges.WOOFI]))
+		// 	.refine((value) => value.some((item) => item), {
+		// 		message: 'You have to select at least one item.',
+		// 	}),
+		// networks: z
+		// 	.array(
+		// 		z.enum([
+		// 			LayerZeroNetworks.APTOS,
+		// 			LayerZeroNetworks.ARBITRUM,
+		// 			LayerZeroNetworks.AVALANCHE,
+		// 			LayerZeroNetworks.BSC,
+		// 			LayerZeroNetworks.ETHEREUM,
+		// 			LayerZeroNetworks.FANTOM,
+		// 			LayerZeroNetworks.METIS,
+		// 			LayerZeroNetworks.OPTIMISM,
+		// 			LayerZeroNetworks.POLYGON,
+		// 		]),
+		// 	)
+		// 	.refine((value) => value.length > 1, {
+		// 		message: 'You have to select at least two item.',
+		// 	}),
 	}),
 })
 
@@ -154,9 +170,59 @@ export const NewZksynStrategyModal = ({ children }: NewStrategyModalProps) => {
 				txsGoal: 1,
 				airdropType: AirdropTypes.ZK_SYNC,
 				signTransactionType: SignTransactionType.PRIVATE_KEY,
-				bridges: [LayerZeroBridges.STARGATE],
-				networks: [],
 				wallets: [],
+				mainnet: {
+					bridge: {
+						isSkip: false,
+						type: ZksyncBridges.ORBITER,
+						maxGasPerBridging: 10,
+						bridgeFullbalance: false,
+						usdcToBridgeInPercentage: {
+							min: 75,
+							max: 100,
+						},
+						ethToBridgeInPercentage: {
+							min: 70,
+							max: 95,
+						},
+					},
+					// actions: {
+					// 	swap: {
+					// 		providers: [],
+					// 		maxGasFee: 1,
+					// 		minMaxUsdcInPercentage: { min: 10, max: 90 },
+					// 		slippage: 1,
+					// 	},
+					// 	lending: {
+					// 		providers: [],
+					// 		maxGasFee: 1,
+					// 		maxTimes: 0,
+					// 		timeIntervalToremoveAfterProvided: {
+					// 			from: 1400,
+					// 			to: 1800,
+					// 		},
+					// 		minMaxUsdcInPercentage: {
+					// 			min: 10,
+					// 			max: 90,
+					// 		},
+					// 	},
+					// 	liquidity: {
+					// 		providers: [],
+					// 		maxGasFee: 1,
+					// 		maxTimes: 0,
+					// 		minMaxUsdcInPercentage: {
+					// 			min: 10,
+					// 			max: 90,
+					// 		},
+					// 		slippage: 1,
+					// 	},
+					// 	mint: {
+					// 		maxGasFee: 1,
+					// 		maxTimes: 0,
+					// 	},
+					// 	wrapping: {},
+					// },
+				},
 			},
 		},
 	})
@@ -167,18 +233,10 @@ export const NewZksynStrategyModal = ({ children }: NewStrategyModalProps) => {
 
 	useEffect(() => {
 		if (selectedStrategy) {
-			const { txsGoal, mainnet } = selectedStrategy
-			const { bridges, networks } = mainnet as LayerZeroMainnetType
-			setValue('firstStepFileds.name', selectedStrategy.name)
+			const { txsGoal, name, wallets, mainnet } = selectedStrategy
+			setValue('firstStepFileds.name', name)
 			setValue('firstStepFileds.txsGoal', txsGoal)
-			setValue('firstStepFileds.airdropType', selectedStrategy.airdropType)
-			setValue(
-				'firstStepFileds.signTransactionType',
-				selectedStrategy.signTransactionType,
-			)
-			setValue('firstStepFileds.bridges', bridges)
-			setValue('firstStepFileds.networks', networks)
-			setValue('firstStepFileds.wallets', selectedStrategy.wallets)
+			setValue('firstStepFileds.wallets', wallets)
 		}
 	}, [isOpen, selectedStrategy, setValue])
 
@@ -194,10 +252,9 @@ export const NewZksynStrategyModal = ({ children }: NewStrategyModalProps) => {
 			txsGoal,
 			airdropType,
 			signTransactionType,
-			networks,
-			bridges,
 			wallets,
-		} = firstStepFileds
+			mainnet,
+		} = firstStepFileds as unknown as TypedUserStrategyType<ZkSyncMainnetType>
 
 		if (selectedStrategy) {
 			updateStrategy({
@@ -205,7 +262,7 @@ export const NewZksynStrategyModal = ({ children }: NewStrategyModalProps) => {
 				name,
 				txsGoal,
 				airdropType,
-				mainnet: { networks, bridges },
+				mainnet,
 				testnet: null,
 				farmingTestnet: false,
 				signTransactionType,
@@ -222,7 +279,7 @@ export const NewZksynStrategyModal = ({ children }: NewStrategyModalProps) => {
 				name,
 				txsGoal,
 				airdropType,
-				mainnet: { networks, bridges },
+				mainnet,
 				testnet: null,
 				farmingTestnet: false,
 				signTransactionType,
@@ -254,9 +311,10 @@ export const NewZksynStrategyModal = ({ children }: NewStrategyModalProps) => {
 					<div>zkSync</div>
 					{activeStep === 1 && <NewStrategyStepOne form={form} />}
 					{activeStep === 2 && (
-						<NewStrategyStepThree
-							selectedNetworks={form.watch('firstStepFileds.networks')}
-						/>
+						<div>Step 3</div>
+						// <NewStrategyStepThree
+						// 	selectedNetworks={form.watch('firstStepFileds.networks')}
+						// />
 					)}
 				</AlertDialogHeader>
 				<AlertDialogFooter>

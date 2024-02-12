@@ -1,9 +1,9 @@
 import { useUserWallets } from '@modules/farmer/stores'
-import { FromMultipleSelectWrapper } from '@modules/shared/components/Form/FromMultipleSelectWrapper'
+import { FormMultipleSelectWrapper } from '@modules/shared/components/Form/FormMultipleSelectWrapper'
 import MultipleSelector from '@modules/shared/components/ui/multiple-selector'
 import { toast } from '@modules/shared/hooks/useToast'
 
-export const FromMultipleWalletSelect = ({
+export const FormMultipleWalletSelect = ({
 	name,
 	form,
 }: {
@@ -18,7 +18,7 @@ export const FromMultipleWalletSelect = ({
 	}))
 
 	return (
-		<FromMultipleSelectWrapper name={name} label="Wallets" form={form}>
+		<FormMultipleSelectWrapper name={name} label="Wallets" form={form}>
 			{({ field, error }) => (
 				<MultipleSelector
 					className={error && '!border-invalid'}
@@ -39,6 +39,6 @@ export const FromMultipleWalletSelect = ({
 					onChange={(value) => form.setValue(field.name, value)}
 				/>
 			)}
-		</FromMultipleSelectWrapper>
+		</FormMultipleSelectWrapper>
 	)
 }

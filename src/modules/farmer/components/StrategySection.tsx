@@ -1,6 +1,6 @@
 'use client'
 
-import { EmptyStrategy } from '@modules/farmer/components/Strategy/EmptyStrategy'
+import { EmptyStrategy } from '@modules/farmer/components/Strategy/_shared/EmptyStrategy'
 import { NewLayerZeroStrategyModal } from '@modules/farmer/components/Strategy/NewLayerZeroStrategyModal'
 import { NewZksynStrategyModal } from '@modules/farmer/components/Strategy/NewZksynStrategyModal'
 import { useUserStrategies } from '@modules/farmer/stores'
@@ -21,6 +21,7 @@ import {
 	TrashIcon,
 	PencilSquareIcon,
 } from '@heroicons/react/24/outline'
+import { EmptyStrategySkeleton } from '@modules/farmer/components/Strategy/_shared/EmptyStrategySkeleton'
 
 interface ModalByTypeProps {
 	type: AirdropTypes
@@ -129,7 +130,9 @@ export const StrategySection = ({ type }: { type: AirdropTypes }) => {
 					<EmptyStrategy type={type} classes="min-h-[200px]" />
 				</div>
 			) : (
-				'Loading...'
+				<div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4">
+					<EmptyStrategySkeleton classes="h-[200px] w-full" />
+				</div>
 			)}
 		</CardTemplate>
 	)
