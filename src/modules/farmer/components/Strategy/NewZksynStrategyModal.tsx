@@ -3,7 +3,13 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { NewStrategyStepOne } from '@/modules/farmer/components/Strategy/layer-zero/NewStrategyStepOne'
 import { NewStrategyStepThree } from '@/modules/farmer/components/Strategy/layer-zero/NewStrategyStepThree'
 import { useUserStrategies } from '@modules/farmer/stores'
-import { AirdropTypes, SignTransactionType } from '@modules/farmer/types'
+import {
+	AirdropTypes,
+	LayerZeroBridges,
+	LayerZeroNetworks,
+	SignTransactionType,
+	LayerZeroMainnetType,
+} from '@modules/farmer/types'
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -73,8 +79,8 @@ const formSchema = z.object({
 		name: z.string().min(3, {
 			message: 'Field must be at least 3 characters.',
 		}),
-		txsNumberPerWallet: z.coerce.number().min(1),
-		maxGasPerTxs: z.coerce.number().min(1),
+		txsGoal: z.coerce.number().min(1),
+		// maxGasPerTxs: z.coerce.number().min(1),
 		airdropType: z.union([
 			z.literal(AirdropTypes.LAYER_ZERO),
 			z.literal(AirdropTypes.STARK_NET),
@@ -87,12 +93,29 @@ const formSchema = z.object({
 			z.literal(SignTransactionType.MANUAL),
 			z.literal(SignTransactionType.PRIVATE_KEY),
 		]),
-		bridges: z.array(z.string()).refine((value) => value.some((item) => item), {
-			message: 'You have to select at least one item.',
-		}),
-		networks: z.array(z.string()).refine((value) => value.length > 1, {
-			message: 'You have to select at least two item.',
-		}),
+		// LayerZeroNetworks
+		bridges: z
+			.array(z.enum([LayerZeroBridges.STARGATE, LayerZeroBridges.WOOFI]))
+			.refine((value) => value.some((item) => item), {
+				message: 'You have to select at least one item.',
+			}),
+		networks: z
+			.array(
+				z.enum([
+					LayerZeroNetworks.APTOS,
+					LayerZeroNetworks.ARBITRUM,
+					LayerZeroNetworks.AVALANCHE,
+					LayerZeroNetworks.BSC,
+					LayerZeroNetworks.ETHEREUM,
+					LayerZeroNetworks.FANTOM,
+					LayerZeroNetworks.METIS,
+					LayerZeroNetworks.OPTIMISM,
+					LayerZeroNetworks.POLYGON,
+				]),
+			)
+			.refine((value) => value.length > 1, {
+				message: 'You have to select at least two item.',
+			}),
 		wallets: z
 			.array(
 				z.object({
@@ -103,7 +126,6 @@ const formSchema = z.object({
 			.min(1, {
 				message: 'You have to select at least one wallet.',
 			}),
-		// randomActions: z.boolean(),
 		// farmingTestnets: z.boolean(),
 	}),
 })
@@ -129,11 +151,10 @@ export const NewZksynStrategyModal = ({ children }: NewStrategyModalProps) => {
 		defaultValues: {
 			firstStepFileds: {
 				name: '',
-				txsNumberPerWallet: 1,
-				maxGasPerTxs: 1,
+				txsGoal: 1,
 				airdropType: AirdropTypes.ZK_SYNC,
 				signTransactionType: SignTransactionType.PRIVATE_KEY,
-				bridges: ['STARGATE'],
+				bridges: [LayerZeroBridges.STARGATE],
 				networks: [],
 				wallets: [],
 			},
@@ -146,11 +167,10 @@ export const NewZksynStrategyModal = ({ children }: NewStrategyModalProps) => {
 
 	useEffect(() => {
 		if (selectedStrategy) {
-			const { txsNumberPerWallet, maxGasPerTxs, bridges, networks } =
-				selectedStrategy.mainnet
+			const { txsGoal, mainnet } = selectedStrategy
+			const { bridges, networks } = mainnet as LayerZeroMainnetType
 			setValue('firstStepFileds.name', selectedStrategy.name)
-			setValue('firstStepFileds.txsNumberPerWallet', txsNumberPerWallet)
-			setValue('firstStepFileds.maxGasPerTxs', maxGasPerTxs)
+			setValue('firstStepFileds.txsGoal', txsGoal)
 			setValue('firstStepFileds.airdropType', selectedStrategy.airdropType)
 			setValue(
 				'firstStepFileds.signTransactionType',
@@ -171,8 +191,7 @@ export const NewZksynStrategyModal = ({ children }: NewStrategyModalProps) => {
 		const { firstStepFileds } = form.getValues()
 		const {
 			name,
-			txsNumberPerWallet,
-			maxGasPerTxs,
+			txsGoal,
 			airdropType,
 			signTransactionType,
 			networks,
@@ -184,10 +203,10 @@ export const NewZksynStrategyModal = ({ children }: NewStrategyModalProps) => {
 			updateStrategy({
 				uid: selectedStrategy.uid,
 				name,
+				txsGoal,
 				airdropType,
-				mainnet: { txsNumberPerWallet, maxGasPerTxs, networks, bridges },
+				mainnet: { networks, bridges },
 				testnet: null,
-				randomActions: false,
 				farmingTestnet: false,
 				signTransactionType,
 				wallets,
@@ -201,10 +220,10 @@ export const NewZksynStrategyModal = ({ children }: NewStrategyModalProps) => {
 		} else {
 			createNewStrategy({
 				name,
+				txsGoal,
 				airdropType,
-				mainnet: { txsNumberPerWallet, maxGasPerTxs, networks, bridges },
+				mainnet: { networks, bridges },
 				testnet: null,
-				randomActions: false,
 				farmingTestnet: false,
 				signTransactionType,
 				wallets,

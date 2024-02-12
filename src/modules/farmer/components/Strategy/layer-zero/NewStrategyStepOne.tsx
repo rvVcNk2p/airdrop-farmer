@@ -91,7 +91,7 @@ export const NewStrategyStepOne = ({ form }: NewStrategyStepOneProps) => {
 							/>
 							<FormFieldWrapper
 								label="Tsx number per wallet:"
-								name="firstStepFileds.txsNumberPerWallet"
+								name="firstStepFileds.txsGoal"
 								form={form}
 							>
 								{({ field, error }) => (
@@ -117,7 +117,7 @@ export const NewStrategyStepOne = ({ form }: NewStrategyStepOneProps) => {
 								form={form}
 								options={choosableBridges}
 							/>
-							<FormFieldWrapper
+							{/* <FormFieldWrapper
 								label={`Max gas per txs in ${JSON.stringify(
 									selectedNetworks,
 								)} chains $:`}
@@ -134,7 +134,7 @@ export const NewStrategyStepOne = ({ form }: NewStrategyStepOneProps) => {
 										{...field}
 									/>
 								)}
-							</FormFieldWrapper>
+							</FormFieldWrapper> */}
 
 							<FromMultipleWalletSelect
 								name="firstStepFileds.wallets"

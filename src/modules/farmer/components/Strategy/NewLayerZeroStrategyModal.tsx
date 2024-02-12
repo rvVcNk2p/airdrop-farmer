@@ -74,8 +74,8 @@ const formSchema = z.object({
 		name: z.string().min(3, {
 			message: 'Field must be at least 3 characters.',
 		}),
-		txsNumberPerWallet: z.coerce.number().min(1),
-		maxGasPerTxs: z.coerce.number().min(1),
+		txsGoal: z.coerce.number().min(1),
+		// maxGasPerTxs: z.coerce.number().min(1),
 		airdropType: z.union([
 			z.literal(AirdropTypes.LAYER_ZERO),
 			z.literal(AirdropTypes.STARK_NET),
@@ -104,7 +104,6 @@ const formSchema = z.object({
 			.min(1, {
 				message: 'You have to select at least one wallet.',
 			}),
-		// randomActions: z.boolean(),
 		// farmingTestnets: z.boolean(),
 	}),
 })
@@ -132,8 +131,7 @@ export const NewLayerZeroStrategyModal = ({
 		defaultValues: {
 			firstStepFileds: {
 				name: '',
-				txsNumberPerWallet: 1,
-				maxGasPerTxs: 1,
+				txsGoal: 1,
 				airdropType: AirdropTypes.LAYER_ZERO,
 				signTransactionType: SignTransactionType.PRIVATE_KEY,
 				bridges: ['STARGATE'],
@@ -149,11 +147,10 @@ export const NewLayerZeroStrategyModal = ({
 
 	useEffect(() => {
 		if (selectedStrategy) {
-			const { txsNumberPerWallet, maxGasPerTxs, bridges, networks } =
-				selectedStrategy.mainnet
+			const { txsGoal, mainnet } = selectedStrategy
+			const { bridges, networks } = mainnet
 			setValue('firstStepFileds.name', selectedStrategy.name)
-			setValue('firstStepFileds.txsNumberPerWallet', txsNumberPerWallet)
-			setValue('firstStepFileds.maxGasPerTxs', maxGasPerTxs)
+			setValue('firstStepFileds.txsGoal', txsGoal)
 			setValue('firstStepFileds.airdropType', selectedStrategy.airdropType)
 			setValue(
 				'firstStepFileds.signTransactionType',
@@ -174,8 +171,7 @@ export const NewLayerZeroStrategyModal = ({
 		const { firstStepFileds } = form.getValues()
 		const {
 			name,
-			txsNumberPerWallet,
-			maxGasPerTxs,
+			txsGoal,
 			airdropType,
 			signTransactionType,
 			networks,
@@ -187,10 +183,10 @@ export const NewLayerZeroStrategyModal = ({
 			updateStrategy({
 				uid: selectedStrategy.uid,
 				name,
+				txsGoal,
 				airdropType,
-				mainnet: { txsNumberPerWallet, maxGasPerTxs, networks, bridges },
+				mainnet: { networks, bridges },
 				testnet: null,
-				randomActions: false,
 				farmingTestnet: false,
 				signTransactionType,
 				wallets,
@@ -204,10 +200,10 @@ export const NewLayerZeroStrategyModal = ({
 		} else {
 			createNewStrategy({
 				name,
+				txsGoal,
 				airdropType,
-				mainnet: { txsNumberPerWallet, maxGasPerTxs, networks, bridges },
+				mainnet: { networks, bridges },
 				testnet: null,
-				randomActions: false,
 				farmingTestnet: false,
 				signTransactionType,
 				wallets,

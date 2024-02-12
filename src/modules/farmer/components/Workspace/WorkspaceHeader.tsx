@@ -100,7 +100,7 @@ export const WorkspaceHeader = ({
 					) : (
 						<div className="flex gap-1">
 							<div>
-								{doneTransaction}/{strategy?.mainnet.txsNumberPerWallet}
+								{doneTransaction}/{strategy?.txsGoal}
 							</div>
 							<DefaultTooltip content={<TransactionDetails />} size={14} />
 						</div>
