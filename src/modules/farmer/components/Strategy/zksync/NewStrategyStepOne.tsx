@@ -11,6 +11,7 @@ import {
 import { Form } from '@modules/shared/components/ui/form'
 import { ScrollArea } from '@modules/shared/components/ui/scroll-area'
 import {
+	ZksyncActivitySelectSection,
 	ZksyncBridgeSection,
 	ZksyncLendingSection,
 	ZksyncLiquiditySection,
@@ -58,9 +59,11 @@ export const NewStrategyStepOne = ({ form }: NewStrategyStepOneProps) => {
 							<hr className="my-2" />
 							<ZksyncBridgeSection form={form} />
 							<hr className="my-2" />
-							{/* ADD ACTIVITY SELECT SECTION */}
+							<ZksyncActivitySelectSection form={form} />
+							<hr className="my-2" />
 							<TimeIntervalsSection form={form} />
 							<hr className="my-2" />
+							{/* TODO: Conditional rendering */}
 							<ZksyncSwapSection form={form} />
 							<hr className="my-2" />
 							<ZksyncLiquiditySection form={form} />

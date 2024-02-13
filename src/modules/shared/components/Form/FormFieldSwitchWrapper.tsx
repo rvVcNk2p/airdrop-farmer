@@ -33,6 +33,8 @@ export const FormFieldSwitchWrapper = ({
 							<div className="flex items-center justify-between text-sm">
 								<Label htmlFor={uuid}>{label}</Label>
 								<Switch
+									checked={field.value}
+									onCheckedChange={field.onChange}
 									id={uuid}
 									className={error && '!border-invalid'}
 									disabled={disabled}

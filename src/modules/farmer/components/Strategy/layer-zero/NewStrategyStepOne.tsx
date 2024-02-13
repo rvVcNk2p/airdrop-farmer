@@ -1,5 +1,4 @@
 import {
-	AirdropTypes,
 	LayerZeroBridges,
 	LayerZeroNetworks,
 	SignTransactionType,
@@ -8,7 +7,6 @@ import {
 	FormFieldCheckboxWrapper,
 	FormFieldInputWrapper,
 	FormFieldSelectWrapper,
-	FormFieldWrapper,
 	FormMultipleWalletSelect,
 } from '@modules/shared/components/Form'
 import {
@@ -16,7 +14,6 @@ import {
 	AlertDialogTitle,
 } from '@modules/shared/components/ui/alert-dialog'
 import { Form } from '@modules/shared/components/ui/form'
-import { Input } from '@modules/shared/components/ui/input'
 import { ScrollArea } from '@modules/shared/components/ui/scroll-area'
 import { enumToArrayObject } from '@modules/shared/utils'
 import { TimeIntervalsSection } from '../_shared/TimeIntervalsSection'
@@ -33,22 +30,6 @@ const choosableBridges = enumToArrayObject(LayerZeroBridges, [
 	'STARGATE',
 	'WOOFI',
 ])
-
-const airdropOptions = [
-	{
-		id: AirdropTypes.LAYER_ZERO,
-		label: 'Layer Zero',
-	},
-	{
-		id: AirdropTypes.ZK_SYNC,
-		label: 'zkSync',
-	},
-	{
-		id: AirdropTypes.STARK_NET,
-		label: 'Stark Net',
-	},
-]
-
 const signTransactionOptions = [
 	{
 		id: SignTransactionType.PRIVATE_KEY,
@@ -61,8 +42,6 @@ const signTransactionOptions = [
 ]
 
 export const NewStrategyStepOne = ({ form }: NewStrategyStepOneProps) => {
-	const selectedNetworks = form.watch('firstStepFileds.networks').length
-
 	return (
 		<>
 			<AlertDialogTitle className="mb-6">Create Straregy</AlertDialogTitle>

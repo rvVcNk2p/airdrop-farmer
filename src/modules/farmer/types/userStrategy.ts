@@ -121,6 +121,14 @@ export enum ZksyncBridges {
 	ORBITER = 'ORBITER',
 }
 
+export enum ZksyncActionProviders {
+	SWAP = 'SWAP',
+	LIQUIDITY = 'LIQUIDITY',
+	LENDING = 'LENDING',
+	MINT = 'MINT',
+	// WRAPPING = 'WRAPPING',
+}
+
 export enum ZksyncSwapProviders {
 	SYNCSWAP = 'SYNCSWAP',
 	VELOCORE = 'VELOCORE',

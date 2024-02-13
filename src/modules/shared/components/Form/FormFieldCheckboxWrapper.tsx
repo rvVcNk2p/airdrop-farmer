@@ -1,6 +1,5 @@
 import {
 	FormControl,
-	FormDescription,
 	FormField,
 	FormItem,
 	FormLabel,
@@ -8,6 +7,7 @@ import {
 } from '@modules/shared/components/ui/form'
 
 import { Checkbox } from '../ui/checkbox'
+import { v4 as uuidv4 } from 'uuid'
 
 type FormCheckboxOptions = {
 	id: string
@@ -20,14 +20,19 @@ export const FormFieldCheckboxWrapper = ({
 	label,
 	options,
 	form,
-	description,
+	orientation = 'horizontal',
 }: {
 	name: string
-	label: string
 	options: FormCheckboxOptions
 	form: any
-	description?: string
+	label?: string
+	orientation?: 'horizontal' | 'vertical'
 }) => {
+	const orientationClass =
+		orientation === 'horizontal'
+			? 'grid grid-cols-3 gap-4'
+			: 'flex flex-col gap-4'
+
 	return (
 		<FormField
 			control={form.control}
@@ -35,13 +40,12 @@ export const FormFieldCheckboxWrapper = ({
 			render={() => (
 				<FormItem>
 					<div className="mb-2">
-						<FormLabel className="text-sm">{label}</FormLabel>
-						{description && <FormDescription>{description}</FormDescription>}
+						{label && <FormLabel className="text-sm">{label}</FormLabel>}
 					</div>
-					<div className="grid grid-cols-3 gap-4">
+					<div className={orientationClass}>
 						{options.map((item) => (
 							<FormField
-								key={item.id}
+								key={uuidv4()}
 								control={form.control}
 								name={name}
 								render={({ field }) => {
