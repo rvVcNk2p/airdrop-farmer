@@ -6,7 +6,7 @@ export interface UserStrategyType {
 	airdropType: AirdropTypes
 	signTransactionType: SignTransactionType
 	wallets: WalletsType[]
-	timeIntervals?: TimeIntervalConfigType
+	timeIntervals: TimeIntervalConfigType
 
 	mainnet: LayerZeroMainnetType | ZkSyncMainnetType
 
@@ -64,33 +64,35 @@ export interface ZkSyncMainnetType {
 		usdcToBridgeInPercentage: BalancePercentageType
 		ethToBridgeInPercentage: BalancePercentageType
 	}
-	// actions: {
-	// 	swap: {
-	// 		providers: ZksyncSwapProviders[]
-	// 		maxGasFee: number
-	// 		minMaxUsdcInPercentage: BalancePercentageType
-	// 		slippage: number
-	// 	}
-	// 	lending: {
-	// 		providers: ZksyncLendingProviders[]
-	// 		maxGasFee: number
-	// 		maxTimes: number
-	// 		timeIntervalToremoveAfterProvided: IntervalType
-	// 		minMaxUsdcInPercentage: BalancePercentageType
-	// 	}
-	// 	liquidity: {
-	// 		providers: ZksyncLiquidityProviders
-	// 		maxGasFee: number
-	// 		maxTimes: number
-	// 		minMaxUsdcInPercentage: BalancePercentageType
-	// 		slippage: number
-	// 	}
-	// 	mint: {
-	// 		maxGasFee: number
-	// 		maxTimes: number
-	// 	}
-	// 	wrapping: {}
-	// }
+	actions: {
+		swap: {
+			providers: ZksyncSwapProviders[]
+			maxGasFee: number
+			minMaxUsdcInPercentage: BalancePercentageType
+			slippage: number
+		}
+		liquidity: {
+			providers: ZksyncLiquidityProviders[]
+			maxGasFee: number
+			maxTimes: number
+			minMaxUsdcInPercentage: BalancePercentageType
+			timeIntervalToremoveAfterProvided: IntervalType
+			slippage: number
+		}
+		lending: {
+			providers: ZksyncLendingProviders[]
+			maxGasFee: number
+			maxTimes: number
+			minMaxUsdcInPercentage: BalancePercentageType
+			timeIntervalToremoveAfterProvided: IntervalType
+		}
+		mint: {
+			providers: ZksyncMintProviders[]
+			maxGasFee: number
+			maxTimes: number
+		}
+		wrapping: {}
+	}
 
 	// useRpcNode: boolean // signTransactionType
 }
@@ -120,23 +122,27 @@ export enum ZksyncBridges {
 }
 
 export enum ZksyncSwapProviders {
-	SYNCSWAP,
-	VELOCORE,
-	MUTE,
-	SPACEFI,
-	ONE_INCH,
+	SYNCSWAP = 'SYNCSWAP',
+	VELOCORE = 'VELOCORE',
+	MUTE = 'MUTE',
+	SPACEFI = 'SPACEFI',
+	ONE_INCH = 'ONE_INCH',
 }
 
 export enum ZksyncLendingProviders {
-	ERALEND,
-	REACTORFUSION,
+	ERALEND = 'ERALEND',
+	REACTORFUSION = 'REACTORFUSION',
 }
 
 export enum ZksyncLiquidityProviders {
-	SYNCSWAP,
-	VELOCORE,
-	MUTE,
-	SPACEFI,
+	SYNCSWAP = 'SYNCSWAP',
+	VELOCORE = 'VELOCORE',
+	MUTE = 'MUTE',
+	SPACEFI = 'SPACEFI',
+}
+
+export enum ZksyncMintProviders {
+	ZKNS_DOMAINS = 'ZKNS_DOMAINS',
 }
 
 // Shared Types

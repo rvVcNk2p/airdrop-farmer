@@ -6,6 +6,7 @@ import {
 } from '@modules/farmer/types/userStrategy'
 import {
 	FormFieldCheckboxWrapper,
+	FormFieldInputWrapper,
 	FormFieldSelectWrapper,
 	FormFieldWrapper,
 	FormMultipleWalletSelect,
@@ -18,6 +19,7 @@ import { Form } from '@modules/shared/components/ui/form'
 import { Input } from '@modules/shared/components/ui/input'
 import { ScrollArea } from '@modules/shared/components/ui/scroll-area'
 import { enumToArrayObject } from '@modules/shared/utils'
+import { TimeIntervalsSection } from '../_shared/TimeIntervalsSection'
 
 interface NewStrategyStepOneProps {
 	form: any
@@ -68,43 +70,18 @@ export const NewStrategyStepOne = ({ form }: NewStrategyStepOneProps) => {
 				<ScrollArea className="h-[400px] w-full">
 					<Form {...form}>
 						<div className="flex flex-col gap-6 px-2">
-							<FormFieldWrapper
+							<FormFieldInputWrapper
 								label="Strategy name:"
 								name="firstStepFileds.name"
 								form={form}
-							>
-								{({ field, error }) => (
-									<Input
-										placeholder="Start typing..."
-										autoComplete="off"
-										className={error && '!border-invalid'}
-										{...field}
-									/>
-								)}
-							</FormFieldWrapper>
-							{/* <FormFieldSelectWrapper
-								label="Strategy type:"
-								name="firstStepFileds.airdropType"
-								form={form}
-								options={airdropOptions}
-								disabled
-							/> */}
-							<FormFieldWrapper
+							/>
+							<FormFieldInputWrapper
 								label="Tsx number per wallet:"
 								name="firstStepFileds.txsGoal"
+								type="number"
 								form={form}
-							>
-								{({ field, error }) => (
-									<Input
-										type="number"
-										placeholder="0"
-										autoComplete="off"
-										min={0}
-										className={error && '!border-invalid'}
-										{...field}
-									/>
-								)}
-							</FormFieldWrapper>
+							/>
+							<TimeIntervalsSection form={form} />
 							<FormFieldCheckboxWrapper
 								name="firstStepFileds.networks"
 								label="Choose networks:"
@@ -117,30 +94,10 @@ export const NewStrategyStepOne = ({ form }: NewStrategyStepOneProps) => {
 								form={form}
 								options={choosableBridges}
 							/>
-							{/* <FormFieldWrapper
-								label={`Max gas per txs in ${JSON.stringify(
-									selectedNetworks,
-								)} chains $:`}
-								name="firstStepFileds.maxGasPerTxs"
-								form={form}
-							>
-								{({ field, error }) => (
-									<Input
-										type="number"
-										min={0}
-										placeholder="0"
-										autoComplete="off"
-										className={error && '!border-invalid'}
-										{...field}
-									/>
-								)}
-							</FormFieldWrapper> */}
-
 							<FormMultipleWalletSelect
 								name="firstStepFileds.wallets"
 								form={form}
 							/>
-
 							<FormFieldSelectWrapper
 								label="Sign transacition type:"
 								name="firstStepFileds.signTransactionType"
@@ -148,8 +105,6 @@ export const NewStrategyStepOne = ({ form }: NewStrategyStepOneProps) => {
 								options={signTransactionOptions}
 								disabled
 							/>
-
-							{/*TODO: Random actions, Farming testnets */}
 						</div>
 					</Form>
 				</ScrollArea>

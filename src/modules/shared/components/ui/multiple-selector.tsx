@@ -405,7 +405,7 @@ const MultipleSelector = React.forwardRef<
 									: placeholder
 							}
 							className={cn(
-								'ml-2 flex-1 border-0 bg-transparent outline-none placeholder:text-muted-foreground focus:ring-0 focus:ring-offset-0 focus:ring-offset-background',
+								'flex-1 border-0 bg-transparent outline-none placeholder:text-muted-foreground focus:ring-0 focus:ring-offset-0 focus:ring-offset-background',
 								inputProps?.className,
 							)}
 						/>

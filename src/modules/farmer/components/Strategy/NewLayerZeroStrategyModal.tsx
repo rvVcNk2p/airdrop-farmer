@@ -1,7 +1,7 @@
 // TODO: Create a main HandlerModal for all strategies
 import { zodResolver } from '@hookform/resolvers/zod'
-import { NewStrategyStepOne } from '@/modules/farmer/components/Strategy/layer-zero/NewStrategyStepOne'
-import { NewStrategyStepThree } from '@/modules/farmer/components/Strategy/layer-zero/NewStrategyStepThree'
+import { NewStrategyStepOne } from '@modules/farmer/components/Strategy/layer-zero/NewStrategyStepOne'
+import { NewStrategyStepThree } from '@modules/farmer/components/Strategy/layer-zero/NewStrategyStepThree'
 import { useUserStrategies } from '@modules/farmer/stores'
 import {
 	AirdropTypes,
@@ -25,6 +25,10 @@ import { Plus } from '@phosphor-icons/react'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
+import {
+	fromToErrorObject,
+	fromToValidator,
+} from '@modules/shared/utils/validators'
 
 interface NewStrategyModalProps {
 	children: React.ReactNode
@@ -81,14 +85,21 @@ const formSchema = z.object({
 		}),
 		txsGoal: z.coerce.number().min(1),
 		// maxGasPerTxs: z.coerce.number().min(1),
-		airdropType: z.union([
-			z.literal(AirdropTypes.LAYER_ZERO),
-			z.literal(AirdropTypes.STARK_NET),
-			z.literal(AirdropTypes.ZK_SYNC),
-			z.literal(AirdropTypes.BASE),
-			z.literal(AirdropTypes.SCROLL),
-			z.literal(AirdropTypes.LINEA),
-		]),
+		timeIntervals: z.object({
+			timeIntervalAfterTransactions: z
+				.object({
+					from: z.coerce.number().min(1),
+					to: z.coerce.number().min(1),
+				})
+				.refine(fromToValidator, fromToErrorObject),
+			sleepIntervalAfterApproval: z
+				.object({
+					from: z.coerce.number().min(1),
+					to: z.coerce.number().min(1),
+				})
+				.refine(fromToValidator, fromToErrorObject),
+		}),
+		airdropType: z.literal(AirdropTypes.LAYER_ZERO),
 		signTransactionType: z.union([
 			z.literal(SignTransactionType.MANUAL),
 			z.literal(SignTransactionType.PRIVATE_KEY),
@@ -157,6 +168,16 @@ export const NewLayerZeroStrategyModal = ({
 				bridges: [LayerZeroBridges.STARGATE],
 				networks: [],
 				wallets: [],
+				timeIntervals: {
+					timeIntervalAfterTransactions: {
+						from: 9,
+						to: 50,
+					},
+					sleepIntervalAfterApproval: {
+						from: 1,
+						to: 9,
+					},
+				},
 			},
 		},
 	})
@@ -167,18 +188,22 @@ export const NewLayerZeroStrategyModal = ({
 
 	useEffect(() => {
 		if (selectedStrategy) {
-			const { txsGoal, mainnet } = selectedStrategy
+			const {
+				txsGoal,
+				mainnet,
+				wallets,
+				signTransactionType,
+				timeIntervals,
+				name,
+			} = selectedStrategy
 			const { bridges, networks } = mainnet as LayerZeroMainnetType
-			setValue('firstStepFileds.name', selectedStrategy.name)
+			setValue('firstStepFileds.name', name)
 			setValue('firstStepFileds.txsGoal', txsGoal)
-			setValue('firstStepFileds.airdropType', selectedStrategy.airdropType)
-			setValue(
-				'firstStepFileds.signTransactionType',
-				selectedStrategy.signTransactionType,
-			)
+			setValue('firstStepFileds.signTransactionType', signTransactionType)
 			setValue('firstStepFileds.bridges', bridges)
 			setValue('firstStepFileds.networks', networks)
-			setValue('firstStepFileds.wallets', selectedStrategy.wallets)
+			setValue('firstStepFileds.wallets', wallets)
+			setValue('firstStepFileds.timeIntervals', timeIntervals)
 		}
 	}, [isOpen, selectedStrategy, setValue])
 
@@ -197,6 +222,7 @@ export const NewLayerZeroStrategyModal = ({
 			networks,
 			bridges,
 			wallets,
+			timeIntervals,
 		} = firstStepFileds
 
 		if (selectedStrategy) {
@@ -206,10 +232,9 @@ export const NewLayerZeroStrategyModal = ({
 				txsGoal,
 				airdropType,
 				mainnet: { networks, bridges },
-				testnet: null,
-				farmingTestnet: false,
 				signTransactionType,
 				wallets,
+				timeIntervals,
 			})
 
 			toast({
@@ -223,10 +248,9 @@ export const NewLayerZeroStrategyModal = ({
 				txsGoal,
 				airdropType,
 				mainnet: { networks, bridges },
-				testnet: null,
-				farmingTestnet: false,
 				signTransactionType,
 				wallets,
+				timeIntervals,
 			})
 
 			toast({

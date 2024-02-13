@@ -87,181 +87,186 @@ interface ActionHistory {
 
 export const useActionHistory = create<ActionHistory>()(
 	devtools(
-		// persist(
-		(set, get) => ({
-			actions: [],
-			history: [],
-			workspaces: [],
+		persist(
+			(set, get) => ({
+				actions: [],
+				history: [],
+				workspaces: [],
 
-			getAction: (actionUid: string, strategyUid: string) => {
-				const { actions } = get()
+				getAction: (actionUid: string, strategyUid: string) => {
+					const { actions } = get()
 
-				return actions.find(
-					(action) =>
-						action.uid === actionUid && action.strategyUid === strategyUid,
-				)
-			},
+					return actions.find(
+						(action) =>
+							action.uid === actionUid && action.strategyUid === strategyUid,
+					)
+				},
 
-			getAnyActionRunning: () => {
-				const { actions } = get()
+				getAnyActionRunning: () => {
+					const { actions } = get()
 
-				return actions.some(
-					(action) => action.status === ActionStatusType.RUNNING,
-				)
-			},
+					return actions.some(
+						(action) => action.status === ActionStatusType.RUNNING,
+					)
+				},
 
-			addNewAction: (newAction: ActionsType) => {
-				set((state) => ({
-					actions: [...state.actions, newAction],
-				}))
-			},
+				addNewAction: (newAction: ActionsType) => {
+					set((state) => ({
+						actions: [...state.actions, newAction],
+					}))
+				},
 
-			updateAction: (newAction: Partial<ActionsType>) => {
-				set((state) => ({
-					actions: state.actions.map((action) =>
-						action.uid === newAction.uid ? { ...action, ...newAction } : action,
-					),
-				}))
-			},
+				updateAction: (newAction: Partial<ActionsType>) => {
+					set((state) => ({
+						actions: state.actions.map((action) =>
+							action.uid === newAction.uid
+								? { ...action, ...newAction }
+								: action,
+						),
+					}))
+				},
 
-			addHistory: (newHistory: ExtendedTxHistoryRecordType) => {
-				set((state) => ({
-					history: [...state.history, newHistory],
-				}))
-			},
+				addHistory: (newHistory: ExtendedTxHistoryRecordType) => {
+					set((state) => ({
+						history: [...state.history, newHistory],
+					}))
+				},
 
-			getHistoryByStrategyUid: (strategyUid: string) => {
-				const { history } = get()
+				getHistoryByStrategyUid: (strategyUid: string) => {
+					const { history } = get()
 
-				return history.filter(
-					(historyItem) => historyItem.strategyUid === strategyUid,
-				)
-			},
+					return history.filter(
+						(historyItem) => historyItem.strategyUid === strategyUid,
+					)
+				},
 
-			resetHistoryByStrategyUid: (strategyUid: string) => {
-				set((state) => ({
-					history: state.history.filter(
-						(historyItem) => historyItem.strategyUid !== strategyUid,
-					),
-				}))
-			},
+				resetHistoryByStrategyUid: (strategyUid: string) => {
+					set((state) => ({
+						history: state.history.filter(
+							(historyItem) => historyItem.strategyUid !== strategyUid,
+						),
+					}))
+				},
 
-			resetHistory: () => {
-				set(() => ({
-					history: [],
-				}))
-			},
+				resetHistory: () => {
+					set(() => ({
+						history: [],
+					}))
+				},
 
-			initWorkspace: (strategyUid: string) => {
-				const isWorkspaceExists = get().workspaces.find(
-					(workspace) => workspace.uid === strategyUid,
-				)
-				if (isWorkspaceExists) return
+				initWorkspace: (strategyUid: string) => {
+					const isWorkspaceExists = get().workspaces.find(
+						(workspace) => workspace.uid === strategyUid,
+					)
+					if (isWorkspaceExists) return
 
-				const newWorkspace: WorkspaceType = {
-					uid: strategyUid,
-					status: WorkspaceStatusType.IDLE,
-					transactions: {
-						finished: 0,
-						failed: 0,
-					},
-					aggregatedValue: 0,
-				}
-				set((state) => ({
-					workspaces: [...state.workspaces, newWorkspace],
-				}))
-			},
-
-			getWorkspace: (strategyUid: string | undefined) => {
-				if (!strategyUid) return
-
-				const { workspaces } = get()
-
-				return workspaces.find((workspace) => workspace.uid === strategyUid)
-			},
-
-			updateWorkspaceStatus: (
-				strategyUid: string,
-				status: WorkspaceStatusType,
-			) => {
-				set((state) => ({
-					workspaces: state.workspaces.map((workspace) =>
-						workspace.uid === strategyUid
-							? { ...workspace, status }
-							: workspace,
-					),
-				}))
-			},
-
-			updateWorkspaceTransactions: (
-				strategyUid: string,
-				status: WorkspaceTransactionStatusType,
-			) => {
-				set((state) => ({
-					workspaces: state.workspaces.map((workspace) =>
-						workspace.uid === strategyUid
-							? {
-									...workspace,
-									transactions: {
-										...workspace.transactions,
-										[status]: workspace.transactions[status] + 1,
-									},
-								}
-							: workspace,
-					),
-				}))
-			},
-
-			updateWorkspaceAggregatedValue: (strategyUid: string, value: number) => {
-				set((state) => ({
-					workspaces: state.workspaces.map((workspace) =>
-						workspace.uid === strategyUid
-							? {
-									...workspace,
-									aggregatedValue: workspace.aggregatedValue + value,
-								}
-							: workspace,
-					),
-				}))
-			},
-
-			resetWorkspace: (strategyUid: string) => {
-				set((state) => ({
-					workspaces: state.workspaces.map((workspace) =>
-						workspace.uid === strategyUid
-							? {
-									...workspace,
-									status: WorkspaceStatusType.IDLE,
-									transactions: {
-										finished: 0,
-										failed: 0,
-									},
-									aggregatedValue: 0,
-								}
-							: workspace,
-					),
-				}))
-			},
-
-			resetEveryWorkspace: () => {
-				set((state) => ({
-					workspaces: state.workspaces.map((workspace) => ({
-						...workspace,
+					const newWorkspace: WorkspaceType = {
+						uid: strategyUid,
 						status: WorkspaceStatusType.IDLE,
 						transactions: {
 							finished: 0,
 							failed: 0,
 						},
 						aggregatedValue: 0,
-					})),
-				}))
+					}
+					set((state) => ({
+						workspaces: [...state.workspaces, newWorkspace],
+					}))
+				},
+
+				getWorkspace: (strategyUid: string | undefined) => {
+					if (!strategyUid) return
+
+					const { workspaces } = get()
+
+					return workspaces.find((workspace) => workspace.uid === strategyUid)
+				},
+
+				updateWorkspaceStatus: (
+					strategyUid: string,
+					status: WorkspaceStatusType,
+				) => {
+					set((state) => ({
+						workspaces: state.workspaces.map((workspace) =>
+							workspace.uid === strategyUid
+								? { ...workspace, status }
+								: workspace,
+						),
+					}))
+				},
+
+				updateWorkspaceTransactions: (
+					strategyUid: string,
+					status: WorkspaceTransactionStatusType,
+				) => {
+					set((state) => ({
+						workspaces: state.workspaces.map((workspace) =>
+							workspace.uid === strategyUid
+								? {
+										...workspace,
+										transactions: {
+											...workspace.transactions,
+											[status]: workspace.transactions[status] + 1,
+										},
+									}
+								: workspace,
+						),
+					}))
+				},
+
+				updateWorkspaceAggregatedValue: (
+					strategyUid: string,
+					value: number,
+				) => {
+					set((state) => ({
+						workspaces: state.workspaces.map((workspace) =>
+							workspace.uid === strategyUid
+								? {
+										...workspace,
+										aggregatedValue: workspace.aggregatedValue + value,
+									}
+								: workspace,
+						),
+					}))
+				},
+
+				resetWorkspace: (strategyUid: string) => {
+					set((state) => ({
+						workspaces: state.workspaces.map((workspace) =>
+							workspace.uid === strategyUid
+								? {
+										...workspace,
+										status: WorkspaceStatusType.IDLE,
+										transactions: {
+											finished: 0,
+											failed: 0,
+										},
+										aggregatedValue: 0,
+									}
+								: workspace,
+						),
+					}))
+				},
+
+				resetEveryWorkspace: () => {
+					set((state) => ({
+						workspaces: state.workspaces.map((workspace) => ({
+							...workspace,
+							status: WorkspaceStatusType.IDLE,
+							transactions: {
+								finished: 0,
+								failed: 0,
+							},
+							aggregatedValue: 0,
+						})),
+					}))
+				},
+			}),
+
+			{
+				name: 'action-history',
+				storage: createJSONStorage(() => SecureLocalStorage),
 			},
-		}),
-		//,
-		// 	{
-		// 		name: 'action-history',
-		// 		storage: createJSONStorage(() => SecureLocalStorage),
-		// 	},
-		// ),
+		),
 	),
 )

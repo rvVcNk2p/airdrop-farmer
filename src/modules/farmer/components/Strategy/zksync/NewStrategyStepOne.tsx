@@ -10,7 +10,14 @@ import {
 } from '@modules/shared/components/ui/alert-dialog'
 import { Form } from '@modules/shared/components/ui/form'
 import { ScrollArea } from '@modules/shared/components/ui/scroll-area'
-import { ZksyncBridgeSection } from '@modules/farmer/components/Strategy/zksync/BridgeSection'
+import {
+	ZksyncBridgeSection,
+	ZksyncLendingSection,
+	ZksyncLiquiditySection,
+	ZksyncMintSection,
+	ZksyncSwapSection,
+} from '@modules/farmer/components/Strategy/zksync'
+import { TimeIntervalsSection } from '@modules/farmer/components/Strategy/_shared/TimeIntervalsSection'
 
 interface NewStrategyStepOneProps {
 	form: any
@@ -48,7 +55,20 @@ export const NewStrategyStepOne = ({ form }: NewStrategyStepOneProps) => {
 								min={0}
 								form={form}
 							/>
+							<hr className="my-2" />
 							<ZksyncBridgeSection form={form} />
+							<hr className="my-2" />
+							{/* ADD ACTIVITY SELECT SECTION */}
+							<TimeIntervalsSection form={form} />
+							<hr className="my-2" />
+							<ZksyncSwapSection form={form} />
+							<hr className="my-2" />
+							<ZksyncLiquiditySection form={form} />
+							<hr className="my-2" />
+							<ZksyncLendingSection form={form} />
+							<hr className="my-2" />
+							<ZksyncMintSection form={form} />
+							<hr className="my-2" />
 							<FormMultipleWalletSelect
 								name="firstStepFileds.wallets"
 								form={form}

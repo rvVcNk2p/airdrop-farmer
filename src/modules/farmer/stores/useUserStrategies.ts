@@ -80,6 +80,7 @@ export const useUserStrategies = create<UserStrategies>()(
 						userStrategies: get().userStrategies.filter(
 							(strategy) => strategy.uid !== uid,
 						),
+						selectedStrategy: undefined,
 					}))
 				},
 

@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { NewStrategyStepOne } from '@/modules/farmer/components/Strategy/zksync/NewStrategyStepOne'
+import { NewStrategyStepOne } from '@modules/farmer/components/Strategy/zksync'
 import { useUserStrategies } from '@modules/farmer/stores'
 import {
 	AirdropTypes,
@@ -7,6 +7,10 @@ import {
 	ZksyncBridges,
 	ZkSyncMainnetType,
 	TypedUserStrategyType,
+	ZksyncSwapProviders,
+	ZksyncLendingProviders,
+	ZksyncLiquidityProviders,
+	ZksyncMintProviders,
 } from '@modules/farmer/types'
 import {
 	AlertDialog,
@@ -24,9 +28,11 @@ import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 import {
+	fromToErrorObject,
+	fromToValidator,
 	minMaxErrorObject,
 	minMaxValidator,
-} from '@/modules/shared/utils/validators'
+} from '@modules/shared/utils/validators'
 
 interface NewStrategyModalProps {
 	children: React.ReactNode
@@ -97,7 +103,20 @@ const formSchema = z.object({
 			.min(1, {
 				message: 'You have to select at least one wallet.',
 			}),
-		// TODO:
+		timeIntervals: z.object({
+			timeIntervalAfterTransactions: z
+				.object({
+					from: z.coerce.number().min(1),
+					to: z.coerce.number().min(1),
+				})
+				.refine(fromToValidator, fromToErrorObject),
+			sleepIntervalAfterApproval: z
+				.object({
+					from: z.coerce.number().min(1),
+					to: z.coerce.number().min(1),
+				})
+				.refine(fromToValidator, fromToErrorObject),
+		}),
 		mainnet: z.object({
 			bridge: z.object({
 				isSkip: z.boolean(),
@@ -119,30 +138,81 @@ const formSchema = z.object({
 					})
 					.refine(minMaxValidator, minMaxErrorObject),
 			}),
-			// actions: z.object({}),
+			actions: z.object({
+				swap: z.object({
+					providers: z.array(
+						z.enum([
+							ZksyncSwapProviders.MUTE,
+							ZksyncSwapProviders.ONE_INCH,
+							ZksyncSwapProviders.SPACEFI,
+							ZksyncSwapProviders.SYNCSWAP,
+							ZksyncSwapProviders.VELOCORE,
+						]),
+					),
+					maxGasFee: z.coerce.number().min(1),
+					slippage: z.coerce.number().min(1),
+					minMaxUsdcInPercentage: z
+						.object({
+							min: z.coerce.number().min(1).max(100),
+							max: z.coerce.number().min(1).max(100),
+						})
+						.refine(minMaxValidator, minMaxErrorObject),
+				}),
+				lending: z.object({
+					providers: z.array(
+						z.enum([
+							ZksyncLendingProviders.ERALEND,
+							ZksyncLendingProviders.REACTORFUSION,
+						]),
+					),
+					maxGasFee: z.coerce.number().min(1),
+					maxTimes: z.coerce.number().min(1),
+					minMaxUsdcInPercentage: z
+						.object({
+							min: z.coerce.number().min(1).max(100),
+							max: z.coerce.number().min(1).max(100),
+						})
+						.refine(minMaxValidator, minMaxErrorObject),
+					timeIntervalToremoveAfterProvided: z
+						.object({
+							from: z.coerce.number().min(1),
+							to: z.coerce.number().min(1),
+						})
+						.refine(fromToValidator, fromToErrorObject),
+				}),
+				liquidity: z.object({
+					providers: z.array(
+						z.enum([
+							ZksyncLiquidityProviders.MUTE,
+							ZksyncLiquidityProviders.SPACEFI,
+							ZksyncLiquidityProviders.SYNCSWAP,
+							ZksyncLiquidityProviders.VELOCORE,
+						]),
+					),
+					maxGasFee: z.coerce.number().min(1),
+					maxTimes: z.coerce.number().min(1),
+					minMaxUsdcInPercentage: z
+						.object({
+							min: z.coerce.number().min(1).max(100),
+							max: z.coerce.number().min(1).max(100),
+						})
+						.refine(minMaxValidator, minMaxErrorObject),
+					slippage: z.coerce.number().min(1),
+					timeIntervalToremoveAfterProvided: z
+						.object({
+							from: z.coerce.number().min(1),
+							to: z.coerce.number().min(1),
+						})
+						.refine(fromToValidator, fromToErrorObject),
+				}),
+				mint: z.object({
+					providers: z.array(z.enum([ZksyncMintProviders.ZKNS_DOMAINS])),
+					maxGasFee: z.coerce.number().min(1),
+					maxTimes: z.coerce.number().min(1),
+				}),
+				wrapping: z.object({}),
+			}),
 		}),
-		// bridges: z
-		// 	.array(z.enum([LayerZeroBridges.STARGATE, LayerZeroBridges.WOOFI]))
-		// 	.refine((value) => value.some((item) => item), {
-		// 		message: 'You have to select at least one item.',
-		// 	}),
-		// networks: z
-		// 	.array(
-		// 		z.enum([
-		// 			LayerZeroNetworks.APTOS,
-		// 			LayerZeroNetworks.ARBITRUM,
-		// 			LayerZeroNetworks.AVALANCHE,
-		// 			LayerZeroNetworks.BSC,
-		// 			LayerZeroNetworks.ETHEREUM,
-		// 			LayerZeroNetworks.FANTOM,
-		// 			LayerZeroNetworks.METIS,
-		// 			LayerZeroNetworks.OPTIMISM,
-		// 			LayerZeroNetworks.POLYGON,
-		// 		]),
-		// 	)
-		// 	.refine((value) => value.length > 1, {
-		// 		message: 'You have to select at least two item.',
-		// 	}),
 	}),
 })
 
@@ -186,42 +256,57 @@ export const NewZksynStrategyModal = ({ children }: NewStrategyModalProps) => {
 							max: 95,
 						},
 					},
-					// actions: {
-					// 	swap: {
-					// 		providers: [],
-					// 		maxGasFee: 1,
-					// 		minMaxUsdcInPercentage: { min: 10, max: 90 },
-					// 		slippage: 1,
-					// 	},
-					// 	lending: {
-					// 		providers: [],
-					// 		maxGasFee: 1,
-					// 		maxTimes: 0,
-					// 		timeIntervalToremoveAfterProvided: {
-					// 			from: 1400,
-					// 			to: 1800,
-					// 		},
-					// 		minMaxUsdcInPercentage: {
-					// 			min: 10,
-					// 			max: 90,
-					// 		},
-					// 	},
-					// 	liquidity: {
-					// 		providers: [],
-					// 		maxGasFee: 1,
-					// 		maxTimes: 0,
-					// 		minMaxUsdcInPercentage: {
-					// 			min: 10,
-					// 			max: 90,
-					// 		},
-					// 		slippage: 1,
-					// 	},
-					// 	mint: {
-					// 		maxGasFee: 1,
-					// 		maxTimes: 0,
-					// 	},
-					// 	wrapping: {},
-					// },
+					actions: {
+						swap: {
+							providers: [],
+							maxGasFee: 1,
+							minMaxUsdcInPercentage: { min: 10, max: 90 },
+							slippage: 1,
+						},
+						lending: {
+							providers: [],
+							maxGasFee: 1,
+							maxTimes: 0,
+							timeIntervalToremoveAfterProvided: {
+								from: 1400,
+								to: 1800,
+							},
+							minMaxUsdcInPercentage: {
+								min: 10,
+								max: 90,
+							},
+						},
+						liquidity: {
+							providers: [],
+							maxGasFee: 2,
+							maxTimes: 0,
+							timeIntervalToremoveAfterProvided: {
+								from: 1200,
+								to: 1700,
+							},
+							minMaxUsdcInPercentage: {
+								min: 10,
+								max: 90,
+							},
+							slippage: 2,
+						},
+						mint: {
+							providers: [],
+							maxGasFee: 1,
+							maxTimes: 0,
+						},
+						wrapping: {},
+					},
+				},
+				timeIntervals: {
+					timeIntervalAfterTransactions: {
+						from: 3,
+						to: 17,
+					},
+					sleepIntervalAfterApproval: {
+						from: 1,
+						to: 9,
+					},
 				},
 			},
 		},
@@ -233,10 +318,23 @@ export const NewZksynStrategyModal = ({ children }: NewStrategyModalProps) => {
 
 	useEffect(() => {
 		if (selectedStrategy) {
-			const { txsGoal, name, wallets, mainnet } = selectedStrategy
+			// Initialize form with selected strategy values
+			const {
+				txsGoal,
+				mainnet,
+				wallets,
+				signTransactionType,
+				timeIntervals,
+				name,
+			} = selectedStrategy
+			const { bridge, actions } = mainnet as ZkSyncMainnetType
 			setValue('firstStepFileds.name', name)
 			setValue('firstStepFileds.txsGoal', txsGoal)
+			setValue('firstStepFileds.signTransactionType', signTransactionType)
+			setValue('firstStepFileds.mainnet.bridge', bridge)
+			setValue('firstStepFileds.mainnet.actions', actions)
 			setValue('firstStepFileds.wallets', wallets)
+			setValue('firstStepFileds.timeIntervals', timeIntervals)
 		}
 	}, [isOpen, selectedStrategy, setValue])
 
@@ -252,8 +350,9 @@ export const NewZksynStrategyModal = ({ children }: NewStrategyModalProps) => {
 			txsGoal,
 			airdropType,
 			signTransactionType,
-			wallets,
+			timeIntervals,
 			mainnet,
+			wallets,
 		} = firstStepFileds as unknown as TypedUserStrategyType<ZkSyncMainnetType>
 
 		if (selectedStrategy) {
@@ -262,10 +361,9 @@ export const NewZksynStrategyModal = ({ children }: NewStrategyModalProps) => {
 				name,
 				txsGoal,
 				airdropType,
-				mainnet,
-				testnet: null,
-				farmingTestnet: false,
 				signTransactionType,
+				timeIntervals,
+				mainnet,
 				wallets,
 			})
 
@@ -279,10 +377,9 @@ export const NewZksynStrategyModal = ({ children }: NewStrategyModalProps) => {
 				name,
 				txsGoal,
 				airdropType,
-				mainnet,
-				testnet: null,
-				farmingTestnet: false,
 				signTransactionType,
+				timeIntervals,
+				mainnet,
 				wallets,
 			})
 

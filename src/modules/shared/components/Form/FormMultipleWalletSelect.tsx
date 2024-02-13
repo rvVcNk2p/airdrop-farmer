@@ -21,7 +21,7 @@ export const FormMultipleWalletSelect = ({
 		<FormMultipleSelectWrapper name={name} label="Wallets" form={form}>
 			{({ field, error }) => (
 				<MultipleSelector
-					className={error && '!border-invalid'}
+					className={`${error && '!border-invalid'}`}
 					maxSelected={1}
 					onMaxSelected={(maxLimit) => {
 						toast({
