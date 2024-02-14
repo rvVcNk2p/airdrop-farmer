@@ -69,7 +69,7 @@ export const WorkspacePage = () => {
 	return (
 		<div className="flex min-h-screen flex-col items-center gap-4 p-8 pt-[3rem] xl:p-16">
 			<WorkspaceHeader
-				title={strategy?.name || ''}
+				title={strategy?.name}
 				workspaceUid={strategy?.uid}
 				strategy={strategy}
 				wallets={strategy?.wallets.length}

@@ -169,6 +169,7 @@ export const useActionHistory = create<ActionHistory>()(
 							failed: 0,
 						},
 						aggregatedValue: 0,
+						aggregatedBridgeValue: 0,
 					}
 					set((state) => ({
 						workspaces: [...state.workspaces, newWorkspace],

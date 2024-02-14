@@ -5,9 +5,11 @@ import type {
 	LayerZeroMainnetType,
 	TypedUserStrategyTypeWithUid,
 	UserStrategyType,
+	ZkSyncMainnetType,
 } from '@modules/farmer/types'
 
 import { useLayerZeroCoordinator } from '@modules/farmer/hooks/workspace/layer-zero/useLayerZeroCoordinator'
+import { useZksyncCoordinator } from '@modules/farmer/hooks/workspace/zksync/useZksyncCoordinator'
 
 type CoordinateActionsProps = {
 	strategy: UserStrategyType
@@ -19,6 +21,7 @@ export const useActionsCoordinator = () => {
 		(state) => state.updateWorkspaceStatus,
 	)
 	const { coordinateLayerZeroBot } = useLayerZeroCoordinator()
+	const { coordinateZksyncBot } = useZksyncCoordinator()
 
 	const coordinateActions = async ({ strategy }: CoordinateActionsProps) => {
 		loggerFn({
@@ -29,7 +32,6 @@ export const useActionsCoordinator = () => {
 			message: `Workspace ${strategy.name} Started.`,
 		})
 
-		// TODO: Add support for multiple wallet support
 		if (strategy.airdropType === AirdropTypes.LAYER_ZERO) {
 			await Promise.all(
 				strategy.wallets.map((wallet) =>
@@ -41,9 +43,16 @@ export const useActionsCoordinator = () => {
 				),
 			)
 		} else if (strategy.airdropType === AirdropTypes.ZK_SYNC) {
-			console.log('== ZkSyncMainnetType')
+			await Promise.all(
+				strategy.wallets.map((wallet) =>
+					coordinateZksyncBot({
+						strategy:
+							strategy as TypedUserStrategyTypeWithUid<ZkSyncMainnetType>,
+						walletUid: wallet.value,
+					}),
+				),
+			)
 		}
-		// TODO: Add support for other airdrop types
 
 		loggerFn({
 			strategyUid: strategy.uid,

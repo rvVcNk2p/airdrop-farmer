@@ -1,5 +1,5 @@
 import { statusColor } from '@modules/farmer/helpers/status'
-import { useActionHistory } from '@modules/farmer/stores'
+import { useActionHistory, useUserStrategies } from '@modules/farmer/stores'
 import { WorkspaceStatusType } from '@modules/farmer/stores/useActionHistory'
 import { AirdropTypes, WorkspaceHeaderProps } from '@modules/farmer/types'
 import { DefaultTooltip } from '@modules/shared/components/atoms/DefaultTooltip'
@@ -93,10 +93,25 @@ export const WorkspaceHeader = ({
 		return
 	}
 
+	const getStrategy = useUserStrategies((state) => state.getStrategy)
+	let backHref = `/farmer/`
+
+	if (workspace) {
+		const strategy = getStrategy(workspace?.uid)
+		switch (strategy?.airdropType) {
+			case AirdropTypes.LAYER_ZERO:
+				backHref += 'layer-zero'
+				break
+			case AirdropTypes.ZK_SYNC:
+				backHref += 'zksync'
+				break
+		}
+	}
+
 	return (
 		<div className="flex w-full flex-col items-start gap-4">
 			<Link
-				href="/farmer"
+				href={backHref}
 				className="flex cursor-pointer items-center justify-center gap-1 hover:opacity-60"
 			>
 				<ArrowLeft className="text-xl" />

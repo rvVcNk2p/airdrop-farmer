@@ -5,7 +5,7 @@ import { ChainIds } from '@modules/shared/constants'
 import { Address } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
 
-import type { BlancesResponseWithSelectedToken } from './useChooseInitialToken'
+import type { BlancesResponseWithSelectedToken } from '@modules/farmer/hooks/workspace/allowance/useChooseInitialToken'
 
 type PlanningToBridgeFnProps = {
 	selectedNetworks: string[]

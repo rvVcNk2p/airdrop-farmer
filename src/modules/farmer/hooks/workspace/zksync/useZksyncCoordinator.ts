@@ -3,9 +3,9 @@ import { v4 as uuidv4 } from 'uuid'
 import { fetchPlanByLoggedInUser } from '@modules/shared/fetchers/planFetcher'
 import {
 	TxStatusType,
-	type LayerZeroMainnetType,
 	type TxHistoryRecordType,
 	type TypedUserStrategyTypeWithUid,
+	ZkSyncMainnetType,
 } from '@modules/farmer/types'
 import { usePerformActions } from '@modules/farmer/hooks/workspace/usePerformActions'
 import { usePerformAllowanceAndBridge } from '@modules/farmer/hooks/workspace/layer-zero/actions/usePerformAllowanceAndBridge'
@@ -21,68 +21,54 @@ type GenerateAllowanceAndBridgeProps = {
 	loggerFn: ({}: TxHistoryRecordType) => void
 }
 
-const generateAllowanceAndBridgeFn = async ({
-	strategyUid,
-	wallet,
-	selectedNetworks,
-	addNewAction,
-	generateAllowanceAndBridge,
-	loggerFn,
-}: GenerateAllowanceAndBridgeProps) => {
-	const actionUid = uuidv4()
-	const newAction = {
-		uid: actionUid,
-		strategyUid,
-		wallet,
-		type: 'ALLOWANCE_AND_BRIDGE',
-		status: 'QUEUED',
-		layerOneBridge: {
-			txHash: null,
-			srcChainId: null,
-		},
-		action: () =>
-			generateAllowanceAndBridge({
-				actionUid,
-				wallet,
-				selectedNetworks,
-				loggerFn,
-			}),
-	}
-
-	addNewAction(newAction)
-
-	return newAction
+const zksyncBridgeCoordinatorFn = async ({}) => {
+	return new Promise((resolve) => {
+		setTimeout(() => {
+			console.log('== zksyncBridgeCoordinatorFn')
+			resolve({})
+		}, 1000)
+	})
+}
+const zksyncActionsCoordinatorFn = async ({}) => {
+	return new Promise((resolve) => {
+		setTimeout(() => {
+			console.log('== zksyncActionsCoordinatorFn')
+			resolve({})
+		}, 1000)
+	})
 }
 
-export const useLayerZeroCoordinator = () => {
+export const useZksyncCoordinator = () => {
 	const { executeNextAction } = usePerformActions()
 	const loggerFn = useActionHistory((state) => state.addHistory)
 	const addNewAction = useActionHistory((state) => state.addNewAction)
 	const getWalletByUid = useUserWallets((state) => state.getWalletByUid)
 
-	const { generateAllowanceAndBridge } = usePerformAllowanceAndBridge()
-
-	const coordinateLayerZeroBot = async ({
+	const coordinateZksyncBot = async ({
 		walletUid,
 		strategy,
 	}: {
 		walletUid: string
-		strategy: TypedUserStrategyTypeWithUid<LayerZeroMainnetType>
+		strategy: TypedUserStrategyTypeWithUid<ZkSyncMainnetType>
 	}) => {
 		const txGoal = strategy.txsGoal
 		const walletPrivateKey = getWalletByUid(walletUid)
 			?.privateKey as `0x${string}`
-		const selectedNetworks = (strategy.mainnet as LayerZeroMainnetType).networks
 		const wallet = privateKeyToAccount(walletPrivateKey).address
 
+		const { bridge, actions } = strategy.mainnet
+
+		await zksyncBridgeCoordinatorFn({})
+		// await executeNextAction(bridgeAction, 10) // usedQuota)
+
 		for (let i = 0; i < txGoal; i++) {
-			const nextAction = await generateAllowanceAndBridgeFn({
-				strategyUid: strategy.uid,
-				wallet: walletPrivateKey,
-				selectedNetworks,
-				addNewAction,
-				generateAllowanceAndBridge,
-				loggerFn: (args) => loggerFn({ strategyUid: strategy.uid, ...args }),
+			// const nextAction =
+			await zksyncActionsCoordinatorFn({
+				// strategyUid: strategy.uid,
+				// wallet: walletPrivateKey,
+				// addNewAction,
+				// generateAllowanceAndBridge,
+				// loggerFn: (args) => loggerFn({ strategyUid: strategy.uid, ...args }),
 			})
 			try {
 				const plans = await fetchPlanByLoggedInUser()
@@ -92,7 +78,7 @@ export const useLayerZeroCoordinator = () => {
 				if (usedQuota >= quota) {
 					throw new Error('Quota reached. Please upgrade your plan.')
 				}
-				await executeNextAction(nextAction, usedQuota)
+				// await executeNextAction(nextAction, 10) // usedQuota)
 			} catch (error: any) {
 				console.error(error)
 				loggerFn({
@@ -107,5 +93,5 @@ export const useLayerZeroCoordinator = () => {
 		}
 	}
 
-	return { coordinateLayerZeroBot }
+	return { coordinateZksyncBot }
 }

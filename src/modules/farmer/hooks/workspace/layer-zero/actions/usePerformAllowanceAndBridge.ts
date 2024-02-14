@@ -4,13 +4,16 @@ import { randomIntFromInterval, sleep } from '@modules/shared/utils'
 import { Address } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
 
-import { useChooseInitialToken } from '../allowance/useChooseInitialToken'
-import { useCreateAllowanceTxForApproval } from '../allowance/useCreateAllowanceTxForApproval'
-import { usePlanningToBridge } from '../allowance/usePlanningToBridge'
-import { useSendAllowanceToBlockchain } from '../allowance/useSendAllowanceToBlockchain'
-import { useCreateBridgeTxForApproval } from '../bridge/useCreateBridgeTxForApproval'
-import { useSendBridgeTxToBlockchain } from '../bridge/useSendBridgeTxToBlockchain'
-import { useWaitingForBridgeConfirmation } from '../bridge/useWaitingForBridgeConfirmation'
+import { useChooseInitialToken } from '@modules/farmer/hooks/workspace/allowance/useChooseInitialToken'
+import { useCreateAllowanceTxForApproval } from '@modules/farmer/hooks/workspace/allowance/useCreateAllowanceTxForApproval'
+
+import { useSendAllowanceToBlockchain } from '@modules/farmer/hooks/workspace/allowance/useSendAllowanceToBlockchain'
+import {
+	useCreateBridgeTxForApproval,
+	useSendBridgeTxToBlockchain,
+	useWaitingForBridgeConfirmation,
+	usePlanningToBridge,
+} from '@modules/farmer/hooks/workspace/layer-zero/bridge'
 
 type PerformAllowanceAndBridgeProps = {
 	actionUid: string
