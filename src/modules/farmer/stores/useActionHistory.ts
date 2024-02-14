@@ -25,11 +25,12 @@ export type WorkspaceType = {
 		failed: number
 	}
 	aggregatedValue: number
+	aggregatedBridgeValue?: number
 }
 
 export type TxHistoryRecordType = {
 	timestamp: Date
-	wallet: Address
+	wallet: Address | ''
 	status: TxStatusType
 	message: string
 }
@@ -242,6 +243,7 @@ export const useActionHistory = create<ActionHistory>()(
 											failed: 0,
 										},
 										aggregatedValue: 0,
+										aggregatedBridgeValue: 0,
 									}
 								: workspace,
 						),

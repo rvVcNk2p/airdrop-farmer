@@ -22,6 +22,13 @@ export type TypedUserStrategyType<T> = Omit<
 	mainnet: T
 }
 
+export type TypedUserStrategyTypeWithUid<T> = Omit<
+	UserStrategyType,
+	'mainnet'
+> & {
+	mainnet: T
+}
+
 // UserStrategyTypes
 export enum AirdropTypes {
 	LAYER_ZERO = 'LAYER_ZERO',

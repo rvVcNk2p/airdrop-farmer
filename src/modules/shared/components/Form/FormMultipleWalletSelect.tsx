@@ -17,12 +17,15 @@ export const FormMultipleWalletSelect = ({
 		value: wallet.uid,
 	}))
 
+	// TODO: Fetch tier and show only wallets that are in the paid tier
+	const maxSelectedWallets = 1
+
 	return (
 		<FormMultipleSelectWrapper name={name} label="Wallets" form={form}>
 			{({ field, error }) => (
 				<MultipleSelector
 					className={`${error && '!border-invalid'}`}
-					maxSelected={1}
+					maxSelected={maxSelectedWallets}
 					onMaxSelected={(maxLimit) => {
 						toast({
 							title: `You have reached max selected limit: ${maxLimit}`,
