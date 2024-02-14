@@ -29,7 +29,7 @@ export const FormFieldWrapper = ({
 			render={({ field }) => (
 				<FormItem>
 					<div className="mb-2">
-						<FormLabel className="text-base">{label}</FormLabel>
+						<FormLabel className="text-sm">{label}</FormLabel>
 						{description && <FormDescription>{description}</FormDescription>}
 					</div>
 					<FormControl>{children({ field, error })}</FormControl>

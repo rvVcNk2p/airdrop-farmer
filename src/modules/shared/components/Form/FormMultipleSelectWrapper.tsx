@@ -7,7 +7,7 @@ import {
 	FormMessage,
 } from '@modules/shared/components/ui/form'
 
-export const FromMultipleSelectWrapper = ({
+export const FormMultipleSelectWrapper = ({
 	name,
 	label,
 	form,
@@ -29,7 +29,7 @@ export const FromMultipleSelectWrapper = ({
 			render={({ field }) => (
 				<FormItem>
 					<div className="mb-2">
-						<FormLabel className="text-base">{label}</FormLabel>
+						<FormLabel className="text-sm">{label}</FormLabel>
 						{description && <FormDescription>{description}</FormDescription>}
 					</div>
 					<FormControl>{children({ field, error })}</FormControl>

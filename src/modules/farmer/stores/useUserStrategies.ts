@@ -12,10 +12,13 @@ import { useActionHistory } from './useActionHistory'
 
 interface UserStrategies {
 	userStrategies: UserStrategyType[]
+	selectedStrategy: UserStrategyType | undefined
 
 	getStrategy: (uid: string) => UserStrategyType | undefined
 	getStrategiesByType: (type: AirdropTypes) => UserStrategyType[]
 
+	getSelectedStrategy: () => UserStrategyType | undefined
+	setSelectedStrategy: (strategy: UserStrategyType | undefined) => void
 	createNewStrategy: (rawStrategy: RawUserStrategyType) => void
 	deleteStrategy: (uid: string) => void
 	updateStrategy: (updatedStrategy: UserStrategyType) => void
@@ -37,6 +40,21 @@ export const useUserStrategies = create<UserStrategies>()(
 						(strategy) => strategy.airdropType === type,
 					)
 				},
+
+				// [START]: Selected strategy for edit
+				selectedStrategy: undefined,
+
+				getSelectedStrategy: () => {
+					return get().selectedStrategy
+				},
+
+				setSelectedStrategy: (strategy: UserStrategyType | undefined) => {
+					set((state) => ({
+						...state,
+						selectedStrategy: strategy,
+					}))
+				},
+				// [END]: Selected strategy for edit
 
 				createNewStrategy: (rawStrategy: RawUserStrategyType) => {
 					const uid = uuidv4()
@@ -62,6 +80,7 @@ export const useUserStrategies = create<UserStrategies>()(
 						userStrategies: get().userStrategies.filter(
 							(strategy) => strategy.uid !== uid,
 						),
+						selectedStrategy: undefined,
 					}))
 				},
 

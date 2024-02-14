@@ -2,29 +2,27 @@ export type RawUserStrategyType = Omit<UserStrategyType, 'uid'>
 export interface UserStrategyType {
 	uid: string
 	name: string
+	txsGoal: number
 	airdropType: AirdropTypes
-	mainnet: MainnetType
-	randomActions: boolean
 	signTransactionType: SignTransactionType
-	farmingTestnet: boolean
-	testnet?: TestnetType | null
-	wallets: { label: string; value: string }[]
+	wallets: WalletsType[]
+	timeIntervals: TimeIntervalConfigType
+
+	mainnet: LayerZeroMainnetType | ZkSyncMainnetType
+
+	// Additional functionality in future
+	testnet?: null // ZkSyncTestnetType | null
+	farmingTestnet?: boolean
 }
 
-export interface MainnetType {
-	txsNumberPerWallet: number
-	networks: string[]
-	maxGasPerTxs: number
-	bridges: string[]
+export type TypedUserStrategyType<T> = Omit<
+	UserStrategyType,
+	'mainnet' | 'uid'
+> & {
+	mainnet: T
 }
 
-export type TestnetType = MainnetType
-
-export enum SignTransactionType {
-	PRIVATE_KEY = 'PRIVATE_KEY',
-	MANUAL = 'MANUAL',
-}
-
+// UserStrategyTypes
 export enum AirdropTypes {
 	LAYER_ZERO = 'LAYER_ZERO',
 	ZK_SYNC = 'ZK_SYNC',
@@ -34,19 +32,134 @@ export enum AirdropTypes {
 	LINEA = 'LINEA',
 }
 
+export enum SignTransactionType {
+	PRIVATE_KEY = 'PRIVATE_KEY',
+	MANUAL = 'MANUAL',
+}
+
+export interface WalletsType {
+	label: string
+	value: string
+}
+
+export interface TimeIntervalConfigType {
+	timeIntervalAfterTransactions: IntervalType
+	sleepIntervalAfterApproval: IntervalType
+	// intervalBetweenWalletsStartTime: IntervalType
+	// sleepIntervalWhenGasIsAboveYourLimits: IntervalType
+}
+
+// Mainnet Type
+export interface LayerZeroMainnetType {
+	networks: LayerZeroNetworks[]
+	bridges: LayerZeroBridges[]
+}
+
+export interface ZkSyncMainnetType {
+	bridge: {
+		isSkip: boolean
+		type: ZksyncBridges
+		maxGasPerBridging: number
+		bridgeFullbalance: boolean
+		usdcToBridgeInPercentage: BalancePercentageType
+		ethToBridgeInPercentage: BalancePercentageType
+	}
+	actions: {
+		swap: {
+			providers: ZksyncSwapProviders[]
+			maxGasFee: number
+			minMaxUsdcInPercentage: BalancePercentageType
+			slippage: number
+		}
+		liquidity: {
+			providers: ZksyncLiquidityProviders[]
+			maxGasFee: number
+			maxTimes: number
+			minMaxUsdcInPercentage: BalancePercentageType
+			timeIntervalToremoveAfterProvided: IntervalType
+			slippage: number
+		}
+		lending: {
+			providers: ZksyncLendingProviders[]
+			maxGasFee: number
+			maxTimes: number
+			minMaxUsdcInPercentage: BalancePercentageType
+			timeIntervalToremoveAfterProvided: IntervalType
+		}
+		mint: {
+			providers: ZksyncMintProviders[]
+			maxGasFee: number
+			maxTimes: number
+		}
+		wrapping: {}
+	}
+
+	// useRpcNode: boolean // signTransactionType
+}
+
+// LayerZero constants
 export enum LayerZeroNetworks {
-	ETHEREUM = 'Ethereum',
-	ARBITRUM = 'Arbitrum',
-	POLYGON = 'Polygon',
-	OPTIMISM = 'Optimism',
-	BSC = 'Bsc',
-	AVALANCHE = 'Avalanche',
-	FANTOM = 'Fantom',
-	METIS = 'Metis',
-	APTOS = 'Aptos',
+	ETHEREUM = 'ETHEREUM',
+	ARBITRUM = 'ARBITRUM',
+	POLYGON = 'POLYGON',
+	OPTIMISM = 'OPTIMISM',
+	BSC = 'BSC',
+	AVALANCHE = 'AVALANCHE',
+	FANTOM = 'FANTOM',
+	METIS = 'METIS',
+	APTOS = 'APTOS',
 }
 
 export enum LayerZeroBridges {
-	STARGATE = 'Stargate',
-	WOOFI = 'Woofi',
+	STARGATE = 'STARGATE',
+	WOOFI = 'WOOFI',
+}
+
+// zkSync constants
+export enum ZksyncBridges {
+	ZKSYNC = 'ZKSYNC', // Official
+	ORBITER = 'ORBITER',
+}
+
+export enum ZksyncActionProviders {
+	SWAP = 'SWAP',
+	LIQUIDITY = 'LIQUIDITY',
+	LENDING = 'LENDING',
+	MINT = 'MINT',
+	// WRAPPING = 'WRAPPING',
+}
+
+export enum ZksyncSwapProviders {
+	SYNCSWAP = 'SYNCSWAP',
+	VELOCORE = 'VELOCORE',
+	MUTE = 'MUTE',
+	SPACEFI = 'SPACEFI',
+	ONE_INCH = 'ONE_INCH',
+}
+
+export enum ZksyncLendingProviders {
+	ERALEND = 'ERALEND',
+	REACTORFUSION = 'REACTORFUSION',
+}
+
+export enum ZksyncLiquidityProviders {
+	SYNCSWAP = 'SYNCSWAP',
+	VELOCORE = 'VELOCORE',
+	MUTE = 'MUTE',
+	SPACEFI = 'SPACEFI',
+}
+
+export enum ZksyncMintProviders {
+	ZKNS_DOMAINS = 'ZKNS_DOMAINS',
+}
+
+// Shared Types
+interface IntervalType {
+	from: number // seconds
+	to: number // seconds
+}
+
+interface BalancePercentageType {
+	min: number
+	max: number
 }

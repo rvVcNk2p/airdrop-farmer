@@ -64,8 +64,9 @@ export const WorkspacePage = () => {
 		updateWorkspaceStatus(strategyUid, WorkspaceStatusType.RUNNING)
 
 		coordinateActions({
-			iteration: strategy?.mainnet.txsNumberPerWallet || 0,
+			iteration: strategy?.txsGoal || 0,
 			strategy: strategy,
+			// @ts-ignore
 			selectedNetworks: strategy?.mainnet.networks || [],
 		})
 	}

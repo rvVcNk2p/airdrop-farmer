@@ -1,9 +1,15 @@
+// TODO: Create a main HandlerModal for all strategies
 import { zodResolver } from '@hookform/resolvers/zod'
-import { NewStrategyStepOne } from '@modules/farmer/components/Strategy/NewStrategySteps/NewStrategyStepOne'
-import { NewStrategyStepThree } from '@modules/farmer/components/Strategy/NewStrategySteps/NewStrategyStepThree'
+import { NewStrategyStepOne } from '@modules/farmer/components/Strategy/layer-zero/NewStrategyStepOne'
+import { NewStrategyStepThree } from '@modules/farmer/components/Strategy/layer-zero/NewStrategyStepThree'
 import { useUserStrategies } from '@modules/farmer/stores'
-import { AirdropTypes, SignTransactionType } from '@modules/farmer/types'
-import type { UserStrategyType } from '@modules/farmer/types'
+import {
+	AirdropTypes,
+	LayerZeroBridges,
+	LayerZeroNetworks,
+	SignTransactionType,
+} from '@modules/farmer/types'
+import type { LayerZeroMainnetType } from '@modules/farmer/types'
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -19,9 +25,12 @@ import { Plus } from '@phosphor-icons/react'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
+import {
+	fromToErrorObject,
+	fromToValidator,
+} from '@modules/shared/utils/validators'
 
 interface NewStrategyModalProps {
-	selectedStrategy?: UserStrategyType | undefined
 	children: React.ReactNode
 }
 
@@ -74,26 +83,49 @@ const formSchema = z.object({
 		name: z.string().min(3, {
 			message: 'Field must be at least 3 characters.',
 		}),
-		txsNumberPerWallet: z.coerce.number().min(1),
-		maxGasPerTxs: z.coerce.number().min(1),
-		airdropType: z.union([
-			z.literal(AirdropTypes.LAYER_ZERO),
-			z.literal(AirdropTypes.STARK_NET),
-			z.literal(AirdropTypes.ZK_SYNC),
-			z.literal(AirdropTypes.BASE),
-			z.literal(AirdropTypes.SCROLL),
-			z.literal(AirdropTypes.LINEA),
-		]),
+		txsGoal: z.coerce.number().min(1),
+		// maxGasPerTxs: z.coerce.number().min(1),
+		timeIntervals: z.object({
+			timeIntervalAfterTransactions: z
+				.object({
+					from: z.coerce.number().min(1),
+					to: z.coerce.number().min(1),
+				})
+				.refine(fromToValidator, fromToErrorObject),
+			sleepIntervalAfterApproval: z
+				.object({
+					from: z.coerce.number().min(1),
+					to: z.coerce.number().min(1),
+				})
+				.refine(fromToValidator, fromToErrorObject),
+		}),
+		airdropType: z.literal(AirdropTypes.LAYER_ZERO),
 		signTransactionType: z.union([
 			z.literal(SignTransactionType.MANUAL),
 			z.literal(SignTransactionType.PRIVATE_KEY),
 		]),
-		bridges: z.array(z.string()).refine((value) => value.some((item) => item), {
-			message: 'You have to select at least one item.',
-		}),
-		networks: z.array(z.string()).refine((value) => value.length > 1, {
-			message: 'You have to select at least two item.',
-		}),
+		bridges: z
+			.array(z.enum([LayerZeroBridges.STARGATE, LayerZeroBridges.WOOFI]))
+			.refine((value) => value.some((item) => item), {
+				message: 'You have to select at least one item.',
+			}),
+		networks: z
+			.array(
+				z.enum([
+					LayerZeroNetworks.APTOS,
+					LayerZeroNetworks.ARBITRUM,
+					LayerZeroNetworks.AVALANCHE,
+					LayerZeroNetworks.BSC,
+					LayerZeroNetworks.ETHEREUM,
+					LayerZeroNetworks.FANTOM,
+					LayerZeroNetworks.METIS,
+					LayerZeroNetworks.OPTIMISM,
+					LayerZeroNetworks.POLYGON,
+				]),
+			)
+			.refine((value) => value.length >= 2, {
+				message: 'You have to select at least two item.',
+			}),
 		wallets: z
 			.array(
 				z.object({
@@ -104,17 +136,21 @@ const formSchema = z.object({
 			.min(1, {
 				message: 'You have to select at least one wallet.',
 			}),
-		// randomActions: z.boolean(),
-		// farmingTestnets: z.boolean(),
 	}),
 })
 
-export const NewStrategyModal = ({
+export const NewLayerZeroStrategyModal = ({
 	children,
-	selectedStrategy,
 }: NewStrategyModalProps) => {
 	const [activeStep, setActiveStep] = useState(1)
 	const [isOpen, setIsOpen] = useState(false)
+
+	const getSelectedStrategy = useUserStrategies(
+		(state) => state.getSelectedStrategy,
+	)
+	const setSelectedStrategy = useUserStrategies(
+		(state) => state.setSelectedStrategy,
+	)
 
 	const createNewStrategy = useUserStrategies(
 		(state) => state.createNewStrategy,
@@ -126,34 +162,48 @@ export const NewStrategyModal = ({
 		defaultValues: {
 			firstStepFileds: {
 				name: '',
-				txsNumberPerWallet: 1,
-				maxGasPerTxs: 1,
+				txsGoal: 1,
 				airdropType: AirdropTypes.LAYER_ZERO,
 				signTransactionType: SignTransactionType.PRIVATE_KEY,
-				bridges: ['STARGATE'],
+				bridges: [LayerZeroBridges.STARGATE],
 				networks: [],
 				wallets: [],
+				timeIntervals: {
+					timeIntervalAfterTransactions: {
+						from: 9,
+						to: 50,
+					},
+					sleepIntervalAfterApproval: {
+						from: 1,
+						to: 9,
+					},
+				},
 			},
 		},
 	})
 
 	const { setValue } = form
 
+	const selectedStrategy = getSelectedStrategy()
+
 	useEffect(() => {
 		if (selectedStrategy) {
-			const { txsNumberPerWallet, maxGasPerTxs, bridges, networks } =
-				selectedStrategy.mainnet
-			setValue('firstStepFileds.name', selectedStrategy.name)
-			setValue('firstStepFileds.txsNumberPerWallet', txsNumberPerWallet)
-			setValue('firstStepFileds.maxGasPerTxs', maxGasPerTxs)
-			setValue('firstStepFileds.airdropType', selectedStrategy.airdropType)
-			setValue(
-				'firstStepFileds.signTransactionType',
-				selectedStrategy.signTransactionType,
-			)
+			const {
+				txsGoal,
+				mainnet,
+				wallets,
+				signTransactionType,
+				timeIntervals,
+				name,
+			} = selectedStrategy
+			const { bridges, networks } = mainnet as LayerZeroMainnetType
+			setValue('firstStepFileds.name', name)
+			setValue('firstStepFileds.txsGoal', txsGoal)
+			setValue('firstStepFileds.signTransactionType', signTransactionType)
 			setValue('firstStepFileds.bridges', bridges)
 			setValue('firstStepFileds.networks', networks)
-			setValue('firstStepFileds.wallets', selectedStrategy.wallets)
+			setValue('firstStepFileds.wallets', wallets)
+			setValue('firstStepFileds.timeIntervals', timeIntervals)
 		}
 	}, [isOpen, selectedStrategy, setValue])
 
@@ -166,26 +216,25 @@ export const NewStrategyModal = ({
 		const { firstStepFileds } = form.getValues()
 		const {
 			name,
-			txsNumberPerWallet,
-			maxGasPerTxs,
+			txsGoal,
 			airdropType,
 			signTransactionType,
 			networks,
 			bridges,
 			wallets,
+			timeIntervals,
 		} = firstStepFileds
 
 		if (selectedStrategy) {
 			updateStrategy({
 				uid: selectedStrategy.uid,
 				name,
+				txsGoal,
 				airdropType,
-				mainnet: { txsNumberPerWallet, maxGasPerTxs, networks, bridges },
-				testnet: null,
-				randomActions: false,
-				farmingTestnet: false,
+				mainnet: { networks, bridges },
 				signTransactionType,
 				wallets,
+				timeIntervals,
 			})
 
 			toast({
@@ -196,13 +245,12 @@ export const NewStrategyModal = ({
 		} else {
 			createNewStrategy({
 				name,
+				txsGoal,
 				airdropType,
-				mainnet: { txsNumberPerWallet, maxGasPerTxs, networks, bridges },
-				testnet: null,
-				randomActions: false,
-				farmingTestnet: false,
+				mainnet: { networks, bridges },
 				signTransactionType,
 				wallets,
+				timeIntervals,
 			})
 
 			toast({
@@ -217,17 +265,17 @@ export const NewStrategyModal = ({
 
 	const closeModal = () => {
 		setIsOpen(false)
+		setSelectedStrategy(undefined)
 		form.reset()
 		setActiveStep(1)
 	}
 
 	return (
-		<AlertDialog open={isOpen}>
-			<AlertDialogTrigger asChild={true} onClick={() => setIsOpen(true)}>
-				{children}
-			</AlertDialogTrigger>
+		<AlertDialog open={isOpen} onOpenChange={setIsOpen}>
+			<AlertDialogTrigger asChild={false}>{children}</AlertDialogTrigger>
 			<AlertDialogContent>
 				<AlertDialogHeader>
+					<div>LayerZero</div>
 					{activeStep === 1 && <NewStrategyStepOne form={form} />}
 					{activeStep === 2 && (
 						<NewStrategyStepThree

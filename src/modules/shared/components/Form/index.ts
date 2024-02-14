@@ -1,6 +1,9 @@
-export { FromMultipleSelectWrapper } from './FromMultipleSelectWrapper'
-export { FormFieldWrapper } from './FromFieldWrapper'
+export { FormMultipleSelectWrapper } from './FormMultipleSelectWrapper'
+export { FormDoubleFieldInputWrapper } from './FormDoubleFieldInputWrapper'
+export { FormFieldInputWrapper } from './FormFieldInputWrapper'
+export { FormFieldSwitchWrapper } from './FormFieldSwitchWrapper'
+export { FormFieldWrapper } from './FormFieldWrapper'
 export { FormFieldCheckboxWrapper } from './FormFieldCheckboxWrapper'
 export { FormFieldSelectWrapper } from './FormFieldSelectWrapper'
-
-export { FromMultipleWalletSelect } from './FromMultipleWalletSelect'
+export { FormFieldRadioGroupWrapper } from './FormFieldRadioGroupWrapper'
+export { FormMultipleWalletSelect } from './FormMultipleWalletSelect'
