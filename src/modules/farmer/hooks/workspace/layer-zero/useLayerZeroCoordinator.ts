@@ -6,6 +6,8 @@ import {
 	type LayerZeroMainnetType,
 	type TxHistoryRecordType,
 	type TypedUserStrategyTypeWithUid,
+	LayerZeroActionType,
+	ExecutionActionType,
 } from '@modules/farmer/types'
 import { usePerformActions } from '@modules/farmer/hooks/workspace/usePerformActions'
 import { usePerformAllowanceAndBridge } from '@modules/farmer/hooks/workspace/layer-zero/actions/usePerformAllowanceAndBridge'
@@ -34,7 +36,7 @@ const generateAllowanceAndBridgeFn = async ({
 		uid: actionUid,
 		strategyUid,
 		wallet,
-		type: 'ALLOWANCE_AND_BRIDGE',
+		type: LayerZeroActionType.ALLOWANCE_AND_BRIDGE,
 		status: 'QUEUED',
 		layerOneBridge: {
 			txHash: null,
@@ -92,7 +94,11 @@ export const useLayerZeroCoordinator = () => {
 				if (usedQuota >= quota) {
 					throw new Error('Quota reached. Please upgrade your plan.')
 				}
-				await executeNextAction(nextAction, usedQuota)
+				await executeNextAction(
+					nextAction,
+					usedQuota,
+					ExecutionActionType.ACTION, // Could be ExecutionActionType.BRIDGE
+				)
 			} catch (error: any) {
 				console.error(error)
 				loggerFn({

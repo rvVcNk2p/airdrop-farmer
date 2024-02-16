@@ -4,7 +4,7 @@ import { randomIntFromInterval, sleep } from '@modules/shared/utils'
 import { Address } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
 
-import { useChooseInitialToken } from '@modules/farmer/hooks/workspace/allowance/useChooseInitialToken'
+import { useChooseInitialToken } from '@modules/farmer/hooks/workspace/_shared/useChooseInitialToken'
 import { useCreateAllowanceTxForApproval } from '@modules/farmer/hooks/workspace/allowance/useCreateAllowanceTxForApproval'
 
 import { useSendAllowanceToBlockchain } from '@modules/farmer/hooks/workspace/allowance/useSendAllowanceToBlockchain'

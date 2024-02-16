@@ -1,4 +1,5 @@
 // 1. Step
+import { getPriceFeed } from '@modules/farmer/helpers/getPriceFeed'
 import { TxHistoryRecordType, TxStatusType } from '@modules/farmer/types'
 import { ChainIds, chainAvailableTokens } from '@modules/shared/constants'
 import { balancesFetcher } from '@modules/shared/fetchers'
@@ -9,6 +10,7 @@ type ChooseInitialTokenFnProps = {
 	selectedNetworks: string[]
 	wallet: Address
 	loggerFn: ({}: TxHistoryRecordType) => void
+	externalChainAvailableTokens?: string[]
 }
 
 type MessageGeneratorProps = {
@@ -71,13 +73,14 @@ const generateMessage = ({
 	network,
 	amount,
 }: MessageGeneratorProps): string =>
-	`<p>Choose <span className="text-purple-500">${nameOfToken}</span> on <span className="text-yellow-500">${network}</span> with $${amount} as initial token</p>`
+	`<p>Biggest <span className="text-purple-500">${nameOfToken}</span> balance in $${amount} on <span className="text-yellow-500">${network}</span></p>`
 
 export const useChooseInitialToken = () => {
 	const chooseInitialTokenFn = async ({
 		selectedNetworks,
 		wallet,
 		loggerFn,
+		externalChainAvailableTokens,
 	}: ChooseInitialTokenFnProps) => {
 		const activechainIds = selectedNetworks.map((network) => ({
 			network,
@@ -93,7 +96,7 @@ export const useChooseInitialToken = () => {
 					balances: await balancesFetcher(
 						privateKeyToAccount(wallet).address,
 						chainId,
-						chainAvailableTokens[chainId],
+						externalChainAvailableTokens ?? chainAvailableTokens[chainId],
 					),
 				}
 			}),
@@ -123,6 +126,16 @@ export const useChooseInitialToken = () => {
 			network,
 		} = chainWithHighestBalanceToken
 
+		let amountVal = `${amount}`
+		if (token === 'ETH') {
+			const ethPrice = await getPriceFeed({
+				privateKey: wallet,
+				pairSymbol: 'ETH-USD',
+			})
+			const formatedPrice = ethPrice * amount
+			amountVal = `${formatedPrice.toFixed(2)}`
+		}
+
 		loggerFn({
 			timestamp: new Date(),
 			wallet: privateKeyToAccount(wallet).address,
@@ -130,7 +143,7 @@ export const useChooseInitialToken = () => {
 			message: generateMessage({
 				nameOfToken: token,
 				network,
-				amount,
+				amount: amountVal,
 			}),
 		})
 

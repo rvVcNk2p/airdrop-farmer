@@ -89,8 +89,6 @@ export const WorkspaceHeader = ({
 			default:
 				return null
 		}
-
-		return
 	}
 
 	const getStrategy = useUserStrategies((state) => state.getStrategy)

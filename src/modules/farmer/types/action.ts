@@ -1,10 +1,10 @@
 import { Address } from 'viem'
 
 export enum ActionStatusType {
-	'QUEUED' = 'QUEUED',
-	'RUNNING' = 'RUNNING',
-	'FINISHED' = 'FINISHED',
-	'FAILED' = 'FAILED',
+	QUEUED = 'QUEUED',
+	RUNNING = 'RUNNING',
+	FINISHED = 'FINISHED',
+	FAILED = 'FAILED',
 }
 
 export enum TxStatusType {
@@ -15,16 +15,26 @@ export enum TxStatusType {
 	END = 'END',
 }
 
-export type TxHistoryRecordType = {
+export enum ExecutionActionType {
+	BRIDGE = 'BRIDGE',
+	ACTION = 'ACTION',
+}
+
+export interface TxHistoryRecordType {
 	timestamp: Date
 	wallet: Address
 	status: TxStatusType
 	message: string
 }
 
-export type ActionsType = {
+// Layer Zero types
+export enum LayerZeroActionType {
+	ALLOWANCE_AND_BRIDGE = 'ALLOWANCE_AND_BRIDGE',
+}
+
+export interface ActionsType {
 	uid: string
-	type: 'ALLOWANCE_AND_BRIDGE'
-	status: 'QUEUED' | 'RUNNING' | 'FINISHED' | 'FAILED'
+	type: LayerZeroActionType.ALLOWANCE_AND_BRIDGE
+	status: ActionStatusType
 	action: () => void
 }

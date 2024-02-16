@@ -6,7 +6,7 @@ import { createWalletClientFactory } from '@modules/farmer/helpers/createWalletC
 import { getEstimatedLayerOneFee } from '@modules/farmer/helpers/getEstimatedLayerOneFee'
 import { getEstimatedTransactionFee } from '@modules/farmer/helpers/getEstimatedTransactionFee'
 import { getPoolIdByToken } from '@modules/farmer/helpers/poolId'
-import { BlancesResponseWithSelectedToken } from '@modules/farmer/hooks/workspace/allowance/useChooseInitialToken'
+import { BlancesResponseWithSelectedToken } from '@modules/farmer/hooks/workspace/_shared/useChooseInitialToken'
 import { TxHistoryRecordType, TxStatusType } from '@modules/farmer/types'
 import { ChainIds } from '@modules/shared/constants'
 import { Address, parseUnits } from 'viem'

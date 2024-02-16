@@ -24,6 +24,7 @@ export const ZksyncBridgeSection = ({ form }: { form: any }) => {
 					label="Bridge"
 					name="firstStepFileds.mainnet.bridge.type"
 					form={form}
+					disabled
 					options={zksyncBridges}
 				/>
 				<FormFieldSwitchWrapper

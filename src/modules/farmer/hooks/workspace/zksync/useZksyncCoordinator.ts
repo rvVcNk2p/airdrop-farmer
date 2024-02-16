@@ -1,42 +1,82 @@
 import { useUserWallets } from '@modules/farmer/stores/useUserWallets'
-import { v4 as uuidv4 } from 'uuid'
 import { fetchPlanByLoggedInUser } from '@modules/shared/fetchers/planFetcher'
 import {
 	TxStatusType,
 	type TxHistoryRecordType,
 	type TypedUserStrategyTypeWithUid,
-	ZkSyncMainnetType,
+	type ZkSyncMainnetType,
+	ActionStatusType,
+	ExecutionActionType,
+	ZksyncBridges,
+	type ZkSyncMainnetBridgeType,
+	type ZkSyncMainnetActionsType,
 } from '@modules/farmer/types'
 import { usePerformActions } from '@modules/farmer/hooks/workspace/usePerformActions'
-import { usePerformAllowanceAndBridge } from '@modules/farmer/hooks/workspace/layer-zero/actions/usePerformAllowanceAndBridge'
 import { useActionHistory } from '@modules/farmer/stores'
-import { privateKeyToAccount } from 'viem/accounts'
+import { type Address, privateKeyToAccount } from 'viem/accounts'
+import { v4 as uuidv4 } from 'uuid'
+import { getZksyncBridge } from '@modules/farmer/hooks/workspace/zksync/bridge/getZksyncBridge'
 
-type GenerateAllowanceAndBridgeProps = {
+interface ActionCreatorFactoryProps {
 	strategyUid: string
-	wallet: `0x${string}`
-	selectedNetworks: string[]
+	walletPrivateKey: Address
+	actionType: string // TODO: Add enum
 	addNewAction: ({}: any) => void
-	generateAllowanceAndBridge: ({}: any) => void
 	loggerFn: ({}: TxHistoryRecordType) => void
+	bridge?: ZkSyncMainnetBridgeType
+	actions?: ZkSyncMainnetActionsType
 }
 
-const zksyncBridgeCoordinatorFn = async ({}) => {
-	return new Promise((resolve) => {
-		setTimeout(() => {
-			console.log('== zksyncBridgeCoordinatorFn')
-			resolve({})
-		}, 1000)
-	})
+const zksyncActionCreatorFactory = ({
+	strategyUid,
+	walletPrivateKey,
+	actionType,
+	addNewAction,
+	loggerFn,
+	bridge,
+	actions,
+}: ActionCreatorFactoryProps) => {
+	const { orbiterZksyncBridgeFn } = getZksyncBridge()
+	const selectedActionByType = () => {
+		if (bridge) {
+			switch (actionType) {
+				case ZksyncBridges.ORBITER:
+					return orbiterZksyncBridgeFn({
+						actionUid,
+						walletPrivateKey,
+						bridge,
+						loggerFn,
+					})
+				// Add more cases - ZksyncBridges types
+			}
+		} else if (actions) {
+			// Add more cases - Action types
+		}
+	}
+
+	const actionUid = uuidv4()
+	const newAction = {
+		uid: actionUid,
+		strategyUid,
+		wallet: walletPrivateKey,
+		type: actionType,
+		status: ActionStatusType.QUEUED,
+		action: () => selectedActionByType(),
+	}
+
+	addNewAction(newAction)
+
+	return newAction
 }
-const zksyncActionsCoordinatorFn = async ({}) => {
-	return new Promise((resolve) => {
-		setTimeout(() => {
-			console.log('== zksyncActionsCoordinatorFn')
-			resolve({})
-		}, 1000)
-	})
-}
+
+// const zksyncActionsCoordinatorFn = async ({}) => {
+// 	return new Promise((resolve) => {
+// 		setTimeout(() => {
+// 			console.log('== zksyncActionsCoordinatorFn')
+// 			resolve({})
+// 		}, 1000)
+// 	})
+// }
 
 export const useZksyncCoordinator = () => {
 	const { executeNextAction } = usePerformActions()
@@ -58,39 +98,57 @@ export const useZksyncCoordinator = () => {
 
 		const { bridge, actions } = strategy.mainnet
 
-		await zksyncBridgeCoordinatorFn({})
-		// await executeNextAction(bridgeAction, 10) // usedQuota)
+		if (!bridge.isSkip) {
+			const plans = await fetchPlanByLoggedInUser()
+			const usedQuota = (plans && plans[0].used_quota) ?? 0
 
-		for (let i = 0; i < txGoal; i++) {
-			// const nextAction =
-			await zksyncActionsCoordinatorFn({
-				// strategyUid: strategy.uid,
-				// wallet: walletPrivateKey,
-				// addNewAction,
-				// generateAllowanceAndBridge,
-				// loggerFn: (args) => loggerFn({ strategyUid: strategy.uid, ...args }),
+			const bridgeAction = await zksyncActionCreatorFactory({
+				strategyUid: strategy.uid,
+				walletPrivateKey,
+				actionType: bridge.type,
+				bridge,
+				addNewAction,
+				loggerFn: (args) =>
+					loggerFn({ strategyUid: strategy.uid, ...args, wallet }), // IMPOVEMENT: Bind wallet to loggerFn
 			})
-			try {
-				const plans = await fetchPlanByLoggedInUser()
-				const quota = (plans && plans[0].quota) ?? 10
-				const usedQuota = (plans && plans[0].used_quota) ?? 0
-				// TODO: Handle if user is a paid user
-				if (usedQuota >= quota) {
-					throw new Error('Quota reached. Please upgrade your plan.')
-				}
-				// await executeNextAction(nextAction, 10) // usedQuota)
-			} catch (error: any) {
-				console.error(error)
-				loggerFn({
-					strategyUid: strategy.uid,
-					timestamp: new Date(),
-					wallet,
-					status: TxStatusType.ERROR,
-					message: error.message,
-				})
-				break
-			}
+
+			await executeNextAction(
+				bridgeAction,
+				usedQuota,
+				ExecutionActionType.BRIDGE,
+			)
 		}
+
+		// for (let i = 0; i < txGoal; i++) {
+		// 	// const nextAction =
+		// 	await zksyncActionsCoordinatorFn({
+		// 		// strategyUid: strategy.uid,
+		// 		// wallet: walletPrivateKey,
+		// 		// addNewAction,
+		// 		// generateAllowanceAndBridge,
+		// 		// loggerFn: (args) => loggerFn({ strategyUid: strategy.uid, ...args }),
+		// 	})
+		// 	try {
+		// 		// TODO: Handle if user is a paid user
+		// 		const plans = await fetchPlanByLoggedInUser()
+		// 		const quota = (plans && plans[0].quota) ?? 10
+		// 		const usedQuota = (plans && plans[0].used_quota) ?? 0
+		// 		if (usedQuota >= quota) {
+		// 			throw new Error('Quota reached. Please upgrade your plan.')
+		// 		}
+		// 		// await executeNextAction(nextAction, 10) // usedQuota)
+		// 	} catch (error: any) {
+		// 		console.error(error)
+		// 		loggerFn({
+		// 			strategyUid: strategy.uid,
+		// 			timestamp: new Date(),
+		// 			wallet,
+		// 			status: TxStatusType.ERROR,
+		// 			message: error.message,
+		// 		})
+		// 		break
+		// 	}
+		// }
 	}
 
 	return { coordinateZksyncBot }

@@ -82,7 +82,7 @@ export default function SidebarLayout({
 		<>
 			<div className="fixed inset-y-0 z-50 flex w-24 flex-col">
 				<div className="flex grow flex-col gap-y-5 overflow-y-auto border-r bg-background px-6 text-foreground">
-					<div className="flex h-16 shrink-0 items-center">
+					<div className="mx-auto flex h-16 shrink-0 items-center">
 						<img
 							className="h-8 w-auto"
 							src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
