@@ -1,5 +1,8 @@
 import { TxStatusType } from '@modules/farmer/types'
-import { ActionStatusType } from '@modules/farmer/types/action'
+import {
+	ActionStatusType,
+	LayerZeroActionType,
+} from '@modules/farmer/types/action'
 import { Address } from 'viem'
 import { create } from 'zustand'
 import { createJSONStorage, devtools, persist } from 'zustand/middleware'
@@ -25,13 +28,14 @@ export type WorkspaceType = {
 		failed: number
 	}
 	aggregatedValue: number
+	aggregatedBridgeValue: number
 }
 
 export type TxHistoryRecordType = {
-	timestamp: Date
-	wallet: Address
-	status: TxStatusType
 	message: string
+	timestamp?: Date
+	wallet?: Address | string
+	status?: TxStatusType
 }
 
 export type ExtendedTxHistoryRecordType = TxHistoryRecordType & {
@@ -42,8 +46,8 @@ type ActionsType = {
 	uid: string
 	wallet: Address
 	strategyUid: string
-	type: 'ALLOWANCE_AND_BRIDGE'
-	status: 'QUEUED' | 'RUNNING' | 'FINISHED' | 'FAILED'
+	type: LayerZeroActionType.ALLOWANCE_AND_BRIDGE
+	status: ActionStatusType
 	layerOneBridge: {
 		txHash: string | null
 		srcChainId: number | null
@@ -81,6 +85,10 @@ interface ActionHistory {
 		status: WorkspaceTransactionStatusType,
 	) => void
 	updateWorkspaceAggregatedValue: (strategyUid: string, value: number) => void
+	updateWorkspaceAggregatedBridgeValue: (
+		strategyUid: string,
+		value: number,
+	) => void
 	resetWorkspace: (strategyUid: string) => void
 	resetEveryWorkspace: () => void
 }
@@ -127,8 +135,14 @@ export const useActionHistory = create<ActionHistory>()(
 				},
 
 				addHistory: (newHistory: ExtendedTxHistoryRecordType) => {
+					const _newHistory = {
+						timestamp: new Date(),
+						status: TxStatusType.INFO,
+						wallet: '',
+						...newHistory,
+					}
 					set((state) => ({
-						history: [...state.history, newHistory],
+						history: [...state.history, _newHistory],
 					}))
 				},
 
@@ -168,6 +182,7 @@ export const useActionHistory = create<ActionHistory>()(
 							failed: 0,
 						},
 						aggregatedValue: 0,
+						aggregatedBridgeValue: 0,
 					}
 					set((state) => ({
 						workspaces: [...state.workspaces, newWorkspace],
@@ -229,6 +244,22 @@ export const useActionHistory = create<ActionHistory>()(
 						),
 					}))
 				},
+				updateWorkspaceAggregatedBridgeValue: (
+					strategyUid: string,
+					value: number,
+				) => {
+					set((state) => ({
+						workspaces: state.workspaces.map((workspace) =>
+							workspace.uid === strategyUid
+								? {
+										...workspace,
+										aggregatedBridgeValue:
+											workspace.aggregatedBridgeValue + value,
+									}
+								: workspace,
+						),
+					}))
+				},
 
 				resetWorkspace: (strategyUid: string) => {
 					set((state) => ({
@@ -242,6 +273,7 @@ export const useActionHistory = create<ActionHistory>()(
 											failed: 0,
 										},
 										aggregatedValue: 0,
+										aggregatedBridgeValue: 0,
 									}
 								: workspace,
 						),

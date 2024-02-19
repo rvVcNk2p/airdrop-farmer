@@ -1,133 +1,63 @@
-import { usePerformAllowanceAndBridge } from '@modules/farmer/hooks/workspace/actions/usePerformAllowanceAndBridge'
 import { useActionHistory } from '@modules/farmer/stores'
 import { WorkspaceStatusType } from '@modules/farmer/stores/useActionHistory'
-import { TxStatusType } from '@modules/farmer/types'
+import { AirdropTypes, TxStatusType } from '@modules/farmer/types'
 import type {
-	TxHistoryRecordType,
+	LayerZeroMainnetType,
+	TypedUserStrategyTypeWithUid,
 	UserStrategyType,
+	ZkSyncMainnetType,
 } from '@modules/farmer/types'
-import { fetchPlanByLoggedInUser } from '@modules/shared/fetchers/planFetcher'
-import { v4 as uuidv4 } from 'uuid'
-import { privateKeyToAccount } from 'viem/accounts'
 
-import { useUserWallets } from '@modules/farmer/stores/useUserWallets'
-
-import { usePerformActions } from './usePerformActions'
+import { useLayerZeroCoordinator } from '@modules/farmer/hooks/workspace/layer-zero/useLayerZeroCoordinator'
+import { useZksyncCoordinator } from '@modules/farmer/hooks/workspace/zksync/useZksyncCoordinator'
 
 type CoordinateActionsProps = {
-	iteration: number
 	strategy: UserStrategyType
-	selectedNetworks: string[]
-}
-
-type GenerateAllowanceAndBridgeProps = {
-	strategyUid: string
-	wallet: `0x${string}`
-	selectedNetworks: string[]
-	addNewAction: ({}: any) => void
-	generateAllowanceAndBridge: ({}: any) => void
-	loggerFn: ({}: TxHistoryRecordType) => void
-}
-
-const generateAllowanceAndBridgeFn = async ({
-	strategyUid,
-	wallet,
-	selectedNetworks,
-	addNewAction,
-	generateAllowanceAndBridge,
-	loggerFn,
-}: GenerateAllowanceAndBridgeProps) => {
-	const actionUid = uuidv4()
-	const newAction = {
-		uid: actionUid,
-		strategyUid,
-		wallet,
-		type: 'ALLOWANCE_AND_BRIDGE',
-		status: 'QUEUED',
-		layerOneBridge: {
-			txHash: null,
-			srcChainId: null,
-		},
-		action: () =>
-			generateAllowanceAndBridge({
-				actionUid,
-				wallet,
-				selectedNetworks,
-				loggerFn,
-			}),
-	}
-
-	addNewAction(newAction)
-
-	return newAction
 }
 
 export const useActionsCoordinator = () => {
 	const loggerFn = useActionHistory((state) => state.addHistory)
-	const addNewAction = useActionHistory((state) => state.addNewAction)
 	const updateWorkspaceStatus = useActionHistory(
 		(state) => state.updateWorkspaceStatus,
 	)
+	const { coordinateLayerZeroBot } = useLayerZeroCoordinator()
+	const { coordinateZksyncBot } = useZksyncCoordinator()
 
-	const { generateAllowanceAndBridge } = usePerformAllowanceAndBridge()
-	const { executeNextAction } = usePerformActions()
-
-	const getWalletByUid = useUserWallets((state) => state.getWalletByUid)
-
-	const coordinateActions = async ({
-		iteration,
-		strategy,
-		selectedNetworks,
-	}: CoordinateActionsProps) => {
-		// TODO: Add support for multiple wallet support
-		const walletPrivateKey = getWalletByUid(strategy.wallets[0].value)
-			?.privateKey as `0x${string}`
-		const wallet = privateKeyToAccount(walletPrivateKey).address
-
+	const coordinateActions = async ({ strategy }: CoordinateActionsProps) => {
 		loggerFn({
 			strategyUid: strategy.uid,
 			timestamp: new Date(),
-			wallet,
+			wallet: '',
 			status: TxStatusType.STARTING,
-			message: `Starting workspace ${strategy.name} with ${iteration} transactions.`,
+			message: `Workspace ${strategy.name} Started.`,
 		})
 
-		for (let i = 0; i < iteration; i++) {
-			const nextAction = await generateAllowanceAndBridgeFn({
-				strategyUid: strategy.uid,
-				wallet: walletPrivateKey,
-				selectedNetworks,
-				addNewAction,
-				generateAllowanceAndBridge,
-				loggerFn: (args) => loggerFn({ strategyUid: strategy.uid, ...args }),
-			})
-
-			try {
-				const plans = await fetchPlanByLoggedInUser()
-				const quota = (plans && plans[0].quota) ?? 10
-				const usedQuota = (plans && plans[0].used_quota) ?? 0
-
-				if (usedQuota >= quota) {
-					throw new Error('Quota reached. Please upgrade your plan.')
-				}
-				await executeNextAction(nextAction, usedQuota)
-			} catch (error: any) {
-				console.error(error)
-				loggerFn({
-					strategyUid: strategy.uid,
-					timestamp: new Date(),
-					wallet,
-					status: TxStatusType.ERROR,
-					message: error.message,
-				})
-				break
-			}
+		if (strategy.airdropType === AirdropTypes.LAYER_ZERO) {
+			await Promise.all(
+				strategy.wallets.map((wallet) =>
+					coordinateLayerZeroBot({
+						strategy:
+							strategy as TypedUserStrategyTypeWithUid<LayerZeroMainnetType>,
+						walletUid: wallet.value,
+					}),
+				),
+			)
+		} else if (strategy.airdropType === AirdropTypes.ZK_SYNC) {
+			await Promise.all(
+				strategy.wallets.map((wallet) =>
+					coordinateZksyncBot({
+						strategy:
+							strategy as TypedUserStrategyTypeWithUid<ZkSyncMainnetType>,
+						walletUid: wallet.value,
+					}),
+				),
+			)
 		}
 
 		loggerFn({
 			strategyUid: strategy.uid,
 			timestamp: new Date(),
-			wallet,
+			wallet: '',
 			status: TxStatusType.END,
 			message: `Workspace finished.`,
 		})

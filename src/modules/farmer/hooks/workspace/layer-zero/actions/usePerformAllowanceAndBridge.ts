@@ -4,42 +4,22 @@ import { randomIntFromInterval, sleep } from '@modules/shared/utils'
 import { Address } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
 
-import { useChooseInitialToken } from '../allowance/useChooseInitialToken'
-import { useCreateAllowanceTxForApproval } from '../allowance/useCreateAllowanceTxForApproval'
-import { usePlanningToBridge } from '../allowance/usePlanningToBridge'
-import { useSendAllowanceToBlockchain } from '../allowance/useSendAllowanceToBlockchain'
-import { useCreateBridgeTxForApproval } from '../bridge/useCreateBridgeTxForApproval'
-import { useSendBridgeTxToBlockchain } from '../bridge/useSendBridgeTxToBlockchain'
-import { useWaitingForBridgeConfirmation } from '../bridge/useWaitingForBridgeConfirmation'
+import { useChooseInitialToken } from '@modules/farmer/hooks/workspace/_shared/useChooseInitialToken'
+import { useCreateAllowanceTxForApproval } from '@modules/farmer/hooks/workspace/allowance/useCreateAllowanceTxForApproval'
+
+import { useSendAllowanceToBlockchain } from '@modules/farmer/hooks/workspace/allowance/useSendAllowanceToBlockchain'
+import {
+	useCreateBridgeTxForApproval,
+	useSendBridgeTxToBlockchain,
+	useWaitingForBridgeConfirmation,
+	usePlanningToBridge,
+} from '@modules/farmer/hooks/workspace/layer-zero/bridge'
 
 type PerformAllowanceAndBridgeProps = {
 	actionUid: string
 	selectedNetworks: string[]
 	wallet: Address
 	loggerFn: ({}: TxHistoryRecordType) => void
-}
-
-type RandomSleepAndLogProps = {
-	wallet: Address
-	loggerFn: ({}: TxHistoryRecordType) => void
-	min?: number
-	max?: number
-}
-
-const randomSleepAndLog = async ({
-	wallet,
-	loggerFn,
-	min = 5,
-	max = 30,
-}: RandomSleepAndLogProps) => {
-	const sleepingTime = randomIntFromInterval(min, max)
-	loggerFn({
-		timestamp: new Date(),
-		wallet: privateKeyToAccount(wallet).address,
-		status: TxStatusType.INFO,
-		message: `Sleeping ${sleepingTime} second.`,
-	})
-	await sleep(sleepingTime)
 }
 
 export const usePerformAllowanceAndBridge = () => {
@@ -151,7 +131,6 @@ export const usePerformAllowanceAndBridge = () => {
 
 			return value
 		} catch (error: any) {
-			console.error(error)
 			const message = error?.shortMessage ?? error.message
 			loggerFn({
 				timestamp: new Date(),

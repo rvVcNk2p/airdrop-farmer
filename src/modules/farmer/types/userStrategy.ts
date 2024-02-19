@@ -22,6 +22,13 @@ export type TypedUserStrategyType<T> = Omit<
 	mainnet: T
 }
 
+export type TypedUserStrategyTypeWithUid<T> = Omit<
+	UserStrategyType,
+	'mainnet'
+> & {
+	mainnet: T
+}
+
 // UserStrategyTypes
 export enum AirdropTypes {
 	LAYER_ZERO = 'LAYER_ZERO',
@@ -56,45 +63,47 @@ export interface LayerZeroMainnetType {
 }
 
 export interface ZkSyncMainnetType {
-	bridge: {
-		isSkip: boolean
-		type: ZksyncBridges
-		maxGasPerBridging: number
-		bridgeFullbalance: boolean
-		usdcToBridgeInPercentage: BalancePercentageType
-		ethToBridgeInPercentage: BalancePercentageType
-	}
-	actions: {
-		swap: {
-			providers: ZksyncSwapProviders[]
-			maxGasFee: number
-			minMaxUsdcInPercentage: BalancePercentageType
-			slippage: number
-		}
-		liquidity: {
-			providers: ZksyncLiquidityProviders[]
-			maxGasFee: number
-			maxTimes: number
-			minMaxUsdcInPercentage: BalancePercentageType
-			timeIntervalToremoveAfterProvided: IntervalType
-			slippage: number
-		}
-		lending: {
-			providers: ZksyncLendingProviders[]
-			maxGasFee: number
-			maxTimes: number
-			minMaxUsdcInPercentage: BalancePercentageType
-			timeIntervalToremoveAfterProvided: IntervalType
-		}
-		mint: {
-			providers: ZksyncMintProviders[]
-			maxGasFee: number
-			maxTimes: number
-		}
-		wrapping: {}
-	}
-
+	bridge: ZkSyncMainnetBridgeType
+	actions: ZkSyncMainnetActionsType
 	// useRpcNode: boolean // signTransactionType
+}
+
+export interface ZkSyncMainnetBridgeType {
+	isSkip: boolean
+	type: ZksyncBridges
+	maxGasPerBridging: number
+	bridgeFullbalance: boolean
+	usdcToBridgeInPercentage: BalancePercentageType
+	ethToBridgeInPercentage: BalancePercentageType
+}
+export interface ZkSyncMainnetActionsType {
+	swap: {
+		providers: ZksyncSwapProviders[]
+		maxGasFee: number
+		minMaxUsdcInPercentage: BalancePercentageType
+		slippage: number
+	}
+	liquidity: {
+		providers: ZksyncLiquidityProviders[]
+		maxGasFee: number
+		maxTimes: number
+		minMaxUsdcInPercentage: BalancePercentageType
+		timeIntervalToremoveAfterProvided: IntervalType
+		slippage: number
+	}
+	lending: {
+		providers: ZksyncLendingProviders[]
+		maxGasFee: number
+		maxTimes: number
+		minMaxUsdcInPercentage: BalancePercentageType
+		timeIntervalToremoveAfterProvided: IntervalType
+	}
+	mint: {
+		providers: ZksyncMintProviders[]
+		maxGasFee: number
+		maxTimes: number
+	}
+	wrapping: {}
 }
 
 // LayerZero constants
@@ -109,6 +118,8 @@ export enum LayerZeroNetworks {
 	METIS = 'METIS',
 	APTOS = 'APTOS',
 }
+
+export type PossibleNetworks = LayerZeroNetworks
 
 export enum LayerZeroBridges {
 	STARGATE = 'STARGATE',

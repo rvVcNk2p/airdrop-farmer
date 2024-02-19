@@ -1,7 +1,7 @@
-import { useUpdateDatabase } from '@/modules/shared/hooks/useUpdateDatabase'
+import { useUpdateDatabase } from '@modules/shared/hooks/useUpdateDatabase'
 import { useActionHistory } from '@modules/farmer/stores'
 import { WorkspaceTransactionStatusType } from '@modules/farmer/stores/useActionHistory'
-import { ActionStatusType } from '@modules/farmer/types'
+import { ActionStatusType, ExecutionActionType } from '@modules/farmer/types'
 
 export const usePerformActions = () => {
 	const { incrementUsedQuota } = useUpdateDatabase()
@@ -12,8 +12,15 @@ export const usePerformActions = () => {
 	const updateWorkspaceAggregatedValue = useActionHistory(
 		(state) => state.updateWorkspaceAggregatedValue,
 	)
+	const updateWorkspaceAggregatedBridgeValue = useActionHistory(
+		(state) => state.updateWorkspaceAggregatedBridgeValue,
+	)
 
-	const executeNextAction = async (nextAction: any, usedQuota: number) => {
+	const executeNextAction = async (
+		nextAction: any,
+		usedQuota: number,
+		executionType: ExecutionActionType,
+	) => {
 		return new Promise(async (resolve, reject) => {
 			updateAction({
 				...nextAction,
@@ -21,7 +28,16 @@ export const usePerformActions = () => {
 			})
 
 			try {
-				const bridgedValue = await nextAction.action()
+				if (executionType === ExecutionActionType.BRIDGE) {
+					const bridgedValue = await nextAction.action()
+					updateWorkspaceAggregatedBridgeValue(
+						nextAction.strategyUid,
+						bridgedValue,
+					)
+				} else if (executionType === ExecutionActionType.ACTION) {
+					const actionValue = await nextAction.action()
+					updateWorkspaceAggregatedValue(nextAction.strategyUid, actionValue)
+				}
 
 				updateAction({
 					...nextAction,
@@ -31,7 +47,6 @@ export const usePerformActions = () => {
 					nextAction.strategyUid,
 					WorkspaceTransactionStatusType.FINISHED,
 				)
-				updateWorkspaceAggregatedValue(nextAction.strategyUid, bridgedValue)
 
 				await incrementUsedQuota(usedQuota)
 

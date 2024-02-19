@@ -6,7 +6,7 @@ export type HeaderStateType = {
 }
 
 export type WorkspaceHeaderProps = {
-	title: string
+	title: string | undefined
 	workspaceUid: string | undefined
 	strategy: UserStrategyType | undefined
 	wallets: number | undefined

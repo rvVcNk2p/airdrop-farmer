@@ -15,11 +15,13 @@ export const FormFieldRadioGroupWrapper = ({
 	label,
 	form,
 	options,
+	disabled,
 }: {
 	name: string
 	label: string
 	form: any
 	options: any
+	disabled?: boolean
 }) => {
 	// const error = form.getFieldState(name)?.error
 
@@ -37,6 +39,7 @@ export const FormFieldRadioGroupWrapper = ({
 							onValueChange={field.onChange}
 							defaultValue={field.value}
 							className="flex justify-start space-x-4"
+							disabled={disabled}
 						>
 							{options.map((option: any) => (
 								<FormItem

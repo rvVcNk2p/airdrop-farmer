@@ -60,21 +60,16 @@ export const WorkspacePage = () => {
 
 		resetWorkspace(strategyUid)
 		resetHistoryByStrategyUid(strategyUid)
-
 		updateWorkspaceStatus(strategyUid, WorkspaceStatusType.RUNNING)
 
-		coordinateActions({
-			iteration: strategy?.txsGoal || 0,
-			strategy: strategy,
-			// @ts-ignore
-			selectedNetworks: strategy?.mainnet.networks || [],
-		})
+		// This will start the workspace
+		coordinateActions({ strategy })
 	}
 
 	return (
 		<div className="flex min-h-screen flex-col items-center gap-4 p-8 pt-[3rem] xl:p-16">
 			<WorkspaceHeader
-				title={strategy?.name || ''}
+				title={strategy?.name}
 				workspaceUid={strategy?.uid}
 				strategy={strategy}
 				wallets={strategy?.wallets.length}
@@ -93,7 +88,9 @@ export const WorkspacePage = () => {
 							<div className="text-sm">
 								{moment(step.timestamp).format('DD dddd, hh:mm:ss')}
 							</div>
-							<div className="text-sm">{shortenerAddress(step.wallet)}</div>
+							<div className="text-sm">
+								{step.wallet && shortenerAddress(step.wallet)}
+							</div>
 							<div className="flex justify-center text-sm">{step.status}</div>
 							<div className="text-sm">{parse(step.message)}</div>
 						</div>

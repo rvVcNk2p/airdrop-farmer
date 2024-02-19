@@ -1,10 +1,7 @@
 import { statusColor } from '@modules/farmer/helpers/status'
-import { useActionHistory } from '@modules/farmer/stores'
+import { useActionHistory, useUserStrategies } from '@modules/farmer/stores'
 import { WorkspaceStatusType } from '@modules/farmer/stores/useActionHistory'
-import type {
-	LayerZeroMainnetType,
-	WorkspaceHeaderProps,
-} from '@modules/farmer/types'
+import { AirdropTypes, WorkspaceHeaderProps } from '@modules/farmer/types'
 import { DefaultTooltip } from '@modules/shared/components/atoms/DefaultTooltip'
 import { Badge } from '@modules/shared/components/ui/badge'
 import { Button } from '@modules/shared/components/ui/button'
@@ -13,7 +10,6 @@ import { capitalize } from '@modules/shared/utils'
 import { ArrowLeft } from '@phosphor-icons/react'
 import { Play } from '@phosphor-icons/react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 
 type HeaderElementProps = {
 	title: string
@@ -37,8 +33,6 @@ export const WorkspaceHeader = ({
 	isLoading,
 	startWorkspace,
 }: WorkspaceHeaderProps) => {
-	const router = useRouter()
-
 	const workspaces = useActionHistory((state) => state.workspaces)
 	const workspace = workspaces.find((w) => w.uid === workspaceUid)
 	const workspaceStatus =
@@ -48,7 +42,8 @@ export const WorkspaceHeader = ({
 		(workspace?.transactions.finished ?? 0) +
 		(workspace?.transactions.failed ?? 0)
 
-	const aggregateVolume = workspace?.aggregatedValue ?? 0
+	const aggregatedVolume = workspace?.aggregatedValue ?? 0
+	const aggregatedBridgeVolume = workspace?.aggregatedBridgeValue ?? 0
 
 	const TransactionDetails = () => {
 		return (
@@ -65,10 +60,56 @@ export const WorkspaceHeader = ({
 		)
 	}
 
+	const DynamicFields = () => {
+		switch (strategy?.airdropType) {
+			case AirdropTypes.LAYER_ZERO:
+				return (
+					<HeaderElement title="Chains:">
+						{isLoading ? (
+							<Skeleton className="h-[10px] w-[125px]" />
+						) : (
+							// @ts-ignore
+							strategy?.mainnet.networks
+								// @ts-ignore
+								.map((network) => capitalize(network))
+								.join(', ')
+						)}
+					</HeaderElement>
+				)
+			case AirdropTypes.ZK_SYNC:
+				return (
+					<HeaderElement title="Bridge volume:">
+						{isLoading ? (
+							<Skeleton className="h-[10px] w-[125px]" />
+						) : (
+							`$ ${aggregatedBridgeVolume}`
+						)}
+					</HeaderElement>
+				)
+			default:
+				return null
+		}
+	}
+
+	const getStrategy = useUserStrategies((state) => state.getStrategy)
+	let backHref = `/farmer/`
+
+	if (workspace) {
+		const strategy = getStrategy(workspace?.uid)
+		switch (strategy?.airdropType) {
+			case AirdropTypes.LAYER_ZERO:
+				backHref += 'layer-zero'
+				break
+			case AirdropTypes.ZK_SYNC:
+				backHref += 'zksync'
+				break
+		}
+	}
+
 	return (
 		<div className="flex w-full flex-col items-start gap-4">
 			<Link
-				href="/farmer"
+				href={backHref}
 				className="flex cursor-pointer items-center justify-center gap-1 hover:opacity-60"
 			>
 				<ArrowLeft className="text-xl" />
@@ -97,28 +138,25 @@ export const WorkspaceHeader = ({
 				)}
 			</h1>
 			<div className="flex w-full justify-start gap-2">
-				<HeaderElement title="Transactions">
+				<HeaderElement title="Successful txs:">
 					{isLoading ? (
 						<Skeleton className="h-[10px] w-[25px]" />
 					) : (
 						<div className="flex gap-1">
-							<div>
-								{doneTransaction}/{strategy?.txsGoal}
-							</div>
+							<div>{doneTransaction}</div>
 							<DefaultTooltip content={<TransactionDetails />} size={14} />
 						</div>
 					)}
 				</HeaderElement>
 
-				<HeaderElement title="Chains:">
+				<HeaderElement title="Txs goals:">
 					{isLoading ? (
-						<Skeleton className="h-[10px] w-[125px]" />
+						<Skeleton className="h-[10px] w-[25px]" />
 					) : (
-						// @ts-ignore
-						strategy?.mainnet.networks
-							// @ts-ignore
-							.map((network) => capitalize(network))
-							.join(', ')
+						<div className="flex gap-1">
+							<div>{strategy?.txsGoal}</div>
+							{/* <DefaultTooltip content={<TransactionDetails />} size={14} /> */}
+						</div>
 					)}
 				</HeaderElement>
 
@@ -126,9 +164,11 @@ export const WorkspaceHeader = ({
 					{isLoading ? (
 						<Skeleton className="h-[10px] w-[25px]" />
 					) : (
-						`$ ${aggregateVolume}`
+						`$ ${aggregatedVolume}`
 					)}
 				</HeaderElement>
+
+				<DynamicFields />
 
 				<HeaderElement title="Wallets:">
 					{isLoading ? <Skeleton className="h-[10px] w-[25px]" /> : wallets}

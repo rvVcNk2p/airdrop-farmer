@@ -38,7 +38,7 @@ const signTransactionOptions = [
 export const NewStrategyStepOne = ({ form }: NewStrategyStepOneProps) => {
 	return (
 		<>
-			<AlertDialogTitle className="mb-6">Create Group</AlertDialogTitle>
+			<AlertDialogTitle className="mb-6">Create Strategy</AlertDialogTitle>
 			<AlertDialogDescription asChild={true}>
 				<ScrollArea className="h-[400px] w-full">
 					<Form {...form}>

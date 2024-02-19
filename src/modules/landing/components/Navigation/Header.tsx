@@ -13,7 +13,7 @@ const Header = () => {
 			<header className="relative mx-auto flex h-14 w-full max-w-6xl items-center justify-between py-0">
 				<div className="relative mr-4 h-auto">
 					<div className="relative">
-						<Link href="/">
+						{/* <Link href="/">
 							<Image
 								src="/logo.svg"
 								alt="Airdrop Hunter logo"
@@ -22,7 +22,7 @@ const Header = () => {
 								className="cursor-pointer"
 								priority
 							/>
-						</Link>
+						</Link> */}
 					</div>
 				</div>
 				<div className="flex items-center whitespace-nowrap">
