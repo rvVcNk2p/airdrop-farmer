@@ -8,7 +8,7 @@ import { Address, parseUnits } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
 import { erc20Abi } from 'viem'
 
-import { BlancesResponseWithSelectedToken } from '@modules/farmer/hooks/workspace/zksync/bridge/orbiter/1_useChooseInitialToken'
+import { BlancesResponseWithSelectedToken } from '@modules/farmer/hooks/workspace/_shared/useChooseInitialToken'
 
 type CreateTxForApprovalFnProps = {
 	wallet: Address

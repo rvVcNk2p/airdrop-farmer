@@ -22,7 +22,7 @@ export enum ExecutionActionType {
 
 export interface TxHistoryRecordType {
 	timestamp: Date
-	wallet: Address
+	wallet?: Address
 	status: TxStatusType
 	message: string
 }

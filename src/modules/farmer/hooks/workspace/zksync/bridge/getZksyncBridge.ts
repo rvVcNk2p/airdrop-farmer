@@ -2,9 +2,14 @@ import {
 	TxHistoryRecordType,
 	ZkSyncMainnetBridgeType,
 } from '@modules/farmer/types'
-import { Address } from 'viem'
-import { useChooseInitialToken } from '@modules/farmer/hooks/workspace/_shared/useChooseInitialToken'
-import { getPriceFeed } from '@modules/farmer/helpers/getPriceFeed'
+import { Address, parseUnits } from 'viem'
+import {
+	useChooseInitialToken,
+	getEstimatedSendTransactionFee,
+} from '@modules/farmer/hooks/workspace/_shared'
+
+import { getTradingPairs } from '@modules/farmer/hooks/workspace/zksync/bridge/orbiter/1_getTradingPairs'
+import { setOrbiterTargetNetwork } from './orbiter/setOrbiterTargetNetwork'
 
 type BridgeFnProps = {
 	actionUid: string
@@ -23,28 +28,48 @@ export const getZksyncBridge = () => {
 		bridge,
 		loggerFn,
 	}: BridgeFnProps) => {
-		const { chainWithHighestBalanceToken } = await chooseInitialTokenFn({
-			wallet: walletPrivateKey,
-			selectedNetworks: ['ETHEREUM', 'ARBITRUM', 'OPTIMISM'],
+		// STEP 1. | Choose the chain with the highest balance of ETH
+		const { chainWithHighestBalanceToken, ethPrice } =
+			await chooseInitialTokenFn({
+				wallet: walletPrivateKey,
+				selectedNetworks: ['ETHEREUM', 'ARBITRUM', 'OPTIMISM'],
+				externalChainAvailableTokens: ['ETH'],
+				loggerFn,
+			})
+
+		// STEP 2. | Get trading pairs
+		const { pairId, amountToBridge, tradingFee } = await getTradingPairs({
+			balanceResponse: chainWithHighestBalanceToken,
+			ethPrice,
+			bridge,
 			loggerFn,
-			externalChainAvailableTokens: ['ETH'],
 		})
-		console.log(
-			'== chainWithHighestBalanceToken: ',
-			chainWithHighestBalanceToken,
+
+		const { configuredBridgeAmountInWei } = await setOrbiterTargetNetwork(
+			amountToBridge,
+			tradingFee,
 		)
 
-		// Biggest ETH balanace in $34.23 on ETHEREUM
-		// Want to bridge up to 33.00 on ETHEREUM excluding fees.
-		// Plan to bridge $29.02 ETH from ETHEREUM to ZKSYNC with trading fee $3.39
-		// Will spend on gas up to $0.71
+		// STEP 3. | Get estimated send transaction fee
+		await getEstimatedSendTransactionFee({
+			wallet: walletPrivateKey,
+			chainId: chainWithHighestBalanceToken.chainId,
+			to: '0xe4edb277e41dc89ab076a1f049f4a3efa700bce8',
+			value: configuredBridgeAmountInWei,
+			ethPrice,
+			loggerFn,
+		})
 		// Created tx 21647 to bridge $29.02 of ETH from ETHEREUM to ZKSYNC
 		// Tx 21647 was signed.
 		// Sent bridge tx 21647 to ETHEREUM chain. View on Scan.
 		// Bridge tx 21647 confirmed. View on Scan.
 
-		// STEP 3. | Bridge the biggest ETH balance from biggest ETH balance chain to ZKSYNC
-		// 9014
+		console.log(
+			'== chainWithHighestBalanceToken: ',
+			chainWithHighestBalanceToken,
+			amountToBridge,
+			tradingFee,
+		)
 
 		return new Promise((resolve) => {
 			setTimeout(() => {

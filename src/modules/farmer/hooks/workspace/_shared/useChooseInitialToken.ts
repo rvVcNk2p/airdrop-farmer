@@ -127,8 +127,9 @@ export const useChooseInitialToken = () => {
 		} = chainWithHighestBalanceToken
 
 		let amountVal = `${amount}`
+		let ethPrice = 0
 		if (token === 'ETH') {
-			const ethPrice = await getPriceFeed({
+			ethPrice = await getPriceFeed({
 				privateKey: wallet,
 				pairSymbol: 'ETH-USD',
 			})
@@ -149,6 +150,7 @@ export const useChooseInitialToken = () => {
 
 		return {
 			chainWithHighestBalanceToken,
+			ethPrice,
 		}
 	}
 
