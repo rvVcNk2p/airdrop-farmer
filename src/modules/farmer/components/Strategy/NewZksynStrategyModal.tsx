@@ -245,7 +245,7 @@ export const NewZksynStrategyModal = ({ children }: NewStrategyModalProps) => {
 					bridge: {
 						isSkip: false,
 						type: ZksyncBridges.ORBITER,
-						maxGasPerBridging: 10,
+						maxGasPerBridging: 1,
 						bridgeFullbalance: false,
 						usdcToBridgeInPercentage: {
 							min: 75,

@@ -100,7 +100,6 @@ export const useLayerZeroCoordinator = () => {
 					ExecutionActionType.ACTION, // Could be ExecutionActionType.BRIDGE
 				)
 			} catch (error: any) {
-				console.error(error)
 				loggerFn({
 					strategyUid: strategy.uid,
 					timestamp: new Date(),

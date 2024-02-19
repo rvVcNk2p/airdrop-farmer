@@ -61,7 +61,6 @@ export const usePerformActions = () => {
 					WorkspaceTransactionStatusType.FAILED,
 				)
 
-				console.log('== error: ', error)
 				reject(new Error('Failed to execute transaction.'))
 			}
 		})

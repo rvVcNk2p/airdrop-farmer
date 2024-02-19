@@ -21,9 +21,9 @@ export enum ExecutionActionType {
 }
 
 export interface TxHistoryRecordType {
-	timestamp: Date
+	timestamp?: Date
 	wallet?: Address
-	status: TxStatusType
+	status?: TxStatusType
 	message: string
 }
 

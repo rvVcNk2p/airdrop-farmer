@@ -32,10 +32,10 @@ export type WorkspaceType = {
 }
 
 export type TxHistoryRecordType = {
-	timestamp: Date
-	wallet: Address | ''
-	status: TxStatusType
 	message: string
+	timestamp?: Date
+	wallet?: Address | string
+	status?: TxStatusType
 }
 
 export type ExtendedTxHistoryRecordType = TxHistoryRecordType & {
@@ -135,8 +135,14 @@ export const useActionHistory = create<ActionHistory>()(
 				},
 
 				addHistory: (newHistory: ExtendedTxHistoryRecordType) => {
+					const _newHistory = {
+						timestamp: new Date(),
+						status: TxStatusType.INFO,
+						wallet: '',
+						...newHistory,
+					}
 					set((state) => ({
-						history: [...state.history, newHistory],
+						history: [...state.history, _newHistory],
 					}))
 				},
 

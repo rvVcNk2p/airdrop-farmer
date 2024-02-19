@@ -13,7 +13,6 @@ export const setOrbiterTargetNetwork = async (
 	)
 	const configuredBridgeAmountInWei =
 		bridgeAmountInWei.slice(0, -4) + ZKSYNC_NETWORK_CODE
-
 	return {
 		configuredBridgeAmountInWei,
 	}

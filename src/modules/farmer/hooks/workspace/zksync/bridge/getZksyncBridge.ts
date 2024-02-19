@@ -1,82 +1,112 @@
+import { type Address } from 'viem'
 import {
-	TxHistoryRecordType,
-	ZkSyncMainnetBridgeType,
+	TxStatusType,
+	type TxHistoryRecordType,
+	type ZkSyncMainnetBridgeType,
 } from '@modules/farmer/types'
-import { Address, parseUnits } from 'viem'
+
+import { createWalletClientFactory } from '@modules/farmer/helpers/createWalletClientFactory'
+import { randomSleepAndLog } from '@modules/farmer/helpers/sleep'
+
 import {
 	useChooseInitialToken,
 	getEstimatedSendTransactionFee,
+	getNextNonce,
+	createAndSendTxHandler,
 } from '@modules/farmer/hooks/workspace/_shared'
-
-import { getTradingPairs } from '@modules/farmer/hooks/workspace/zksync/bridge/orbiter/1_getTradingPairs'
-import { setOrbiterTargetNetwork } from './orbiter/setOrbiterTargetNetwork'
+import {
+	getTradingPairs,
+	setOrbiterTargetNetwork,
+} from '@modules/farmer/hooks/workspace/zksync/bridge/orbiter'
 
 type BridgeFnProps = {
-	actionUid: string
 	walletPrivateKey: Address
 	bridge: ZkSyncMainnetBridgeType
 	loggerFn: ({}: TxHistoryRecordType) => void
 }
 
+const ORBITER_BRIDGE_ADDRESS =
+	'0xe4edb277e41dc89ab076a1f049f4a3efa700bce8' as Address
+
 export const getZksyncBridge = () => {
 	// eslint-disable-next-line react-hooks/rules-of-hooks
 	const { chooseInitialTokenFn } = useChooseInitialToken()
+	const { createAndSendTx } = createAndSendTxHandler()
 
 	const orbiterZksyncBridgeFn = async ({
-		actionUid,
 		walletPrivateKey,
 		bridge,
 		loggerFn,
 	}: BridgeFnProps) => {
-		// STEP 1. | Choose the chain with the highest balance of ETH
-		const { chainWithHighestBalanceToken, ethPrice } =
-			await chooseInitialTokenFn({
-				wallet: walletPrivateKey,
-				selectedNetworks: ['ETHEREUM', 'ARBITRUM', 'OPTIMISM'],
-				externalChainAvailableTokens: ['ETH'],
+		try {
+			// STEP 1. Choose the chain with the highest balance of ETH
+			const { chainWithHighestBalanceToken, ethPrice } =
+				await chooseInitialTokenFn({
+					wallet: walletPrivateKey,
+					selectedNetworks: ['ETHEREUM', 'ARBITRUM', 'OPTIMISM'],
+					externalChainAvailableTokens: ['ETH'],
+					loggerFn,
+				})
+
+			// STEP 2. Get trading pairs
+			const { amountToBridge, amountToBridgeInUsd, tradingFee } =
+				await getTradingPairs({
+					balanceResponse: chainWithHighestBalanceToken,
+					ethPrice,
+					bridge,
+					loggerFn,
+				})
+
+			const { configuredBridgeAmountInWei } = await setOrbiterTargetNetwork(
+				amountToBridge,
+				tradingFee,
+			)
+
+			const client = createWalletClientFactory(
+				walletPrivateKey,
+				chainWithHighestBalanceToken.chainId,
+			)
+
+			// STEP 3. | Get estimated send transaction fee
+			const { configObj } = await getEstimatedSendTransactionFee({
+				client,
+				to: ORBITER_BRIDGE_ADDRESS,
+				value: configuredBridgeAmountInWei,
+				ethPrice,
+				maxGasPerBridging: bridge.maxGasPerBridging,
 				loggerFn,
 			})
 
-		// STEP 2. | Get trading pairs
-		const { pairId, amountToBridge, tradingFee } = await getTradingPairs({
-			balanceResponse: chainWithHighestBalanceToken,
-			ethPrice,
-			bridge,
-			loggerFn,
-		})
+			// STEP 4. | Create and send tx
+			const { nextNonce } = await getNextNonce(client)
 
-		const { configuredBridgeAmountInWei } = await setOrbiterTargetNetwork(
-			amountToBridge,
-			tradingFee,
-		)
+			const {
+				selected: { token },
+				network,
+				chainId,
+			} = chainWithHighestBalanceToken
 
-		// STEP 3. | Get estimated send transaction fee
-		await getEstimatedSendTransactionFee({
-			wallet: walletPrivateKey,
-			chainId: chainWithHighestBalanceToken.chainId,
-			to: '0xe4edb277e41dc89ab076a1f049f4a3efa700bce8',
-			value: configuredBridgeAmountInWei,
-			ethPrice,
-			loggerFn,
-		})
-		// Created tx 21647 to bridge $29.02 of ETH from ETHEREUM to ZKSYNC
-		// Tx 21647 was signed.
-		// Sent bridge tx 21647 to ETHEREUM chain. View on Scan.
-		// Bridge tx 21647 confirmed. View on Scan.
+			await createAndSendTx({
+				client,
+				configObj,
+				nonce: nextNonce,
+				amountToBridgeInUsd,
+				token,
+				network,
+				chainId,
+				loggerFn,
+			})
 
-		console.log(
-			'== chainWithHighestBalanceToken: ',
-			chainWithHighestBalanceToken,
-			amountToBridge,
-			tradingFee,
-		)
+			// await randomSleepAndLog({ wallet: walletPrivateKey, loggerFn })
 
-		return new Promise((resolve) => {
-			setTimeout(() => {
-				console.log('== zksync - orbiterZksyncBridgeFn', bridge)
-				resolve(123)
-			}, 1000)
-		})
+			return Number(amountToBridgeInUsd)
+		} catch (error: any) {
+			loggerFn({
+				status: TxStatusType.ERROR,
+				message: error.message,
+			})
+			throw new Error(error)
+		}
 	}
 
 	return {

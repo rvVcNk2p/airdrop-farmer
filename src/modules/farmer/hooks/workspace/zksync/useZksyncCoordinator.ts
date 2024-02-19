@@ -1,13 +1,13 @@
 import { useUserWallets } from '@modules/farmer/stores/useUserWallets'
 import { fetchPlanByLoggedInUser } from '@modules/shared/fetchers/planFetcher'
 import {
+	ActionStatusType,
+	ExecutionActionType,
 	TxStatusType,
+	ZksyncBridges,
 	type TxHistoryRecordType,
 	type TypedUserStrategyTypeWithUid,
 	type ZkSyncMainnetType,
-	ActionStatusType,
-	ExecutionActionType,
-	ZksyncBridges,
 	type ZkSyncMainnetBridgeType,
 	type ZkSyncMainnetActionsType,
 } from '@modules/farmer/types'
@@ -42,7 +42,6 @@ const zksyncActionCreatorFactory = ({
 			switch (actionType) {
 				case ZksyncBridges.ORBITER:
 					return orbiterZksyncBridgeFn({
-						actionUid,
 						walletPrivateKey,
 						bridge,
 						loggerFn,
@@ -97,58 +96,67 @@ export const useZksyncCoordinator = () => {
 		const wallet = privateKeyToAccount(walletPrivateKey).address
 
 		const { bridge, actions } = strategy.mainnet
+		try {
+			if (!bridge.isSkip) {
+				const plans = await fetchPlanByLoggedInUser()
+				const usedQuota = (plans && plans[0].used_quota) ?? 0
 
-		if (!bridge.isSkip) {
-			const plans = await fetchPlanByLoggedInUser()
-			const usedQuota = (plans && plans[0].used_quota) ?? 0
+				const bridgeAction = await zksyncActionCreatorFactory({
+					strategyUid: strategy.uid,
+					walletPrivateKey,
+					actionType: bridge.type,
+					bridge,
+					addNewAction,
+					loggerFn: (args) =>
+						loggerFn({ strategyUid: strategy.uid, ...args, wallet }), // IMPOVEMENT: Wallet binded to loggerFn
+				})
 
-			const bridgeAction = await zksyncActionCreatorFactory({
+				await executeNextAction(
+					bridgeAction,
+					usedQuota,
+					ExecutionActionType.BRIDGE,
+				)
+			}
+
+			// for (let i = 0; i < txGoal; i++) {
+			// 	// const nextAction =
+			// 	await zksyncActionsCoordinatorFn({
+			// 		// strategyUid: strategy.uid,
+			// 		// wallet: walletPrivateKey,
+			// 		// addNewAction,
+			// 		// generateAllowanceAndBridge,
+			// 		// loggerFn: (args) => loggerFn({ strategyUid: strategy.uid, ...args }),
+			// 	})
+			// 	try {
+			// 		// TODO: Handle if user is a paid user
+			// 		const plans = await fetchPlanByLoggedInUser()
+			// 		const quota = (plans && plans[0].quota) ?? 10
+			// 		const usedQuota = (plans && plans[0].used_quota) ?? 0
+			// 		if (usedQuota >= quota) {
+			// 			throw new Error('Quota reached. Please upgrade your plan.')
+			// 		}
+			// 		// await executeNextAction(nextAction, 10) // usedQuota)
+			// 	} catch (error: any) {
+			// 		console.error(error)
+			// 		loggerFn({
+			// 			strategyUid: strategy.uid,
+			// 			timestamp: new Date(),
+			// 			wallet,
+			// 			status: TxStatusType.ERROR,
+			// 			message: error.message,
+			// 		})
+			// 		break
+			// 	}
+			// }
+		} catch (error: any) {
+			const message = error?.shortMessage ?? error.message
+			loggerFn({
 				strategyUid: strategy.uid,
-				walletPrivateKey,
-				actionType: bridge.type,
-				bridge,
-				addNewAction,
-				loggerFn: (args) =>
-					loggerFn({ strategyUid: strategy.uid, ...args, wallet }), // IMPOVEMENT: Bind wallet to loggerFn
+				status: TxStatusType.ERROR,
+				wallet,
+				message,
 			})
-
-			await executeNextAction(
-				bridgeAction,
-				usedQuota,
-				ExecutionActionType.BRIDGE,
-			)
 		}
-
-		// for (let i = 0; i < txGoal; i++) {
-		// 	// const nextAction =
-		// 	await zksyncActionsCoordinatorFn({
-		// 		// strategyUid: strategy.uid,
-		// 		// wallet: walletPrivateKey,
-		// 		// addNewAction,
-		// 		// generateAllowanceAndBridge,
-		// 		// loggerFn: (args) => loggerFn({ strategyUid: strategy.uid, ...args }),
-		// 	})
-		// 	try {
-		// 		// TODO: Handle if user is a paid user
-		// 		const plans = await fetchPlanByLoggedInUser()
-		// 		const quota = (plans && plans[0].quota) ?? 10
-		// 		const usedQuota = (plans && plans[0].used_quota) ?? 0
-		// 		if (usedQuota >= quota) {
-		// 			throw new Error('Quota reached. Please upgrade your plan.')
-		// 		}
-		// 		// await executeNextAction(nextAction, 10) // usedQuota)
-		// 	} catch (error: any) {
-		// 		console.error(error)
-		// 		loggerFn({
-		// 			strategyUid: strategy.uid,
-		// 			timestamp: new Date(),
-		// 			wallet,
-		// 			status: TxStatusType.ERROR,
-		// 			message: error.message,
-		// 		})
-		// 		break
-		// 	}
-		// }
 	}
 
 	return { coordinateZksyncBot }

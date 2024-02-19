@@ -31,6 +31,7 @@ export const convert = (value: any, from: any, to: any) => {
 		new BigNumber(value, 10)
 			// @ts-ignore
 			.multipliedBy(units[from])
+			.integerValue(BigNumber.ROUND_DOWN)
 			// @ts-ignore
 			.dividedBy(units[to])
 			.toString(10)
