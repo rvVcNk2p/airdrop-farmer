@@ -1,26 +1,38 @@
-import { useUserWallets } from '@modules/farmer/stores/useUserWallets'
-import { fetchPlanByLoggedInUser } from '@modules/shared/fetchers/planFetcher'
+import { type Address, privateKeyToAccount } from 'viem/accounts'
+import { v4 as uuidv4 } from 'uuid'
+
 import {
 	ActionStatusType,
 	ExecutionActionType,
 	TxStatusType,
 	ZksyncBridges,
+	ZksyncSwapActionProviders,
+	ZksyncLiquidityActionProviders,
+	ZksyncMintActionProviders,
+	ZksyncLandingActionProviders,
 	type TxHistoryRecordType,
 	type TypedUserStrategyTypeWithUid,
 	type ZkSyncMainnetType,
 	type ZkSyncMainnetBridgeType,
 	type ZkSyncMainnetActionsType,
+	type TimeIntervalConfigType,
 } from '@modules/farmer/types'
+
+import { fetchPlanByLoggedInUser } from '@modules/shared/fetchers/planFetcher'
+import { useUserWallets } from '@modules/farmer/stores/useUserWallets'
 import { usePerformActions } from '@modules/farmer/hooks/workspace/usePerformActions'
 import { useActionHistory } from '@modules/farmer/stores'
-import { type Address, privateKeyToAccount } from 'viem/accounts'
-import { v4 as uuidv4 } from 'uuid'
 import { getZksyncBridge } from '@modules/farmer/hooks/workspace/zksync/bridge/getZksyncBridge'
+import {
+	syncswapSwapAction,
+	muteSwapAction,
+} from '@modules/farmer/hooks/workspace/zksync/actions/swap'
 
 interface ActionCreatorFactoryProps {
 	strategyUid: string
 	walletPrivateKey: Address
 	actionType: string // TODO: Add enum
+	timeIntervals: TimeIntervalConfigType
 	addNewAction: ({}: any) => void
 	loggerFn: ({}: TxHistoryRecordType) => void
 	bridge?: ZkSyncMainnetBridgeType
@@ -31,6 +43,7 @@ const zksyncActionCreatorFactory = ({
 	strategyUid,
 	walletPrivateKey,
 	actionType,
+	timeIntervals,
 	addNewAction,
 	loggerFn,
 	bridge,
@@ -49,7 +62,45 @@ const zksyncActionCreatorFactory = ({
 				// Add more cases - ZksyncBridges types
 			}
 		} else if (actions) {
-			// Add more cases - Action types
+			switch (actionType) {
+				case ZksyncSwapActionProviders.SYNCSWAP_SWAP:
+					return syncswapSwapAction({
+						walletPrivateKey,
+						actions,
+						loggerFn,
+					})
+				case ZksyncSwapActionProviders.MUTE_SWAP:
+					return muteSwapAction({
+						walletPrivateKey,
+						actions,
+						timeIntervals,
+						loggerFn,
+					})
+				case ZksyncSwapActionProviders.ONE_INCH_SWAP:
+					return
+				case ZksyncSwapActionProviders.SPACEFI_SWAP:
+					return
+				case ZksyncSwapActionProviders.VELOCORE_SWAP:
+					return
+
+				case ZksyncLandingActionProviders.ERALEND_LENDING:
+					return
+				case ZksyncLandingActionProviders.REACTORFUSION_LENDING:
+					return
+
+				case ZksyncLiquidityActionProviders.MUTE_LIQUIDITY:
+					return
+				case ZksyncLiquidityActionProviders.SPACEFI_LIQUIDITY:
+					return
+				case ZksyncLiquidityActionProviders.SYNCSWAP_LIQUIDITY:
+					return
+				case ZksyncLiquidityActionProviders.VELOCORE_LIQUIDITY:
+					return
+
+				case ZksyncMintActionProviders.ZKNS_DOMAINS_MINT:
+					return
+				// Add more cases - Action types
+			}
 		}
 	}
 
@@ -68,15 +119,6 @@ const zksyncActionCreatorFactory = ({
 	return newAction
 }
 
-// const zksyncActionsCoordinatorFn = async ({}) => {
-// 	return new Promise((resolve) => {
-// 		setTimeout(() => {
-// 			console.log('== zksyncActionsCoordinatorFn')
-// 			resolve({})
-// 		}, 1000)
-// 	})
-// }
-
 export const useZksyncCoordinator = () => {
 	const { executeNextAction } = usePerformActions()
 	const loggerFn = useActionHistory((state) => state.addHistory)
@@ -90,7 +132,8 @@ export const useZksyncCoordinator = () => {
 		walletUid: string
 		strategy: TypedUserStrategyTypeWithUid<ZkSyncMainnetType>
 	}) => {
-		const txGoal = strategy.txsGoal
+		const { txsGoal, timeIntervals } = strategy
+
 		const walletPrivateKey = getWalletByUid(walletUid)
 			?.privateKey as `0x${string}`
 		const wallet = privateKeyToAccount(walletPrivateKey).address
@@ -105,6 +148,7 @@ export const useZksyncCoordinator = () => {
 					strategyUid: strategy.uid,
 					walletPrivateKey,
 					actionType: bridge.type,
+					timeIntervals,
 					bridge,
 					addNewAction,
 					loggerFn: (args) =>
@@ -118,36 +162,45 @@ export const useZksyncCoordinator = () => {
 				)
 			}
 
-			// for (let i = 0; i < txGoal; i++) {
-			// 	// const nextAction =
-			// 	await zksyncActionsCoordinatorFn({
-			// 		// strategyUid: strategy.uid,
-			// 		// wallet: walletPrivateKey,
-			// 		// addNewAction,
-			// 		// generateAllowanceAndBridge,
-			// 		// loggerFn: (args) => loggerFn({ strategyUid: strategy.uid, ...args }),
-			// 	})
-			// 	try {
-			// 		// TODO: Handle if user is a paid user
-			// 		const plans = await fetchPlanByLoggedInUser()
-			// 		const quota = (plans && plans[0].quota) ?? 10
-			// 		const usedQuota = (plans && plans[0].used_quota) ?? 0
-			// 		if (usedQuota >= quota) {
-			// 			throw new Error('Quota reached. Please upgrade your plan.')
-			// 		}
-			// 		// await executeNextAction(nextAction, 10) // usedQuota)
-			// 	} catch (error: any) {
-			// 		console.error(error)
-			// 		loggerFn({
-			// 			strategyUid: strategy.uid,
-			// 			timestamp: new Date(),
-			// 			wallet,
-			// 			status: TxStatusType.ERROR,
-			// 			message: error.message,
-			// 		})
-			// 		break
-			// 	}
-			// }
+			for (let i = 0; i < txsGoal; i++) {
+				// TODO: Handle random action type
+				const actionType = ZksyncSwapActionProviders.MUTE_SWAP
+
+				const nextAction = await zksyncActionCreatorFactory({
+					strategyUid: strategy.uid,
+					walletPrivateKey,
+					actionType,
+					actions,
+					timeIntervals,
+					addNewAction,
+					loggerFn: (args) =>
+						loggerFn({ strategyUid: strategy.uid, ...args, wallet }), // IMPOVEMENT: Wallet binded to loggerFn
+				})
+				try {
+					// TODO: Handle if user is a paid user
+					const plans = await fetchPlanByLoggedInUser()
+					const quota = (plans && plans[0].quota) ?? 10
+					const usedQuota = (plans && plans[0].used_quota) ?? 0
+					if (usedQuota >= quota) {
+						throw new Error('Quota reached. Please upgrade your plan.')
+					}
+					await executeNextAction(
+						nextAction,
+						usedQuota,
+						ExecutionActionType.ACTION,
+					)
+				} catch (error: any) {
+					console.error(error)
+					loggerFn({
+						strategyUid: strategy.uid,
+						timestamp: new Date(),
+						wallet,
+						status: TxStatusType.ERROR,
+						message: error.message,
+					})
+					break
+				}
+			}
 		} catch (error: any) {
 			const message = error?.shortMessage ?? error.message
 			loggerFn({

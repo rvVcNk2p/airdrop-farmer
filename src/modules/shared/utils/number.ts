@@ -1,5 +1,10 @@
-export const randomIntFromInterval = (min: number = 5, max: number = 30) =>
-	parseFloat((Math.random() * (max - min) + min).toFixed(2))
+export const randomIntFromInterval = (
+	min: string | number = 5,
+	max: string | number = 30,
+) =>
+	parseFloat(
+		(Math.random() * (Number(max) - Number(min)) + Number(min)).toFixed(2),
+	)
 
 export const randomWholeNumber = (min: number, max: number) => {
 	const minNum = Number(min)

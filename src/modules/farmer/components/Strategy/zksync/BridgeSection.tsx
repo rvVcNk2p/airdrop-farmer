@@ -33,14 +33,14 @@ export const ZksyncBridgeSection = ({ form }: { form: any }) => {
 					form={form}
 					disabled
 				/>
-				<FormDoubleFieldInputWrapper
+				{/* <FormDoubleFieldInputWrapper
 					label="Min-Max USDC to bridge of biggest balance to bridge:"
 					name1="firstStepFileds.mainnet.bridge.usdcToBridgeInPercentage.min"
 					name2="firstStepFileds.mainnet.bridge.usdcToBridgeInPercentage.max"
 					type="number"
 					iconLabel="%"
 					form={form}
-				/>
+				/> */}
 				<FormDoubleFieldInputWrapper
 					label="Min-Max ETH to bridge of biggest balance to bridge:"
 					name1="firstStepFileds.mainnet.bridge.ethToBridgeInPercentage.min"

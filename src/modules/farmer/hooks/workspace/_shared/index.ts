@@ -1,4 +1,7 @@
-export { getEstimatedSendTransactionFee } from './getEstimatedSendTransactionFee'
+export {
+	getEstimatedTransactionFee,
+	getEstimatedContractTransactionFee,
+} from './getEstimatedFee'
 export { useChooseInitialToken } from './useChooseInitialToken'
-export { createAndSendTxHandler } from './createAndSendTxHandler'
+export { createAndSendContractTxHandler } from './createAndSendContractTxHandler'
 export { getNextNonce } from './getNextNonce'

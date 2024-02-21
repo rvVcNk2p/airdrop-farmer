@@ -21,15 +21,16 @@ React, Next.js, Typescript, Tailwind CSS, Zustand, Viem, Wagmi, React Hook Form,
 
 NEXT_PUBLIC_SUPABASE_URL=https://[PROJECT-UID].supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=[KEY]
-NEXT_PUBLIC_ALCHEMY_ETHEREUM_WEBSOCKET_API=wss://eth-mainnet.g.alchemy.com/v2/[KEY]
-NEXT_PUBLIC_ALCHEMY_OPTIMISM_WEBSOCKET_API=wss://opt-mainnet.g.alchemy.com/v2/[KEY]
-NEXT_PUBLIC_ALCHEMY_ARBITRUM_WEBSOCKET_API=wss://arb-mainnet.g.alchemy.com/v2/[KEY]
-NEXT_PUBLIC_ALCHEMY_POLYGON_WEBSOCKET_API=wss://polygon-mainnet.g.alchemy.com/v2/[KEY]
-NEXT_PUBLIC_GETBLOCK_BSC_WEBSOCKET_API=wss://bsc.getblock.io/[KEY]/mainnet/
-NEXT_PUBLIC_GETBLOCK_AVALANCHE_WEBSOCKET_API=wss://avax.getblock.io/[KEY]/mainnet/ext/bc/C/ws
-NEXT_PUBLIC_GETBLOCK_FANTOM_WEBSOCKET_API=wss://ftm.getblock.io/[KEY]/mainnet/
+NEXT_PUBLIC_GETBLOCK_ETHEREUM_WEBSOCKET_API=wss://go.getblock.io/[KEY]
+NEXT_PUBLIC_GETBLOCK_OPTIMISM_WEBSOCKET_API=wss://go.getblock.io/[KEY]
+NEXT_PUBLIC_GETBLOCK_ARBITRUM_WEBSOCKET_API=wss://go.getblock.io/[KEY]
+NEXT_PUBLIC_GETBLOCK_POLYGON_WEBSOCKET_API=wss://go.getblock.io/[KEY]
+NEXT_PUBLIC_GETBLOCK_BSC_WEBSOCKET_API=wss://go.getblock.io/[KEY]
+NEXT_PUBLIC_GETBLOCK_AVALANCHE_WEBSOCKET_API=wss://go.getblock.io/[KEY]s
+NEXT_PUBLIC_GETBLOCK_FANTOM_WEBSOCKET_API=wss://go.getblock.io/[KEY]
+NEXT_PUBLIC_GETBLOCK_ZKSYNC_WEBSOCKET_API=wss://go.getblock.io/[KEY]
 
-4. Run the project with `npm run dev`, study the landing page, register an account, and start the airdrop farming.
+1. Run the project with `npm run dev`, study the landing page, register an account, and start the airdrop farming.
 ```
 
 ## How It Works
@@ -46,9 +47,8 @@ Set your goals: decide how much you want to transact, pick activities, quantity,
 
 ## Where to find KEY and PROJECT-UID from `.env`
 
-- [Alchemy - Quickstart Guide](https://docs.alchemy.com/docs/alchemy-quickstart-guide)
-- [Supabase - API URL and keys](https://supabase.com/docs/guides/api#api-url-and-keys)
 - [GetBlock - Auth with Access Token](https://getblock.io/docs/get-started/auth-with-access-token/)
+- [Supabase - API URL and keys](https://supabase.com/docs/guides/api#api-url-and-keys)
 
 ## Contributing
 

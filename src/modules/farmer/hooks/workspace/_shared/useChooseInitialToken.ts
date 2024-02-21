@@ -1,6 +1,6 @@
 // 1. Step
 import { getPriceFeed } from '@modules/farmer/helpers/getPriceFeed'
-import { TxHistoryRecordType, TxStatusType } from '@modules/farmer/types'
+import { TxHistoryRecordType } from '@modules/farmer/types'
 import { ChainIds, chainAvailableTokens } from '@modules/shared/constants'
 import { balancesFetcher } from '@modules/shared/fetchers'
 import { Address } from 'viem'
@@ -33,25 +33,33 @@ export type BlancesResponseWithSelectedToken = BlancesResponse & {
 	selected: {
 		token: string
 		amount: number
+		amountInUsd: number
 	}
 }
 
 const findChainWithHighestBalanceToken = (
 	arr: BlancesResponse[],
+	ethPrice: number,
 ): BlancesResponseWithSelectedToken | null => {
 	const result = arr.reduce(
 		(acc, curr) => {
 			for (const singleBalance of curr.balances) {
 				for (const [token, balance] of Object.entries(singleBalance)) {
-					if (token !== 'NATIVE_TOKEN') {
-						const floatBalance = parseFloat(balance + '')
-						if (floatBalance > acc.maxBalance) {
-							acc.maxBalance = floatBalance
-							// @ts-ignore
-							acc.maxBalanceObject = {
-								...curr,
-								selected: { token, amount: floatBalance },
-							}
+					let floatBalance = parseFloat(balance + '')
+					let amountInUsd = floatBalance
+					if (token === 'NATIVE_TOKEN' || token === 'ETH' || token === 'WETH') {
+						amountInUsd *= ethPrice
+					}
+					if (amountInUsd > acc.maxBalance) {
+						acc.maxBalance = amountInUsd
+						// @ts-ignore
+						acc.maxBalanceObject = {
+							...curr,
+							selected: {
+								token,
+								amount: floatBalance,
+								amountInUsd: amountInUsd.toFixed(4),
+							},
 						}
 					}
 				}
@@ -101,6 +109,7 @@ export const useChooseInitialToken = () => {
 				}
 			}),
 		)
+
 		const validBalancesResults = balancesResult.filter(
 			(result) => !(result instanceof Error),
 		)
@@ -109,39 +118,43 @@ export const useChooseInitialToken = () => {
 			throw new Error('Something went wrong during balances fetching!')
 		}
 
+		let ethPrice = 0
+
+		if (
+			balancesResult[0].balances.some((result) =>
+				Object.keys(result).includes('ETH'),
+			)
+		) {
+			ethPrice = await getPriceFeed({
+				privateKey: wallet,
+				pairSymbol: 'ETH-USD',
+			})
+		}
+
 		// Populate the chainWithHighestBalanceToken with the highest balance token
-		const chainWithHighestBalanceToken =
-			findChainWithHighestBalanceToken(balancesResult)
+		const chainWithHighestBalanceToken = findChainWithHighestBalanceToken(
+			balancesResult,
+			ethPrice,
+		)
 
 		// TODO: Check if chain has enough balance to pay for the gas fee
 
 		if (chainWithHighestBalanceToken === null) {
 			throw new Error(
-				'Please top up your USDC and/or USDT balances in the target networks.',
+				'Please top up your USDC, USDT and/or ETH balances in the target networks.',
 			)
 		}
 
 		const {
-			selected: { token, amount },
+			selected: { token, amountInUsd },
 			network,
 		} = chainWithHighestBalanceToken
-
-		let amountVal = `${amount}`
-		let ethPrice = 0
-		if (token === 'ETH') {
-			ethPrice = await getPriceFeed({
-				privateKey: wallet,
-				pairSymbol: 'ETH-USD',
-			})
-			const formatedPrice = ethPrice * amount
-			amountVal = `${formatedPrice.toFixed(2)}`
-		}
 
 		loggerFn({
 			message: generateMessage({
 				nameOfToken: token,
 				network,
-				amount: amountVal,
+				amount: amountInUsd,
 			}),
 		})
 
