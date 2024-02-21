@@ -41,10 +41,16 @@ export const tokenAddresses: TokenAddresses = {
 		USDC: '0x28a92dde19d9989f39a49905d7c9c2fac7799bdf', // 6 decimals // USDC_LZ // ATTENTION
 		NATIVE_TOKEN: undefined,
 	},
+	[ChainIds.ZKSYNC]: {
+		USDC: '0x3355df6D4c9C3035724Fd0e3914dE96A5a83aaf4', // 6 decimals // USDC // ATTENTION
+		WETH: '0x5AEa5775959fBC2557Cc8789bC1bf90A239D9a91',
+		NATIVE_TOKEN: undefined,
+	},
 }
 
 //
 export const chainAvailableTokens = {
+	[ChainIds.ZKSYNC]: ['USDC', 'WETH', 'NATIVE_TOKEN'],
 	[ChainIds.ARBITRUM]: ['USDC', 'USDT', 'NATIVE_TOKEN'],
 	[ChainIds.POLYGON]: ['USDC', 'USDT', 'NATIVE_TOKEN'],
 	[ChainIds.ETHEREUM]: ['USDC', 'USDT', 'NATIVE_TOKEN'],

@@ -15,6 +15,7 @@ import {
 	mainnet,
 	optimism,
 	polygon,
+	zkSync,
 } from 'viem/chains'
 
 const getChainConfiguration = (chainId: number): Chain => {
@@ -33,6 +34,8 @@ const getChainConfiguration = (chainId: number): Chain => {
 			return avalanche
 		case ChainIds.FANTOM:
 			return fantom
+		case ChainIds.ZKSYNC:
+			return zkSync
 		default:
 			return mainnet
 	}
@@ -41,21 +44,23 @@ const getChainConfiguration = (chainId: number): Chain => {
 const getAlchemyUrl = (chainId: number) => {
 	switch (chainId) {
 		case ChainIds.ETHEREUM:
-			return process.env.NEXT_PUBLIC_ALCHEMY_ETHEREUM_WEBSOCKET_API
+			return process.env.NEXT_PUBLIC_GETBLOCK_ETHEREUM_WEBSOCKET_API
 		case ChainIds.OPTIMISM:
-			return process.env.NEXT_PUBLIC_ALCHEMY_OPTIMISM_WEBSOCKET_API
+			return process.env.NEXT_PUBLIC_GETBLOCK_OPTIMISM_WEBSOCKET_API
 		case ChainIds.POLYGON:
-			return process.env.NEXT_PUBLIC_ALCHEMY_POLYGON_WEBSOCKET_API
+			return process.env.NEXT_PUBLIC_GETBLOCK_POLYGON_WEBSOCKET_API
 		case ChainIds.ARBITRUM:
-			return process.env.NEXT_PUBLIC_ALCHEMY_ARBITRUM_WEBSOCKET_API
+			return process.env.NEXT_PUBLIC_GETBLOCK_ARBITRUM_WEBSOCKET_API
 		case ChainIds.BSC:
 			return process.env.NEXT_PUBLIC_GETBLOCK_BSC_WEBSOCKET_API
 		case ChainIds.AVALANCHE:
 			return process.env.NEXT_PUBLIC_GETBLOCK_AVALANCHE_WEBSOCKET_API
 		case ChainIds.FANTOM:
 			return process.env.NEXT_PUBLIC_GETBLOCK_FANTOM_WEBSOCKET_API
+		case ChainIds.ZKSYNC:
+			return process.env.NEXT_PUBLIC_GETBLOCK_ZKSYNC_WEBSOCKET_API
 		default:
-			return process.env.NEXT_PUBLIC_ALCHEMY_ETHEREUM_WEBSOCKET_API
+			return process.env.NEXT_PUBLIC_GETBLOCK_ETHEREUM_WEBSOCKET_API
 	}
 }
 

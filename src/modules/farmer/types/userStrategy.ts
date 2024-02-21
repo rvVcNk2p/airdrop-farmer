@@ -147,21 +147,45 @@ export enum ZksyncSwapProviders {
 	SPACEFI = 'SPACEFI',
 	ONE_INCH = 'ONE_INCH',
 }
-
 export enum ZksyncLendingProviders {
 	ERALEND = 'ERALEND',
 	REACTORFUSION = 'REACTORFUSION',
 }
-
 export enum ZksyncLiquidityProviders {
 	SYNCSWAP = 'SYNCSWAP',
 	VELOCORE = 'VELOCORE',
 	MUTE = 'MUTE',
 	SPACEFI = 'SPACEFI',
 }
-
 export enum ZksyncMintProviders {
 	ZKNS_DOMAINS = 'ZKNS_DOMAINS',
+}
+
+export enum ZksyncSwapActionProviders {
+	SYNCSWAP_SWAP = 'SYNCSWAP_SWAP',
+	VELOCORE_SWAP = 'VELOCORE_SWAP',
+	MUTE_SWAP = 'MUTE_SWAP',
+	SPACEFI_SWAP = 'SPACEFI_SWAP',
+	ONE_INCH_SWAP = 'ONE_INCH_SWAP',
+}
+export enum ZksyncLandingActionProviders {
+	ERALEND_LENDING = 'ERALEND_LENDING',
+	REACTORFUSION_LENDING = 'REACTORFUSION_LENDING',
+}
+export enum ZksyncLiquidityActionProviders {
+	SYNCSWAP_LIQUIDITY = 'SYNCSWAP_LIQUIDITY',
+	VELOCORE_LIQUIDITY = 'VELOCORE_LIQUIDITY',
+	MUTE_LIQUIDITY = 'MUTE_LIQUIDITY',
+	SPACEFI_LIQUIDITY = 'SPACEFI_LIQUIDITY',
+}
+export enum ZksyncMintActionProviders {
+	ZKNS_DOMAINS_MINT = 'ZKNS_DOMAINS_MINT',
+}
+
+export enum SwapTargetSymbols {
+	'USDC' = 'USDC',
+	'WETH' = 'WETH',
+	'ETH' = 'ETH',
 }
 
 // Shared Types

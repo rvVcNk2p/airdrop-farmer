@@ -21,8 +21,8 @@ type CreateAndSendTxProps = {
 	loggerFn: ({}: TxHistoryRecordType) => void
 }
 
-export const createAndSendTxHandler = () => {
-	const createAndSendTx = async ({
+export const createAndSendTxBridgeHandler = () => {
+	const createAndSendBridgeTx = async ({
 		client,
 		configObj,
 		nonce,
@@ -43,9 +43,9 @@ export const createAndSendTxHandler = () => {
 		})
 
 		// TODO: Beware. This is a mock. Replace with real sendTransaction
-		const transactionHash =
-			'0x01528888215a32a2bc75d987d558f4428268e8c665627b186413e51f6d46b833'
-		// await client.sendTransaction(configObj)
+		const transactionHash = await client.sendTransaction(configObj)
+		// '0xf569625963188e6afb6e9b7fc9c65df65ab678cfa95a1d69624c7373bc34906c'
+		// 	'0x01528888215a32a2bc75d987d558f4428268e8c665627b186413e51f6d46b833'
 
 		loggerFn({
 			message: `Sent bridge tx ${nonce} to ${getColorizedText(network, ColorizedTextTypes.NETWORK)} chain. <a href="${getScanLink(chainId, transactionHash)}" target="_blank">${getColorizedText('View on Scan', ColorizedTextTypes.LINK)}</a>.`,
@@ -66,5 +66,5 @@ export const createAndSendTxHandler = () => {
 		}
 	}
 
-	return { createAndSendTx }
+	return { createAndSendBridgeTx }
 }

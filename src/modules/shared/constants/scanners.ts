@@ -8,4 +8,5 @@ export const TxScanners = {
 	[LayerZeroNetworks.BSC]: 'https://bscscan.com',
 	[LayerZeroNetworks.AVALANCHE]: 'https://snowtrace.io',
 	[LayerZeroNetworks.FANTOM]: 'https://ftmscan.com',
+	ZKSYNC: 'https://explorer.zksync.io',
 }

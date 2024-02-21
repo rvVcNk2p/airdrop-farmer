@@ -21,13 +21,14 @@ Pull requests are the best way to propose changes to the codebase (we use [Githu
 ```
 NEXT_PUBLIC_SUPABASE_URL=https://[PROJECT-UID].supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=[KEY]
-NEXT_PUBLIC_ALCHEMY_ETHEREUM_WEBSOCKET_API=wss://eth-mainnet.g.alchemy.com/v2/[KEY]
-NEXT_PUBLIC_ALCHEMY_OPTIMISM_WEBSOCKET_API=wss://opt-mainnet.g.alchemy.com/v2/[KEY]
-NEXT_PUBLIC_ALCHEMY_ARBITRUM_WEBSOCKET_API=wss://arb-mainnet.g.alchemy.com/v2/[KEY]
-NEXT_PUBLIC_ALCHEMY_POLYGON_WEBSOCKET_API=wss://polygon-mainnet.g.alchemy.com/v2/[KEY]
-NEXT_PUBLIC_GETBLOCK_BSC_WEBSOCKET_API=wss://bsc.getblock.io/[KEY]/mainnet/
-NEXT_PUBLIC_GETBLOCK_AVALANCHE_WEBSOCKET_API=wss://avax.getblock.io/[KEY]/mainnet/ext/bc/C/ws
-NEXT_PUBLIC_GETBLOCK_FANTOM_WEBSOCKET_API=wss://ftm.getblock.io/[KEY]/mainnet/
+NEXT_PUBLIC_GETBLOCK_ETHEREUM_WEBSOCKET_API=wss://go.getblock.io/[KEY]
+NEXT_PUBLIC_GETBLOCK_OPTIMISM_WEBSOCKET_API=wss://go.getblock.io/[KEY]
+NEXT_PUBLIC_GETBLOCK_ARBITRUM_WEBSOCKET_API=wss://go.getblock.io/[KEY]
+NEXT_PUBLIC_GETBLOCK_POLYGON_WEBSOCKET_API=wss://go.getblock.io/[KEY]
+NEXT_PUBLIC_GETBLOCK_BSC_WEBSOCKET_API=wss://go.getblock.io/[KEY]
+NEXT_PUBLIC_GETBLOCK_AVALANCHE_WEBSOCKET_API=wss://go.getblock.io/[KEY]s
+NEXT_PUBLIC_GETBLOCK_FANTOM_WEBSOCKET_API=wss://go.getblock.io/[KEY]
+NEXT_PUBLIC_GETBLOCK_ZKSYNC_WEBSOCKET_API=wss://go.getblock.io/[KEY]
 ```
 
 1. Fork the repo and create your branch from `master`.

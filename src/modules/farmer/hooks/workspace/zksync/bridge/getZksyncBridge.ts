@@ -10,13 +10,13 @@ import { randomSleepAndLog } from '@modules/farmer/helpers/sleep'
 
 import {
 	useChooseInitialToken,
-	getEstimatedSendTransactionFee,
+	getEstimatedTransactionFee,
 	getNextNonce,
-	createAndSendTxHandler,
 } from '@modules/farmer/hooks/workspace/_shared'
 import {
 	getTradingPairs,
 	setOrbiterTargetNetwork,
+	createAndSendTxBridgeHandler,
 } from '@modules/farmer/hooks/workspace/zksync/bridge/orbiter'
 
 type BridgeFnProps = {
@@ -31,7 +31,7 @@ const ORBITER_BRIDGE_ADDRESS =
 export const getZksyncBridge = () => {
 	// eslint-disable-next-line react-hooks/rules-of-hooks
 	const { chooseInitialTokenFn } = useChooseInitialToken()
-	const { createAndSendTx } = createAndSendTxHandler()
+	const { createAndSendBridgeTx } = createAndSendTxBridgeHandler()
 
 	const orbiterZksyncBridgeFn = async ({
 		walletPrivateKey,
@@ -67,14 +67,21 @@ export const getZksyncBridge = () => {
 				chainWithHighestBalanceToken.chainId,
 			)
 
-			// STEP 3. | Get estimated send transaction fee
-			const { configObj } = await getEstimatedSendTransactionFee({
-				client,
+			const configObj = {
 				to: ORBITER_BRIDGE_ADDRESS,
-				value: configuredBridgeAmountInWei,
+				value: BigInt(configuredBridgeAmountInWei),
+			}
+
+			// STEP 3. | Get estimated send transaction fee
+			const { gasPriceInEth } = await getEstimatedTransactionFee({
+				client,
+				configObj,
 				ethPrice,
-				maxGasPerBridging: bridge.maxGasPerBridging,
-				loggerFn,
+				maxGasPerTransaction: bridge.maxGasPerBridging,
+			})
+
+			loggerFn({
+				message: `Will spend on gas up to $${gasPriceInEth}`,
 			})
 
 			// STEP 4. | Create and send tx
@@ -86,7 +93,7 @@ export const getZksyncBridge = () => {
 				chainId,
 			} = chainWithHighestBalanceToken
 
-			await createAndSendTx({
+			await createAndSendBridgeTx({
 				client,
 				configObj,
 				nonce: nextNonce,
@@ -97,7 +104,7 @@ export const getZksyncBridge = () => {
 				loggerFn,
 			})
 
-			// await randomSleepAndLog({ wallet: walletPrivateKey, loggerFn })
+			await randomSleepAndLog({ wallet: walletPrivateKey, loggerFn })
 
 			return Number(amountToBridgeInUsd)
 		} catch (error: any) {
