@@ -1,4 +1,4 @@
-// 20240220180914
+// 20240221212416
 // https://api-era.zksync.network/api?module=contract&action=getabi&address=0x9b5def958d0f3b6955cbea4d5b7809b2fb26b059&format=raw
 // https://era.zksync.network/address/0x9b5def958d0f3b6955cbea4d5b7809b2fb26b059#code
 

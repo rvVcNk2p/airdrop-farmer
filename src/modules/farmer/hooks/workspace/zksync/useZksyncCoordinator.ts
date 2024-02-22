@@ -67,6 +67,7 @@ const zksyncActionCreatorFactory = ({
 					return syncswapSwapAction({
 						walletPrivateKey,
 						actions,
+						timeIntervals,
 						loggerFn,
 					})
 				case ZksyncSwapActionProviders.MUTE_SWAP:
@@ -164,7 +165,7 @@ export const useZksyncCoordinator = () => {
 
 			for (let i = 0; i < txsGoal; i++) {
 				// TODO: Handle random action type
-				const actionType = ZksyncSwapActionProviders.MUTE_SWAP
+				const actionType = ZksyncSwapActionProviders.SYNCSWAP_SWAP
 
 				const nextAction = await zksyncActionCreatorFactory({
 					strategyUid: strategy.uid,
