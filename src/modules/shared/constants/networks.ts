@@ -44,6 +44,7 @@ export const tokenAddresses: TokenAddresses = {
 	[ChainIds.ZKSYNC]: {
 		USDC: '0x3355df6D4c9C3035724Fd0e3914dE96A5a83aaf4', // 6 decimals // USDC // ATTENTION
 		WETH: '0x5AEa5775959fBC2557Cc8789bC1bf90A239D9a91',
+		vMLP: '0xdfaab828f5f515e104baaba4d8d554da9096f0e4', // vMLP (USDC/WETH)
 		NATIVE_TOKEN: undefined,
 	},
 }

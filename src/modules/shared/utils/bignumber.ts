@@ -1,7 +1,7 @@
 import rawUnits from '@modules/shared/constants/units.json'
 import BigNumber from 'bignumber.js'
 
-const re = RegExp(/^[0-9]+\.?[0-9]*$/)
+const re = RegExp(/^[0-9]+\.?[0-9]*(e[-+ ]?[0-9]+)?$/)
 const units = {}
 
 Object.keys(rawUnits).map(function (unit) {

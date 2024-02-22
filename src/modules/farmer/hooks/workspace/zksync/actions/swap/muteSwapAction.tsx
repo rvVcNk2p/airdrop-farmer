@@ -27,7 +27,7 @@ import { randomSleepAndLog } from '@modules/farmer/helpers/sleep'
 import { approveSpendingCap } from './allowance/approveSpendingCap'
 import { ChainIds } from '@modules/shared/constants/chains'
 
-import { MuteSwapAPI } from '@modules/farmer/hooks/workspace/zksync/actions/swap/abi/MuteSwap_ABI'
+import { MuteSwapAPI } from '@modules/farmer/hooks/workspace/zksync/actions/_abi/MuteSwap_ABI'
 
 type muteSwapActionProps = {
 	walletPrivateKey: Address
@@ -52,7 +52,7 @@ export const muteSwapAction = async ({
 	const { createAndSendContractTx } = createAndSendContractTxHandler()
 
 	try {
-		// STEP 1. Choose the chain with the highest balance of ETH
+		// Choose the chain with the highest balance of ETH
 		// Biggest balance is $64.23 USDC on ZKSYNC
 		const { chainWithHighestBalanceToken, ethPrice } =
 			await chooseInitialTokenFn({
@@ -95,7 +95,7 @@ export const muteSwapAction = async ({
 
 		const client = createWalletClientFactory(walletPrivateKey, chainId)
 
-		// (OPTIONAL) STEP 3. | Approve spending cap if token is not ETH
+		// (OPTIONAL) Approve spending cap if token is not ETH
 		if (token !== SwapTargetSymbols.ETH) {
 			await approveSpendingCap({
 				allowanceConfigObjParams: {

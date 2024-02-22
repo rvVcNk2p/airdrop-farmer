@@ -27,6 +27,7 @@ import {
 	syncswapSwapAction,
 	muteSwapAction,
 } from '@modules/farmer/hooks/workspace/zksync/actions/swap'
+import { muteLiquidityAction } from '@modules/farmer/hooks/workspace/zksync/actions/liquidity'
 
 interface ActionCreatorFactoryProps {
 	strategyUid: string
@@ -90,7 +91,12 @@ const zksyncActionCreatorFactory = ({
 					return
 
 				case ZksyncLiquidityActionProviders.MUTE_LIQUIDITY:
-					return
+					return muteLiquidityAction({
+						walletPrivateKey,
+						actions,
+						timeIntervals,
+						loggerFn,
+					})
 				case ZksyncLiquidityActionProviders.SPACEFI_LIQUIDITY:
 					return
 				case ZksyncLiquidityActionProviders.SYNCSWAP_LIQUIDITY:
@@ -165,7 +171,8 @@ export const useZksyncCoordinator = () => {
 
 			for (let i = 0; i < txsGoal; i++) {
 				// TODO: Handle random action type
-				const actionType = ZksyncSwapActionProviders.SYNCSWAP_SWAP
+				const actionType = ZksyncLiquidityActionProviders.MUTE_LIQUIDITY
+				// ZksyncSwapActionProviders.SYNCSWAP_SWAP
 
 				const nextAction = await zksyncActionCreatorFactory({
 					strategyUid: strategy.uid,

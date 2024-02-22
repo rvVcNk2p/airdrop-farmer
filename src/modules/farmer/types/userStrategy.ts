@@ -186,6 +186,7 @@ export enum SwapTargetSymbols {
 	'USDC' = 'USDC',
 	'WETH' = 'WETH',
 	'ETH' = 'ETH',
+	'vMLP' = 'vMLP',
 }
 
 // Shared Types

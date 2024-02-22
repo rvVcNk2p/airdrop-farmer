@@ -25,7 +25,7 @@ type ApproveSpendingCapProps = {
 		routerAddress: Address
 		amountToApprove: string
 		token: SwapTargetSymbols
-		decimal: number
+		decimal?: number
 	}
 	client: ReturnType<typeof createWalletClientFactory>
 	ethPrice: number
@@ -57,6 +57,9 @@ export const approveSpendingCap = async ({
 	} = allowanceConfigObjParams
 	const { amountInUsd, swapProvider } = loggetConfigObj
 
+	const amount = decimal
+		? parseUnits(amountToApprove + '', decimal)
+		: amountToApprove
 	// STEP 1. | Configure allowance tx
 	const allowanceConfigObj = {
 		chainId,
@@ -64,7 +67,7 @@ export const approveSpendingCap = async ({
 		abi,
 		functionName: 'approve',
 		account,
-		args: [routerAddress, parseUnits(amountToApprove + '', decimal)],
+		args: [routerAddress, amount],
 	}
 
 	// STEP 2. | Send allowance tx + Get estimated approvel transaction fee
