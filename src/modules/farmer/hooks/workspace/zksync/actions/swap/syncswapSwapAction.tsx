@@ -1,15 +1,13 @@
+import { erc20Abi, type Address, parseUnits } from 'viem'
 import {
 	ZksyncSwapProviders,
-	type TxHistoryRecordType,
-	type ZkSyncMainnetActionsType,
 	SwapTargetSymbols,
 	TxStatusType,
-	TimeIntervalConfigType,
+	type TimeIntervalConfigType,
+	type TxHistoryRecordType,
+	type ZkSyncMainnetActionsType,
 } from '@modules/farmer/types'
-import { erc20Abi, type Address, parseUnits } from 'viem'
-
-import { SyncSwapRouterABI } from './abi/SyncSwapRouterV2_ABI'
-
+import { SyncSwapRouterABI } from '@modules/farmer/hooks/workspace/zksync/actions/_abi/SyncSwapRouterV2_ABI'
 import {
 	getEstimatedContractTransactionFee,
 	getNextNonce,
@@ -24,7 +22,6 @@ import {
 } from '@modules/farmer/helpers/textColorizer'
 import { ChainIds, tokenAddresses } from '@modules/shared/constants'
 import { randomSleepAndLog } from '@/modules/farmer/helpers/sleep'
-import { getScanLink } from '@/modules/farmer/helpers/getScanLink'
 import { approveSpendingCap } from './allowance/approveSpendingCap'
 
 type SyncswapSwapActionProps = {
@@ -50,7 +47,7 @@ export const syncswapSwapAction = async ({
 	const { createAndSendContractTx } = createAndSendContractTxHandler()
 
 	try {
-		// STEP 1. Choose the chain with the highest balance of ETH
+		// Choose the chain with the highest balance of ETH
 		// Biggest balance is $64.23 USDC on ZKSYNC
 		const { chainWithHighestBalanceToken, ethPrice } =
 			await chooseInitialTokenFn({
@@ -93,7 +90,7 @@ export const syncswapSwapAction = async ({
 
 		const client = createWalletClientFactory(walletPrivateKey, chainId)
 
-		// (OPTIONAL) STEP 3. | Approve spending cap if token is not ETH
+		// (OPTIONAL) Approve spending cap if token is not ETH
 		if (token !== SwapTargetSymbols.ETH) {
 			await approveSpendingCap({
 				allowanceConfigObjParams: {
@@ -171,8 +168,8 @@ export const syncswapSwapAction = async ({
 			],
 		}
 
-		// https://era.zksync.network/tx/0x69cfe5765041f0ef4cbf086bcbf03ac317ccbf77f5f2231e356cc13fa31b6300
 		// Swap ETH to USDC
+		// https://era.zksync.network/tx/0x69cfe5765041f0ef4cbf086bcbf03ac317ccbf77f5f2231e356cc13fa31b6300
 		const swapConfigObjEthToUsdc = {
 			...baseConfigObjParams,
 			value: amountIn,

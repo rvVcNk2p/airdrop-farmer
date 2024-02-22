@@ -5,7 +5,9 @@ import { mainnet } from 'viem/chains'
 
 // https://docs.chain.link/data-feeds/price-feeds/addresses?network=ethereum&page=1&search=ETH%2FUsd
 enum PairAddresses {
-	'ETH-USD' = '0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419',
+	'ETH-USD' = '0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419', // 8 decimals
+	'USDC-USD' = '0x8fFfFfd4AfB6115b954Bd326cbe7B4BA576818f6', // 8 decimals
+	'USDC-ETH' = '0x986b5E1e1755e3C2440e960477f25201B0a8bbD4', // 18 decimals
 }
 
 export const getPriceFeed = async ({
@@ -32,6 +34,9 @@ export const getPriceFeed = async ({
 			},
 		],
 	})
+
+	// TODO: Sometimes priceFeed is empty... investigate why and fix it
+	console.log('PriceFeed:', priceFeed)
 
 	// @ts-ignore
 	const [, price, , ,] = priceFeed[0].result

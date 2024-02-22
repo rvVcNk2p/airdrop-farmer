@@ -1,9 +1,10 @@
 // 1. Step
+import { convert } from '@/modules/shared/utils/bignumber'
 import { getPriceFeed } from '@modules/farmer/helpers/getPriceFeed'
 import { TxHistoryRecordType } from '@modules/farmer/types'
 import { ChainIds, chainAvailableTokens } from '@modules/shared/constants'
 import { balancesFetcher } from '@modules/shared/fetchers'
-import { Address } from 'viem'
+import { Address, formatUnits, parseUnits } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
 
 type ChooseInitialTokenFnProps = {
@@ -47,8 +48,24 @@ const findChainWithHighestBalanceToken = (
 				for (const [token, balance] of Object.entries(singleBalance)) {
 					let floatBalance = parseFloat(balance + '')
 					let amountInUsd = floatBalance
-					if (token === 'NATIVE_TOKEN' || token === 'ETH' || token === 'WETH') {
+					if (
+						token === 'NATIVE_TOKEN' ||
+						token === 'ETH' ||
+						token === 'WETH' ||
+						token === 'vMLP'
+					) {
 						amountInUsd *= ethPrice
+					}
+
+					let adjustedAmountInUsd = amountInUsd.toFixed(4)
+					// TODO: vMLP is not a token, it's a pool, so we should adjust the logic to handle this case
+					if (token === 'vMLP') {
+						adjustedAmountInUsd = parseFloat(
+							formatUnits(
+								parseUnits(convert(amountInUsd + '', 'eth', 'wei'), 8),
+								18,
+							),
+						).toFixed(4)
 					}
 					if (amountInUsd > acc.maxBalance) {
 						acc.maxBalance = amountInUsd
@@ -58,7 +75,7 @@ const findChainWithHighestBalanceToken = (
 							selected: {
 								token,
 								amount: floatBalance,
-								amountInUsd: amountInUsd.toFixed(4),
+								amountInUsd: adjustedAmountInUsd,
 							},
 						}
 					}
@@ -118,7 +135,7 @@ export const useChooseInitialToken = () => {
 			throw new Error('Something went wrong during balances fetching!')
 		}
 
-		let ethPrice = 0
+		let ethPrice = 1
 
 		if (
 			balancesResult[0].balances.some((result) =>
@@ -132,6 +149,7 @@ export const useChooseInitialToken = () => {
 		}
 
 		// Populate the chainWithHighestBalanceToken with the highest balance token
+		// TODO: vMLP is not a token, it's a pool, so we should adjust the logic to handle this case
 		const chainWithHighestBalanceToken = findChainWithHighestBalanceToken(
 			balancesResult,
 			ethPrice,
