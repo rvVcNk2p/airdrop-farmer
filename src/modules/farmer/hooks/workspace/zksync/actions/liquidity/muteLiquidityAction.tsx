@@ -235,7 +235,9 @@ export const muteLiquidityAction = async ({
 		})
 
 		// ======================
+		// ======================
 		// == Remove liquidity ==
+		// ======================
 		// ======================
 
 		// Fetch the available liquidity
