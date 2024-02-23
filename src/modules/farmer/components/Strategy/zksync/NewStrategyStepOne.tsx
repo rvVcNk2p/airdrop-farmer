@@ -71,7 +71,7 @@ export const NewStrategyStepOne = ({ form }: NewStrategyStepOneProps) => {
 							<ZksyncLendingSection form={form} />
 							<hr className="my-2" />
 							{/* <ZksyncMintSection form={form} /> */}
-							<hr className="my-2" />
+							{/* <hr className="my-2" /> */}
 							<FormMultipleWalletSelect
 								name="firstStepFileds.wallets"
 								form={form}

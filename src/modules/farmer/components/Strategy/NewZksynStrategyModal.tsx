@@ -258,36 +258,36 @@ export const NewZksynStrategyModal = ({ children }: NewStrategyModalProps) => {
 					actions: {
 						swap: {
 							providers: [],
-							maxGasFee: 1,
-							minMaxUsdcInPercentage: { min: 10, max: 90 },
+							maxGasFee: 2,
+							minMaxUsdcInPercentage: { min: 45, max: 50 },
 							slippage: 1,
 						},
 						lending: {
 							providers: [],
-							maxGasFee: 1,
-							maxTimes: 0,
+							maxGasFee: 2,
+							maxTimes: 1,
 							timeIntervalToremoveAfterProvided: {
-								from: 1400,
-								to: 1800,
+								from: 14,
+								to: 86,
 							},
 							minMaxUsdcInPercentage: {
-								min: 10,
+								min: 70,
 								max: 90,
 							},
 						},
 						liquidity: {
 							providers: [],
 							maxGasFee: 2,
-							maxTimes: 0,
+							maxTimes: 1,
 							timeIntervalToremoveAfterProvided: {
-								from: 1200,
-								to: 1700,
+								from: 15,
+								to: 73,
 							},
 							minMaxUsdcInPercentage: {
-								min: 10,
-								max: 90,
+								min: 30,
+								max: 50,
 							},
-							slippage: 2,
+							slippage: 1,
 						},
 						// mint: {
 						// 	providers: [],

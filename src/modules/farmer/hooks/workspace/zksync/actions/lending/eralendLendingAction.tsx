@@ -57,6 +57,15 @@ export const eralendLendingAction = async ({
 	const { chooseInitialTokenFn } = useChooseInitialToken()
 	const { createAndSendContractTx } = createAndSendContractTxHandler()
 
+	await randomSleepAndLog({
+		wallet: walletPrivateKey,
+		loggerFn,
+		min: 10,
+		max: 15,
+	})
+
+	return 23.45
+
 	// TODO: Safety check for the wallet balance USDC, ETH
 	try {
 		// Biggest balance is $23.23 USDC or ETH on ZKSYNC
