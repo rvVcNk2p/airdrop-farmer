@@ -9,7 +9,7 @@ import {
 	ZksyncSwapActionProviders,
 	ZksyncLiquidityActionProviders,
 	ZksyncMintActionProviders,
-	ZksyncLandingActionProviders,
+	ZksyncLendingActionProviders,
 	type TxHistoryRecordType,
 	type TypedUserStrategyTypeWithUid,
 	type ZkSyncMainnetType,
@@ -28,6 +28,7 @@ import {
 	muteSwapAction,
 } from '@modules/farmer/hooks/workspace/zksync/actions/swap'
 import { muteLiquidityAction } from '@modules/farmer/hooks/workspace/zksync/actions/liquidity'
+import { eralendLendingAction } from '@modules/farmer/hooks/workspace/zksync/actions/lending'
 
 interface ActionCreatorFactoryProps {
 	strategyUid: string
@@ -85,9 +86,14 @@ const zksyncActionCreatorFactory = ({
 				case ZksyncSwapActionProviders.VELOCORE_SWAP:
 					return
 
-				case ZksyncLandingActionProviders.ERALEND_LENDING:
-					return
-				case ZksyncLandingActionProviders.REACTORFUSION_LENDING:
+				case ZksyncLendingActionProviders.ERALEND_LENDING:
+					return eralendLendingAction({
+						walletPrivateKey,
+						actions,
+						timeIntervals,
+						loggerFn,
+					})
+				case ZksyncLendingActionProviders.REACTORFUSION_LENDING:
 					return
 
 				case ZksyncLiquidityActionProviders.MUTE_LIQUIDITY:
@@ -169,9 +175,16 @@ export const useZksyncCoordinator = () => {
 				)
 			}
 
+			loggerFn({
+				strategyUid: strategy.uid,
+				wallet,
+				message: `Metamask overestimates the tx fees by 50-90%. Unused gas (tx fee) automatically gets refunded after successful transaction.`,
+			})
+
 			for (let i = 0; i < txsGoal; i++) {
 				// TODO: Handle random action type
-				const actionType = ZksyncLiquidityActionProviders.MUTE_LIQUIDITY
+				const actionType = ZksyncLendingActionProviders.ERALEND_LENDING
+				// ZksyncLiquidityActionProviders.MUTE_LIQUIDITY
 				// ZksyncSwapActionProviders.SYNCSWAP_SWAP
 
 				const nextAction = await zksyncActionCreatorFactory({

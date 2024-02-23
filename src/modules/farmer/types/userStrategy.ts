@@ -168,7 +168,7 @@ export enum ZksyncSwapActionProviders {
 	SPACEFI_SWAP = 'SPACEFI_SWAP',
 	ONE_INCH_SWAP = 'ONE_INCH_SWAP',
 }
-export enum ZksyncLandingActionProviders {
+export enum ZksyncLendingActionProviders {
 	ERALEND_LENDING = 'ERALEND_LENDING',
 	REACTORFUSION_LENDING = 'REACTORFUSION_LENDING',
 }
