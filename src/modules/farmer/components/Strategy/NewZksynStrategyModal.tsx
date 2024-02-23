@@ -10,7 +10,7 @@ import {
 	ZksyncSwapProviders,
 	ZksyncLendingProviders,
 	ZksyncLiquidityProviders,
-	ZksyncMintProviders,
+	// ZksyncMintProviders,
 } from '@modules/farmer/types'
 import {
 	AlertDialog,
@@ -143,7 +143,6 @@ const formSchema = z.object({
 					providers: z.array(
 						z.enum([
 							ZksyncSwapProviders.MUTE,
-							ZksyncSwapProviders.ONE_INCH,
 							ZksyncSwapProviders.SPACEFI,
 							ZksyncSwapProviders.SYNCSWAP,
 							ZksyncSwapProviders.VELOCORE,
@@ -205,11 +204,11 @@ const formSchema = z.object({
 						})
 						.refine(fromToValidator, fromToErrorObject),
 				}),
-				mint: z.object({
-					providers: z.array(z.enum([ZksyncMintProviders.ZKNS_DOMAINS])),
-					maxGasFee: z.coerce.number().min(1),
-					maxTimes: z.coerce.number().min(1),
-				}),
+				// mint: z.object({
+				// 	providers: z.array(z.enum([ZksyncMintProviders.ZKNS_DOMAINS])),
+				// 	maxGasFee: z.coerce.number().min(1),
+				// 	maxTimes: z.coerce.number().min(1),
+				// }),
 				wrapping: z.object({}),
 			}),
 		}),
@@ -290,11 +289,11 @@ export const NewZksynStrategyModal = ({ children }: NewStrategyModalProps) => {
 							},
 							slippage: 2,
 						},
-						mint: {
-							providers: [],
-							maxGasFee: 1,
-							maxTimes: 0,
-						},
+						// mint: {
+						// 	providers: [],
+						// 	maxGasFee: 1,
+						// 	maxTimes: 0,
+						// },
 						wrapping: {},
 					},
 				},

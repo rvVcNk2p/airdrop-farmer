@@ -16,13 +16,13 @@ const zksyncActionProviders = enumToArrayObject(ZksyncActionProviders)
 const zksyncSwapProviders = enumToArrayObject(ZksyncSwapProviders)
 const zksyncLiquidityProviders = enumToArrayObject(ZksyncLiquidityProviders)
 const zksyncLendingProviders = enumToArrayObject(ZksyncLendingProviders)
-const zksyncMintProviders = enumToArrayObject(ZksyncMintProviders)
+// const zksyncMintProviders = enumToArrayObject(ZksyncMintProviders)
 
 const ActionOptionMap = {
 	[ZksyncActionProviders.SWAP]: zksyncSwapProviders,
 	[ZksyncActionProviders.LIQUIDITY]: zksyncLiquidityProviders,
 	[ZksyncActionProviders.LENDING]: zksyncLendingProviders,
-	[ZksyncActionProviders.MINT]: zksyncMintProviders,
+	// [ZksyncActionProviders.MINT]: zksyncMintProviders,
 }
 
 const ActionProvider = ({
@@ -58,7 +58,7 @@ export const ZksyncActivitySelectSection = ({ form }: { form: any }) => {
 		const {
 			firstStepFileds: {
 				mainnet: {
-					actions: { swap, liquidity, lending, mint },
+					actions: { swap, liquidity, lending }, // mint
 				},
 			},
 		} = form.getValues()
@@ -70,8 +70,8 @@ export const ZksyncActivitySelectSection = ({ form }: { form: any }) => {
 			activeActions.push(ZksyncActionProviders.LIQUIDITY)
 		if (lending.providers.length > 0)
 			activeActions.push(ZksyncActionProviders.LENDING)
-		if (mint.providers.length > 0)
-			activeActions.push(ZksyncActionProviders.MINT)
+		// if (mint.providers.length > 0)
+		// 	activeActions.push(ZksyncActionProviders.MINT)
 
 		setActiveActions(activeActions)
 	}, [])
@@ -95,7 +95,7 @@ export const ZksyncActivitySelectSection = ({ form }: { form: any }) => {
 			ZksyncActionProviders.SWAP,
 			ZksyncActionProviders.LIQUIDITY,
 			ZksyncActionProviders.LENDING,
-			ZksyncActionProviders.MINT,
+			// ZksyncActionProviders.MINT,
 		])
 		setValue(
 			`firstStepFileds.mainnet.actions.${ZksyncActionProviders.SWAP.toLocaleLowerCase()}.providers`,
@@ -109,10 +109,10 @@ export const ZksyncActivitySelectSection = ({ form }: { form: any }) => {
 			`firstStepFileds.mainnet.actions.${ZksyncActionProviders.LENDING.toLocaleLowerCase()}.providers`,
 			zksyncLendingProviders.map((provider) => provider.value),
 		)
-		setValue(
-			`firstStepFileds.mainnet.actions.${ZksyncActionProviders.MINT.toLocaleLowerCase()}.providers`,
-			zksyncMintProviders.map((provider) => provider.value),
-		)
+		// setValue(
+		// 	`firstStepFileds.mainnet.actions.${ZksyncActionProviders.MINT.toLocaleLowerCase()}.providers`,
+		// 	zksyncMintProviders.map((provider) => provider.value),
+		// )
 	}
 
 	const isActionProviderActive = (action: ZksyncActionProviders) =>
@@ -127,7 +127,7 @@ export const ZksyncActivitySelectSection = ({ form }: { form: any }) => {
 				</Button>
 			</div>
 
-			<div className="mt-2 grid grid-cols-4">
+			<div className="mt-4 grid grid-cols-3">
 				{zksyncActionProviders.map((provider) => (
 					<div key={provider.id} className="flex items-center gap-2">
 						<Checkbox
@@ -146,7 +146,7 @@ export const ZksyncActivitySelectSection = ({ form }: { form: any }) => {
 			</div>
 
 			{activeActions.length > 0 && (
-				<div className="grid grid-cols-2">
+				<div className="grid grid-cols-3">
 					{activeActions.map((action) => (
 						<>
 							<ActionProvider

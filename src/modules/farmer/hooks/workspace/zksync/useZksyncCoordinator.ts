@@ -8,7 +8,7 @@ import {
 	ZksyncBridges,
 	ZksyncSwapActionProviders,
 	ZksyncLiquidityActionProviders,
-	ZksyncMintActionProviders,
+	// ZksyncMintActionProviders,
 	ZksyncLendingActionProviders,
 	type TxHistoryRecordType,
 	type TypedUserStrategyTypeWithUid,
@@ -79,8 +79,6 @@ const zksyncActionCreatorFactory = ({
 						timeIntervals,
 						loggerFn,
 					})
-				case ZksyncSwapActionProviders.ONE_INCH_SWAP:
-					return
 				case ZksyncSwapActionProviders.SPACEFI_SWAP:
 					return
 				case ZksyncSwapActionProviders.VELOCORE_SWAP:
@@ -110,8 +108,6 @@ const zksyncActionCreatorFactory = ({
 				case ZksyncLiquidityActionProviders.VELOCORE_LIQUIDITY:
 					return
 
-				case ZksyncMintActionProviders.ZKNS_DOMAINS_MINT:
-					return
 				// Add more cases - Action types
 			}
 		}

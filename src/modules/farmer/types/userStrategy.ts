@@ -136,7 +136,7 @@ export enum ZksyncActionProviders {
 	SWAP = 'SWAP',
 	LIQUIDITY = 'LIQUIDITY',
 	LENDING = 'LENDING',
-	MINT = 'MINT',
+	// MINT = 'MINT',
 	// WRAPPING = 'WRAPPING',
 }
 
@@ -145,7 +145,7 @@ export enum ZksyncSwapProviders {
 	VELOCORE = 'VELOCORE',
 	MUTE = 'MUTE',
 	SPACEFI = 'SPACEFI',
-	ONE_INCH = 'ONE_INCH',
+	// ONE_INCH = 'ONE_INCH',
 }
 export enum ZksyncLendingProviders {
 	ERALEND = 'ERALEND',
@@ -166,7 +166,7 @@ export enum ZksyncSwapActionProviders {
 	VELOCORE_SWAP = 'VELOCORE_SWAP',
 	MUTE_SWAP = 'MUTE_SWAP',
 	SPACEFI_SWAP = 'SPACEFI_SWAP',
-	ONE_INCH_SWAP = 'ONE_INCH_SWAP',
+	// ONE_INCH_SWAP = 'ONE_INCH_SWAP',
 }
 export enum ZksyncLendingActionProviders {
 	ERALEND_LENDING = 'ERALEND_LENDING',
