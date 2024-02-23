@@ -98,11 +98,11 @@ export interface ZkSyncMainnetActionsType {
 		minMaxUsdcInPercentage: BalancePercentageType
 		timeIntervalToremoveAfterProvided: IntervalType
 	}
-	mint: {
-		providers: ZksyncMintProviders[]
-		maxGasFee: number
-		maxTimes: number
-	}
+	// mint: {
+	// 	providers: ZksyncMintProviders[]
+	// 	maxGasFee: number
+	// 	maxTimes: number
+	// }
 	wrapping: {}
 }
 

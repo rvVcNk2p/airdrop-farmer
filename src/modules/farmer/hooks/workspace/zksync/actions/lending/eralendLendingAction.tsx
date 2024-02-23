@@ -42,6 +42,7 @@ const ERALEND_LENDING_ROUTER_ADDRESS_USDC =
 const ERALEND_LENDING_ROUTER_ADDRESS_ETH =
 	'0x22D8b71599e14F20a49a397b88c1C878c86F5579'
 
+const ERALEND_ADD_LENDING_ACTION = 'mint'
 const ERALEND_REMOVE_LENDING_ACTION = 'redeemUnderlying'
 
 export const eralendLendingAction = async ({
@@ -165,7 +166,7 @@ export const eralendLendingAction = async ({
 					payable: false,
 				},
 			],
-			functionName: 'mint',
+			functionName: ERALEND_ADD_LENDING_ACTION,
 			args: [amountIn],
 		}
 
@@ -186,7 +187,7 @@ export const eralendLendingAction = async ({
 					payable: true,
 				},
 			],
-			functionName: 'mint',
+			functionName: ERALEND_ADD_LENDING_ACTION,
 			args: [],
 		}
 
