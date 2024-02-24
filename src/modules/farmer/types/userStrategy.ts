@@ -78,13 +78,13 @@ export interface ZkSyncMainnetBridgeType {
 }
 export interface ZkSyncMainnetActionsType {
 	swap: {
-		providers: ZksyncSwapProviders[]
+		providers: ZksyncSwapActionProviders[]
 		maxGasFee: number
 		minMaxUsdcInPercentage: BalancePercentageType
 		slippage: number
 	}
 	liquidity: {
-		providers: ZksyncLiquidityProviders[]
+		providers: ZksyncLiquidityActionProviders[]
 		maxGasFee: number
 		maxTimes: number
 		minMaxUsdcInPercentage: BalancePercentageType
@@ -92,7 +92,7 @@ export interface ZkSyncMainnetActionsType {
 		slippage: number
 	}
 	lending: {
-		providers: ZksyncLendingProviders[]
+		providers: ZksyncLendingActionProviders[]
 		maxGasFee: number
 		maxTimes: number
 		minMaxUsdcInPercentage: BalancePercentageType

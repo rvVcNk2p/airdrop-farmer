@@ -46,6 +46,15 @@ export const syncswapSwapAction = async ({
 	const { chooseInitialTokenFn } = useChooseInitialToken()
 	const { createAndSendContractTx } = createAndSendContractTxHandler()
 
+	await randomSleepAndLog({
+		wallet: walletPrivateKey,
+		loggerFn,
+		min: 1,
+		max: 3,
+	})
+
+	return 3.45
+
 	try {
 		// Choose the chain with the highest balance of ETH
 		// Biggest balance is $64.23 USDC on ZKSYNC

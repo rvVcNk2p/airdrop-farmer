@@ -2,21 +2,25 @@ import { capitalize, enumToArrayObject } from '@modules/shared/utils'
 import { FormFieldCheckboxWrapper } from '@modules/shared/components/Form'
 import {
 	ZksyncActionProviders,
-	ZksyncLendingProviders,
-	ZksyncLiquidityProviders,
-	ZksyncMintProviders,
-	ZksyncSwapProviders,
+	ZksyncLendingActionProviders,
+	ZksyncLiquidityActionProviders,
+	ZksyncSwapActionProviders,
+	// ZksyncMintProviders,
 } from '@modules/farmer/types'
 import { Checkbox } from '@modules/shared/components/ui/checkbox'
 import { useEffect, useState } from 'react'
 import { Label } from '@modules/shared/components/ui/label'
 import { Button } from '@/modules/shared/components/ui/button'
+import { v4 as uuidv4 } from 'uuid'
 
+// TODO: Format SYNCSWAP_SWAP TO SYNCSWAP..
 const zksyncActionProviders = enumToArrayObject(ZksyncActionProviders)
-const zksyncSwapProviders = enumToArrayObject(ZksyncSwapProviders)
-const zksyncLiquidityProviders = enumToArrayObject(ZksyncLiquidityProviders)
-const zksyncLendingProviders = enumToArrayObject(ZksyncLendingProviders)
-// const zksyncMintProviders = enumToArrayObject(ZksyncMintProviders)
+const zksyncSwapProviders = enumToArrayObject(ZksyncSwapActionProviders)
+const zksyncLiquidityProviders = enumToArrayObject(
+	ZksyncLiquidityActionProviders,
+)
+const zksyncLendingProviders = enumToArrayObject(ZksyncLendingActionProviders)
+// const zksyncMintProviders = enumToArrayObject(ZksyncMintActionProviders)
 
 const ActionOptionMap = {
 	[ZksyncActionProviders.SWAP]: zksyncSwapProviders,
@@ -35,7 +39,7 @@ const ActionProvider = ({
 	providerOptions: any
 }) => {
 	return (
-		<div className="mt-6 flex flex-col gap-1">
+		<>
 			<h1 className="text-sm">{capitalize(action)}</h1>
 			<FormFieldCheckboxWrapper
 				name={`firstStepFileds.mainnet.actions.${action.toLocaleLowerCase()}.providers`}
@@ -43,7 +47,7 @@ const ActionProvider = ({
 				orientation="vertical"
 				options={providerOptions}
 			/>
-		</div>
+		</>
 	)
 }
 
@@ -148,13 +152,13 @@ export const ZksyncActivitySelectSection = ({ form }: { form: any }) => {
 			{activeActions.length > 0 && (
 				<div className="grid grid-cols-3">
 					{activeActions.map((action) => (
-						<>
+						<div className="mt-6 flex flex-col gap-1" key={uuidv4()}>
 							<ActionProvider
 								action={action}
 								form={form}
 								providerOptions={ActionOptionMap[action]}
 							/>
-						</>
+						</div>
 					))}
 				</div>
 			)}

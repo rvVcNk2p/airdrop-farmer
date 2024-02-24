@@ -9,6 +9,7 @@ import {
 	type TxHistoryRecordType,
 	type ZkSyncMainnetActionsType,
 	type TimeIntervalConfigType,
+	ZksyncActionProviders,
 } from '@modules/farmer/types'
 
 import {
@@ -21,7 +22,11 @@ import { muteLiquidityAction } from '@modules/farmer/hooks/workspace/zksync/acti
 interface ActionCreatorFactoryProps {
 	strategyUid: string
 	walletPrivateKey: Address
-	actionType: string // TODO: Add enum
+	actionType: ZksyncActionProviders
+	providerType:
+		| ZksyncSwapActionProviders
+		| ZksyncLendingActionProviders
+		| ZksyncLiquidityActionProviders
 	timeIntervals: TimeIntervalConfigType
 	addNewAction: ({}: any) => void
 	loggerFn: ({}: TxHistoryRecordType) => void
@@ -32,57 +37,64 @@ export const zksyncActionCreatorFactory = ({
 	strategyUid,
 	walletPrivateKey,
 	actionType,
+	providerType,
 	timeIntervals,
 	addNewAction,
 	loggerFn,
 	actions,
 }: ActionCreatorFactoryProps) => {
 	const selectedActionByType = () => {
-		switch (actionType) {
-			case ZksyncSwapActionProviders.SYNCSWAP_SWAP:
-				return syncswapSwapAction({
-					walletPrivateKey,
-					actions,
-					timeIntervals,
-					loggerFn,
-				})
-			case ZksyncSwapActionProviders.MUTE_SWAP:
-				return muteSwapAction({
-					walletPrivateKey,
-					actions,
-					timeIntervals,
-					loggerFn,
-				})
-			case ZksyncSwapActionProviders.SPACEFI_SWAP:
-				return
-			case ZksyncSwapActionProviders.VELOCORE_SWAP:
-				return
+		if (actionType === ZksyncActionProviders.SWAP) {
+			switch (providerType) {
+				case ZksyncSwapActionProviders.SYNCSWAP_SWAP:
+					return syncswapSwapAction({
+						walletPrivateKey,
+						actions,
+						timeIntervals,
+						loggerFn,
+					})
+				case ZksyncSwapActionProviders.MUTE_SWAP:
+					return muteSwapAction({
+						walletPrivateKey,
+						actions,
+						timeIntervals,
+						loggerFn,
+					})
+				case ZksyncSwapActionProviders.SPACEFI_SWAP:
+					return
+				case ZksyncSwapActionProviders.VELOCORE_SWAP:
+					return
+			}
+		} else if (actionType === ZksyncActionProviders.LENDING) {
+			switch (providerType) {
+				case ZksyncLendingActionProviders.ERALEND_LENDING:
+					return eralendLendingAction({
+						walletPrivateKey,
+						actions,
+						timeIntervals,
+						loggerFn,
+					})
+				case ZksyncLendingActionProviders.REACTORFUSION_LENDING:
+					return
+			}
+		} else if (actionType === ZksyncActionProviders.LIQUIDITY) {
+			switch (providerType) {
+				case ZksyncLiquidityActionProviders.MUTE_LIQUIDITY:
+					return muteLiquidityAction({
+						walletPrivateKey,
+						actions,
+						timeIntervals,
+						loggerFn,
+					})
+				case ZksyncLiquidityActionProviders.SPACEFI_LIQUIDITY:
+					return
+				case ZksyncLiquidityActionProviders.SYNCSWAP_LIQUIDITY:
+					return
+				case ZksyncLiquidityActionProviders.VELOCORE_LIQUIDITY:
+					return
 
-			case ZksyncLendingActionProviders.ERALEND_LENDING:
-				return eralendLendingAction({
-					walletPrivateKey,
-					actions,
-					timeIntervals,
-					loggerFn,
-				})
-			case ZksyncLendingActionProviders.REACTORFUSION_LENDING:
-				return
-
-			case ZksyncLiquidityActionProviders.MUTE_LIQUIDITY:
-				return muteLiquidityAction({
-					walletPrivateKey,
-					actions,
-					timeIntervals,
-					loggerFn,
-				})
-			case ZksyncLiquidityActionProviders.SPACEFI_LIQUIDITY:
-				return
-			case ZksyncLiquidityActionProviders.SYNCSWAP_LIQUIDITY:
-				return
-			case ZksyncLiquidityActionProviders.VELOCORE_LIQUIDITY:
-				return
-
-			// Add more cases - Action types
+				// Add more cases - Action types
+			}
 		}
 	}
 

@@ -56,6 +56,15 @@ export const muteLiquidityAction = async ({
 	const { chooseInitialTokenFn } = useChooseInitialToken()
 	const { createAndSendContractTx } = createAndSendContractTxHandler()
 
+	await randomSleepAndLog({
+		wallet: walletPrivateKey,
+		loggerFn,
+		min: 1,
+		max: 3,
+	})
+
+	return 12.45
+
 	// TODO: Safety check for the wallet balance USDC, ETH
 	try {
 		// Biggest balance is $23.23 USDC on ZKSYNC

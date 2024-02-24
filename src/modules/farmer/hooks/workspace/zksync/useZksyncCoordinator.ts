@@ -11,7 +11,7 @@ import { fetchPlanByLoggedInUser } from '@modules/shared/fetchers/planFetcher'
 import { useUserWallets } from '@modules/farmer/stores/useUserWallets'
 import { usePerformActions } from '@modules/farmer/hooks/workspace/usePerformActions'
 import { useActionHistory } from '@modules/farmer/stores'
-import { zksyncActionCoordinator } from '@modules/farmer/hooks/workspace/zksync/zksyncActionCoordinator'
+import { zksyncActionCoordinator } from '@modules/farmer/hooks/workspace/zksync/actions/coordinator/zksyncActionCoordinator'
 import { zksyncBridgeCreatorFactory } from '@modules/farmer/hooks/workspace/zksync/factory/zksyncBridgeCreatorFactory'
 
 export const useZksyncCoordinator = () => {
@@ -28,7 +28,6 @@ export const useZksyncCoordinator = () => {
 		strategy: TypedUserStrategyTypeWithUid<ZkSyncMainnetType>
 	}) => {
 		const { txsGoal, timeIntervals, uid } = strategy
-
 		const walletPrivateKey = getWalletByUid(walletUid)
 			?.privateKey as `0x${string}`
 		const wallet = privateKeyToAccount(walletPrivateKey).address
@@ -67,7 +66,7 @@ export const useZksyncCoordinator = () => {
 				strategy,
 				walletPrivateKey,
 				addNewAction,
-				loggerFn: (args) => loggerFn({ ...args, strategyUid: uid, wallet }), // IMPOVEMENT: Wallet and strategyUid binded to loggerFn
+				loggerFn: (args) => loggerFn({ ...args, strategyUid: uid, wallet }), // Wallet and strategyUid binded to loggerFn
 			})
 
 			for (let i = 0; i < txsGoal; i++) {

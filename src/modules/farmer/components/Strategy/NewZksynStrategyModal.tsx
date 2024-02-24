@@ -10,6 +10,9 @@ import {
 	ZksyncSwapProviders,
 	ZksyncLendingProviders,
 	ZksyncLiquidityProviders,
+	ZksyncSwapActionProviders,
+	ZksyncLendingActionProviders,
+	ZksyncLiquidityActionProviders,
 	// ZksyncMintProviders,
 } from '@modules/farmer/types'
 import {
@@ -142,10 +145,10 @@ const formSchema = z.object({
 				swap: z.object({
 					providers: z.array(
 						z.enum([
-							ZksyncSwapProviders.MUTE,
-							ZksyncSwapProviders.SPACEFI,
-							ZksyncSwapProviders.SYNCSWAP,
-							ZksyncSwapProviders.VELOCORE,
+							ZksyncSwapActionProviders.MUTE_SWAP,
+							ZksyncSwapActionProviders.SPACEFI_SWAP,
+							ZksyncSwapActionProviders.SYNCSWAP_SWAP,
+							ZksyncSwapActionProviders.VELOCORE_SWAP,
 						]),
 					),
 					maxGasFee: z.coerce.number().min(1),
@@ -160,8 +163,8 @@ const formSchema = z.object({
 				lending: z.object({
 					providers: z.array(
 						z.enum([
-							ZksyncLendingProviders.ERALEND,
-							ZksyncLendingProviders.REACTORFUSION,
+							ZksyncLendingActionProviders.ERALEND_LENDING,
+							ZksyncLendingActionProviders.REACTORFUSION_LENDING,
 						]),
 					),
 					maxGasFee: z.coerce.number().min(1),
@@ -182,10 +185,10 @@ const formSchema = z.object({
 				liquidity: z.object({
 					providers: z.array(
 						z.enum([
-							ZksyncLiquidityProviders.MUTE,
-							ZksyncLiquidityProviders.SPACEFI,
-							ZksyncLiquidityProviders.SYNCSWAP,
-							ZksyncLiquidityProviders.VELOCORE,
+							ZksyncLiquidityActionProviders.MUTE_LIQUIDITY,
+							ZksyncLiquidityActionProviders.SPACEFI_LIQUIDITY,
+							ZksyncLiquidityActionProviders.SYNCSWAP_LIQUIDITY,
+							ZksyncLiquidityActionProviders.VELOCORE_LIQUIDITY,
 						]),
 					),
 					maxGasFee: z.coerce.number().min(1),

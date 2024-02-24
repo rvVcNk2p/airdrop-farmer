@@ -60,8 +60,8 @@ export const eralendLendingAction = async ({
 	await randomSleepAndLog({
 		wallet: walletPrivateKey,
 		loggerFn,
-		min: 10,
-		max: 15,
+		min: 1,
+		max: 3,
 	})
 
 	return 23.45
