@@ -34,22 +34,25 @@ export const zksyncActionCoordinator = ({
 		ZksyncActionProviders.LENDING,
 	]
 
-	const nextActionGenerator = () => {
+	const nextActionGenerator = async () => {
 		const {
 			swap: { providers: swapProviders },
 			liquidity: { providers: liquidityProviders, maxTimes: liquidityMaxTimes },
 			lending: { providers: lendingProviders, maxTimes: lendingMaxTimes },
 		} = strategy.mainnet.actions
 
-		const { nextActionType, nextProviderType } = generateRandomActionType({
-			alreadyExecutedActions,
-			availableActionTypes,
-			swapProviders,
-			liquidityProviders,
-			liquidityMaxTimes,
-			lendingProviders,
-			lendingMaxTimes,
-		})
+		const { nextActionType, nextProviderType } = await generateRandomActionType(
+			{
+				walletPrivateKey,
+				alreadyExecutedActions,
+				availableActionTypes,
+				swapProviders,
+				liquidityProviders,
+				liquidityMaxTimes,
+				lendingProviders,
+				lendingMaxTimes,
+			},
+		)
 
 		//TODO: A Liquidity esetében a MIN tokent keressük meg, és annak nézzük a MIN-MAX részét
 

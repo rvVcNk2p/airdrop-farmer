@@ -1,10 +1,13 @@
-import { randomWholeNumber } from '@/modules/shared/utils'
+import { type Address } from 'viem'
 import {
 	ZksyncActionProviders,
 	ZksyncLendingActionProviders,
 	ZksyncLiquidityActionProviders,
 	ZksyncSwapActionProviders,
 } from '@modules/farmer/types'
+
+import { randomWholeNumber } from '@/modules/shared/utils'
+import { getSingleToken } from '@modules/farmer/hooks/workspace/_shared'
 
 const countActionsByType = (
 	alreadyExecutedActions:
@@ -68,6 +71,7 @@ const removeActionsIfMaxReached = ({
 }
 
 type GenerateRandomActionTypeProps = {
+	walletPrivateKey: Address
 	alreadyExecutedActions:
 		| ZksyncSwapActionProviders[]
 		| ZksyncLiquidityActionProviders[]
@@ -80,7 +84,22 @@ type GenerateRandomActionTypeProps = {
 	lendingMaxTimes: number
 }
 
-export const generateRandomActionType = ({
+const isZeroUSDC = async ({
+	walletPrivateKey,
+}: {
+	walletPrivateKey: Address
+}) => {
+	const { tokenAmount } = await getSingleToken({
+		wallet: walletPrivateKey,
+		selectedNetwork: 'ZKSYNC',
+		externalChainAvailableTokens: ['USDC'],
+	})
+
+	return tokenAmount === 0
+}
+
+export const generateRandomActionType = async ({
+	walletPrivateKey,
 	alreadyExecutedActions,
 	availableActionTypes,
 	swapProviders,
@@ -97,12 +116,14 @@ export const generateRandomActionType = ({
 		availableActionTypes,
 	})
 
-	//TODO: If USDC is 0 in the wallet, then SWAP 25-50% of the available ETH to USDC
+	// If USDC is 0 in the wallet, then SWAP ETH to USDC
+	const isZeroUsdc = await isZeroUSDC({ walletPrivateKey })
 
-	const nextActionType =
-		filteredAvailableActionTypes[
-			randomWholeNumber(0, filteredAvailableActionTypes.length - 1)
-		]
+	const nextActionType = isZeroUsdc
+		? ZksyncActionProviders.SWAP
+		: filteredAvailableActionTypes[
+				randomWholeNumber(0, filteredAvailableActionTypes.length - 1)
+			]
 
 	const selectNextProviderType = () => {
 		switch (nextActionType) {

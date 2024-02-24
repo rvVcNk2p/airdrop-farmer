@@ -5,3 +5,4 @@ export {
 export { useChooseInitialToken } from './useChooseInitialToken'
 export { createAndSendContractTxHandler } from './createAndSendContractTxHandler'
 export { getNextNonce } from './getNextNonce'
+export { getSingleToken } from './getSingleToken'

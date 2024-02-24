@@ -70,7 +70,7 @@ export const useZksyncCoordinator = () => {
 			})
 
 			for (let i = 0; i < txsGoal; i++) {
-				const { nextAction } = nextActionGenerator()
+				const { nextAction } = await nextActionGenerator()
 
 				try {
 					// TODO: Handle if user is a paid user
