@@ -2,27 +2,31 @@ import { capitalize, enumToArrayObject } from '@modules/shared/utils'
 import { FormFieldCheckboxWrapper } from '@modules/shared/components/Form'
 import {
 	ZksyncActionProviders,
-	ZksyncLendingProviders,
-	ZksyncLiquidityProviders,
-	ZksyncMintProviders,
-	ZksyncSwapProviders,
+	ZksyncLendingActionProviders,
+	ZksyncLiquidityActionProviders,
+	ZksyncSwapActionProviders,
+	// ZksyncMintProviders,
 } from '@modules/farmer/types'
 import { Checkbox } from '@modules/shared/components/ui/checkbox'
 import { useEffect, useState } from 'react'
 import { Label } from '@modules/shared/components/ui/label'
 import { Button } from '@/modules/shared/components/ui/button'
+import { v4 as uuidv4 } from 'uuid'
 
+// TODO: Format SYNCSWAP_SWAP TO SYNCSWAP..
 const zksyncActionProviders = enumToArrayObject(ZksyncActionProviders)
-const zksyncSwapProviders = enumToArrayObject(ZksyncSwapProviders)
-const zksyncLiquidityProviders = enumToArrayObject(ZksyncLiquidityProviders)
-const zksyncLendingProviders = enumToArrayObject(ZksyncLendingProviders)
-const zksyncMintProviders = enumToArrayObject(ZksyncMintProviders)
+const zksyncSwapProviders = enumToArrayObject(ZksyncSwapActionProviders)
+const zksyncLiquidityProviders = enumToArrayObject(
+	ZksyncLiquidityActionProviders,
+)
+const zksyncLendingProviders = enumToArrayObject(ZksyncLendingActionProviders)
+// const zksyncMintProviders = enumToArrayObject(ZksyncMintActionProviders)
 
 const ActionOptionMap = {
 	[ZksyncActionProviders.SWAP]: zksyncSwapProviders,
 	[ZksyncActionProviders.LIQUIDITY]: zksyncLiquidityProviders,
 	[ZksyncActionProviders.LENDING]: zksyncLendingProviders,
-	[ZksyncActionProviders.MINT]: zksyncMintProviders,
+	// [ZksyncActionProviders.MINT]: zksyncMintProviders,
 }
 
 const ActionProvider = ({
@@ -35,7 +39,7 @@ const ActionProvider = ({
 	providerOptions: any
 }) => {
 	return (
-		<div className="mt-6 flex flex-col gap-1">
+		<>
 			<h1 className="text-sm">{capitalize(action)}</h1>
 			<FormFieldCheckboxWrapper
 				name={`firstStepFileds.mainnet.actions.${action.toLocaleLowerCase()}.providers`}
@@ -43,7 +47,7 @@ const ActionProvider = ({
 				orientation="vertical"
 				options={providerOptions}
 			/>
-		</div>
+		</>
 	)
 }
 
@@ -58,7 +62,7 @@ export const ZksyncActivitySelectSection = ({ form }: { form: any }) => {
 		const {
 			firstStepFileds: {
 				mainnet: {
-					actions: { swap, liquidity, lending, mint },
+					actions: { swap, liquidity, lending }, // mint
 				},
 			},
 		} = form.getValues()
@@ -70,8 +74,8 @@ export const ZksyncActivitySelectSection = ({ form }: { form: any }) => {
 			activeActions.push(ZksyncActionProviders.LIQUIDITY)
 		if (lending.providers.length > 0)
 			activeActions.push(ZksyncActionProviders.LENDING)
-		if (mint.providers.length > 0)
-			activeActions.push(ZksyncActionProviders.MINT)
+		// if (mint.providers.length > 0)
+		// 	activeActions.push(ZksyncActionProviders.MINT)
 
 		setActiveActions(activeActions)
 	}, [])
@@ -95,7 +99,7 @@ export const ZksyncActivitySelectSection = ({ form }: { form: any }) => {
 			ZksyncActionProviders.SWAP,
 			ZksyncActionProviders.LIQUIDITY,
 			ZksyncActionProviders.LENDING,
-			ZksyncActionProviders.MINT,
+			// ZksyncActionProviders.MINT,
 		])
 		setValue(
 			`firstStepFileds.mainnet.actions.${ZksyncActionProviders.SWAP.toLocaleLowerCase()}.providers`,
@@ -109,10 +113,10 @@ export const ZksyncActivitySelectSection = ({ form }: { form: any }) => {
 			`firstStepFileds.mainnet.actions.${ZksyncActionProviders.LENDING.toLocaleLowerCase()}.providers`,
 			zksyncLendingProviders.map((provider) => provider.value),
 		)
-		setValue(
-			`firstStepFileds.mainnet.actions.${ZksyncActionProviders.MINT.toLocaleLowerCase()}.providers`,
-			zksyncMintProviders.map((provider) => provider.value),
-		)
+		// setValue(
+		// 	`firstStepFileds.mainnet.actions.${ZksyncActionProviders.MINT.toLocaleLowerCase()}.providers`,
+		// 	zksyncMintProviders.map((provider) => provider.value),
+		// )
 	}
 
 	const isActionProviderActive = (action: ZksyncActionProviders) =>
@@ -127,7 +131,7 @@ export const ZksyncActivitySelectSection = ({ form }: { form: any }) => {
 				</Button>
 			</div>
 
-			<div className="mt-2 grid grid-cols-4">
+			<div className="mt-4 grid grid-cols-3">
 				{zksyncActionProviders.map((provider) => (
 					<div key={provider.id} className="flex items-center gap-2">
 						<Checkbox
@@ -146,15 +150,15 @@ export const ZksyncActivitySelectSection = ({ form }: { form: any }) => {
 			</div>
 
 			{activeActions.length > 0 && (
-				<div className="grid grid-cols-2">
+				<div className="grid grid-cols-3">
 					{activeActions.map((action) => (
-						<>
+						<div className="mt-6 flex flex-col gap-1" key={uuidv4()}>
 							<ActionProvider
 								action={action}
 								form={form}
 								providerOptions={ActionOptionMap[action]}
 							/>
-						</>
+						</div>
 					))}
 				</div>
 			)}

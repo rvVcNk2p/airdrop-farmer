@@ -68,7 +68,12 @@ export const syncswapSwapAction = async ({
 			slippage,
 		} = actions.swap
 
-		const swapPercentage = randomWholeNumber(min, max)
+		// Swap 15-35% of the balance if token is ETH
+		const swapPercentage =
+			token === SwapTargetSymbols.ETH
+				? randomWholeNumber(15, 35)
+				: randomWholeNumber(min, max)
+
 		const amountToSwap = ((amount * swapPercentage) / 100).toFixed(4)
 		const amountToSwapInUsd =
 			token === SwapTargetSymbols.USDC

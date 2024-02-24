@@ -15,7 +15,7 @@ import {
 	ZksyncBridgeSection,
 	ZksyncLendingSection,
 	ZksyncLiquiditySection,
-	ZksyncMintSection,
+	// ZksyncMintSection,
 	ZksyncSwapSection,
 } from '@modules/farmer/components/Strategy/zksync'
 import { TimeIntervalsSection } from '@modules/farmer/components/Strategy/_shared/TimeIntervalsSection'
@@ -36,6 +36,22 @@ const signTransactionOptions = [
 ]
 
 export const NewStrategyStepOne = ({ form }: NewStrategyStepOneProps) => {
+	const {
+		firstStepFileds: {
+			mainnet: {
+				actions: {
+					swap: { providers: swapProviders },
+					liquidity: { providers: liquidityProviders },
+					lending: { providers: lendingProviders },
+				},
+			},
+		},
+	} = form.getValues()
+
+	const hasSwapProviders = swapProviders.length > 0
+	const hasLiquidityProviders = liquidityProviders.length > 0
+	const hasLendingProviders = lendingProviders.length > 0
+
 	return (
 		<>
 			<AlertDialogTitle className="mb-6">Create Strategy</AlertDialogTitle>
@@ -63,15 +79,28 @@ export const NewStrategyStepOne = ({ form }: NewStrategyStepOneProps) => {
 							<hr className="my-2" />
 							<TimeIntervalsSection form={form} />
 							<hr className="my-2" />
-							{/* TODO: Conditional rendering */}
-							<ZksyncSwapSection form={form} />
-							<hr className="my-2" />
-							<ZksyncLiquiditySection form={form} />
-							<hr className="my-2" />
-							<ZksyncLendingSection form={form} />
-							<hr className="my-2" />
-							<ZksyncMintSection form={form} />
-							<hr className="my-2" />
+							{hasSwapProviders && (
+								<>
+									<ZksyncSwapSection form={form} />
+									<hr className="my-2" />
+								</>
+							)}
+							{hasLiquidityProviders && (
+								<>
+									<ZksyncLiquiditySection form={form} />
+									<hr className="my-2" />
+								</>
+							)}
+							{hasLendingProviders && (
+								<>
+									<ZksyncLendingSection form={form} />
+									<hr className="my-2" />
+								</>
+							)}
+							{/*
+							 	<ZksyncMintSection form={form} /> 
+								<hr className="my-2" /> 
+							*/}
 							<FormMultipleWalletSelect
 								name="firstStepFileds.wallets"
 								form={form}

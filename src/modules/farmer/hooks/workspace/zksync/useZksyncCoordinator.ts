@@ -1,136 +1,18 @@
-import { type Address, privateKeyToAccount } from 'viem/accounts'
-import { v4 as uuidv4 } from 'uuid'
+import { privateKeyToAccount } from 'viem/accounts'
 
 import {
-	ActionStatusType,
 	ExecutionActionType,
 	TxStatusType,
-	ZksyncBridges,
-	ZksyncSwapActionProviders,
-	ZksyncLiquidityActionProviders,
-	ZksyncMintActionProviders,
-	ZksyncLendingActionProviders,
-	type TxHistoryRecordType,
 	type TypedUserStrategyTypeWithUid,
 	type ZkSyncMainnetType,
-	type ZkSyncMainnetBridgeType,
-	type ZkSyncMainnetActionsType,
-	type TimeIntervalConfigType,
 } from '@modules/farmer/types'
 
 import { fetchPlanByLoggedInUser } from '@modules/shared/fetchers/planFetcher'
 import { useUserWallets } from '@modules/farmer/stores/useUserWallets'
 import { usePerformActions } from '@modules/farmer/hooks/workspace/usePerformActions'
 import { useActionHistory } from '@modules/farmer/stores'
-import { getZksyncBridge } from '@modules/farmer/hooks/workspace/zksync/bridge/getZksyncBridge'
-import {
-	syncswapSwapAction,
-	muteSwapAction,
-} from '@modules/farmer/hooks/workspace/zksync/actions/swap'
-import { muteLiquidityAction } from '@modules/farmer/hooks/workspace/zksync/actions/liquidity'
-import { eralendLendingAction } from '@modules/farmer/hooks/workspace/zksync/actions/lending'
-
-interface ActionCreatorFactoryProps {
-	strategyUid: string
-	walletPrivateKey: Address
-	actionType: string // TODO: Add enum
-	timeIntervals: TimeIntervalConfigType
-	addNewAction: ({}: any) => void
-	loggerFn: ({}: TxHistoryRecordType) => void
-	bridge?: ZkSyncMainnetBridgeType
-	actions?: ZkSyncMainnetActionsType
-}
-
-const zksyncActionCreatorFactory = ({
-	strategyUid,
-	walletPrivateKey,
-	actionType,
-	timeIntervals,
-	addNewAction,
-	loggerFn,
-	bridge,
-	actions,
-}: ActionCreatorFactoryProps) => {
-	const { orbiterZksyncBridgeFn } = getZksyncBridge()
-	const selectedActionByType = () => {
-		if (bridge) {
-			switch (actionType) {
-				case ZksyncBridges.ORBITER:
-					return orbiterZksyncBridgeFn({
-						walletPrivateKey,
-						bridge,
-						loggerFn,
-					})
-				// Add more cases - ZksyncBridges types
-			}
-		} else if (actions) {
-			switch (actionType) {
-				case ZksyncSwapActionProviders.SYNCSWAP_SWAP:
-					return syncswapSwapAction({
-						walletPrivateKey,
-						actions,
-						timeIntervals,
-						loggerFn,
-					})
-				case ZksyncSwapActionProviders.MUTE_SWAP:
-					return muteSwapAction({
-						walletPrivateKey,
-						actions,
-						timeIntervals,
-						loggerFn,
-					})
-				case ZksyncSwapActionProviders.ONE_INCH_SWAP:
-					return
-				case ZksyncSwapActionProviders.SPACEFI_SWAP:
-					return
-				case ZksyncSwapActionProviders.VELOCORE_SWAP:
-					return
-
-				case ZksyncLendingActionProviders.ERALEND_LENDING:
-					return eralendLendingAction({
-						walletPrivateKey,
-						actions,
-						timeIntervals,
-						loggerFn,
-					})
-				case ZksyncLendingActionProviders.REACTORFUSION_LENDING:
-					return
-
-				case ZksyncLiquidityActionProviders.MUTE_LIQUIDITY:
-					return muteLiquidityAction({
-						walletPrivateKey,
-						actions,
-						timeIntervals,
-						loggerFn,
-					})
-				case ZksyncLiquidityActionProviders.SPACEFI_LIQUIDITY:
-					return
-				case ZksyncLiquidityActionProviders.SYNCSWAP_LIQUIDITY:
-					return
-				case ZksyncLiquidityActionProviders.VELOCORE_LIQUIDITY:
-					return
-
-				case ZksyncMintActionProviders.ZKNS_DOMAINS_MINT:
-					return
-				// Add more cases - Action types
-			}
-		}
-	}
-
-	const actionUid = uuidv4()
-	const newAction = {
-		uid: actionUid,
-		strategyUid,
-		wallet: walletPrivateKey,
-		type: actionType,
-		status: ActionStatusType.QUEUED,
-		action: () => selectedActionByType(),
-	}
-
-	addNewAction(newAction)
-
-	return newAction
-}
+import { zksyncActionCoordinator } from '@modules/farmer/hooks/workspace/zksync/actions/coordinator/zksyncActionCoordinator'
+import { zksyncBridgeCreatorFactory } from '@modules/farmer/hooks/workspace/zksync/factory/zksyncBridgeCreatorFactory'
 
 export const useZksyncCoordinator = () => {
 	const { executeNextAction } = usePerformActions()
@@ -145,27 +27,26 @@ export const useZksyncCoordinator = () => {
 		walletUid: string
 		strategy: TypedUserStrategyTypeWithUid<ZkSyncMainnetType>
 	}) => {
-		const { txsGoal, timeIntervals } = strategy
-
+		const { txsGoal, timeIntervals, uid } = strategy
 		const walletPrivateKey = getWalletByUid(walletUid)
 			?.privateKey as `0x${string}`
 		const wallet = privateKeyToAccount(walletPrivateKey).address
 
-		const { bridge, actions } = strategy.mainnet
 		try {
+			const { bridge } = strategy.mainnet
+
 			if (!bridge.isSkip) {
 				const plans = await fetchPlanByLoggedInUser()
 				const usedQuota = (plans && plans[0].used_quota) ?? 0
 
-				const bridgeAction = await zksyncActionCreatorFactory({
-					strategyUid: strategy.uid,
+				const bridgeAction = await zksyncBridgeCreatorFactory({
+					strategyUid: uid,
 					walletPrivateKey,
 					actionType: bridge.type,
 					timeIntervals,
 					bridge,
 					addNewAction,
-					loggerFn: (args) =>
-						loggerFn({ strategyUid: strategy.uid, ...args, wallet }), // IMPOVEMENT: Wallet binded to loggerFn
+					loggerFn: (args) => loggerFn({ ...args, strategyUid: uid, wallet }), // Wallet and strategyUid already binded
 				})
 
 				await executeNextAction(
@@ -181,22 +62,16 @@ export const useZksyncCoordinator = () => {
 				message: `Metamask overestimates the tx fees by 50-90%. Unused gas (tx fee) automatically gets refunded after successful transaction.`,
 			})
 
-			for (let i = 0; i < txsGoal; i++) {
-				// TODO: Handle random action type
-				const actionType = ZksyncLendingActionProviders.ERALEND_LENDING
-				// ZksyncLiquidityActionProviders.MUTE_LIQUIDITY
-				// ZksyncSwapActionProviders.SYNCSWAP_SWAP
+			const { nextActionGenerator } = zksyncActionCoordinator({
+				strategy,
+				walletPrivateKey,
+				addNewAction,
+				loggerFn: (args) => loggerFn({ ...args, strategyUid: uid, wallet }), // Wallet and strategyUid binded to loggerFn
+			})
 
-				const nextAction = await zksyncActionCreatorFactory({
-					strategyUid: strategy.uid,
-					walletPrivateKey,
-					actionType,
-					actions,
-					timeIntervals,
-					addNewAction,
-					loggerFn: (args) =>
-						loggerFn({ strategyUid: strategy.uid, ...args, wallet }), // IMPOVEMENT: Wallet binded to loggerFn
-				})
+			for (let i = 0; i < txsGoal; i++) {
+				const { nextAction } = await nextActionGenerator()
+
 				try {
 					// TODO: Handle if user is a paid user
 					const plans = await fetchPlanByLoggedInUser()

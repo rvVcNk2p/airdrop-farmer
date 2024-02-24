@@ -10,7 +10,10 @@ import {
 	ZksyncSwapProviders,
 	ZksyncLendingProviders,
 	ZksyncLiquidityProviders,
-	ZksyncMintProviders,
+	ZksyncSwapActionProviders,
+	ZksyncLendingActionProviders,
+	ZksyncLiquidityActionProviders,
+	// ZksyncMintProviders,
 } from '@modules/farmer/types'
 import {
 	AlertDialog,
@@ -142,11 +145,10 @@ const formSchema = z.object({
 				swap: z.object({
 					providers: z.array(
 						z.enum([
-							ZksyncSwapProviders.MUTE,
-							ZksyncSwapProviders.ONE_INCH,
-							ZksyncSwapProviders.SPACEFI,
-							ZksyncSwapProviders.SYNCSWAP,
-							ZksyncSwapProviders.VELOCORE,
+							ZksyncSwapActionProviders.MUTE_SWAP,
+							ZksyncSwapActionProviders.SPACEFI_SWAP,
+							ZksyncSwapActionProviders.SYNCSWAP_SWAP,
+							ZksyncSwapActionProviders.VELOCORE_SWAP,
 						]),
 					),
 					maxGasFee: z.coerce.number().min(1),
@@ -161,8 +163,8 @@ const formSchema = z.object({
 				lending: z.object({
 					providers: z.array(
 						z.enum([
-							ZksyncLendingProviders.ERALEND,
-							ZksyncLendingProviders.REACTORFUSION,
+							ZksyncLendingActionProviders.ERALEND_LENDING,
+							ZksyncLendingActionProviders.REACTORFUSION_LENDING,
 						]),
 					),
 					maxGasFee: z.coerce.number().min(1),
@@ -183,10 +185,10 @@ const formSchema = z.object({
 				liquidity: z.object({
 					providers: z.array(
 						z.enum([
-							ZksyncLiquidityProviders.MUTE,
-							ZksyncLiquidityProviders.SPACEFI,
-							ZksyncLiquidityProviders.SYNCSWAP,
-							ZksyncLiquidityProviders.VELOCORE,
+							ZksyncLiquidityActionProviders.MUTE_LIQUIDITY,
+							ZksyncLiquidityActionProviders.SPACEFI_LIQUIDITY,
+							ZksyncLiquidityActionProviders.SYNCSWAP_LIQUIDITY,
+							ZksyncLiquidityActionProviders.VELOCORE_LIQUIDITY,
 						]),
 					),
 					maxGasFee: z.coerce.number().min(1),
@@ -205,11 +207,11 @@ const formSchema = z.object({
 						})
 						.refine(fromToValidator, fromToErrorObject),
 				}),
-				mint: z.object({
-					providers: z.array(z.enum([ZksyncMintProviders.ZKNS_DOMAINS])),
-					maxGasFee: z.coerce.number().min(1),
-					maxTimes: z.coerce.number().min(1),
-				}),
+				// mint: z.object({
+				// 	providers: z.array(z.enum([ZksyncMintProviders.ZKNS_DOMAINS])),
+				// 	maxGasFee: z.coerce.number().min(1),
+				// 	maxTimes: z.coerce.number().min(1),
+				// }),
 				wrapping: z.object({}),
 			}),
 		}),
@@ -259,42 +261,42 @@ export const NewZksynStrategyModal = ({ children }: NewStrategyModalProps) => {
 					actions: {
 						swap: {
 							providers: [],
-							maxGasFee: 1,
-							minMaxUsdcInPercentage: { min: 10, max: 90 },
+							maxGasFee: 2,
+							minMaxUsdcInPercentage: { min: 45, max: 50 },
 							slippage: 1,
 						},
 						lending: {
 							providers: [],
-							maxGasFee: 1,
-							maxTimes: 0,
+							maxGasFee: 2,
+							maxTimes: 1,
 							timeIntervalToremoveAfterProvided: {
-								from: 1400,
-								to: 1800,
+								from: 14,
+								to: 86,
 							},
 							minMaxUsdcInPercentage: {
-								min: 10,
+								min: 70,
 								max: 90,
 							},
 						},
 						liquidity: {
 							providers: [],
 							maxGasFee: 2,
-							maxTimes: 0,
+							maxTimes: 1,
 							timeIntervalToremoveAfterProvided: {
-								from: 1200,
-								to: 1700,
+								from: 15,
+								to: 73,
 							},
 							minMaxUsdcInPercentage: {
-								min: 10,
-								max: 90,
+								min: 30,
+								max: 50,
 							},
-							slippage: 2,
+							slippage: 1,
 						},
-						mint: {
-							providers: [],
-							maxGasFee: 1,
-							maxTimes: 0,
-						},
+						// mint: {
+						// 	providers: [],
+						// 	maxGasFee: 1,
+						// 	maxTimes: 0,
+						// },
 						wrapping: {},
 					},
 				},

@@ -24,7 +24,6 @@ import {
 } from '@modules/farmer/helpers/textColorizer'
 import { createWalletClientFactory } from '@modules/farmer/helpers/createWalletClientFactory'
 import { approveSpendingCap } from '@modules/farmer/hooks/workspace/zksync/actions/swap/allowance/approveSpendingCap'
-import { convert } from '@/modules/shared/utils/bignumber'
 
 type EralandLendingActionProps = {
 	walletPrivateKey: Address
@@ -42,6 +41,7 @@ const ERALEND_LENDING_ROUTER_ADDRESS_USDC =
 const ERALEND_LENDING_ROUTER_ADDRESS_ETH =
 	'0x22D8b71599e14F20a49a397b88c1C878c86F5579'
 
+const ERALEND_ADD_LENDING_ACTION = 'mint'
 const ERALEND_REMOVE_LENDING_ACTION = 'redeemUnderlying'
 
 export const eralendLendingAction = async ({
@@ -56,7 +56,6 @@ export const eralendLendingAction = async ({
 	const { chooseInitialTokenFn } = useChooseInitialToken()
 	const { createAndSendContractTx } = createAndSendContractTxHandler()
 
-	// TODO: Safety check for the wallet balance USDC, ETH
 	try {
 		// Biggest balance is $23.23 USDC or ETH on ZKSYNC
 		const { chainWithHighestBalanceToken, ethPrice } =
@@ -165,7 +164,7 @@ export const eralendLendingAction = async ({
 					payable: false,
 				},
 			],
-			functionName: 'mint',
+			functionName: ERALEND_ADD_LENDING_ACTION,
 			args: [amountIn],
 		}
 
@@ -186,7 +185,7 @@ export const eralendLendingAction = async ({
 					payable: true,
 				},
 			],
-			functionName: 'mint',
+			functionName: ERALEND_ADD_LENDING_ACTION,
 			args: [],
 		}
 

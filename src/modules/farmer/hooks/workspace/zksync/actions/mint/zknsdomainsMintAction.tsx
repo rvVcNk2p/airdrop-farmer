@@ -15,6 +15,7 @@ export const zknsdomainsMintAction = async ({
 	actions,
 	loggerFn,
 }: zknsdomainsMintActionProps) => {
+	// TODO: Implement mint action
 	// Biggest balance is $64.23 USDC on ZKSYNC
 	// Plan to do mint activity on ZKNS DOMAINS $5.12 ETH (0.0027105 ETH)
 	// Will mint domain on ZKNS DOMAINS $5.12 ETH (0.0027105 ETH)
@@ -24,5 +25,5 @@ export const zknsdomainsMintAction = async ({
 	// Sent mint tx 1233 to ZKSYNC chain. Wiew on Scan.
 	// Mint domain tx 1233 confirmed. View on Scan.
 	// Sleep 27 seconds.
-	console.log('== Actions ==', actions)
+	console.log('== zkns Domains - Mint action ==')
 }

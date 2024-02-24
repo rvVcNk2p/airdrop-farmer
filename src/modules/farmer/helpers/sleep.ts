@@ -1,5 +1,5 @@
 import { Address } from 'viem'
-import { TxHistoryRecordType, TxStatusType } from '@modules/farmer/types'
+import { TxHistoryRecordType } from '@modules/farmer/types'
 import { randomIntFromInterval, sleep } from '@modules/shared/utils'
 import { privateKeyToAccount } from 'viem/accounts'
 
