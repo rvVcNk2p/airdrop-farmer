@@ -16,6 +16,7 @@ import {
 	optimism,
 	polygon,
 	zkSync,
+	sepolia,
 } from 'viem/chains'
 
 const getChainConfiguration = (chainId: number): Chain => {
@@ -36,6 +37,8 @@ const getChainConfiguration = (chainId: number): Chain => {
 			return fantom
 		case ChainIds.ZKSYNC:
 			return zkSync
+		case ChainIds.SEPOLIA:
+			return sepolia
 		default:
 			return mainnet
 	}
@@ -59,6 +62,8 @@ const getAlchemyUrl = (chainId: number) => {
 			return process.env.NEXT_PUBLIC_GETBLOCK_FANTOM_WEBSOCKET_API
 		case ChainIds.ZKSYNC:
 			return process.env.NEXT_PUBLIC_GETBLOCK_ZKSYNC_WEBSOCKET_API
+		case ChainIds.SEPOLIA:
+			return process.env.NEXT_PUBLIC_GETBLOCK_SEPOLIA_WEBSOCKET_API
 		default:
 			return process.env.NEXT_PUBLIC_GETBLOCK_ETHEREUM_WEBSOCKET_API
 	}

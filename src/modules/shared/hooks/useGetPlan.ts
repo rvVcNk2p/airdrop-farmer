@@ -7,13 +7,17 @@ import { useEffect, useState } from 'react'
 export const useGetPlan = () => {
 	const supabase = createClientComponentClient<Database>()
 	const [plans, setPlan] = useState<Plan | null>()
+	const [isLoading, setIsLoading] = useState(false)
 
 	const fetchPlan = async () => {
+		setIsLoading(true)
 		try {
 			const data = await fetchPlanByLoggedInUser()
 			if (data && data?.length > 0) setPlan(data[0])
+			setIsLoading(false)
 		} catch (error) {
 			console.error('Error fetching session:', error)
+			setIsLoading(false)
 		}
 	}
 
@@ -89,6 +93,8 @@ export const useGetPlan = () => {
 		discountValue,
 		referredBy,
 		plans,
+
+		isLoading,
 
 		updateCoupon,
 		isCouponAlreadyActivated,

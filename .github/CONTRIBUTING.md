@@ -21,6 +21,7 @@ Pull requests are the best way to propose changes to the codebase (we use [Githu
 ```
 NEXT_PUBLIC_SUPABASE_URL=https://[PROJECT-UID].supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=[KEY]
+NEXT_PUBLIC_MANAGER_PRIVATE_KEY=[PRIVATE-KEY]
 NEXT_PUBLIC_GETBLOCK_ETHEREUM_WEBSOCKET_API=wss://go.getblock.io/[KEY]
 NEXT_PUBLIC_GETBLOCK_OPTIMISM_WEBSOCKET_API=wss://go.getblock.io/[KEY]
 NEXT_PUBLIC_GETBLOCK_ARBITRUM_WEBSOCKET_API=wss://go.getblock.io/[KEY]
@@ -29,6 +30,7 @@ NEXT_PUBLIC_GETBLOCK_BSC_WEBSOCKET_API=wss://go.getblock.io/[KEY]
 NEXT_PUBLIC_GETBLOCK_AVALANCHE_WEBSOCKET_API=wss://go.getblock.io/[KEY]s
 NEXT_PUBLIC_GETBLOCK_FANTOM_WEBSOCKET_API=wss://go.getblock.io/[KEY]
 NEXT_PUBLIC_GETBLOCK_ZKSYNC_WEBSOCKET_API=wss://go.getblock.io/[KEY]
+NEXT_PUBLIC_GETBLOCK_SEPOLIA_WEBSOCKET_API=wss://go.getblock.io/[KEY]
 ```
 
 1. Fork the repo and create your branch from `master`.
