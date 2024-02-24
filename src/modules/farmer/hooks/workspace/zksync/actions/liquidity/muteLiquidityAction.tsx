@@ -17,7 +17,6 @@ import {
 	useChooseInitialToken,
 } from '@modules/farmer/hooks/workspace/_shared'
 import { randomWholeNumber } from '@modules/shared/utils'
-import { getPriceFeed } from '@/modules/farmer/helpers/getPriceFeed'
 import {
 	ColorizedTextTypes,
 	getColorizedText,
@@ -56,16 +55,6 @@ export const muteLiquidityAction = async ({
 	const { chooseInitialTokenFn } = useChooseInitialToken()
 	const { createAndSendContractTx } = createAndSendContractTxHandler()
 
-	await randomSleepAndLog({
-		wallet: walletPrivateKey,
-		loggerFn,
-		min: 1,
-		max: 3,
-	})
-
-	return 12.45
-
-	// TODO: Safety check for the wallet balance USDC, ETH
 	try {
 		// Biggest balance is $23.23 USDC on ZKSYNC
 		const { chainWithHighestBalanceToken: _usdcToken } =
@@ -89,40 +78,61 @@ export const muteLiquidityAction = async ({
 			minMaxUsdcInPercentage: { min, max },
 			timeIntervalToremoveAfterProvided,
 			maxGasFee,
-			slippage,
+			slippage, // TODO: Add slippage to the amount
 		} = actions.liquidity
 
 		const {
 			chainId,
-			selected: { amount: usdcAmount, token: usdcToken },
+			selected: {
+				amount: usdcAmount,
+				token: usdcToken,
+				amountInUsd: usdcAmountInUsd,
+			},
 		} = _usdcToken
 		const {
-			selected: { amount: ethAmount, token: ethToken },
+			selected: {
+				amount: ethAmount,
+				token: ethToken,
+				amountInUsd: ethAmountInUsd,
+			},
 		} = _ethToken
 
 		// Fetch USDC-USD price feed
-		const usdcUsdPrice = await getPriceFeed({
-			privateKey: walletPrivateKey,
-			pairSymbol: 'USDC-USD',
-		})
+		// const usdcUsdPrice = await getPriceFeed({
+		// 	privateKey: walletPrivateKey,
+		// 	pairSymbol: 'USDC-USD',
+		// })
+
+		// In case of liquidity, we look for the MIN token amount and check its MIN-MAX part
+		const smallestAmountSymbol =
+			Math.min(usdcAmountInUsd, ethAmountInUsd) == Number(usdcAmountInUsd)
+				? usdcToken
+				: ethToken
 
 		const swapPercentage = randomWholeNumber(min, max)
 
+		// smallestAmountSymbol is USDC
 		const usdcDecimal = 6
-		const usdcAmountToSwap = (
-			(usdcAmount * usdcUsdPrice * swapPercentage) /
-			100
-		).toFixed(4)
+		let usdcAmountToSwap = ((usdcAmount * swapPercentage) / 100).toFixed(4)
 
 		const ethDecimal = 18
-		const ethAmountToSwap = parseFloat(usdcAmountToSwap) / ethPrice
-		const ethAmountToSwapInUsd = (ethPrice * ethAmountToSwap).toFixed(4)
+		let ethAmountToSwap = parseFloat(usdcAmountToSwap) / ethPrice
+		let ethAmountToSwapInUsd = (ethPrice * ethAmountToSwap).toFixed(4)
+
+		// smallestAmountSymbol is ETH
+		if (smallestAmountSymbol === ethToken) {
+			ethAmountToSwap = parseFloat(
+				((ethAmount * swapPercentage) / 100).toFixed(4),
+			)
+			ethAmountToSwapInUsd = (ethPrice * ethAmountToSwap).toFixed(4)
+			usdcAmountToSwap = (ethAmountToSwap * ethPrice).toFixed(4)
+		}
 
 		// Plan to do liquidity activity on MUTE $60.12 USDC to ETH
 		loggerFn({
-			message: `Plan to do liquidity activity on 
-		${getColorizedText(ZksyncLiquidityProviders.MUTE, ColorizedTextTypes.ACTION)} 
-		$${ethAmountToSwapInUsd} 
+			message: `Plan to do liquidity activity on
+		${getColorizedText(ZksyncLiquidityProviders.MUTE, ColorizedTextTypes.ACTION)}
+		$${ethAmountToSwapInUsd}
 		${getColorizedText(`${usdcToken}/${ethToken}`, ColorizedTextTypes.TOKEN)}`,
 		})
 
@@ -159,9 +169,9 @@ export const muteLiquidityAction = async ({
 
 		// Will add liquidity on MUTE $2.12 USDC
 		loggerFn({
-			message: `Will add liquidity on 
-		${getColorizedText(ZksyncLiquidityProviders.MUTE, ColorizedTextTypes.ACTION)} 
-		$${ethAmountToSwapInUsd} 
+			message: `Will add liquidity on
+		${getColorizedText(ZksyncLiquidityProviders.MUTE, ColorizedTextTypes.ACTION)}
+		$${ethAmountToSwapInUsd}
 		${getColorizedText(`${usdcToken}/${ethToken}`, ColorizedTextTypes.TOKEN)}`,
 		})
 

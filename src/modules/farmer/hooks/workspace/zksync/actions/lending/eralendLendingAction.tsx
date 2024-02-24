@@ -24,7 +24,6 @@ import {
 } from '@modules/farmer/helpers/textColorizer'
 import { createWalletClientFactory } from '@modules/farmer/helpers/createWalletClientFactory'
 import { approveSpendingCap } from '@modules/farmer/hooks/workspace/zksync/actions/swap/allowance/approveSpendingCap'
-import { convert } from '@/modules/shared/utils/bignumber'
 
 type EralandLendingActionProps = {
 	walletPrivateKey: Address
@@ -57,16 +56,6 @@ export const eralendLendingAction = async ({
 	const { chooseInitialTokenFn } = useChooseInitialToken()
 	const { createAndSendContractTx } = createAndSendContractTxHandler()
 
-	await randomSleepAndLog({
-		wallet: walletPrivateKey,
-		loggerFn,
-		min: 1,
-		max: 3,
-	})
-
-	return 23.45
-
-	// TODO: Safety check for the wallet balance USDC, ETH
 	try {
 		// Biggest balance is $23.23 USDC or ETH on ZKSYNC
 		const { chainWithHighestBalanceToken, ethPrice } =

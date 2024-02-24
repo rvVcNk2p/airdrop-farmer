@@ -54,8 +54,6 @@ export const zksyncActionCoordinator = ({
 			},
 		)
 
-		//TODO: A Liquidity esetében a MIN tokent keressük meg, és annak nézzük a MIN-MAX részét
-
 		const nextAction = zksyncActionCreatorFactory({
 			strategyUid: uid,
 			walletPrivateKey,
