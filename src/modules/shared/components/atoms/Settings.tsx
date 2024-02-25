@@ -5,10 +5,12 @@ import { useHandleSubscription } from '@modules/shared/hooks/useHandleSubscripti
 import { useEffect, useState } from 'react'
 import { Address } from 'viem'
 
-const Settings = () => {
+const Settings = ({ managerPrivatekey }: { managerPrivatekey: any }) => {
 	const [isSubscriptionActive, setIsSubscriptionActive] = useState(false)
 
-	const { getIsSubscriptionActive } = useHandleSubscription()
+	const { getIsSubscriptionActive } = useHandleSubscription({
+		managerPrivatekey,
+	})
 
 	const { selectedPlan, quota, usedQuota, wallet } = useGetPlan()
 

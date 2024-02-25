@@ -17,10 +17,16 @@ import { useHandleSubscription } from '@modules/shared/hooks'
 import { useGetPlan } from '@/modules/shared/hooks/useGetPlan'
 import { Address } from 'viem'
 
-export const WorkspacePage = () => {
+export const WorkspacePage = ({
+	managerPrivatekey,
+}: {
+	managerPrivatekey: any
+}) => {
 	const params = useParams()
 	const getStrategy = useUserStrategies((state) => state.getStrategy)
-	const { getIsSubscriptionActive } = useHandleSubscription()
+	const { getIsSubscriptionActive } = useHandleSubscription({
+		managerPrivatekey,
+	})
 	const { wallet } = useGetPlan()
 
 	const [strategy, setStrategy] = useState<UserStrategyType | undefined>(

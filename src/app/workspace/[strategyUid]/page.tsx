@@ -1,7 +1,15 @@
-'use client'
+'use server'
 
-import { WorkspacePage } from '@modules/farmer/components/WorkspacePage'
+import WorkspacePage from './Workspace'
 
-export default function Home() {
-	return <WorkspacePage />
+const WorkspaceSSRPage = async () => {
+	const managerPrivatekey = process.env.MANAGER_PRIVATE_KEY
+
+	return (
+		<>
+			<WorkspacePage managerPrivatekey={managerPrivatekey} />
+		</>
+	)
 }
+
+export default WorkspaceSSRPage

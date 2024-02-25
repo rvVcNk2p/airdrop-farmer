@@ -9,8 +9,6 @@ import { waitForTransactionReceipt } from 'viem/actions'
 const AIRDROP_COPILOT_SUBSCRIPTION_CONTRACT_ADDRESS = process.env
 	.NEXT_PUBLIC_SUBSCRIPTION_CONTRACT_ADDRESS as Address
 
-const MANAGER_PRIVATE_KEY = process.env.MANAGER_PRIVATE_KEY as Address
-
 export enum TierTypes {
 	BASIC = 'BASIC', // 0
 	PRO = 'PRO', // 1
@@ -50,13 +48,17 @@ const tiersConfig = () => {
 	}))
 }
 
-export const useHandleSubscription = () => {
+export const useHandleSubscription = ({
+	managerPrivatekey,
+}: {
+	managerPrivatekey: Address
+}) => {
 	const chainId =
 		process.env.NEXT_PUBLIC_BASE_PATH === 'http://localhost:3000'
 			? sepolia.id
 			: arbitrum.id
 
-	const client = createWalletClientFactory(MANAGER_PRIVATE_KEY, chainId)
+	const client = createWalletClientFactory(managerPrivatekey, chainId)
 
 	const getTiers = async () => {
 		const result = await readContracts(config, {

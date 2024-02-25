@@ -6,6 +6,8 @@ import Link from 'next/link'
 import DynamicNavItems from './DynamicNavItems'
 
 const Header = () => {
+	const managerPrivatekey = process.env.MANAGER_PRIVATE_KEY
+
 	return (
 		<div className="fixed left-0 top-0 z-20 w-full px-4 md:px-8">
 			<div className="header-mask"></div>
@@ -25,7 +27,7 @@ const Header = () => {
 					</div>
 				</div>
 				<div className="flex items-center whitespace-nowrap">
-					<DynamicNavItems />
+					<DynamicNavItems managerPrivatekey={managerPrivatekey} />
 
 					<Link
 						href={discordLink}
