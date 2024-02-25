@@ -3,7 +3,6 @@
 import { discordLink } from '@/modules/shared/constants'
 import Image from 'next/image'
 import Link from 'next/link'
-
 import DynamicNavItems from './DynamicNavItems'
 
 const Header = () => {

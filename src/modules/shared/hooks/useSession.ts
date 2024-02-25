@@ -44,22 +44,7 @@ export function useSession() {
 		}
 	}, [])
 
-	useEffect(() => {
-		const initPlan = async () => {
-			const { data } = await supabase.from('plans').select()
-			if (data?.length === 0) {
-				await supabase.from('plans').insert([
-					{
-						user_id: userSession?.user.id,
-					},
-				])
-			}
-		}
-
-		if (userSession) {
-			initPlan()
-		}
-	}, [userSession])
+	// https://www.restack.io/docs/supabase-knowledge-supabase-signup-trigger-guide
 
 	return {
 		isLoading,
