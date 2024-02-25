@@ -23,9 +23,11 @@ export const useZksyncCoordinator = () => {
 	const coordinateZksyncBot = async ({
 		walletUid,
 		strategy,
+		hasValidSubscription,
 	}: {
 		walletUid: string
 		strategy: TypedUserStrategyTypeWithUid<ZkSyncMainnetType>
+		hasValidSubscription: boolean
 	}) => {
 		const { txsGoal, timeIntervals, uid } = strategy
 		const walletPrivateKey = getWalletByUid(walletUid)
@@ -36,9 +38,6 @@ export const useZksyncCoordinator = () => {
 			const { bridge } = strategy.mainnet
 
 			if (!bridge.isSkip) {
-				const plans = await fetchPlanByLoggedInUser()
-				const usedQuota = (plans && plans[0].used_quota) ?? 0
-
 				const bridgeAction = await zksyncBridgeCreatorFactory({
 					strategyUid: uid,
 					walletPrivateKey,
@@ -49,11 +48,7 @@ export const useZksyncCoordinator = () => {
 					loggerFn: (args) => loggerFn({ ...args, strategyUid: uid, wallet }), // Wallet and strategyUid already binded
 				})
 
-				await executeNextAction(
-					bridgeAction,
-					usedQuota,
-					ExecutionActionType.BRIDGE,
-				)
+				await executeNextAction(bridgeAction, ExecutionActionType.BRIDGE)
 			}
 
 			loggerFn({
@@ -73,18 +68,21 @@ export const useZksyncCoordinator = () => {
 				const { nextAction } = await nextActionGenerator()
 
 				try {
-					// TODO: Handle if user is a paid user
-					const plans = await fetchPlanByLoggedInUser()
-					const quota = (plans && plans[0].quota) ?? 10
-					const usedQuota = (plans && plans[0].used_quota) ?? 0
-					if (usedQuota >= quota) {
-						throw new Error('Quota reached. Please upgrade your plan.')
+					if (!hasValidSubscription) {
+						const plans = await fetchPlanByLoggedInUser()
+						const quota = (plans && plans[0].quota) ?? 10
+						const usedQuota = (plans && plans[0].used_quota) ?? 0
+						if (usedQuota >= quota) {
+							throw new Error('Quota reached. Please upgrade your plan.')
+						}
+						await executeNextAction(
+							nextAction,
+							ExecutionActionType.ACTION,
+							usedQuota,
+						)
+					} else {
+						await executeNextAction(nextAction, ExecutionActionType.ACTION)
 					}
-					await executeNextAction(
-						nextAction,
-						usedQuota,
-						ExecutionActionType.ACTION,
-					)
 				} catch (error: any) {
 					console.error(error)
 					loggerFn({

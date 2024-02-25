@@ -10,9 +10,11 @@ import type {
 
 import { useLayerZeroCoordinator } from '@modules/farmer/hooks/workspace/layer-zero/useLayerZeroCoordinator'
 import { useZksyncCoordinator } from '@modules/farmer/hooks/workspace/zksync/useZksyncCoordinator'
+import { useHandleSubscription } from '@modules/shared/hooks'
 
 type CoordinateActionsProps = {
 	strategy: UserStrategyType
+	hasValidSubscription: boolean
 }
 
 export const useActionsCoordinator = () => {
@@ -22,8 +24,12 @@ export const useActionsCoordinator = () => {
 	)
 	const { coordinateLayerZeroBot } = useLayerZeroCoordinator()
 	const { coordinateZksyncBot } = useZksyncCoordinator()
+	const { getIsSubscriptionActive } = useHandleSubscription()
 
-	const coordinateActions = async ({ strategy }: CoordinateActionsProps) => {
+	const coordinateActions = async ({
+		strategy,
+		hasValidSubscription,
+	}: CoordinateActionsProps) => {
 		loggerFn({
 			strategyUid: strategy.uid,
 			timestamp: new Date(),
@@ -39,6 +45,7 @@ export const useActionsCoordinator = () => {
 						strategy:
 							strategy as TypedUserStrategyTypeWithUid<LayerZeroMainnetType>,
 						walletUid: wallet.value,
+						hasValidSubscription,
 					}),
 				),
 			)
@@ -49,6 +56,7 @@ export const useActionsCoordinator = () => {
 						strategy:
 							strategy as TypedUserStrategyTypeWithUid<ZkSyncMainnetType>,
 						walletUid: wallet.value,
+						hasValidSubscription,
 					}),
 				),
 			)

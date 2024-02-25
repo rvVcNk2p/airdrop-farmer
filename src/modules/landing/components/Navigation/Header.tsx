@@ -26,6 +26,7 @@ const Header = () => {
 				</div>
 				<div className="flex items-center whitespace-nowrap">
 					<DynamicNavItems />
+
 					<Link
 						href={discordLink}
 						target="_blank"

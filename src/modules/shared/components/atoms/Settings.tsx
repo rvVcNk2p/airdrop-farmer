@@ -1,15 +1,35 @@
 'use client'
 
 import { useGetPlan } from '@/modules/shared/hooks/useGetPlan'
+import { useHandleSubscription } from '@modules/shared/hooks/useHandleSubscription'
+import { useEffect, useState } from 'react'
+import { Address } from 'viem'
 
 const Settings = () => {
-	const { selectedPlan, quota, usedQuota } = useGetPlan()
+	const [isSubscriptionActive, setIsSubscriptionActive] = useState(false)
+
+	const { getIsSubscriptionActive } = useHandleSubscription()
+
+	const { selectedPlan, quota, usedQuota, wallet } = useGetPlan()
+
+	useEffect(() => {
+		const fetchSubscriptionStatus = async () => {
+			if (wallet) {
+				const result = await getIsSubscriptionActive({
+					userAddress: wallet as Address,
+				})
+				setIsSubscriptionActive(result)
+			}
+		}
+
+		fetchSubscriptionStatus()
+	}, [wallet, getIsSubscriptionActive])
 
 	return (
 		<div className="mr-6">
 			<p>Tier: {selectedPlan}</p>
 			<p>
-				Quota: {usedQuota} / {quota}
+				Quota: {isSubscriptionActive ? 'Unlimited' : `${usedQuota} / ${quota}`}
 			</p>
 		</div>
 	)

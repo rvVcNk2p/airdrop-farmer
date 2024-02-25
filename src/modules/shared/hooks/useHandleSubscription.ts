@@ -151,10 +151,31 @@ export const useHandleSubscription = () => {
 		return subscription
 	}
 
+	const getIsSubscriptionActive = async ({
+		userAddress,
+	}: {
+		userAddress: Address
+	}) => {
+		const result = await readContracts(config, {
+			contracts: [
+				{
+					abi: airdropCopilotInterfaceABI,
+					address: SUBSRIPTION_CONTRACT_ADDRESS,
+					functionName: 'isSubscriptionActive',
+					args: [userAddress],
+				},
+			],
+		})
+
+		if (result && result[0] && result[0].result) return result[0].result
+		else return false
+	}
+
 	return {
 		getOnChainSubscription,
 		getTiers,
 		updateDiscountPercentageOnChain,
 		subscribe,
+		getIsSubscriptionActive,
 	}
 }
