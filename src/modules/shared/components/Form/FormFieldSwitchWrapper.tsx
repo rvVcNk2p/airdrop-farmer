@@ -22,6 +22,11 @@ export const FormFieldSwitchWrapper = ({
 	const error = form.getFieldState(name)?.error
 	const uuid = uuidv4()
 
+	const handleChange = (field: any, newValue: boolean) => {
+		field.onChange(newValue)
+		field.onBlur()
+	}
+
 	return (
 		<FormField
 			control={form.control}
@@ -34,7 +39,7 @@ export const FormFieldSwitchWrapper = ({
 								<Label htmlFor={uuid}>{label}</Label>
 								<Switch
 									checked={field.value}
-									onCheckedChange={field.onChange}
+									onCheckedChange={(e) => handleChange(field, e)}
 									id={uuid}
 									className={error && '!border-invalid'}
 									disabled={disabled}

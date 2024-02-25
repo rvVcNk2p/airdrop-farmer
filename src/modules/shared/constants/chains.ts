@@ -8,6 +8,7 @@ import {
 	optimism,
 	polygon,
 	zkSync,
+	sepolia,
 } from 'viem/chains'
 
 export interface ChainIdMap {
@@ -24,4 +25,5 @@ export const ChainIds: ChainIdMap = {
 	FANTOM: fantom.id,
 	METIS: metis.id,
 	ZKSYNC: zkSync.id,
+	SEPOLIA: sepolia.id,
 }

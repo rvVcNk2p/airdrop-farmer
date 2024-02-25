@@ -18,8 +18,8 @@ export const usePerformActions = () => {
 
 	const executeNextAction = async (
 		nextAction: any,
-		usedQuota: number,
 		executionType: ExecutionActionType,
+		usedQuota?: number,
 	) => {
 		return new Promise(async (resolve, reject) => {
 			updateAction({
@@ -48,7 +48,11 @@ export const usePerformActions = () => {
 					WorkspaceTransactionStatusType.FINISHED,
 				)
 
-				await incrementUsedQuota(usedQuota)
+				// @ts-ignore
+				if (usedQuota >= 0) {
+					// @ts-ignore
+					await incrementUsedQuota(usedQuota)
+				}
 
 				resolve('OK')
 			} catch (error) {

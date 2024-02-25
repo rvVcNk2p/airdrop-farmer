@@ -21,12 +21,14 @@ export const FormFieldCheckboxWrapper = ({
 	options,
 	form,
 	orientation = 'horizontal',
+	valueFormatter,
 }: {
 	name: string
 	options: FormCheckboxOptions
 	form: any
 	label?: string
 	orientation?: 'horizontal' | 'vertical'
+	valueFormatter?: (value: string) => string
 }) => {
 	const orientationClass =
 		orientation === 'horizontal'
@@ -70,7 +72,9 @@ export const FormFieldCheckboxWrapper = ({
 												/>
 											</FormControl>
 											<FormLabel className="font-normal">
-												{item.value}
+												{valueFormatter
+													? valueFormatter(item.value)
+													: item.value}
 											</FormLabel>
 										</FormItem>
 									)

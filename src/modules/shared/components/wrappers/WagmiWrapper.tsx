@@ -10,6 +10,7 @@ import {
 	mainnet,
 	optimism,
 	polygon,
+	sepolia,
 	zkSync,
 } from 'wagmi/chains'
 
@@ -23,6 +24,7 @@ export const config = createConfig({
 		avalanche,
 		fantom,
 		zkSync,
+		sepolia,
 	],
 	transports: {
 		[mainnet.id]: webSocket(
@@ -45,6 +47,9 @@ export const config = createConfig({
 			process.env.NEXT_PUBLIC_GETBLOCK_FANTOM_WEBSOCKET_API,
 		),
 		[zkSync.id]: webSocket(process.env.NEXT_PUBLIC_ZKSYNC_WEBSOCKET_API),
+		[sepolia.id]: webSocket(
+			process.env.NEXT_PUBLIC_GETBLOCK_SEPOLIA_WEBSOCKET_API,
+		),
 	},
 })
 

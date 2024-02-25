@@ -22,7 +22,7 @@ export const useUpdateDatabase = () => {
 	const incrementUsedQuota = (used_quota: number) => {
 		return new Promise(async (resolve, reject) => {
 			try {
-				await supabase
+				const result = await supabase
 					.from('plans')
 					.update({ used_quota: used_quota + 1 })
 					.eq('user_id', userSession?.user.id ?? '')

@@ -13,10 +13,21 @@ import { useEffect, useState } from 'react'
 
 import { WorkspaceStatusType } from '../stores/useActionHistory'
 import type { UserStrategyType } from '../types'
+import { useHandleSubscription } from '@modules/shared/hooks'
+import { useGetPlan } from '@/modules/shared/hooks/useGetPlan'
+import { Address } from 'viem'
 
-export const WorkspacePage = () => {
+export const WorkspacePage = ({
+	managerPrivatekey,
+}: {
+	managerPrivatekey: any
+}) => {
 	const params = useParams()
 	const getStrategy = useUserStrategies((state) => state.getStrategy)
+	const { getIsSubscriptionActive } = useHandleSubscription({
+		managerPrivatekey,
+	})
+	const { wallet } = useGetPlan()
 
 	const [strategy, setStrategy] = useState<UserStrategyType | undefined>(
 		undefined,
@@ -46,7 +57,20 @@ export const WorkspacePage = () => {
 	const histories = useActionHistory((state) => state.history)
 	const history = histories.filter((h) => h.strategyUid === strategy?.uid)
 
+	const [hasValidSubscription, setHasValidSubscription] = useState(false)
 	const { coordinateActions } = useActionsCoordinator()
+
+	useEffect(() => {
+		const fetchSubscriptionStatus = async () => {
+			if (wallet) {
+				const result = await getIsSubscriptionActive({
+					userAddress: wallet as Address,
+				})
+				setHasValidSubscription(result)
+			}
+		}
+		fetchSubscriptionStatus()
+	}, [wallet, getIsSubscriptionActive])
 
 	useEffect(() => {
 		if (!strategy) return
@@ -63,7 +87,7 @@ export const WorkspacePage = () => {
 		updateWorkspaceStatus(strategyUid, WorkspaceStatusType.RUNNING)
 
 		// This will start the workspace
-		coordinateActions({ strategy })
+		coordinateActions({ strategy, hasValidSubscription })
 	}
 
 	return (

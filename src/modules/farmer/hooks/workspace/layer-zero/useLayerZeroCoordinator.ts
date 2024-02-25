@@ -67,9 +67,11 @@ export const useLayerZeroCoordinator = () => {
 	const coordinateLayerZeroBot = async ({
 		walletUid,
 		strategy,
+		hasValidSubscription,
 	}: {
 		walletUid: string
 		strategy: TypedUserStrategyTypeWithUid<LayerZeroMainnetType>
+		hasValidSubscription: boolean
 	}) => {
 		const txGoal = strategy.txsGoal
 		const walletPrivateKey = getWalletByUid(walletUid)
@@ -87,18 +89,24 @@ export const useLayerZeroCoordinator = () => {
 				loggerFn: (args) => loggerFn({ strategyUid: strategy.uid, ...args }),
 			})
 			try {
-				const plans = await fetchPlanByLoggedInUser()
-				const quota = (plans && plans[0].quota) ?? 10
-				const usedQuota = (plans && plans[0].used_quota) ?? 0
-				// TODO: Handle if user is a paid user
-				if (usedQuota >= quota) {
-					throw new Error('Quota reached. Please upgrade your plan.')
+				if (!hasValidSubscription) {
+					const plans = await fetchPlanByLoggedInUser()
+					const quota = (plans && plans[0].quota) ?? 10
+					const usedQuota = (plans && plans[0].used_quota) ?? 0
+					if (usedQuota >= quota) {
+						throw new Error('Quota reached. Please upgrade your plan.')
+					}
+					await executeNextAction(
+						nextAction,
+						ExecutionActionType.ACTION, // Could be ExecutionActionType.BRIDGE
+						usedQuota,
+					)
+				} else {
+					await executeNextAction(
+						nextAction,
+						ExecutionActionType.ACTION, // Could be ExecutionActionType.BRIDGE
+					)
 				}
-				await executeNextAction(
-					nextAction,
-					usedQuota,
-					ExecutionActionType.ACTION, // Could be ExecutionActionType.BRIDGE
-				)
 			} catch (error: any) {
 				loggerFn({
 					strategyUid: strategy.uid,

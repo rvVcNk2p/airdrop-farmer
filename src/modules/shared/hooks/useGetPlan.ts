@@ -3,17 +3,22 @@
 import { fetchPlanByLoggedInUser } from '@modules/shared/fetchers/planFetcher'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useEffect, useState } from 'react'
+import { TierTypes } from './useHandleSubscription'
 
 export const useGetPlan = () => {
 	const supabase = createClientComponentClient<Database>()
 	const [plans, setPlan] = useState<Plan | null>()
+	const [isLoading, setIsLoading] = useState(false)
 
 	const fetchPlan = async () => {
+		setIsLoading(true)
 		try {
 			const data = await fetchPlanByLoggedInUser()
 			if (data && data?.length > 0) setPlan(data[0])
+			setIsLoading(false)
 		} catch (error) {
 			console.error('Error fetching session:', error)
+			setIsLoading(false)
 		}
 	}
 
@@ -56,6 +61,19 @@ export const useGetPlan = () => {
 		}
 	}
 
+	const updatePlan = async (plan: TierTypes) => {
+		const {
+			data: { user },
+		} = await supabase.auth.getUser()
+
+		if (user?.id) {
+			await supabase
+				.from('plans')
+				.update({ selectedPlan: plan })
+				.eq('user_id', user?.id)
+		}
+	}
+
 	const isCouponAlreadyActivated = async (couponCode: string) => {
 		const { data } = await supabase
 			.from('plans')
@@ -90,6 +108,9 @@ export const useGetPlan = () => {
 		referredBy,
 		plans,
 
+		isLoading,
+
+		updatePlan,
 		updateCoupon,
 		isCouponAlreadyActivated,
 	}

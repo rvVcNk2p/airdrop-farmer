@@ -15,11 +15,21 @@ import { v4 as uuidv4 } from 'uuid'
 
 // TODO: Format SYNCSWAP_SWAP TO SYNCSWAP..
 const zksyncActionProviders = enumToArrayObject(ZksyncActionProviders)
-const zksyncSwapProviders = enumToArrayObject(ZksyncSwapActionProviders)
+const zksyncSwapProviders = enumToArrayObject(ZksyncSwapActionProviders, [
+	ZksyncSwapActionProviders.SPACEFI_SWAP,
+	ZksyncSwapActionProviders.VELOCORE_SWAP,
+])
 const zksyncLiquidityProviders = enumToArrayObject(
 	ZksyncLiquidityActionProviders,
+	[
+		ZksyncLiquidityActionProviders.SPACEFI_LIQUIDITY,
+		ZksyncLiquidityActionProviders.VELOCORE_LIQUIDITY,
+		ZksyncLiquidityActionProviders.SYNCSWAP_LIQUIDITY,
+	],
 )
-const zksyncLendingProviders = enumToArrayObject(ZksyncLendingActionProviders)
+const zksyncLendingProviders = enumToArrayObject(ZksyncLendingActionProviders, [
+	ZksyncLendingActionProviders.REACTORFUSION_LENDING,
+])
 // const zksyncMintProviders = enumToArrayObject(ZksyncMintActionProviders)
 
 const ActionOptionMap = {
@@ -46,6 +56,7 @@ const ActionProvider = ({
 				form={form}
 				orientation="vertical"
 				options={providerOptions}
+				valueFormatter={(value: string) => value.split('_')[0]}
 			/>
 		</>
 	)
@@ -80,7 +91,11 @@ export const ZksyncActivitySelectSection = ({ form }: { form: any }) => {
 		setActiveActions(activeActions)
 	}, [])
 
-	const handleSetActiveActions = (action: any, isChecked: boolean) => {
+	const handleSetActiveActions = (
+		form: any,
+		action: any,
+		isChecked: boolean,
+	) => {
 		// TODO: Fix the position of the action in the array
 
 		if (isChecked) {
@@ -92,9 +107,11 @@ export const ZksyncActivitySelectSection = ({ form }: { form: any }) => {
 				[],
 			)
 		}
+
+		form.trigger()
 	}
 
-	const handleSelectAll = () => {
+	const handleSelectAll = ({ form }: { form: any }) => {
 		setActiveActions([
 			ZksyncActionProviders.SWAP,
 			ZksyncActionProviders.LIQUIDITY,
@@ -103,16 +120,26 @@ export const ZksyncActivitySelectSection = ({ form }: { form: any }) => {
 		])
 		setValue(
 			`firstStepFileds.mainnet.actions.${ZksyncActionProviders.SWAP.toLocaleLowerCase()}.providers`,
-			zksyncSwapProviders.map((provider) => provider.value),
+			zksyncSwapProviders
+				.filter((provider) => !provider.invalid)
+				.map((provider) => provider.id),
 		)
 		setValue(
 			`firstStepFileds.mainnet.actions.${ZksyncActionProviders.LIQUIDITY.toLocaleLowerCase()}.providers`,
-			zksyncLiquidityProviders.map((provider) => provider.value),
+			zksyncLiquidityProviders
+				.filter((provider) => !provider.invalid)
+				.map((provider) => provider.id),
 		)
 		setValue(
 			`firstStepFileds.mainnet.actions.${ZksyncActionProviders.LENDING.toLocaleLowerCase()}.providers`,
-			zksyncLendingProviders.map((provider) => provider.value),
+			zksyncLendingProviders
+				.filter((provider) => !provider.invalid)
+				.map((provider) => provider.id),
 		)
+
+		// After the form is updated, we need to trigger the form
+		form.trigger()
+
 		// setValue(
 		// 	`firstStepFileds.mainnet.actions.${ZksyncActionProviders.MINT.toLocaleLowerCase()}.providers`,
 		// 	zksyncMintProviders.map((provider) => provider.value),
@@ -126,7 +153,7 @@ export const ZksyncActivitySelectSection = ({ form }: { form: any }) => {
 		<div>
 			<div className="flex items-center justify-between">
 				<h1 className="text-lg">Activities</h1>
-				<Button variant="outline" onClick={handleSelectAll}>
+				<Button variant="outline" onClick={() => handleSelectAll({ form })}>
 					Select all
 				</Button>
 			</div>
@@ -141,7 +168,7 @@ export const ZksyncActivitySelectSection = ({ form }: { form: any }) => {
 							)}
 							value={provider.value}
 							onCheckedChange={(isChecked: boolean) =>
-								handleSetActiveActions(provider, isChecked)
+								handleSetActiveActions(form, provider, isChecked)
 							}
 						/>
 						<Label htmlFor={provider.id}>{provider.value}</Label>

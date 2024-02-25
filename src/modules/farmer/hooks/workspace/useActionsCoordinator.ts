@@ -13,6 +13,7 @@ import { useZksyncCoordinator } from '@modules/farmer/hooks/workspace/zksync/use
 
 type CoordinateActionsProps = {
 	strategy: UserStrategyType
+	hasValidSubscription: boolean
 }
 
 export const useActionsCoordinator = () => {
@@ -23,7 +24,10 @@ export const useActionsCoordinator = () => {
 	const { coordinateLayerZeroBot } = useLayerZeroCoordinator()
 	const { coordinateZksyncBot } = useZksyncCoordinator()
 
-	const coordinateActions = async ({ strategy }: CoordinateActionsProps) => {
+	const coordinateActions = async ({
+		strategy,
+		hasValidSubscription,
+	}: CoordinateActionsProps) => {
 		loggerFn({
 			strategyUid: strategy.uid,
 			timestamp: new Date(),
@@ -39,6 +43,7 @@ export const useActionsCoordinator = () => {
 						strategy:
 							strategy as TypedUserStrategyTypeWithUid<LayerZeroMainnetType>,
 						walletUid: wallet.value,
+						hasValidSubscription,
 					}),
 				),
 			)
@@ -49,6 +54,7 @@ export const useActionsCoordinator = () => {
 						strategy:
 							strategy as TypedUserStrategyTypeWithUid<ZkSyncMainnetType>,
 						walletUid: wallet.value,
+						hasValidSubscription,
 					}),
 				),
 			)

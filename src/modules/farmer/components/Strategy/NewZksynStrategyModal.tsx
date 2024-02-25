@@ -407,10 +407,32 @@ export const NewZksynStrategyModal = ({ children }: NewStrategyModalProps) => {
 			<AlertDialogTrigger asChild={false}>{children}</AlertDialogTrigger>
 			<AlertDialogContent>
 				<AlertDialogHeader>
-					<div>zkSync</div>
-					{activeStep === 1 && <NewStrategyStepOne form={form} />}
+					{activeStep === 1 && (
+						<>
+							<div>zkSync</div>
+							<NewStrategyStepOne form={form} />
+						</>
+					)}
 					{activeStep === 2 && (
-						<div>Step 3</div>
+						<div>
+							<h1 className="mb-4">IMPORTANT</h1>
+							<div className="flex flex-col gap-4">
+								<p>
+									{`1. Make sure you have minimum $15 worh of ETH in your ${
+										form.getValues().firstStepFileds.mainnet.bridge.isSkip
+											? 'zkSync'
+											: 'Arbitrum'
+									} wallet!`}
+								</p>
+								<p>
+									{`${
+										!form.getValues().firstStepFileds.mainnet.bridge.isSkip
+											? '2. Orbiter bridge from Arbitrum => zkSync will cost approximately $5 worh of ETH.'
+											: ''
+									}`}
+								</p>
+							</div>
+						</div>
 						// <NewStrategyStepThree
 						// 	selectedNetworks={form.watch('firstStepFileds.networks')}
 						// />

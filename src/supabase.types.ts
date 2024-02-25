@@ -63,12 +63,7 @@ export type Database = {
 		}
 		Enums: {
 			discountType: 'FIXED' | 'PERCENTAGE'
-			selectedPlan:
-				| 'FREE'
-				| 'MONTHLY_BASIC'
-				| 'MONTHLY_PREMIUM'
-				| 'LIFETIME_BASIC'
-				| 'LIFETIME_PREMIUM'
+			selectedPlan: 'FREE' | 'BASIC' | 'PRO' | 'LIFETIME_BASIC' | 'LIFETIME_PRO'
 		}
 		CompositeTypes: {
 			[_ in never]: never

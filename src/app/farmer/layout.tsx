@@ -1,6 +1,5 @@
 'use server'
 
-import { Footer, Header } from '@modules/landing/components'
 import SidebarLayout from '@modules/shared/components/layouts/SidebarLayout'
 import { createServerClient } from '@modules/supabase/server-utils'
 import { redirect } from 'next/navigation'
