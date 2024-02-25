@@ -10,7 +10,6 @@ import type {
 
 import { useLayerZeroCoordinator } from '@modules/farmer/hooks/workspace/layer-zero/useLayerZeroCoordinator'
 import { useZksyncCoordinator } from '@modules/farmer/hooks/workspace/zksync/useZksyncCoordinator'
-import { useHandleSubscription } from '@modules/shared/hooks'
 
 type CoordinateActionsProps = {
 	strategy: UserStrategyType
@@ -24,7 +23,6 @@ export const useActionsCoordinator = () => {
 	)
 	const { coordinateLayerZeroBot } = useLayerZeroCoordinator()
 	const { coordinateZksyncBot } = useZksyncCoordinator()
-	const { getIsSubscriptionActive } = useHandleSubscription()
 
 	const coordinateActions = async ({
 		strategy,

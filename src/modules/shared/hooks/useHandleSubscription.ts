@@ -6,11 +6,10 @@ import { Address } from 'viem'
 import { arbitrum, sepolia } from 'viem/chains'
 import { waitForTransactionReceipt } from 'viem/actions'
 
-const SUBSRIPTION_CONTRACT_ADDRESS =
-	'0x3A1463725200B9a31A758464B52FfcB2bAE39796' as const
+const AIRDROP_COPILOT_SUBSCRIPTION_CONTRACT_ADDRESS = process.env
+	.NEXT_PUBLIC_SUBSCRIPTION_CONTRACT_ADDRESS as Address
 
-const MANAGER_PRIVATE_KEY = process.env
-	.NEXT_PUBLIC_MANAGER_PRIVATE_KEY as Address
+const MANAGER_PRIVATE_KEY = process.env.MANAGER_PRIVATE_KEY as Address
 
 export enum TierTypes {
 	BASIC = 'BASIC', // 0
@@ -45,20 +44,20 @@ const getTierStringByIndex = (index: number) => {
 const tiersConfig = () => {
 	return [0, 1, 2, 3].map((key) => ({
 		abi: airdropCopilotInterfaceABI,
-		address: SUBSRIPTION_CONTRACT_ADDRESS,
+		address: AIRDROP_COPILOT_SUBSCRIPTION_CONTRACT_ADDRESS,
 		functionName: 'tiers',
 		args: [key],
 	}))
 }
 
-const chainId =
-	process.env.NEXT_PUBLIC_BASE_PATH === 'http://localhost:3000'
-		? sepolia.id
-		: arbitrum.id
-
-const client = createWalletClientFactory(MANAGER_PRIVATE_KEY, chainId)
-
 export const useHandleSubscription = () => {
+	const chainId =
+		process.env.NEXT_PUBLIC_BASE_PATH === 'http://localhost:3000'
+			? sepolia.id
+			: arbitrum.id
+
+	const client = createWalletClientFactory(MANAGER_PRIVATE_KEY, chainId)
+
 	const getTiers = async () => {
 		const result = await readContracts(config, {
 			contracts: tiersConfig(),
@@ -96,7 +95,7 @@ export const useHandleSubscription = () => {
 	) => {
 		const result = await client.writeContract({
 			abi: airdropCopilotInterfaceABI,
-			address: SUBSRIPTION_CONTRACT_ADDRESS,
+			address: AIRDROP_COPILOT_SUBSCRIPTION_CONTRACT_ADDRESS,
 			functionName: 'addDiscount',
 			args: [userAddress, discountPercentage],
 		})
@@ -108,7 +107,7 @@ export const useHandleSubscription = () => {
 		try {
 			const hash = await writeContract(config, {
 				abi: airdropCopilotInterfaceABI,
-				address: SUBSRIPTION_CONTRACT_ADDRESS,
+				address: AIRDROP_COPILOT_SUBSCRIPTION_CONTRACT_ADDRESS,
 				functionName: 'subscribe',
 				value: tierPrice,
 				args: [TierIndexTypes[tierType]],
@@ -125,7 +124,7 @@ export const useHandleSubscription = () => {
 			contracts: [
 				{
 					abi: airdropCopilotInterfaceABI,
-					address: SUBSRIPTION_CONTRACT_ADDRESS,
+					address: AIRDROP_COPILOT_SUBSCRIPTION_CONTRACT_ADDRESS,
 					functionName: 'subscriptions',
 					args: [walletAddr],
 				},
@@ -160,7 +159,7 @@ export const useHandleSubscription = () => {
 			contracts: [
 				{
 					abi: airdropCopilotInterfaceABI,
-					address: SUBSRIPTION_CONTRACT_ADDRESS,
+					address: AIRDROP_COPILOT_SUBSCRIPTION_CONTRACT_ADDRESS,
 					functionName: 'isSubscriptionActive',
 					args: [userAddress],
 				},
