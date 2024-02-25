@@ -3,6 +3,7 @@
 import { fetchPlanByLoggedInUser } from '@modules/shared/fetchers/planFetcher'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useEffect, useState } from 'react'
+import { TierTypes } from './useHandleSubscription'
 
 export const useGetPlan = () => {
 	const supabase = createClientComponentClient<Database>()
@@ -60,6 +61,19 @@ export const useGetPlan = () => {
 		}
 	}
 
+	const updatePlan = async (plan: TierTypes) => {
+		const {
+			data: { user },
+		} = await supabase.auth.getUser()
+
+		if (user?.id) {
+			await supabase
+				.from('plans')
+				.update({ selectedPlan: plan })
+				.eq('user_id', user?.id)
+		}
+	}
+
 	const isCouponAlreadyActivated = async (couponCode: string) => {
 		const { data } = await supabase
 			.from('plans')
@@ -96,6 +110,7 @@ export const useGetPlan = () => {
 
 		isLoading,
 
+		updatePlan,
 		updateCoupon,
 		isCouponAlreadyActivated,
 	}

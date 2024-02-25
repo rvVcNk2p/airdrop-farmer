@@ -16,21 +16,28 @@ import {
 	TierTypes,
 } from '@modules/shared/hooks/useHandleSubscription'
 import { formatUnits } from 'viem'
+import moment from 'moment'
+import { arbitrum, sepolia } from 'viem/chains'
 
 const BillingPage = () => {
-	const { getTiers, subscribe, updateDiscountPercentageOnChain } =
-		useHandleSubscription()
+	const {
+		getTiers,
+		subscribe,
+		updateDiscountPercentageOnChain,
+		getOnChainSubscription,
+	} = useHandleSubscription()
 	const supabase = createClientComponentClient<Database>()
 	const {
 		discountCode,
 		discountValue,
 		referredBy,
 		isLoading: isPlanFetching,
+		updatePlan,
 		updateCoupon,
 		isCouponAlreadyActivated,
 	} = useGetPlan()
 
-	const { address, status: accountStatus } = useAccount()
+	const { address, status: accountStatus, chainId } = useAccount()
 	const { connectors, connect, error } = useConnect()
 	const { disconnect } = useDisconnect()
 
@@ -115,26 +122,13 @@ const BillingPage = () => {
 	}, [address])
 
 	const checkCouponValidityInDefiHungary = async (couponCode: string) => {
-		// TODO: Fetch coupon validity from the DeFi Hungary API
-		await new Promise((resolve, reject) =>
-			// setTimeout(() => reject({ message: 'Invalid coupon code!' }), 1000),
-			setTimeout(() => resolve({}), 1000),
+		const response = await fetch(
+			`https://www.defihungary.com/api/airdrop/${couponCode}`,
 		)
-		// await fetch(
-		// 	`https://api.defihungary.com/v1/coupons/${couponCode}`,
-		// )
-	}
-
-	const PlanValidity = () => {
-		// TODO: Fetch plan validity from the blockchain
-		// TODO: Error handling
-
-		return (
-			<div>
-				<h1>Validity</h1>
-				<p>Valid until 2023-12-31</p>
-			</div>
-		)
+		const { status, error } = await response.json()
+		if (!status) {
+			throw new Error(error)
+		}
 	}
 
 	const CouponSection = () => {
@@ -214,81 +208,155 @@ const BillingPage = () => {
 	}
 
 	const SubscriptionSection = () => {
-		const [isLoading, setIsLoading] = useState(false)
-		const [selectedTier, setSelectedTier] = useState<TierTypes | null>(null)
 		const [tiers, setTiers] = useState<any>([])
+		const [isLoading, setIsLoading] = useState(false)
+
+		const [selectedTier, setSelectedTier] = useState<TierTypes>(TierTypes.FREE)
+		const [expiry, setExpiry] = useState<Date | null>(null)
 
 		useEffect(() => {
 			const fetchTiers = async () => {
 				const tiers = await getTiers()
 				setTiers(tiers)
-				console.log('tiers', tiers)
 			}
 			fetchTiers()
+			const fetchOnChainSubscription = async () => {
+				if (!address) return
+				const result = await getOnChainSubscription(address)
+				const { tier, expiry } = result
+				setSelectedTier(tier)
+				if (expiry !== null) {
+					setExpiry(new Date(expiry * 1000))
+				}
+			}
+			fetchOnChainSubscription()
 		}, [])
 
 		const deductDiscount = (price: bigint) => {
-			return price - (price * BigInt(discountValue + '')) / BigInt(100)
+			return price - (price * BigInt(discountValue ?? 0 + '')) / BigInt(100)
+		}
+
+		const handleSubscribe = async (tierType: TierTypes, price: bigint) => {
+			setIsLoading(true)
+			try {
+				setSelectedTier(tierType)
+				await subscribe(tierType, price)
+				await updatePlan(tierType)
+				toast({
+					title: '🎉 Subscribed!',
+					description: `You have successfully subscribed to ${tierType}!`,
+				})
+				setIsLoading(false)
+			} catch (e: any) {
+				setSelectedTier(TierTypes.FREE)
+				toast({
+					title: '🚨 Error!',
+					description: e?.message,
+				})
+				setIsLoading(false)
+			}
 		}
 
 		return (
 			<>
 				<h1>Subscriptions</h1>
-				{/* Add Skeleton for loading */}
-				<div className="flex gap-4">
-					{tiers.map((tier: any) => (
-						<div
-							key={tier.type}
-							className={`flex flex-col gap-2 rounded-md border border-gray-200 p-4 ${
-								selectedTier === tier.type ? 'border-valid' : ''
-							}`}
-						>
-							<h2>{tier.type}</h2>
-							<p className="line-through">{formatUnits(tier.price, 18)} ETH</p>
-							<p>{formatUnits(deductDiscount(tier.price), 18)} ETH</p>
-							<Button
-								variant="outline"
-								disabled={isLoading}
-								onClick={() => {
-									setSelectedTier(tier.type)
-									subscribe(tier.type, deductDiscount(tier.price))
-								}}
-							>
-								{isLoading ? 'Subscribing...' : 'Subscribe'}
-							</Button>
-						</div>
-					))}
+				<div className="mt-4 grid grid-cols-4 gap-4">
+					{isPlanFetching || tiers.length === 0 ? (
+						<>
+							<Skeleton className="h-40 w-full" />
+							<Skeleton className="h-40 w-full" />
+							<Skeleton className="h-40 w-full" />
+							<Skeleton className="h-40 w-full" />
+						</>
+					) : (
+						<>
+							{tiers.map((tier: any) => (
+								<div
+									key={tier.type}
+									className={`flex flex-col gap-2 rounded-md border border-gray-200 p-4 ${
+										selectedTier === tier.type ? 'border-valid' : ''
+									}`}
+								>
+									<div className="flex h-full flex-col gap-2">
+										<h2>{tier.type}</h2>
+										<p>
+											<span className={discountCode ? 'line-through' : ''}>
+												{formatUnits(tier.price, 18)} ETH
+											</span>
+											{discountCode && (
+												<span>
+													{' '}
+													- {formatUnits(deductDiscount(tier.price), 18)} ETH
+												</span>
+											)}
+										</p>
+										{tier.type === selectedTier && expiry !== null && (
+											<>
+												<p>Active: {moment(expiry).format('YYYY MMMM DD.')}</p>
+											</>
+										)}
+									</div>
+
+									<Button
+										variant="outline"
+										disabled={isLoading || selectedTier !== TierTypes.FREE}
+										onClick={() =>
+											handleSubscribe(tier.type, deductDiscount(tier.price))
+										}
+									>
+										{isLoading && selectedTier === tier.type
+											? 'Subscribing...'
+											: selectedTier === tier.type
+												? 'Subscribed'
+												: 'Subscribe'}
+									</Button>
+								</div>
+							))}
+						</>
+					)}
 				</div>
 			</>
 		)
 	}
 
-	// useEffect(() => {
-	// 	const fetchTiers = async () => {
-	// 		const tiers = await getTiers()
-	// 		console.log('tiers', tiers)
-	// 	}
-	// 	fetchTiers()
+	const correctNetworkNetwork =
+		process.env.NEXT_PUBLIC_BASE_PATH === 'http://localhost:3000'
+			? sepolia.id
+			: arbitrum.id
 
-	// }, [])
+	const isSelectedNetworkCorrect = chainId === correctNetworkNetwork
+
+	const correctNetwork =
+		process.env.NEXT_PUBLIC_BASE_PATH === 'http://localhost:3000'
+			? sepolia.name
+			: arbitrum.name
 
 	return (
 		<>
 			{useIsMounted() && (
 				<>
 					<ConnectMetamask />
-					{address && (
+					{
 						<>
-							<hr className="my-4" />
-							<PlanValidity />
+							{address && (
+								<>
+									{isSelectedNetworkCorrect ? (
+										<>
+											<hr className="my-4" />
+											<SubscriptionSection />
 
-							<hr className="my-4" />
-							<CouponSection />
-
-							<hr className="my-4" />
-							<SubscriptionSection />
+											<hr className="my-4" />
+											<CouponSection />
+										</>
+									) : (
+										<div className="mt-10">
+											<p>Wrong network, please switch to {correctNetwork}.</p>
+										</div>
+									)}
+								</>
+							)}
 						</>
-					)}
+					}
 				</>
 			)}
 		</>
