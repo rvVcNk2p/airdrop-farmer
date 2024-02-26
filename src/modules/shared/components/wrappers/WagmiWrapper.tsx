@@ -1,6 +1,6 @@
 'use client'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { createConfig, webSocket } from 'wagmi'
+import { createConfig, http } from 'wagmi'
 import { WagmiProvider } from 'wagmi'
 import {
 	arbitrum,
@@ -27,29 +27,15 @@ export const config = createConfig({
 		sepolia,
 	],
 	transports: {
-		[mainnet.id]: webSocket(
-			process.env.NEXT_PUBLIC_GETBLOCK_ETHEREUM_WEBSOCKET_API,
-		),
-		[arbitrum.id]: webSocket(
-			process.env.NEXT_PUBLIC_GETBLOCK_ARBITRUM_WEBSOCKET_API,
-		),
-		[bsc.id]: webSocket(process.env.NEXT_PUBLIC_GETBLOCK_BSC_WEBSOCKET_API),
-		[polygon.id]: webSocket(
-			process.env.NEXT_PUBLIC_GETBLOCK_POLYGON_WEBSOCKET_API,
-		),
-		[optimism.id]: webSocket(
-			process.env.NEXT_PUBLIC_GETBLOCK_OPTIMISM_WEBSOCKET_API,
-		),
-		[avalanche.id]: webSocket(
-			process.env.NEXT_PUBLIC_GETBLOCK_AVALANCHE_WEBSOCKET_API,
-		),
-		[fantom.id]: webSocket(
-			process.env.NEXT_PUBLIC_GETBLOCK_FANTOM_WEBSOCKET_API,
-		),
-		[zkSync.id]: webSocket(process.env.NEXT_PUBLIC_ZKSYNC_WEBSOCKET_API),
-		[sepolia.id]: webSocket(
-			process.env.NEXT_PUBLIC_GETBLOCK_SEPOLIA_WEBSOCKET_API,
-		),
+		[mainnet.id]: http(process.env.NEXT_PUBLIC_GETBLOCK_ETHEREUM_HTTP_API),
+		[arbitrum.id]: http(process.env.NEXT_PUBLIC_GETBLOCK_ARBITRUM_HTTP_API),
+		[bsc.id]: http(process.env.NEXT_PUBLIC_GETBLOCK_BSC_HTTP_API),
+		[polygon.id]: http(process.env.NEXT_PUBLIC_GETBLOCK_POLYGON_HTTP_API),
+		[optimism.id]: http(process.env.NEXT_PUBLIC_GETBLOCK_OPTIMISM_HTTP_API),
+		[avalanche.id]: http(process.env.NEXT_PUBLIC_GETBLOCK_AVALANCHE_HTTP_API),
+		[fantom.id]: http(process.env.NEXT_PUBLIC_GETBLOCK_FANTOM_HTTP_API),
+		[zkSync.id]: http(process.env.NEXT_PUBLIC_ZKSYNC_HTTP_API),
+		[sepolia.id]: http(process.env.NEXT_PUBLIC_GETBLOCK_SEPOLIA_HTTP_API),
 	},
 })
 
