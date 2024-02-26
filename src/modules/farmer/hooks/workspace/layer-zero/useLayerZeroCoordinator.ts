@@ -13,6 +13,7 @@ import { usePerformActions } from '@modules/farmer/hooks/workspace/usePerformAct
 import { usePerformAllowanceAndBridge } from '@modules/farmer/hooks/workspace/layer-zero/actions/usePerformAllowanceAndBridge'
 import { useActionHistory } from '@modules/farmer/stores'
 import { privateKeyToAccount } from 'viem/accounts'
+import { quotaCheckResult } from '@modules/farmer/hooks/workspace/zksync/useZksyncCoordinator'
 
 type GenerateAllowanceAndBridgeProps = {
 	strategyUid: string
@@ -89,24 +90,15 @@ export const useLayerZeroCoordinator = () => {
 				loggerFn: (args) => loggerFn({ strategyUid: strategy.uid, ...args }),
 			})
 			try {
-				if (!hasValidSubscription) {
-					const plans = await fetchPlanByLoggedInUser()
-					const quota = (plans && plans[0].quota) ?? 10
-					const usedQuota = (plans && plans[0].used_quota) ?? 0
-					if (usedQuota >= quota) {
-						throw new Error('Quota reached. Please upgrade your plan.')
-					}
-					await executeNextAction(
-						nextAction,
-						ExecutionActionType.ACTION, // Could be ExecutionActionType.BRIDGE
-						usedQuota,
-					)
-				} else {
-					await executeNextAction(
-						nextAction,
-						ExecutionActionType.ACTION, // Could be ExecutionActionType.BRIDGE
-					)
-				}
+				const usedQuota = (await quotaCheckResult(
+					hasValidSubscription,
+				)) as number
+
+				await executeNextAction(
+					nextAction,
+					ExecutionActionType.ACTION, // Could be ExecutionActionType.BRIDGE
+					usedQuota,
+				)
 			} catch (error: any) {
 				loggerFn({
 					strategyUid: strategy.uid,

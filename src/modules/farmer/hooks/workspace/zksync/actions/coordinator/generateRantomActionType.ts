@@ -40,28 +40,38 @@ const countActionsByType = (
 
 type RemoveActionsIfMaxReachedProps = Pick<
 	GenerateRandomActionTypeProps,
-	'alreadyExecutedActions' | 'liquidityMaxTimes' | 'lendingMaxTimes'
+	| 'alreadyExecutedActions'
+	| 'liquidityMaxTimes'
+	| 'lendingMaxTimes'
+	| 'liquidityProviders'
+	| 'lendingProviders'
 > & {
 	availableActionTypes: ZksyncActionProviders[]
 }
 
 const removeActionsIfMaxReached = ({
 	alreadyExecutedActions,
+	liquidityProviders,
 	liquidityMaxTimes,
+	lendingProviders,
 	lendingMaxTimes,
 	availableActionTypes,
 }: RemoveActionsIfMaxReachedProps) => {
 	const actionsByType = countActionsByType(alreadyExecutedActions)
 
-	console.log(actionsByType)
-
-	if (actionsByType.liquidity >= Number(liquidityMaxTimes)) {
+	if (
+		actionsByType.liquidity >= Number(liquidityMaxTimes) ||
+		liquidityProviders.length === 0
+	) {
 		availableActionTypes = availableActionTypes.filter(
 			(actionType) => actionType !== ZksyncActionProviders.LIQUIDITY,
 		)
 	}
 
-	if (actionsByType.lending >= Number(lendingMaxTimes)) {
+	if (
+		actionsByType.lending >= Number(lendingMaxTimes) ||
+		lendingProviders.length === 0
+	) {
 		availableActionTypes = availableActionTypes.filter(
 			(actionType) => actionType !== ZksyncActionProviders.LENDING,
 		)
@@ -111,7 +121,9 @@ export const generateRandomActionType = async ({
 	// Generate random action type, but remove the action type if the max times reached
 	const filteredAvailableActionTypes = removeActionsIfMaxReached({
 		alreadyExecutedActions,
+		liquidityProviders,
 		liquidityMaxTimes,
+		lendingProviders,
 		lendingMaxTimes,
 		availableActionTypes,
 	})

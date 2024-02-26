@@ -9,7 +9,7 @@ import {
 import { erc20Abi, type Address, parseUnits } from 'viem'
 
 import { createWalletClientFactory } from '@modules/farmer/helpers/createWalletClientFactory'
-import { randomWholeNumber } from '@modules/shared/utils'
+import { randomWholeNumber, sleep } from '@modules/shared/utils'
 import {
 	ColorizedTextTypes,
 	getColorizedText,
