@@ -4,7 +4,6 @@ import { useAccount, useConnect, useDisconnect } from 'wagmi'
 import type { Connector } from 'wagmi'
 import { useHandleSubscription, useIsMounted } from '@modules/shared/hooks'
 import { useEffect, useState } from 'react'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { Input } from '@modules/shared/components/ui/input'
 import { Button } from '@modules/shared/components/ui/button'
 import { ArrowPathRoundedSquareIcon } from '@heroicons/react/24/outline'
@@ -23,8 +22,8 @@ const BillingPage = ({ managerPrivatekey }: { managerPrivatekey: any }) => {
 		updateDiscountPercentageOnChain,
 		getOnChainSubscription,
 	} = useHandleSubscription({ managerPrivatekey })
-	const supabase = createClientComponentClient<Database>()
 	const {
+		wallet,
 		discountCode,
 		discountValue,
 		referredBy,
@@ -32,6 +31,7 @@ const BillingPage = ({ managerPrivatekey }: { managerPrivatekey: any }) => {
 		updatePlan,
 		updateCoupon,
 		isCouponAlreadyActivated,
+		getIsAddressAlreadyUsed,
 	} = useGetPlan()
 
 	const { address, status: accountStatus, chainId } = useAccount()
@@ -97,27 +97,6 @@ const BillingPage = ({ managerPrivatekey }: { managerPrivatekey: any }) => {
 		)
 	}
 
-	useEffect(() => {
-		// Refactor this to a custom hook
-		const updateAddress = async () => {
-			const {
-				data: { user },
-			} = await supabase.auth.getUser()
-
-			if (user?.id) {
-				await supabase
-					.from('plans')
-					.update({ wallet: address })
-					.eq('user_id', user?.id)
-			}
-		}
-
-		if (isUserConnected()) {
-			updateAddress()
-			console.log('Connected')
-		}
-	}, [address])
-
 	const checkCouponValidityInDefiHungary = async (couponCode: string) => {
 		const selfHostedCorsAnywhere = 'https://cors-anywhere-s2tm.onrender.com/'
 		const response = await fetch(
@@ -146,13 +125,15 @@ const BillingPage = ({ managerPrivatekey }: { managerPrivatekey: any }) => {
 				await checkCouponValidityInDefiHungary(couponCode)
 				if (address) {
 					await updateDiscountPercentageOnChain(address, COUPON_VALUE)
+					await updateCoupon(
+						address,
+						couponCode,
+						COUPON_TYPE,
+						COUPON_VALUE.toString(),
+						refferal,
+					)
 				}
-				await updateCoupon(
-					couponCode,
-					COUPON_TYPE,
-					COUPON_VALUE.toString(),
-					refferal,
-				)
+
 				toast({
 					title: '🎁 Coupon activated!',
 					description: `You got ${COUPON_VALUE}% off! Referred by: DeFi Hungary.`,
@@ -174,8 +155,8 @@ const BillingPage = ({ managerPrivatekey }: { managerPrivatekey: any }) => {
 					<Skeleton className="h-4 w-full" />
 				) : (
 					<>
-						{discountCode && <p>{activatedCouponMessage}</p>}
-						{!discountCode && (
+						{discountValue && <p>{activatedCouponMessage}</p>}
+						{!discountValue && (
 							<>
 								<div className="flex items-center gap-4">
 									<h1>Coupon</h1>
@@ -190,7 +171,7 @@ const BillingPage = ({ managerPrivatekey }: { managerPrivatekey: any }) => {
 									<Button
 										variant="outline"
 										className="flex w-full px-2 sm:w-fit"
-										disabled={isLoadin}
+										disabled={isLoadin || !couponCode}
 										onClick={() => validateAndUpdateCoupon()}
 									>
 										<ArrowPathRoundedSquareIcon className="h-6 w-6 shrink-0" />
@@ -239,7 +220,9 @@ const BillingPage = ({ managerPrivatekey }: { managerPrivatekey: any }) => {
 			try {
 				setSelectedTier(tierType)
 				await subscribe(tierType, price)
-				await updatePlan(tierType)
+				if (address) {
+					await updatePlan(tierType, address)
+				}
 				toast({
 					title: '🎉 Subscribed!',
 					description: `You have successfully subscribed to ${tierType}!`,
@@ -278,10 +261,10 @@ const BillingPage = ({ managerPrivatekey }: { managerPrivatekey: any }) => {
 									<div className="flex h-full flex-col gap-2">
 										<h2>{tier.type}</h2>
 										<p>
-											<span className={discountCode ? 'line-through' : ''}>
+											<span className={discountValue ? 'line-through' : ''}>
 												{formatUnits(tier.price, 18)} ETH
 											</span>
-											{discountCode && (
+											{discountValue && (
 												<span>
 													{' '}
 													- {formatUnits(deductDiscount(tier.price), 18)} ETH
@@ -329,6 +312,16 @@ const BillingPage = ({ managerPrivatekey }: { managerPrivatekey: any }) => {
 			? sepolia.name
 			: arbitrum.name
 
+	const [isAddressAlreadyUsed, setIsAddressAlreadyUsed] = useState(false)
+
+	useEffect(() => {
+		const checkIfAddressAlreadyInIse = async () => {
+			if (!address) return false
+			setIsAddressAlreadyUsed(await getIsAddressAlreadyUsed(address))
+		}
+		checkIfAddressAlreadyInIse()
+	}, [address, getIsAddressAlreadyUsed])
+
 	return (
 		<>
 			{useIsMounted() && (
@@ -340,16 +333,48 @@ const BillingPage = ({ managerPrivatekey }: { managerPrivatekey: any }) => {
 								<>
 									{isSelectedNetworkCorrect ? (
 										<>
-											<hr className="my-4" />
-											<SubscriptionSection />
+											{isAddressAlreadyUsed ? (
+												<div className="mt-10">
+													You have already subscribed with another wallet.
+													Please use that wallet.
+												</div>
+											) : (
+												<>
+													{wallet && wallet === address ? (
+														<>
+															<hr className="my-4" />
+															<SubscriptionSection />
 
-											<hr className="my-4" />
-											<CouponSection />
+															<hr className="my-4" />
+															<CouponSection />
+														</>
+													) : wallet && wallet !== address ? (
+														<>
+															<div className="mt-10">
+																You have already subscribed or applied a coupon
+																code with another wallet. Please use that
+																wallet.
+															</div>
+															<div>HINT: {wallet}</div>
+														</>
+													) : (
+														<>
+															<hr className="my-4" />
+															<SubscriptionSection />
+
+															<hr className="my-4" />
+															<CouponSection />
+														</>
+													)}
+												</>
+											)}
 										</>
 									) : (
-										<div className="mt-10">
-											<p>Wrong network, please switch to {correctNetwork}.</p>
-										</div>
+										<>
+											<div className="mt-10">
+												<p>Wrong network, please switch to {correctNetwork}.</p>
+											</div>
+										</>
 									)}
 								</>
 							)}
@@ -357,14 +382,6 @@ const BillingPage = ({ managerPrivatekey }: { managerPrivatekey: any }) => {
 					}
 				</>
 			)}
-		</>
-	)
-
-	return (
-		<>
-			<div>
-				<h1>Billing</h1>
-			</div>
 		</>
 	)
 }
