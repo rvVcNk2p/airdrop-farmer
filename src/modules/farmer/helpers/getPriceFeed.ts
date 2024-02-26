@@ -35,14 +35,9 @@ export const getPriceFeed = async ({
 		],
 	})
 
-	// TODO: Sometimes priceFeed is empty... investigate why and fix it
-	console.log('PriceFeed:', priceFeed)
-
 	// @ts-ignore
 	const [, price, , ,] = priceFeed[0].result
 	const decimals = priceFeed[1].result as number
-
-	// console.log(` Price of [${pairSymbol}]: `, formatUnits(price, decimals))
 
 	return parseFloat(formatUnits(price, decimals))
 }

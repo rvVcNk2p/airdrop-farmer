@@ -39,8 +39,9 @@ const getTierStringByIndex = (index: number) => {
 	}
 }
 
-const tiersConfig = () => {
+const tiersConfig = (chain: number) => {
 	return [0, 1, 2, 3].map((key) => ({
+		chain,
 		abi: airdropCopilotInterfaceABI,
 		address: AIRDROP_COPILOT_SUBSCRIPTION_CONTRACT_ADDRESS,
 		functionName: 'tiers',
@@ -62,7 +63,7 @@ export const useHandleSubscription = ({
 
 	const getTiers = async () => {
 		const result = await readContracts(config, {
-			contracts: tiersConfig(),
+			contracts: tiersConfig(chainId),
 		})
 
 		const tiers = [

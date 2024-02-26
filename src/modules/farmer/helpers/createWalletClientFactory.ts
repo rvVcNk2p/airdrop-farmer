@@ -3,6 +3,7 @@ import {
 	Address,
 	Chain,
 	createWalletClient,
+	http,
 	publicActions,
 	webSocket,
 } from 'viem'
@@ -44,28 +45,28 @@ const getChainConfiguration = (chainId: number): Chain => {
 	}
 }
 
-const getAlchemyUrl = (chainId: number) => {
+const getHttpUrl = (chainId: number) => {
 	switch (chainId) {
 		case ChainIds.ETHEREUM:
-			return process.env.NEXT_PUBLIC_GETBLOCK_ETHEREUM_WEBSOCKET_API
-		case ChainIds.OPTIMISM:
-			return process.env.NEXT_PUBLIC_GETBLOCK_OPTIMISM_WEBSOCKET_API
-		case ChainIds.POLYGON:
-			return process.env.NEXT_PUBLIC_GETBLOCK_POLYGON_WEBSOCKET_API
-		case ChainIds.ARBITRUM:
-			return process.env.NEXT_PUBLIC_GETBLOCK_ARBITRUM_WEBSOCKET_API
+			return process.env.NEXT_PUBLIC_GETBLOCK_ETHEREUM_HTTP_API
 		case ChainIds.BSC:
-			return process.env.NEXT_PUBLIC_GETBLOCK_BSC_WEBSOCKET_API
+			return process.env.NEXT_PUBLIC_GETBLOCK_BSC_HTTP_API
+		case ChainIds.OPTIMISM:
+			return process.env.NEXT_PUBLIC_GETBLOCK_OPTIMISM_HTTP_API
+		case ChainIds.POLYGON:
+			return process.env.NEXT_PUBLIC_GETBLOCK_POLYGON_HTTP_API
+		case ChainIds.ARBITRUM:
+			return process.env.NEXT_PUBLIC_GETBLOCK_ARBITRUM_HTTP_API
 		case ChainIds.AVALANCHE:
-			return process.env.NEXT_PUBLIC_GETBLOCK_AVALANCHE_WEBSOCKET_API
+			return process.env.NEXT_PUBLIC_GETBLOCK_AVALANCHE_HTTP_API
 		case ChainIds.FANTOM:
-			return process.env.NEXT_PUBLIC_GETBLOCK_FANTOM_WEBSOCKET_API
+			return process.env.NEXT_PUBLIC_GETBLOCK_FANTOM_HTTP_API
 		case ChainIds.ZKSYNC:
-			return process.env.NEXT_PUBLIC_GETBLOCK_ZKSYNC_WEBSOCKET_API
+			return process.env.NEXT_PUBLIC_GETBLOCK_ZKSYNC_HTTP_API
 		case ChainIds.SEPOLIA:
-			return process.env.NEXT_PUBLIC_GETBLOCK_SEPOLIA_WEBSOCKET_API
+			return process.env.NEXT_PUBLIC_GETBLOCK_SEPOLIA_HTTP_API
 		default:
-			return process.env.NEXT_PUBLIC_GETBLOCK_ETHEREUM_WEBSOCKET_API
+			return process.env.NEXT_PUBLIC_GETBLOCK_ETHEREUM_HTTP_API
 	}
 }
 
@@ -79,7 +80,7 @@ export const createWalletClientFactory = (
 	const client = createWalletClient({
 		account,
 		chain: getChainConfiguration(chainId),
-		transport: webSocket(getAlchemyUrl(chainId)),
+		transport: http(getHttpUrl(chainId), { batch: true }),
 	}).extend(publicActions)
 
 	return client
