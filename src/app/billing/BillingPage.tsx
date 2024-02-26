@@ -317,14 +317,14 @@ const BillingPage = ({ managerPrivatekey }: { managerPrivatekey: any }) => {
 	}
 
 	const correctNetworkNetwork =
-		process.env.NEXT_PUBLIC_BASE_PATH === 'http://localhost:3000'
+		process.env.NEXT_PUBLIC_TARGET_NETWORK === 'SEPOLIA'
 			? sepolia.id
 			: arbitrum.id
 
 	const isSelectedNetworkCorrect = chainId === correctNetworkNetwork
 
 	const correctNetwork =
-		process.env.NEXT_PUBLIC_BASE_PATH === 'http://localhost:3000'
+		process.env.NEXT_PUBLIC_TARGET_NETWORK === 'SEPOLIA'
 			? sepolia.name
 			: arbitrum.name
 

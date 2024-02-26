@@ -7,6 +7,7 @@ import {
 
 import { zksyncActionCreatorFactory } from '@modules/farmer/hooks/workspace/zksync/factory/zksyncActionCreatorFactory'
 import { generateRandomActionType } from '@modules/farmer/hooks/workspace/zksync/actions/coordinator/generateRantomActionType'
+import { fetchPlanByLoggedInUser } from '@/modules/shared/fetchers/planFetcher'
 
 type ZksyncActionCoordinatorProps = {
 	strategy: TypedUserStrategyTypeWithUid<ZkSyncMainnetType>

@@ -14,6 +14,21 @@ import { useActionHistory } from '@modules/farmer/stores'
 import { zksyncActionCoordinator } from '@modules/farmer/hooks/workspace/zksync/actions/coordinator/zksyncActionCoordinator'
 import { zksyncBridgeCreatorFactory } from '@modules/farmer/hooks/workspace/zksync/factory/zksyncBridgeCreatorFactory'
 
+export const quotaCheckResult = async (hasValidSubscription: boolean) => {
+	return new Promise(async (resolve, reject) => {
+		if (!hasValidSubscription) {
+			const plans = await fetchPlanByLoggedInUser()
+			const quota = (plans && plans[0]?.quota) ?? 10
+			const usedQuota = (plans && plans[0]?.used_quota) ?? 0
+			if (usedQuota >= quota) {
+				reject('Quota reached. Please upgrade your plan.')
+			}
+
+			resolve(usedQuota)
+		} else resolve(-1)
+	})
+}
+
 export const useZksyncCoordinator = () => {
 	const { executeNextAction } = usePerformActions()
 	const loggerFn = useActionHistory((state) => state.addHistory)
@@ -48,7 +63,7 @@ export const useZksyncCoordinator = () => {
 					loggerFn: (args) => loggerFn({ ...args, strategyUid: uid, wallet }), // Wallet and strategyUid already binded
 				})
 
-				await executeNextAction(bridgeAction, ExecutionActionType.BRIDGE)
+				await executeNextAction(bridgeAction, ExecutionActionType.BRIDGE, -1)
 			}
 
 			loggerFn({
@@ -66,23 +81,16 @@ export const useZksyncCoordinator = () => {
 
 			for (let i = 0; i < txsGoal; i++) {
 				const { nextAction } = await nextActionGenerator()
+				const usedQuota = (await quotaCheckResult(
+					hasValidSubscription,
+				)) as number
 
 				try {
-					if (!hasValidSubscription) {
-						const plans = await fetchPlanByLoggedInUser()
-						const quota = (plans && plans[0].quota) ?? 10
-						const usedQuota = (plans && plans[0].used_quota) ?? 0
-						if (usedQuota >= quota) {
-							throw new Error('Quota reached. Please upgrade your plan.')
-						}
-						await executeNextAction(
-							nextAction,
-							ExecutionActionType.ACTION,
-							usedQuota,
-						)
-					} else {
-						await executeNextAction(nextAction, ExecutionActionType.ACTION)
-					}
+					await executeNextAction(
+						nextAction,
+						ExecutionActionType.ACTION,
+						usedQuota,
+					)
 				} catch (error: any) {
 					console.error(error)
 					loggerFn({
