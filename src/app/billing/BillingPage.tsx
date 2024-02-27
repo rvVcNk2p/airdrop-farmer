@@ -335,8 +335,8 @@ const BillingPage = ({ managerPrivatekey }: { managerPrivatekey: any }) => {
 										<>
 											{isAddressAlreadyUsed ? (
 												<div className="mt-10">
-													You have already subscribed with another wallet.
-													Please use that wallet.
+													This wallet is already binded to another user. Please
+													use another wallet.
 												</div>
 											) : (
 												<>
