@@ -5,10 +5,13 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useEffect, useState } from 'react'
 import { TierTypes } from './useHandleSubscription'
 import { Address } from 'viem'
+import { useUserPlan } from '@modules/farmer/stores/useUserPlan'
 
 export const useGetPlan = () => {
 	const supabase = createClientComponentClient<Database>()
-	const [plan, setPlan] = useState<Plan | null>()
+	const userPlan = useUserPlan((state) => state.plan)
+	const setPlan = useUserPlan((state) => state.setPlan)
+
 	const [isLoading, setIsLoading] = useState(false)
 
 	const getIsAddressAlreadyUsed = async (wallet: Address | string) => {
@@ -27,19 +30,19 @@ export const useGetPlan = () => {
 		} else return false
 	}
 
-	const fetchPlan = async () => {
-		setIsLoading(true)
-		try {
-			const data = await fetchPlanByLoggedInUser()
-			if (data && data?.length > 0) setPlan(data[0])
-			setIsLoading(false)
-		} catch (error) {
-			console.error('Error fetching session:', error)
-			setIsLoading(false)
-		}
-	}
-
 	useEffect(() => {
+		const fetchPlan = async () => {
+			setIsLoading(true)
+			try {
+				const data = await fetchPlanByLoggedInUser()
+				if (data && data?.length > 0) setPlan(data[0])
+				setIsLoading(false)
+			} catch (error) {
+				console.error('Error fetching session:', error)
+				setIsLoading(false)
+			}
+		}
+
 		fetchPlan()
 
 		const channel = supabase
@@ -53,15 +56,12 @@ export const useGetPlan = () => {
 				},
 				() => fetchPlan(),
 			)
-			.subscribe((status, err) => {
-				if (err) console.error('SUBSCRIPTION ERROR:', err)
-				else console.log('SUBSCRIPTION STATUS CHANGED:', status)
-			})
+			.subscribe()
 
 		return () => {
 			channel.unsubscribe()
 		}
-	}, [supabase])
+	}, [supabase, setPlan, setIsLoading])
 
 	const updateCoupon = async (
 		wallet: Address | string,
@@ -114,48 +114,8 @@ export const useGetPlan = () => {
 		})
 	}
 
-	let _selectedPlan: string | null = 'Free'
-	let _quota: number | null = 10
-	let _usedQuota: number | null = 0
-	let _wallet: string | null = null
-
-	let _discountCode: string | null = null
-	let _discountType: string | null = null
-	let _discountValue: string | null = null
-	let _referredBy: string | null = null
-
-	if (plan) {
-		const {
-			selectedPlan,
-			quota,
-			used_quota,
-			wallet,
-			discountCode,
-			discountType,
-			discountValue,
-			referredBy,
-		} = plan
-		_selectedPlan = selectedPlan
-		_quota = quota
-		_usedQuota = used_quota
-		_wallet = wallet
-		_discountCode = discountCode
-		_discountType = discountType
-		_discountValue = discountValue
-		_referredBy = referredBy
-	}
-
 	return {
-		selectedPlan: _selectedPlan,
-		quota: _quota,
-		usedQuota: _usedQuota,
-		wallet: _wallet,
-		discountCode: _discountCode,
-		discountType: _discountType,
-		discountValue: _discountValue,
-		referredBy: _referredBy,
-		plan,
-
+		...userPlan,
 		isLoading,
 
 		updatePlan,

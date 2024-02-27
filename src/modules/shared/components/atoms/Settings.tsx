@@ -6,13 +6,12 @@ import { useEffect, useState } from 'react'
 import { Address } from 'viem'
 
 const Settings = ({ managerPrivatekey }: { managerPrivatekey: any }) => {
+	const { wallet, selectedPlan, used_quota, quota } = useGetPlan()
 	const [isSubscriptionActive, setIsSubscriptionActive] = useState(false)
 
 	const { getIsSubscriptionActive } = useHandleSubscription({
 		managerPrivatekey,
 	})
-
-	const { selectedPlan, quota, usedQuota, wallet } = useGetPlan()
 
 	useEffect(() => {
 		const fetchSubscriptionStatus = async () => {
@@ -31,7 +30,7 @@ const Settings = ({ managerPrivatekey }: { managerPrivatekey: any }) => {
 		<div className="mr-6">
 			<p>Tier: {selectedPlan}</p>
 			<p>
-				Quota: {isSubscriptionActive ? 'Unlimited' : `${usedQuota} / ${quota}`}
+				Quota: {isSubscriptionActive ? 'Unlimited' : `${used_quota} / ${quota}`}
 			</p>
 		</div>
 	)
