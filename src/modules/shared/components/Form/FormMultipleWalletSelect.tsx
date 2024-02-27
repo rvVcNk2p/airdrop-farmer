@@ -18,7 +18,7 @@ export const FormMultipleWalletSelect = ({
 	}))
 
 	// TODO: Fetch tier and show only wallets that are in the paid tier
-	const maxSelectedWallets = 1
+	const maxSelectedWallets = 10
 
 	return (
 		<FormMultipleSelectWrapper name={name} label="Wallets" form={form}>
