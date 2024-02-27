@@ -20,12 +20,9 @@ export const quotaCheckResult = async (hasValidSubscription: boolean) => {
 			const plans = await fetchPlanByLoggedInUser()
 			const quota = (plans && plans[0]?.quota) ?? 10
 			const usedQuota = (plans && plans[0]?.used_quota) ?? 0
-			if (usedQuota >= quota) {
-				reject('Quota reached. Please upgrade your plan.')
-			}
 
-			resolve(usedQuota)
-		} else resolve(-1)
+			resolve({ usedQuota, quota })
+		} else resolve({ usedQuota: -1, quota: -1 })
 	})
 }
 
@@ -81,9 +78,13 @@ export const useZksyncCoordinator = () => {
 
 			for (let i = 0; i < txsGoal; i++) {
 				const { nextAction } = await nextActionGenerator()
-				const usedQuota = (await quotaCheckResult(
+				const { usedQuota, quota } = (await quotaCheckResult(
 					hasValidSubscription,
-				)) as number
+				)) as { usedQuota: number; quota: number }
+
+				if (usedQuota !== -1 && quota !== -1 && usedQuota >= quota) {
+					throw new Error('Quota reached. Please upgrade your plan.')
+				}
 
 				try {
 					await executeNextAction(

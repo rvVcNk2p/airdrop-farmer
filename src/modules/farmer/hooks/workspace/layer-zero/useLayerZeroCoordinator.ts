@@ -90,9 +90,13 @@ export const useLayerZeroCoordinator = () => {
 				loggerFn: (args) => loggerFn({ strategyUid: strategy.uid, ...args }),
 			})
 			try {
-				const usedQuota = (await quotaCheckResult(
+				const { usedQuota, quota } = (await quotaCheckResult(
 					hasValidSubscription,
-				)) as number
+				)) as { usedQuota: number; quota: number }
+
+				if (usedQuota !== -1 && quota !== -1 && usedQuota >= quota) {
+					throw new Error('Quota reached. Please upgrade your plan.')
+				}
 
 				await executeNextAction(
 					nextAction,
