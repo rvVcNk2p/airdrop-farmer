@@ -53,7 +53,10 @@ export const useGetPlan = () => {
 				},
 				() => fetchPlan(),
 			)
-			.subscribe()
+			.subscribe((status, err) => {
+				if (err) console.error('SUBSCRIPTION ERROR:', err)
+				else console.log('SUBSCRIPTION STATUS CHANGED:', status)
+			})
 
 		return () => {
 			channel.unsubscribe()
