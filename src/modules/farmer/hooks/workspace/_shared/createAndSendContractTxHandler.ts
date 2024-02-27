@@ -24,7 +24,6 @@ export const createAndSendContractTxHandler = () => {
 		loggerMessage_2,
 		loggerFn,
 	}: CreateAndSendTxProps) => {
-		// TODO: Beware. This is a mock. Replace with real sendTransaction
 		const simulatedResult = await client.simulateContract(configObj)
 		const hash = await client.writeContract(simulatedResult.request)
 

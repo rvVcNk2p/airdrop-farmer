@@ -140,7 +140,9 @@ export const generateRandomActionType = async ({
 	const selectNextProviderType = () => {
 		switch (nextActionType) {
 			case ZksyncActionProviders.SWAP:
-				return swapProviders[randomWholeNumber(0, swapProviders.length - 1)]
+				return isZeroUsdc
+					? ZksyncSwapActionProviders.MUTE_SWAP
+					: swapProviders[randomWholeNumber(0, swapProviders.length - 1)]
 			case ZksyncActionProviders.LIQUIDITY:
 				return liquidityProviders[
 					randomWholeNumber(0, liquidityProviders.length - 1)

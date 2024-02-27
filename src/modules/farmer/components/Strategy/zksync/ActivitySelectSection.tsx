@@ -13,7 +13,6 @@ import { Label } from '@modules/shared/components/ui/label'
 import { Button } from '@/modules/shared/components/ui/button'
 import { v4 as uuidv4 } from 'uuid'
 
-// TODO: Format SYNCSWAP_SWAP TO SYNCSWAP..
 const zksyncActionProviders = enumToArrayObject(ZksyncActionProviders)
 const zksyncSwapProviders = enumToArrayObject(ZksyncSwapActionProviders, [
 	ZksyncSwapActionProviders.SPACEFI_SWAP,
