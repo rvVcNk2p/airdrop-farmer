@@ -49,6 +49,23 @@ const Footer = () => {
 							</a>
 						</div>
 					</div>
+					<p className="text-main-airdrop mt-10 text-[0.7rem]">
+						*The information and materials presented on the website, as well as
+						in the tool utilization guide, do not serve as financial advice or
+						recommendations. The associated Discord server, accessible via the
+						link{' '}
+						<a
+							href="https://discord.com/invite/jvaBZVUFd2"
+							className="text-white"
+						>
+							https://discord.com/invite/jvaBZVUFd2
+						</a>
+						, is solely established for user support, and the content therein
+						should not be interpreted as financial advice. By opting to utilize
+						Copilot Bot, you accept full responsibility for your financial
+						decisions and acknowledge that the receipt of rewards through
+						potential airdrops is not guaranteed.
+					</p>
 				</div>
 			</div>
 		</div>

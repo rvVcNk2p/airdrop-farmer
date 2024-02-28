@@ -1,12 +1,5 @@
 import { ChainIds } from '@modules/shared/constants/chains'
-import {
-	Address,
-	Chain,
-	createWalletClient,
-	http,
-	publicActions,
-	webSocket,
-} from 'viem'
+import { Address, Chain, createWalletClient, http, publicActions } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
 import {
 	arbitrum,

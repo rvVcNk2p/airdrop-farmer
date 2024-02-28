@@ -13,6 +13,7 @@ import { usePerformActions } from '@modules/farmer/hooks/workspace/usePerformAct
 import { useActionHistory } from '@modules/farmer/stores'
 import { zksyncActionCoordinator } from '@modules/farmer/hooks/workspace/zksync/actions/coordinator/zksyncActionCoordinator'
 import { zksyncBridgeCreatorFactory } from '@modules/farmer/hooks/workspace/zksync/factory/zksyncBridgeCreatorFactory'
+import { randomSleepAndLog } from '@/modules/farmer/helpers/sleep'
 
 export const quotaCheckResult = async (hasValidSubscription: boolean) => {
 	return new Promise(async (resolve, reject) => {
@@ -48,6 +49,14 @@ export const useZksyncCoordinator = () => {
 
 		try {
 			const { bridge } = strategy.mainnet
+
+			// Random sleep and log added to simulate human behavior
+			await randomSleepAndLog({
+				wallet: walletPrivateKey,
+				loggerFn: (args) => loggerFn({ ...args, strategyUid: uid, wallet }),
+				min: 1,
+				max: 5,
+			})
 
 			if (!bridge.isSkip) {
 				const bridgeAction = await zksyncBridgeCreatorFactory({
