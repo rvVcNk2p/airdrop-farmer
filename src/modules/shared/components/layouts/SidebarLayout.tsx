@@ -10,6 +10,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { useGetPlan } from '@modules/shared/hooks/useGetPlan'
 
 const navigation = [
 	{
@@ -78,16 +79,30 @@ export default function SidebarLayout({
 		router.refresh()
 	}
 
+	const defiHungatyReferral = 'DEFI_HUNGARY'
+	const { referredBy } = useGetPlan()
+
 	return (
 		<>
+			{referredBy === defiHungatyReferral && (
+				<style
+					dangerouslySetInnerHTML={{
+						__html: `:root {--valid: 351, 100%, 63%;}`,
+					}}
+				/>
+			)}
 			<div className="fixed inset-y-0 z-50 flex w-24 flex-col">
 				<div className="flex grow flex-col gap-y-5 overflow-y-auto border-r bg-background px-6 text-foreground">
 					<div className="mx-auto flex h-16 shrink-0 items-center">
-						<img
-							className="h-8 w-auto"
-							src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-							alt="Your Company"
-						/>
+						{referredBy === defiHungatyReferral && (
+							<Image
+								className="h-8 w-auto"
+								alt="Defi Hungary Logo"
+								src="/defi_hungary_logo.png"
+								width={32}
+								height={32}
+							/>
+						)}
 					</div>
 					<nav className="flex flex-1 flex-col">
 						<ul role="list" className="flex flex-1 flex-col">
