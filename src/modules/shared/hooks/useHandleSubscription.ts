@@ -12,15 +12,15 @@ const AIRDROP_COPILOT_SUBSCRIPTION_CONTRACT_ADDRESS = process.env
 export enum TierTypes {
 	BASIC = 'BASIC', // 0
 	PRO = 'PRO', // 1
-	LIFETIME_BASIC = 'LIFETIME_BASIC', // 2
-	LIFETIME_PRO = 'LIFETIME_PRO', // 3
+	YEARLY_PRO = 'YEARLY_PRO', // 2
+	LIFETIME_PREMIUM = 'LIFETIME_PREMIUM', // 3
 	FREE = 'FREE', // 4
 }
 export enum TierIndexTypes {
 	BASIC = 0, // 0
 	PRO = 1, // 1
-	LIFETIME_BASIC = 2, // 2
-	LIFETIME_PRO = 3, // 3
+	YEARLY_PRO = 2, // 2
+	LIFETIME_PREMIUM = 3, // 3
 	FREE = 4, // 4
 }
 
@@ -31,9 +31,9 @@ const getTierStringByIndex = (index: number) => {
 		case 1:
 			return TierTypes.PRO
 		case 2:
-			return TierTypes.LIFETIME_BASIC
+			return TierTypes.YEARLY_PRO
 		case 3:
-			return TierTypes.LIFETIME_PRO
+			return TierTypes.LIFETIME_PREMIUM
 		default:
 			return TierTypes.BASIC
 	}
@@ -78,12 +78,12 @@ export const useHandleSubscription = ({
 				price: result[1].result[0],
 			},
 			{
-				type: TierTypes.LIFETIME_BASIC,
+				type: TierTypes.YEARLY_PRO,
 				// @ts-ignore
 				price: result[2].result[0],
 			},
 			{
-				type: TierTypes.LIFETIME_PRO,
+				type: TierTypes.LIFETIME_PREMIUM,
 				// @ts-ignore
 				price: result[3].result[0],
 			},
