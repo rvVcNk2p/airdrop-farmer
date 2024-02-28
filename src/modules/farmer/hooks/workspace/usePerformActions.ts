@@ -30,13 +30,17 @@ export const usePerformActions = () => {
 			try {
 				if (executionType === ExecutionActionType.BRIDGE) {
 					const bridgedValue = await nextAction.action()
-					updateWorkspaceAggregatedBridgeValue(
-						nextAction.strategyUid,
-						bridgedValue,
-					)
+					if (bridgedValue) {
+						updateWorkspaceAggregatedBridgeValue(
+							nextAction.strategyUid,
+							bridgedValue,
+						)
+					}
 				} else if (executionType === ExecutionActionType.ACTION) {
 					const actionValue = await nextAction.action()
-					updateWorkspaceAggregatedValue(nextAction.strategyUid, actionValue)
+					if (actionValue) {
+						updateWorkspaceAggregatedValue(nextAction.strategyUid, actionValue)
+					}
 				}
 
 				updateAction({
