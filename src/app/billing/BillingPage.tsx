@@ -98,7 +98,7 @@ const BillingPage = ({ managerPrivatekey }: { managerPrivatekey: any }) => {
 	}
 
 	const checkCouponValidityInDefiHungary = async (couponCode: string) => {
-		const selfHostedCorsAnywhere = '' //'https://cors-anywhere-s2tm.onrender.com/'
+		const selfHostedCorsAnywhere = 'https://cors-anywhere-s2tm.onrender.com/'
 		const response = await fetch(
 			`${selfHostedCorsAnywhere}https://www.defihungary.com/api/airdrop/${couponCode}`,
 		)

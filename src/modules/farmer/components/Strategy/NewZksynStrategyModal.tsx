@@ -417,17 +417,30 @@ export const NewZksynStrategyModal = ({ children }: NewStrategyModalProps) => {
 						<div>
 							<h1 className="mb-4">IMPORTANT</h1>
 							<div className="flex flex-col gap-4">
+								<p>Make sure you met all the criteria from the list below:</p>
 								<p>
-									{`1. Make sure you have minimum $15 worh of ETH in your ${
+									1. You followed
+									<a
+										href="https://discord.gg/wJTeNp8Ect"
+										target="_blank"
+										className="text-valid"
+									>
+										{' '}
+										security{' '}
+									</a>
+									rules to reduce the risk of becoming a Sybil
+								</p>
+								<p>
+									{`2. Make sure you have minimum $15 worh of ETH in your ${
 										form.getValues().firstStepFileds.mainnet.bridge.isSkip
 											? 'zkSync'
-											: 'Arbitrum'
+											: 'Ethereum, Arbitrum or Optimism'
 									} wallet!`}
 								</p>
 								<p>
 									{`${
 										!form.getValues().firstStepFileds.mainnet.bridge.isSkip
-											? '2. Orbiter bridge from Arbitrum => zkSync will cost approximately $5 worh of ETH.'
+											? '3. Orbiter bridge will cost approximately $5 worh of ETH.'
 											: ''
 									}`}
 								</p>
