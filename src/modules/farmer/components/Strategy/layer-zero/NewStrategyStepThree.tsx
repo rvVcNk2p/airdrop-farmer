@@ -122,7 +122,18 @@ export const NewStrategyStepThree = ({
 						Make sure you met all the criteria from the list before you start:
 					</Label>
 					<div className="mt-4 flex flex-col gap-2">
-						<Label>1. All your wallets are not connected to each other.</Label>
+						<Label>
+							1. You followed
+							<a
+								href="https://discord.gg/wJTeNp8Ect"
+								target="_blank"
+								className="text-valid"
+							>
+								{' '}
+								security{' '}
+							</a>
+							rules to reduce the risk of becoming a Sybil
+						</Label>
 
 						<Label className="leading-6">
 							2. You have minimum $10 worth of native currency in{' '}

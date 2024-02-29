@@ -85,8 +85,8 @@ export const usePerformAllowanceAndBridge = () => {
 			await randomSleepAndLog({
 				wallet,
 				loggerFn,
-				min: timeIntervals.timeIntervalAfterTransactions.from,
-				max: timeIntervals.timeIntervalAfterTransactions.to,
+				min: timeIntervals.sleepIntervalAfterApproval.from,
+				max: timeIntervals.sleepIntervalAfterApproval.to,
 			})
 
 			// Bridge creation - Step 1

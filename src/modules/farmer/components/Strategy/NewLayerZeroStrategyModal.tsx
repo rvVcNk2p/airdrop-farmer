@@ -275,7 +275,6 @@ export const NewLayerZeroStrategyModal = ({
 			<AlertDialogTrigger asChild={false}>{children}</AlertDialogTrigger>
 			<AlertDialogContent>
 				<AlertDialogHeader>
-					<div>LayerZero</div>
 					{activeStep === 1 && <NewStrategyStepOne form={form} />}
 					{activeStep === 2 && (
 						<NewStrategyStepThree

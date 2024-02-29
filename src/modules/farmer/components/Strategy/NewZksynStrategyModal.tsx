@@ -20,8 +20,10 @@ import {
 	AlertDialogAction,
 	AlertDialogCancel,
 	AlertDialogContent,
+	AlertDialogDescription,
 	AlertDialogFooter,
 	AlertDialogHeader,
+	AlertDialogTitle,
 	AlertDialogTrigger,
 } from '@modules/shared/components/ui/alert-dialog'
 import { Button } from '@modules/shared/components/ui/button'
@@ -36,6 +38,8 @@ import {
 	minMaxErrorObject,
 	minMaxValidator,
 } from '@modules/shared/utils/validators'
+import { Label } from '@modules/shared/components/ui/label'
+import { ScrollArea } from '@/modules/shared/components/ui/scroll-area'
 
 interface NewStrategyModalProps {
 	children: React.ReactNode
@@ -409,46 +413,53 @@ export const NewZksynStrategyModal = ({ children }: NewStrategyModalProps) => {
 				<AlertDialogHeader>
 					{activeStep === 1 && (
 						<>
-							<div>zkSync</div>
 							<NewStrategyStepOne form={form} />
 						</>
 					)}
 					{activeStep === 2 && (
-						<div>
-							<h1 className="mb-4">IMPORTANT</h1>
-							<div className="flex flex-col gap-4">
-								<p>Make sure you met all the criteria from the list below:</p>
-								<p>
-									1. You followed
-									<a
-										href="https://discord.gg/wJTeNp8Ect"
-										target="_blank"
-										className="text-valid"
-									>
-										{' '}
-										security{' '}
-									</a>
-									rules to reduce the risk of becoming a Sybil
-								</p>
-								<p>
-									{`2. Make sure you have minimum $15 worh of ETH in your ${
-										form.getValues().firstStepFileds.mainnet.bridge.isSkip
-											? 'zkSync'
-											: 'Ethereum, Arbitrum or Optimism'
-									} wallet!`}
-								</p>
-								<p>
-									{`${
-										!form.getValues().firstStepFileds.mainnet.bridge.isSkip
-											? '3. Orbiter bridge will cost approximately $5 worh of ETH.'
-											: ''
-									}`}
-								</p>
-							</div>
-						</div>
-						// <NewStrategyStepThree
-						// 	selectedNetworks={form.watch('firstStepFileds.networks')}
-						// />
+						<>
+							<AlertDialogTitle className="mb-6 flex justify-center text-3xl">
+								Important
+							</AlertDialogTitle>
+							<AlertDialogDescription asChild={true}>
+								<ScrollArea className="h-[400px] w-full">
+									<div>
+										<div className="flex flex-col gap-4">
+											<Label>
+												Make sure you met all the criteria from the list below:
+											</Label>
+											<Label>
+												1. You followed
+												<a
+													href="https://discord.gg/wJTeNp8Ect"
+													target="_blank"
+													className="text-valid"
+												>
+													{' '}
+													security{' '}
+												</a>
+												rules to reduce the risk of becoming a Sybil
+											</Label>
+											<Label className="leading-[20px]">
+												{`2. Make sure you have minimum $15 worh of ETH in your ${
+													form.getValues().firstStepFileds.mainnet.bridge.isSkip
+														? 'zkSync'
+														: 'Ethereum, Arbitrum or Optimism'
+												} wallet!`}
+											</Label>
+											<Label>
+												{`${
+													!form.getValues().firstStepFileds.mainnet.bridge
+														.isSkip
+														? '3. Orbiter bridge will cost approximately $5 worh of ETH.'
+														: ''
+												}`}
+											</Label>
+										</div>
+									</div>
+								</ScrollArea>
+							</AlertDialogDescription>
+						</>
 					)}
 				</AlertDialogHeader>
 				<AlertDialogFooter>
