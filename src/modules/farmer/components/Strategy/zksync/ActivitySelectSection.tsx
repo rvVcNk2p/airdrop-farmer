@@ -15,6 +15,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 const zksyncActionProviders = enumToArrayObject(ZksyncActionProviders)
 const zksyncSwapProviders = enumToArrayObject(ZksyncSwapActionProviders, [
+	ZksyncSwapActionProviders.SYNCSWAP_SWAP,
 	ZksyncSwapActionProviders.SPACEFI_SWAP,
 	ZksyncSwapActionProviders.VELOCORE_SWAP,
 ])
