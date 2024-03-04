@@ -8,17 +8,16 @@ const ChooseYour = () => {
 			<div className="mx-auto">
 				<div className="flex w-full flex-col items-center">
 					<div className="mb-8 flex w-full max-w-6xl flex-col items-center text-center lg:mb-16">
-						<p className="presale">PRESALE</p>
+						{/* <p className="presale">BEVEZETŐ ÁR</p> */}
 						<h1 className="mb-4 text-center text-3xl font-semibold text-white md:mb-8 md:text-5xl">
-							Pricing{' '}
-							{/* <span className="text-transparent bg-clip-text fancyText">
-								Farmer
-							</span> */}
+							Elérhető{' '}
+							<span className="fancyText bg-clip-text text-transparent">
+								csomagok
+							</span>
 						</h1>
 						<p className="text-main-airdrop max-w-[770px] text-xl md:text-2xl">
-							Eager to boost your profits and save time? Pick between our
-							monthly subscription and one-time package to start experiencing
-							automated airdrop farming.
+							Válassz a havi előfizetéseink vagy az egyszeri csomagjaink közül.
+							Vágj bele az automatizált airdrop farmolásba.
 						</p>
 					</div>
 
@@ -30,17 +29,17 @@ const ChooseYour = () => {
 								BASIC{' '}
 							</div>
 							<p className="text-main-airdrop relative z-50 mb-8 text-left">
-								Perfect for farming upcoming airdrops.
+								Ideális, ha a közelgő airdropokat szeretnéd farmolni.
 							</p>
 							<span className="text-main-airdrop relative z-50 mb-8 flex gap-[8px]">
 								<strong className="text-[48px] font-semibold text-white opacity-80">
 									Ξ0.05
 								</strong>{' '}
-								/ month
+								/ hónap
 							</span>
 							<hr />
 							<div className="text-main-airdrop relative z-50 mt-4 text-left">
-								<span>What’s included</span>
+								<span>Tartalmazza a következőket</span>
 								<ul className="mt-4 flex min-h-[328px] flex-col gap-4">
 									<li className="flex items-center gap-[12px]">
 										<i className="items-start text-[24px]">
@@ -59,7 +58,7 @@ const ChooseYour = () => {
 												></path>
 											</svg>
 										</i>
-										Up to 10 wallets
+										Max. 10 tárca támogatása
 										<div></div>
 									</li>
 									<li className="flex items-center gap-[12px]">
@@ -79,7 +78,7 @@ const ChooseYour = () => {
 												></path>
 											</svg>
 										</i>
-										Automated Airdrop Farming for LayerZero and zkSync
+										Automatizált farmolás itt: LayerZero és zkSync
 									</li>
 									<li className="flex items-center gap-[12px]">
 										<i className="items-start text-[24px]">
@@ -98,7 +97,7 @@ const ChooseYour = () => {
 												></path>
 											</svg>
 										</i>
-										Anti-Sybil Protection
+										Anti-Sybil védelem
 									</li>
 									<li className="flex items-center gap-[12px]">
 										<i className="items-start text-[24px]">
@@ -117,45 +116,7 @@ const ChooseYour = () => {
 												></path>
 											</svg>
 										</i>
-										Private Airdrop Farmers Community
-									</li>
-									<li className="flex items-center gap-[12px]">
-										<i className="items-start text-[24px]">
-											<svg
-												xmlns="http://www.w3.org/2000/svg"
-												fill="none"
-												viewBox="0 0 16 16"
-												className="icon"
-											>
-												<path
-													stroke="currentColor"
-													strokeLinecap="round" // stroke-linecap
-													strokeLinejoin="round" // stroke-linejoin
-													strokeWidth="1.5" // stroke-width
-													d="M10.25 5.75s-2.385 2.54-3 4.5l-1.5-1.5m8.5-.75a6.25 6.25 0 1 1-12.5 0 6.25 6.25 0 0 1 12.5 0Z"
-												></path>
-											</svg>
-										</i>
-										Copilot Guide
-									</li>
-									<li className="flex items-center gap-[12px]">
-										<i className="items-start text-[24px]">
-											<svg
-												xmlns="http://www.w3.org/2000/svg"
-												fill="none"
-												viewBox="0 0 16 16"
-												className="icon"
-											>
-												<path
-													stroke="currentColor"
-													strokeLinecap="round" // stroke-linecap
-													strokeLinejoin="round" // stroke-linejoin
-													strokeWidth="1.5" // stroke-width
-													d="M10.25 5.75s-2.385 2.54-3 4.5l-1.5-1.5m8.5-.75a6.25 6.25 0 1 1-12.5 0 6.25 6.25 0 0 1 12.5 0Z"
-												></path>
-											</svg>
-										</i>
-										Sybil Prevention Guide
+										Privát Airdrop Farmer Közösség
 									</li>
 									{/* <li className="flex items-center gap-[12px]">
 										<i className="text-[24px] items-start">
@@ -179,9 +140,9 @@ const ChooseYour = () => {
 								</ul>
 							</div>
 							<div className=" relative z-50 md:whitespace-nowrap">
-								<span className="text-white">14 spots left.</span>
+								<span className="text-white">14 hely maradt a 25-ből.</span>
 								<span className="text-main-airdrop ml-2">
-									11/25 claimed. Next price: Ξ0.1
+									Következő ár: Ξ0.1
 								</span>
 							</div>
 							<a
@@ -193,7 +154,7 @@ const ChooseYour = () => {
 									aria-haspopup="dialog"
 									type="button"
 								>
-									Try It Now
+									Próbáld ki most
 								</button>
 							</a>
 						</div>
@@ -215,17 +176,17 @@ const ChooseYour = () => {
 									<span className="oneTime">PRO</span>
 								</div>
 								<p className="text-main-airdrop relative z-50 mb-8 text-left">
-									Designed for dedicated airdrop farmers.
+									Elhivatott airdrop farmereknek.
 								</p>
 								<span className="text-main-airdrop relative z-50 mb-8 flex gap-[8px]">
 									<strong className="text-[48px] font-semibold text-white">
 										Ξ0.25
 									</strong>{' '}
-									/ month
+									/ hónap
 								</span>
 								<hr />
 								<div className="text-main-airdrop relative z-50 mt-4 text-left">
-									<span>What’s included</span>
+									<span>Tartalmazza a következőket</span>
 									<ul className="mt-4 flex min-h-[328px] flex-col gap-4">
 										<li className="flex items-center gap-[12px]">
 											<i className="text-main-color items-start text-[24px]">
@@ -245,8 +206,8 @@ const ChooseYour = () => {
 												</svg>
 											</i>
 											<div>
-												Up to <span className="text-main-color">100</span>{' '}
-												wallets
+												Akár <span className="text-main-color">100</span>{' '}
+												tárcáig
 											</div>
 											<div> </div>
 										</li>
@@ -267,8 +228,9 @@ const ChooseYour = () => {
 													></path>
 												</svg>
 											</i>
-											Automated Airdrop Farming for LayerZero, zkSync and future
-											airdrops like Base, Scroll, Linea and others.
+											Automatizált Airdrop Farmlandás a LayerZero és zkSync-hez,
+											jövőbeli airdropokhoz, mint a Base, Scroll, Linea és
+											mások.
 										</li>
 										<li className="flex items-center gap-[12px]">
 											<i className="text-main-color items-start text-[24px]">
@@ -287,7 +249,7 @@ const ChooseYour = () => {
 													></path>
 												</svg>
 											</i>
-											Anti-Sybil Protection
+											Anti-Sybil védelem
 										</li>
 
 										<li className="flex items-center gap-[12px]">
@@ -307,64 +269,7 @@ const ChooseYour = () => {
 													></path>
 												</svg>
 											</i>
-											Private Airdrop Farmers Community
-										</li>
-										<li className="flex items-center gap-[12px]">
-											<i className="text-main-color items-start text-[24px]">
-												<svg
-													xmlns="http://www.w3.org/2000/svg"
-													fill="none"
-													viewBox="0 0 16 16"
-													className="icon"
-												>
-													<path
-														stroke="currentColor"
-														strokeLinecap="round" // stroke-linecap
-														strokeLinejoin="round" // stroke-linejoin
-														strokeWidth="1.5" // stroke-width
-														d="M10.25 5.75s-2.385 2.54-3 4.5l-1.5-1.5m8.5-.75a6.25 6.25 0 1 1-12.5 0 6.25 6.25 0 0 1 12.5 0Z"
-													></path>
-												</svg>
-											</i>
-											Airdrops Farming Guide
-										</li>
-										<li className="flex items-center gap-[12px]">
-											<i className="text-main-color items-start text-[24px]">
-												<svg
-													xmlns="http://www.w3.org/2000/svg"
-													fill="none"
-													viewBox="0 0 16 16"
-													className="icon"
-												>
-													<path
-														stroke="currentColor"
-														strokeLinecap="round" // stroke-linecap
-														strokeLinejoin="round" // stroke-linejoin
-														strokeWidth="1.5" // stroke-width
-														d="M10.25 5.75s-2.385 2.54-3 4.5l-1.5-1.5m8.5-.75a6.25 6.25 0 1 1-12.5 0 6.25 6.25 0 0 1 12.5 0Z"
-													></path>
-												</svg>
-											</i>
-											Copilot Guide
-										</li>
-										<li className="flex items-center gap-[12px]">
-											<i className="text-main-color items-start text-[24px]">
-												<svg
-													xmlns="http://www.w3.org/2000/svg"
-													fill="none"
-													viewBox="0 0 16 16"
-													className="icon"
-												>
-													<path
-														stroke="currentColor"
-														strokeLinecap="round" // stroke-linecap
-														strokeLinejoin="round" // stroke-linejoin
-														strokeWidth="1.5" // stroke-width
-														d="M10.25 5.75s-2.385 2.54-3 4.5l-1.5-1.5m8.5-.75a6.25 6.25 0 1 1-12.5 0 6.25 6.25 0 0 1 12.5 0Z"
-													></path>
-												</svg>
-											</i>
-											Sybil Prevention Guide
+											Privát Airdrop Farmer Közösség
 										</li>
 
 										<li className="flex items-center gap-[12px]">
@@ -388,14 +293,14 @@ const ChooseYour = () => {
 													></path>
 												</svg>
 											</i>
-											More Coming Soon
+											Továbbiak hamarosan
 										</li>
 									</ul>
 								</div>
 								<div className=" relative z-50 md:whitespace-nowrap">
-									<span className="text-white">19 spots left.</span>
+									<span className="text-white">19 hely maradt a 25-ből.</span>
 									<span className="text-main-airdrop ml-2">
-										6/25 claimed. Next price: Ξ0.3
+										Következő ár: Ξ0.3
 									</span>
 								</div>
 								<a
@@ -407,7 +312,7 @@ const ChooseYour = () => {
 										aria-haspopup="dialog"
 										type="button"
 									>
-										Try It Now
+										Próbáld ki most
 									</button>
 								</a>
 							</div>
@@ -416,20 +321,20 @@ const ChooseYour = () => {
 							<div className="heyLiniGradient l:rounded-tl-none l:rounded-bl-none rounded-bl-xl rounded-br-xl rounded-tl-xl rounded-tr-xl"></div>
 							<div className="heyLiniGrain l:rounded-tl-none l:rounded-br-none rounded-bl-xl rounded-br-xl rounded-tl-xl rounded-tr-xl"></div>
 							<div className="relative z-50 text-left text-[32px] text-white">
-								Premium
+								Prémium
 							</div>
 							<p className="text-main-airdrop relative z-50 mb-8 text-left">
-								Made for professional airdrop farmers.
+								Proszfionális airdrop farmereknek.
 							</p>
 							<span className="text-main-airdrop relative z-50 mb-8 flex gap-[8px]">
 								<strong className="text-[48px] font-semibold text-white">
-									Ξ3.8
+									Ξ4
 								</strong>{' '}
-								/ one time
+								/ egyszeri
 							</span>
 							<hr />
 							<div className="text-main-airdrop relative z-50 mt-4 text-left">
-								<span>What’s included</span>
+								<span>Tartalmazza a következőket</span>
 								<ul className="mt-4 flex min-h-[328px] flex-col gap-4">
 									<li className="flex items-center gap-[12px]">
 										<i className="text-main-color items-start text-[24px]">
@@ -449,8 +354,8 @@ const ChooseYour = () => {
 											</svg>
 										</i>
 										<div>
-											Everything in{' '}
-											<span className="text-main-color">Lifetime</span>
+											Minden a <span className="text-main-color">PRO</span>{' '}
+											csomagból
 										</div>
 									</li>
 									<li className="flex items-center gap-[12px]">
@@ -471,8 +376,7 @@ const ChooseYour = () => {
 											</svg>
 										</i>
 										<div>
-											Up to <span className="text-main-color">1000</span>{' '}
-											wallets
+											Akár <span className="text-main-color">1000</span> tárcáig
 										</div>
 									</li>
 									<li className="flex items-center gap-[12px]">
@@ -492,9 +396,9 @@ const ChooseYour = () => {
 												></path>
 											</svg>
 										</i>
-										Personal Guidance From The Team
+										Kiemelt támogatás
 									</li>
-									<li className="flex items-center gap-[12px]">
+									{/* <li className="flex items-center gap-[12px]">
 										<i className="text-main-color items-start text-[24px]">
 											<svg
 												xmlns="http://www.w3.org/2000/svg"
@@ -531,7 +435,7 @@ const ChooseYour = () => {
 												</svg>
 											</div>
 										</span>
-									</li>
+									</li> */}
 									<li className="flex items-center gap-[12px]">
 										<i className="text-main-color items-start text-[24px]">
 											<svg
@@ -549,9 +453,7 @@ const ChooseYour = () => {
 												></path>
 											</svg>
 										</i>
-										Priority Support &amp; Personal
-										<br />
-										Private Chat With The Team
+										Személyes segítség a csapattól
 									</li>
 									<li className="flex items-center gap-[12px]">
 										<i>
@@ -574,7 +476,7 @@ const ChooseYour = () => {
 												></path>
 											</svg>
 										</i>
-										More Coming Soon
+										Továbbiak hamarosan
 									</li>
 								</ul>
 							</div>
@@ -585,7 +487,7 @@ const ChooseYour = () => {
 									className="focus:shadow-outline Button_btn__oCnKT relative z-50 flex h-[46px] w-full cursor-pointer items-center justify-center whitespace-nowrap rounded-md border border border-[#33323e] border-[#33323e] bg-transparent px-2.5 px-4 py-2 py-[7px] !text-lg text-base font-medium tracking-tight text-white duration-200 duration-200 hover:bg-[#211f2d] hover:opacity-80 focus:outline-none active:scale-95"
 									type="button"
 								>
-									Try It Now
+									Próbáld ki most
 								</button>
 							</a>
 						</div>

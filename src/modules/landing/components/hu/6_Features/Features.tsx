@@ -13,13 +13,15 @@ const Features = () => {
 					<div className="relative flex flex-col items-center">
 						<h1 className="mb-6 text-center text-3xl font-semibold text-white md:text-5xl ">
 							<span className="fancyText bg-clip-text text-transparent">
-								Features
+								Mindig
 							</span>{' '}
-							<span className="block md:inline-block">We Can Disclose</span>
+							<span className="block md:inline-block">
+								az aktuális airdropok
+							</span>
 						</h1>
 						<p className="text-main-airdrop mb-8 text-center text-xl md:text-2xl lg:mb-0">
-							This is only the beginning. The true potential is kept away from
-							public view. <br /> Constantly expanding!
+							Ahogyan a különböző Airdropok lehetősége, úgy a mi általunk
+							fejlesztett műveletek és hátózatok száma is folyamatosan bővül.
 						</p>
 					</div>
 					<div className="flex flex-col gap-4 lg:flex-row lg:gap-8">
@@ -57,7 +59,8 @@ const Features = () => {
 													></path>
 												</svg>
 											</i>
-											Achieve Top 3% of airdrop farmers for each wallet.
+											Érd el az airdrop farmerek legjobb 3%-át minden egyes
+											tárcáddal.
 										</li>
 										<li className="flex items-center gap-[12px] lg:text-lg">
 											<i className="text-main-color items-start text-[24px]">
@@ -76,8 +79,8 @@ const Features = () => {
 													></path>
 												</svg>
 											</i>
-											7+ chains including Ethereum, BSC, Polygon, Avalanche,
-											Arbitrum, Optimism, Fantom.
+											7+ lánc, beleértve az Ethereumot, BSC-t, Polygont,
+											Avalanchet, Arbitrumot, Optimism-t, Fantomot.
 										</li>
 										<li className="flex items-center gap-[12px] lg:text-lg">
 											<i className="text-main-color items-start text-[24px]">
@@ -96,7 +99,27 @@ const Features = () => {
 													></path>
 												</svg>
 											</i>
-											2+ bridges including Stargate and Woofi.
+											2+ híd, beleértve a Stargate-et és a Woofi-t.
+										</li>
+										<li className="flex items-center gap-[12px] lg:text-lg">
+											<i className="text-main-color items-start text-[24px]">
+												<svg
+													xmlns="http://www.w3.org/2000/svg"
+													fill="none"
+													viewBox="0 0 16 16"
+													className="icon"
+												>
+													<path
+														stroke="currentColor"
+														strokeLinecap="round" // stroke-linecap
+														strokeLinejoin="round" // stroke-linejoin
+														strokeWidth="1.5" // stroke-width
+														d="M10.25 5.75s-2.385 2.54-3 4.5l-1.5-1.5m8.5-.75a6.25 6.25 0 1 1-12.5 0 6.25 6.25 0 0 1 12.5 0Z"
+													></path>
+												</svg>
+											</i>
+											Védelem a Sybil támadások ellen egy generatív
+											véletlenszerűségi algoritmus segítségével.
 										</li>
 										{/* <li className="flex items-center gap-[12px] lg:text-lg">
 											<i className="text-[24px] items-start text-main-color">
@@ -115,8 +138,8 @@ const Features = () => {
 													></path>
 												</svg>
 											</i>
-											Protection against Sybil attacks by utilizing a generative
-											randomness algorithm.
+											Anti-Sybil protection using generative randomness
+											algorithm.
 										</li> */}
 										<li className="flex items-center gap-[12px] lg:text-lg">
 											<i className="text-main-color items-start text-[24px]">
@@ -135,8 +158,7 @@ const Features = () => {
 													></path>
 												</svg>
 											</i>
-											Anti-Sybil protection using generative randomness
-											algorithm.
+											Tranzakciók aláírása privát kulcsokkal
 										</li>
 										<li className="flex items-center gap-[12px] lg:text-lg">
 											<i className="text-main-color items-start text-[24px]">
@@ -155,27 +177,9 @@ const Features = () => {
 													></path>
 												</svg>
 											</i>
-											Sign transactions with Private keys
-										</li>
-										<li className="flex items-center gap-[12px] lg:text-lg">
-											<i className="text-main-color items-start text-[24px]">
-												<svg
-													xmlns="http://www.w3.org/2000/svg"
-													fill="none"
-													viewBox="0 0 16 16"
-													className="icon"
-												>
-													<path
-														stroke="currentColor"
-														strokeLinecap="round" // stroke-linecap
-														strokeLinejoin="round" // stroke-linejoin
-														strokeWidth="1.5" // stroke-width
-														d="M10.25 5.75s-2.385 2.54-3 4.5l-1.5-1.5m8.5-.75a6.25 6.25 0 1 1-12.5 0 6.25 6.25 0 0 1 12.5 0Z"
-													></path>
-												</svg>
-											</i>
-											5+ customizable parameters including &quot;sleeping&quot;
-											intervals, max spend per tx, routes and others.
+											5+ testreszabható paraméter, beleértve a
+											&quot;szundi&quot; időközöket, a maximális költést
+											tranzakciónként, az útvonalakat és egyebeket.
 										</li>
 									</ul>
 								</div>
@@ -215,7 +219,8 @@ const Features = () => {
 													></path>
 												</svg>
 											</i>
-											Achieve Top 1% of airdrop farmers for each wallet.
+											Érd el az airdrop farmerek legjobb 3%-át minden egyes
+											tárcáddal.
 										</li>
 										<li className="flex items-center gap-[12px] lg:text-lg">
 											<i className="text-main-color items-start text-[24px]">
@@ -234,8 +239,8 @@ const Features = () => {
 													></path>
 												</svg>
 											</i>
-											5+ activities including swaps, minting, providing
-											liquidity, lending and wrapping.
+											5+ tranzakció típus, beleértve a swapokat, mintelést,
+											liquidity biztosítást, kölcsönzést és wrappelést.
 										</li>
 										<li className="flex items-center gap-[12px] lg:text-lg">
 											<i className="text-main-color items-start text-[24px]">
@@ -254,7 +259,7 @@ const Features = () => {
 													></path>
 												</svg>
 											</i>
-											10+ different projects on zkSync.
+											10+ különböző projekt a zkSync-en.
 										</li>
 										<li className="flex items-center gap-[12px] lg:text-lg">
 											<i className="text-main-color items-start text-[24px]">
@@ -273,8 +278,8 @@ const Features = () => {
 													></path>
 												</svg>
 											</i>
-											2+ bridges to zkSync including Official Bridge and
-											Orbiter.
+											2+ híd a zkSync-hez, beleértve a hivatalos hidat és a
+											Orbitert.
 										</li>
 										<li className="flex items-center gap-[12px] lg:text-lg">
 											<i className="text-main-color items-start text-[24px]">
@@ -293,8 +298,8 @@ const Features = () => {
 													></path>
 												</svg>
 											</i>
-											Anti-Sybil protection using generative randomness
-											algorithm.
+											Védelem a Sybil támadások ellen egy generatív
+											véletlenszerűségi algoritmus segítségével.
 										</li>
 										<li className="flex items-center gap-[12px] lg:text-lg">
 											<i className="text-main-color items-start text-[24px]">
@@ -313,7 +318,7 @@ const Features = () => {
 													></path>
 												</svg>
 											</i>
-											Sign transactions with Private keys.
+											Tranzakciók aláírása privát kulcsokkal
 										</li>
 										<li className="flex items-center gap-[12px] lg:text-lg">
 											<i className="text-main-color items-start text-[24px]">
@@ -332,13 +337,11 @@ const Features = () => {
 													></path>
 												</svg>
 											</i>
-											20+ customizable parameters including &quot;sleeping&quot;
-											intervals, max spend per tx, routes and others.
+											20+ testreszabható paraméter, beleértve a
+											&quot;szundi&quot; időközöket, a maximális költést
+											tranzakciónként, az útvonalakat és egyebeket.
 										</li>
 									</ul>
-								</div>
-								<div className="text-main-airdrop flex h-full min-h-[200px] flex-col items-center justify-center text-xl">
-									Coming soon
 								</div>
 							</div>
 						</div>
@@ -355,7 +358,7 @@ const Features = () => {
 										alt="Starknet logo"
 									/> */}
 									<p className="text-3xl font-medium text-white">
-										Base, Scroll, Linea, etc.
+										Base, Scroll, Linea, stb.
 									</p>
 								</div>
 								<hr />
@@ -501,7 +504,7 @@ const Features = () => {
 									</ul>
 								</div> */}
 								<div className="text-main-airdrop flex h-full min-h-[200px] flex-col items-center justify-center text-xl">
-									Coming soon
+									Hamarosan
 								</div>
 							</div>
 						</div>

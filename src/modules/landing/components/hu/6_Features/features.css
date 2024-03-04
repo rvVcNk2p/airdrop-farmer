@@ -1,0 +1,71 @@
+.plan {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	padding: 40px;
+	border: 1px solid hsla(0, 0%, 100%, 0.1);
+	font-size: 15px;
+	font-weight: 500;
+	gap: 24px;
+	line-height: 22px;
+	min-width: 380px;
+	max-width: 420px;
+}
+
+.planHighlighted {
+	position: relative;
+	border: 4px solid transparent;
+	border-radius: 12px;
+	background-clip: padding-box;
+	padding: 64px 40px;
+	min-width: 388px;
+}
+
+@media screen and (max-width: 1200px) {
+	.plan,
+	.planHighlighted {
+		min-width: auto;
+	}
+}
+
+@media screen and (max-width: 860px) {
+	.plan,
+	.planHighlighted {
+		min-width: 100%;
+	}
+}
+
+.plan strong {
+	color: #fff;
+	font-weight: 500;
+}
+
+.plan hr {
+	height: 1px;
+	border: 0;
+	margin: 24px calc(-1 * var(--plan-padding));
+	background: linear-gradient(
+		90deg,
+		hsla(0, 0%, 100%, 0),
+		hsla(0, 0%, 100%, 0.2) 50%,
+		hsla(0, 0%, 100%, 0)
+	);
+}
+
+.plan .icon {
+	display: inline-block;
+	width: 1em;
+	height: 1em;
+	font-size: inherit;
+}
+
+.planHighlighted::before {
+	position: absolute;
+	z-index: -1;
+	border-radius: inherit;
+	margin: calc(-1 * 4px);
+	background: linear-gradient(0.44turn, #76cb9f, #063735);
+	box-shadow: 0 0 48px rgba(0, 0, 0, 0.6);
+	content: '';
+	inset: 0;
+}

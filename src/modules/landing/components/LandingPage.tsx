@@ -2,7 +2,6 @@ import HeroSection from '@/modules/landing/components/1_HeroSection/HeroSection'
 import SectionBreaker from '@/modules/landing/components/2_SectionBreaker/SectionBreaker'
 import HowItWorks from '@/modules/landing/components/3_HowItWorks/HowItWorks'
 import GotYouCovered from '@/modules/landing/components/4_GotYouCovered/GotYouCovered'
-import SellingPoints from '@/modules/landing/components/5_SellingPoints/SellingPoints'
 import Features from '@/modules/landing/components/6_Features/Features'
 import Calculate from '@/modules/landing/components/7_Calculate/Calculate'
 import ChooseYourPlan from '@/modules/landing/components/8_ChooseYour/ChooseYour'
@@ -17,7 +16,6 @@ const LandingPage = () => {
 			<SectionBreaker />
 			<HowItWorks />
 			<GotYouCovered />
-			{/* <SellingPoints /> */}
 			<Features />
 			<Calculate />
 			<ChooseYourPlan />

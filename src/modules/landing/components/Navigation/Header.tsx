@@ -1,9 +1,10 @@
 'use server'
 
 import { discordLink } from '@/modules/shared/constants'
-import Image from 'next/image'
+
 import Link from 'next/link'
 import DynamicNavItems from './DynamicNavItems'
+import HeaderLogo from './HeaderLogo'
 
 const Header = () => {
 	const managerPrivatekey = process.env.MANAGER_PRIVATE_KEY
@@ -14,16 +15,9 @@ const Header = () => {
 			<header className="relative mx-auto flex h-14 w-full max-w-6xl items-center justify-between py-0">
 				<div className="relative mr-4 h-auto">
 					<div className="relative">
-						{/* <Link href="/">
-							<Image
-								src="/logo.svg"
-								alt="Airdrop Hunter logo"
-								width={150}
-								height={100}
-								className="cursor-pointer"
-								priority
-							/>
-						</Link> */}
+						<Link href="/">
+							<HeaderLogo />
+						</Link>
 					</div>
 				</div>
 				<div className="flex items-center whitespace-nowrap">

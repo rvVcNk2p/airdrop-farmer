@@ -7,7 +7,7 @@ import { usePathname } from 'next/navigation'
 const DynamicNavItems = ({ managerPrivatekey }: { managerPrivatekey: any }) => {
 	const pathName = usePathname()
 
-	const publicPaths = ['/signin', '/signup', '/']
+	const publicPaths = ['/signin', '/signup', '/', '/defi-hungary']
 
 	const WorkspaceItems = () => {
 		return (
