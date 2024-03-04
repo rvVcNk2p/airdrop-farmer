@@ -64,14 +64,14 @@ const HowItWorks = () => {
 						</h1>
 						<p className="text-main-airdrop max-w-[800px] text-center text-xl md:text-2xl">
 							Szabj személyre mindent: Döntsd el Te, hogy mennyi tranzakciót,
-							milyen paramáterekkel és milyen tevékenységekben hajtson végre a
+							milyen paramáterekkel és milyen tevékenységet hajtson végre a
 							robot. (Legyen az hidalás, likviditás elhelyzése, stakelés, DeFi
 							kölcsön adás stb.) Termékünk bonyolult és időigényes műveleteket
-							automatizál számodra, hogy neked ne ezekre menjen el az értékes
+							automatizál számodra, hogy Neked ne ezekre menjen el az értékes
 							időd és energiád. Alkalmazz akár több 10 vagy később akár több 100
 							tárcát, amiket személyre szabottan konfigurálhatsz és
 							randomizálhatsz, hogy a lehető legnagyobb esélyed legyen az összes
-							tárcára egy Airdropot kapni.
+							tárcára Airdropot kapni.
 						</p>
 					</div>
 					<div className="relative w-full">

@@ -16,7 +16,7 @@ const ChooseYour = () => {
 							</span>
 						</h1>
 						<p className="text-main-airdrop max-w-[770px] text-xl md:text-2xl">
-							Válassz a havi előfizetéseink vagy az egyszeri csomagjaink közül.
+							Válassz a havi előfizetéseink vagy az egyszeri csomagunk közül.
 							Vágj bele az automatizált airdrop farmolásba.
 						</p>
 					</div>
@@ -140,9 +140,9 @@ const ChooseYour = () => {
 								</ul>
 							</div>
 							<div className=" relative z-50 md:whitespace-nowrap">
-								<span className="text-white">14 hely maradt a 25-ből.</span>
+								{/* <span className="text-white">14 hely maradt a 25-ből.</span> */}
 								<span className="text-main-airdrop ml-2">
-									Következő ár: Ξ0.1
+									Következő ár hamarosan: Ξ0.1
 								</span>
 							</div>
 							<a
@@ -228,7 +228,7 @@ const ChooseYour = () => {
 													></path>
 												</svg>
 											</i>
-											Automatizált Airdrop Farmlandás a LayerZero és zkSync-hez,
+											Automatizált Airdrop Farmolás a LayerZero és zkSync-hez,
 											jövőbeli airdropokhoz, mint a Base, Scroll, Linea és
 											mások.
 										</li>
@@ -298,9 +298,9 @@ const ChooseYour = () => {
 									</ul>
 								</div>
 								<div className=" relative z-50 md:whitespace-nowrap">
-									<span className="text-white">19 hely maradt a 25-ből.</span>
+									{/* <span className="text-white">19 hely maradt a 25-ből.</span> */}
 									<span className="text-main-airdrop ml-2">
-										Következő ár: Ξ0.3
+										Következő ár hamarosan: Ξ0.3
 									</span>
 								</div>
 								<a
@@ -317,14 +317,15 @@ const ChooseYour = () => {
 								</a>
 							</div>
 						</div>
-						<div className="plan l:rounded-tl-none l:rounded-bl-none relative rounded-bl-xl rounded-br-xl rounded-tl-xl rounded-tr-xl bg-[#181622]">
+
+						{/* <div className="plan l:rounded-tl-none l:rounded-bl-none relative rounded-bl-xl rounded-br-xl rounded-tl-xl rounded-tr-xl bg-[#181622]">
 							<div className="heyLiniGradient l:rounded-tl-none l:rounded-bl-none rounded-bl-xl rounded-br-xl rounded-tl-xl rounded-tr-xl"></div>
 							<div className="heyLiniGrain l:rounded-tl-none l:rounded-br-none rounded-bl-xl rounded-br-xl rounded-tl-xl rounded-tr-xl"></div>
 							<div className="relative z-50 text-left text-[32px] text-white">
 								Prémium
 							</div>
 							<p className="text-main-airdrop relative z-50 mb-8 text-left">
-								Proszfionális airdrop farmereknek.
+								Professzionális airdrop farmereknek.
 							</p>
 							<span className="text-main-airdrop relative z-50 mb-8 flex gap-[8px]">
 								<strong className="text-[48px] font-semibold text-white">
@@ -398,7 +399,7 @@ const ChooseYour = () => {
 										</i>
 										Kiemelt támogatás
 									</li>
-									{/* <li className="flex items-center gap-[12px]">
+									<li className="flex items-center gap-[12px]">
 										<i className="text-main-color items-start text-[24px]">
 											<svg
 												xmlns="http://www.w3.org/2000/svg"
@@ -435,7 +436,7 @@ const ChooseYour = () => {
 												</svg>
 											</div>
 										</span>
-									</li> */}
+									</li>
 									<li className="flex items-center gap-[12px]">
 										<i className="text-main-color items-start text-[24px]">
 											<svg
@@ -490,7 +491,7 @@ const ChooseYour = () => {
 									Próbáld ki most
 								</button>
 							</a>
-						</div>
+						</div> */}
 					</div>
 				</div>
 			</div>

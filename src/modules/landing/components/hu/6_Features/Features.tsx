@@ -20,7 +20,7 @@ const Features = () => {
 							</span>
 						</h1>
 						<p className="text-main-airdrop mb-8 text-center text-xl md:text-2xl lg:mb-0">
-							Ahogyan a különböző Airdropok lehetősége, úgy a mi általunk
+							Ahogyan a különböző Airdropok lehetősége, úgy a Mi általunk
 							fejlesztett műveletek és hátózatok száma is folyamatosan bővül.
 						</p>
 					</div>
@@ -80,7 +80,7 @@ const Features = () => {
 												</svg>
 											</i>
 											7+ lánc, beleértve az Ethereumot, BSC-t, Polygont,
-											Avalanchet, Arbitrumot, Optimism-t, Fantomot.
+											Avalanchet, Arbitrumot, Optimismt, Fantomot.
 										</li>
 										<li className="flex items-center gap-[12px] lg:text-lg">
 											<i className="text-main-color items-start text-[24px]">

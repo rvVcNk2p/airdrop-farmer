@@ -110,8 +110,8 @@ const GotYouCovered = () => {
 								>
 									Az adatvédelem a legfontosabb számunkra. Nem tárolunk
 									semmilyen adatot a megadott tárcák privát kulcsairól. Minden
-									adat titkosítva kerül tárolásra a munkamenet beállításainál.
-									Csak Te férsz hozzá a saját privát kulcsaidhoz.
+									adat titkosítva kerül tárolásra a Saját böngésződben. Csak Te
+									férsz hozzá a saját privát kulcsaidhoz.
 								</p>
 							</div>
 						</div>

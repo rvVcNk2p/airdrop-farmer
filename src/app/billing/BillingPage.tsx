@@ -247,11 +247,11 @@ const BillingPage = ({ managerPrivatekey }: { managerPrivatekey: any }) => {
 							<Skeleton className="h-40 w-full" />
 							<Skeleton className="h-40 w-full" />
 							<Skeleton className="h-40 w-full" />
-							<Skeleton className="h-40 w-full" />
+							{/* <Skeleton className="h-40 w-full" /> */}
 						</>
 					) : (
 						<>
-							{tiers.map((tier: any) => (
+							{tiers.slice(0, 3).map((tier: any) => (
 								<div
 									key={tier.type}
 									className={`flex flex-col gap-2 rounded-md border border-gray-200 p-4 ${

@@ -109,3 +109,17 @@ html {
 	scroll-behavior: smooth;
 	scroll-padding-top: 4rem;
 }
+@keyframes change-word {
+	0%,
+	100% {
+		content: 'LayerZero';
+	}
+	50% {
+		content: 'ZkSync';
+	}
+}
+
+.animate-words::after {
+	content: 'LayerZero';
+	animation: change-word 10s infinite;
+}

@@ -1,7 +1,5 @@
 'use server'
 
-import { discordLink } from '@/modules/shared/constants'
-
 import Link from 'next/link'
 import DynamicNavItems from './DynamicNavItems'
 import HeaderLogo from './HeaderLogo'
@@ -22,15 +20,6 @@ const Header = () => {
 				</div>
 				<div className="flex items-center whitespace-nowrap">
 					<DynamicNavItems managerPrivatekey={managerPrivatekey} />
-
-					<Link
-						href={discordLink}
-						target="_blank"
-						rel="noreferrer"
-						className="text-main-airdrop text-white hover:opacity-80"
-					>
-						Join Discord
-					</Link>
 				</div>
 			</header>
 		</div>

@@ -8,7 +8,7 @@ const Faq = () => {
 			title:
 				'Milyen tárcával vagy tácákkal érdemes belevágni az Airdrop vadászatba?',
 			content:
-				'A termék használatához javasolt olyan tárcákat alkalmazni, amelyeken semmiképpen sem tárolsz komoly összegeket. Érdemes olyan tárcákat létrehoznod, amelyet kimondottan csak Airdrop farmolásra használsz. Magyarul nem a portfóliód tárolására alkalmazod. ',
+				'A termék használatához javasolt olyan tárcákat alkalmazni, amelyeken semmiképpen sem tárolsz komoly összegeket. Érdemes olyan tárcákat létrehoznod, amelyet kimondottan csak Airdrop farmolásra használsz. Magyarul, nem a portfóliód tárolására alkalmazod. ',
 		},
 		{
 			id: uuidv4(),
@@ -20,8 +20,8 @@ const Faq = () => {
 			id: uuidv4(),
 			title: 'Ki tárolja a Privát kulcsom?',
 			content: `Termékünk egy egyedi automatiizált airdop gazdálkodásra szóló software, ami maximális biztonságot nyújt privát kulcsaid számára. 
-Mi nem tároljuk őket, így biztonságban maradnak, mert a te saját böngésződ tárolja ezeket. Softwareünk a tranzakciókat zökkenőmentesen aláírja a háttérben, mert a böngésződdel kommunikál. 
-
+Mi nem tároljuk őket, így biztonságban maradnak, mert a Te saját böngésződ tárolja ezeket. Softwareünk a tranzakciókat zökkenőmentesen aláírja a háttérben, mert a böngésződdel kommunikál. 
+</br></br>
 Fontos számunkra az őszinteség és a feddhetetlenség illetve az ügyfeleink belénk fektetett bizalmának megörzése.  
 Célunk, hogy egy kiváló terméket hozzunk létre, amely kényelmet és hatékonyságot biztosít a felhasználóink számára. `,
 		},
@@ -39,7 +39,7 @@ Ahhoz, hogy Sybilként azonosítsanak, négy dolgnak kell történnie:
 
 Annak érdekében, hogy a tárcáidat ne azonosítsák Sybilként, a rendszerünk egy átfogó véletlenszerűsítési folyamatot alkalmaz a tárca műveletekhez. 
 Ez azt jelenti, hogy még azonos csoportban lévő tárcák is eltérő időzítéseket, sorrendeket és összegeket fognak mutatni, így egy változatos és kiszámíthatatlan megközelítést biztosítva. 
-A te feladatod mint felhasználó az, hogy az 1, 2 és 3 pontokban foglaltakat elkerüld.
+A Te feladatod mint felhasználó az, hogy az 1, 2 és 3 pontokban foglaltakat elkerüld.
 			`,
 		},
 		{
@@ -106,7 +106,7 @@ A te feladatod mint felhasználó az, hogy az 1, 2 és 3 pontokban foglaltakat e
 			title:
 				'Hogyan növelhetem annak az esélyét, hogy egy Airdopban részesüljek?',
 			content:
-				'1. Fiók Bemelegítése más hálózatokon: A Sybil gyanú elkerülése érdekében fontos, hogy a tárca már más hálózatokon is aktív volt mielőtt az airdrop farmolásnak kezdesz. Itt az s legjobb, ha a tranzakciókat nem ugyanazon a napon hajtod végre. Javasolt a tranzakciókat időben és különböző hálózatokon elosztani. </br></br> 2. Tranzakciók Diverzifikálása: Ahelyett, hogy egyetlen napon nagy számú tranzakciót hajtanál végre,inkább  különböző alkalmakkor próbálkozz. Ajánlott a tevékenységeket hetente egyszer vagy néhány hétenként több hónapon át végrehajtani. </br></br> 3. Tranzakciók Volumene: Amennyiben lehetséges, törekedj arra, hogy több tranzakciót hajts végre.Minél nagyobb a volumen, amit lebonyolítasz annál jobb. </br></br> 4. Csatlakozás a Projekt Tevékenységeihez: Vegyél részt a projekt szavazásaiban (amennyiben van ilyen). Továbbá, vegyél részt a projekt által rendezett eseményeken.',
+				'1. Fiók Bemelegítése más hálózatokon: A Sybil gyanú elkerülése érdekében fontos, hogy a tárca már más hálózatokon is aktív volt mielőtt az airdrop farmolásnak kezdesz. Itt az s legjobb, ha a tranzakciókat nem ugyanazon a napon hajtod végre. Javasolt a tranzakciókat időben és különböző hálózatokon elosztani. </br></br> 2. Tranzakciók Diverzifikálása: Ahelyett, hogy egyetlen napon nagy számú tranzakciót hajtanál végre, inkább különböző alkalmakkor próbálkozz. Ajánlott a tevékenységeket hetente egyszer vagy néhány hétenként több hónapon át végrehajtani. </br></br> 3. Tranzakciók Volumene: Amennyiben lehetséges, törekedj arra, hogy több tranzakciót hajts végre. Minél nagyobb a volumen, amit lebonyolítasz annál jobb. </br></br> 4. Csatlakozás a Projekt Tevékenységeihez: Vegyél részt a projekt szavazásaiban (amennyiben van ilyen). Továbbá, vegyél részt a projekt által rendezett eseményeken.',
 		},
 	]
 

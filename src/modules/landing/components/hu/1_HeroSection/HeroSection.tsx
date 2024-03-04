@@ -1,11 +1,4 @@
 const HeroSection = () => {
-	const inlineStyle = {
-		display: 'inline-block',
-		transform: 'translateY(-0.0110131px)',
-		opacity: 0.998899,
-		WebkitTextFillColor: 'initial',
-	}
-
 	return (
 		<section className="px-4 py-16 md:px-8 lg:-mt-[72px] lg:min-h-screen lg:pb-36 lg:pt-64">
 			<div className="z-10 mx-auto max-w-6xl">
@@ -14,14 +7,7 @@ const HeroSection = () => {
 						<h1 className="animate-reveal-title header relative mb-6 text-center text-4xl font-semibold text-white md:text-6xl md:leading-tight">
 							Automatizáld a
 							<span className="block">
-								<span
-									style={inlineStyle}
-									// data="LayerZero,ZkSync"
-									// effect="topDown"
-									className="text-main-color mr-6 w-[175px] text-valid md:w-[271px]"
-								>
-									LayerZero
-								</span>
+								<span className="animate-words text-main-color mr-6 w-[175px] text-valid md:w-[271px]"></span>
 								Airdrop Farmolást
 							</span>
 						</h1>
