@@ -49,7 +49,7 @@ const DynamicNavItems = ({ managerPrivatekey }: { managerPrivatekey: any }) => {
 							href={discordLink}
 							target="_blank"
 							rel="noreferrer"
-							className="text-main-airdrop text-white hover:opacity-80"
+							className="text-main-airdrop mr-4 text-white hover:opacity-80"
 						>
 							Airdrop Copilot Discord
 						</Link>
