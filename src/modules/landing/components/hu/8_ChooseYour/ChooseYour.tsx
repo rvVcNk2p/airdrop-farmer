@@ -78,7 +78,8 @@ const ChooseYour = () => {
 												></path>
 											</svg>
 										</i>
-										Automatizált farmolás itt: LayerZero és zkSync
+										Automatizált Airdrop Farmolás a LayerZero és zkSync-hez,
+										jövőbeli airdropokhoz, mint a Base, Scroll, Linea és mások.
 									</li>
 									<li className="flex items-center gap-[12px]">
 										<i className="items-start text-[24px]">
