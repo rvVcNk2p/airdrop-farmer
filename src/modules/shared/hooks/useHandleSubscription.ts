@@ -158,18 +158,14 @@ export const useHandleSubscription = ({
 	}: {
 		userAddress: Address
 	}) => {
-		const result = await readContracts(config, {
-			contracts: [
-				{
-					abi: airdropCopilotInterfaceABI,
-					address: AIRDROP_COPILOT_SUBSCRIPTION_CONTRACT_ADDRESS,
-					functionName: 'isSubscriptionActive',
-					args: [userAddress],
-				},
-			],
+		const result = await client.readContract({
+			abi: airdropCopilotInterfaceABI,
+			address: AIRDROP_COPILOT_SUBSCRIPTION_CONTRACT_ADDRESS,
+			functionName: 'isSubscriptionActive',
+			args: [userAddress],
 		})
 
-		if (result && result[0] && result[0].result) return result[0].result
+		if (result) return result
 		else return false
 	}
 
