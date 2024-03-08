@@ -152,6 +152,17 @@ export const NewStrategyStepThree = ({
 								))}
 							</div>
 						</Label>
+						<Label className="leading-6">
+							4. Your <span className="text-valid">USDT</span> ot{' '}
+							<span className="text-valid">USDC</span> balance needs to be the
+							<span className="text-valid">BIGGEST</span>
+							between all other currencies.
+							<div>
+								<span className="text-valid">For example</span>, if you have $23
+								worth of NATIVE CURRENCY, you need to have at least $25
+								USDT/USDC.e.
+							</div>
+						</Label>
 					</div>
 				</ScrollArea>
 			</AlertDialogDescription>
