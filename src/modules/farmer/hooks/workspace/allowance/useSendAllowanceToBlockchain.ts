@@ -50,12 +50,12 @@ export const useSendAllowanceToBlockchain = () => {
 		nextNonce,
 		loggerFn,
 	}: SendAllowanceToBlockchainFnProps) => {
-		console.log('=== Simulating contract...', configObj)
+		// console.log('=== Simulating contract...', configObj)
 		const simulatedResult = await client.simulateContract(configObj)
-		console.log('=== Sending allowance to blockchain...')
+		// console.log('=== Sending allowance to blockchain...')
 		const hash = await client.writeContract(simulatedResult.request)
 
-		console.log('=== Waiting for transaction...', hash)
+		// console.log('=== Waiting for transaction...', hash)
 
 		loggerFn({
 			timestamp: new Date(),
@@ -71,14 +71,14 @@ export const useSendAllowanceToBlockchain = () => {
 			}),
 		})
 
-		console.log('=== Waiting for transaction receipt...')
+		// console.log('=== Waiting for transaction receipt...')
 
 		const receipt = await client.waitForTransactionReceipt({
 			hash,
 			chainId: configObj.chainId,
 		})
 
-		console.log('=== Waiting for transaction receipt... DONE', receipt)
+		// console.log('=== Waiting for transaction receipt... DONE', receipt)
 
 		loggerFn({
 			timestamp: new Date(),

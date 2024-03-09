@@ -65,8 +65,6 @@ export const usePerformAllowanceAndBridge = () => {
 				loggerFn,
 			})
 
-			console.log('== Allowance creation - Step 2 END')
-
 			// Allowance creation - Step 3
 			const { client, configObj, nextNonce, value } =
 				await createAllowanceTxForApprovalFn({
@@ -74,12 +72,6 @@ export const usePerformAllowanceAndBridge = () => {
 					chainWithHighestBalanceToken,
 					loggerFn,
 				})
-
-			console.log('== Allowance creation - Step 3')
-			console.log('== client', client)
-			console.log('== configObj', configObj)
-			console.log('== nextNonce', nextNonce)
-			console.log('== value', value)
 
 			// Allowance creation - Step 4
 			await sendAllowanceToBlockchainFn({
