@@ -23,15 +23,15 @@ NEXT_PUBLIC_SUPABASE_URL=https://[PROJECT-UID].supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=[KEY]
 MANAGER_PRIVATE_KEY=[PRIVATE-KEY]
 NEXT_PUBLIC_SUBSCRIPTION_CONTRACT_ADDRESS=[CONTRACT-ADDERSS]
-NEXT_PUBLIC_GETBLOCK_ETHEREUM_HTTP_API=wss://go.getblock.io/[KEY]
-NEXT_PUBLIC_GETBLOCK_OPTIMISM_HTTP_API=wss://go.getblock.io/[KEY]
-NEXT_PUBLIC_GETBLOCK_ARBITRUM_HTTP_API=wss://go.getblock.io/[KEY]
-NEXT_PUBLIC_GETBLOCK_POLYGON_HTTP_API=wss://go.getblock.io/[KEY]
-NEXT_PUBLIC_GETBLOCK_BSC_HTTP_API=wss://go.getblock.io/[KEY]
-NEXT_PUBLIC_GETBLOCK_AVALANCHE_HTTP_API=wss://go.getblock.io/[KEY]s
-NEXT_PUBLIC_GETBLOCK_FANTOM_HTTP_API=wss://go.getblock.io/[KEY]
-NEXT_PUBLIC_GETBLOCK_ZKSYNC_HTTP_API=wss://go.getblock.io/[KEY]
-NEXT_PUBLIC_GETBLOCK_SEPOLIA_HTTP_API=wss://go.getblock.io/[KEY]
+NEXT_PUBLIC_ANKR_ETHEREUM_HTTP_API=https://rpc.ankr.com/eth
+NEXT_PUBLIC_ANKR_OPTIMISM_HTTP_API=https://rpc.ankr.com/optimism
+NEXT_PUBLIC_ANKR_ARBITRUM_HTTP_API=https://rpc.ankr.com/arbitrum
+NEXT_PUBLIC_ANKR_POLYGON_HTTP_API=https://rpc.ankr.com/polygon
+NEXT_PUBLIC_ANKR_BSC_HTTP_API=https://rpc.ankr.com/bsc
+NEXT_PUBLIC_ANKR_AVALANCHE_HTTP_API=https://rpc.ankr.com/avalanche
+NEXT_PUBLIC_ANKR_FANTOM_HTTP_API=https://rpc.ankr.com/fantom
+NEXT_PUBLIC_ANKR_ZKSYNC_HTTP_API=https://rpc.ankr.com/zksync_era
+NEXT_PUBLIC_ANKR_SEPOLIA_HTTP_API=https://rpc.ankr.com/eth_sepolia
 
 1. Run the project with `npm run dev`, study the landing page, register an account, and start the airdrop farming.
 ```
@@ -50,7 +50,7 @@ Set your goals: decide how much you want to transact, pick activities, quantity,
 
 ## Where to find KEY and PROJECT-UID from `.env`
 
-- [GetBlock - Auth with Access Token](https://getblock.io/docs/get-started/auth-with-access-token/)
+- [Ankr - Provider](https://rpclist.com/provider/ankr)
 - [Supabase - API URL and keys](https://supabase.com/docs/guides/api#api-url-and-keys)
 
 ## Contributing

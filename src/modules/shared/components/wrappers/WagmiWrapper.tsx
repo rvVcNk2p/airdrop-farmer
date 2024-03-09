@@ -27,15 +27,15 @@ export const config = createConfig({
 		sepolia,
 	],
 	transports: {
-		[mainnet.id]: http(process.env.NEXT_PUBLIC_GETBLOCK_ETHEREUM_HTTP_API),
-		[arbitrum.id]: http(process.env.NEXT_PUBLIC_GETBLOCK_ARBITRUM_HTTP_API),
-		[bsc.id]: http(process.env.NEXT_PUBLIC_GETBLOCK_BSC_HTTP_API),
-		[polygon.id]: http(process.env.NEXT_PUBLIC_GETBLOCK_POLYGON_HTTP_API),
-		[optimism.id]: http(process.env.NEXT_PUBLIC_GETBLOCK_OPTIMISM_HTTP_API),
-		[avalanche.id]: http(process.env.NEXT_PUBLIC_GETBLOCK_AVALANCHE_HTTP_API),
-		[fantom.id]: http(process.env.NEXT_PUBLIC_GETBLOCK_FANTOM_HTTP_API),
+		[mainnet.id]: http(process.env.NEXT_PUBLIC_ANKR_ETHEREUM_HTTP_API),
+		[arbitrum.id]: http(process.env.NEXT_PUBLIC_ANKR_ARBITRUM_HTTP_API),
+		[bsc.id]: http(process.env.NEXT_PUBLIC_ANKR_BSC_HTTP_API),
+		[polygon.id]: http(process.env.NEXT_PUBLIC_ANKR_POLYGON_HTTP_API),
+		[optimism.id]: http(process.env.NEXT_PUBLIC_ANKR_OPTIMISM_HTTP_API),
+		[avalanche.id]: http(process.env.NEXT_PUBLIC_ANKR_AVALANCHE_HTTP_API),
+		[fantom.id]: http(process.env.NEXT_PUBLIC_ANKR_FANTOM_HTTP_API),
 		[zkSync.id]: http(process.env.NEXT_PUBLIC_ZKSYNC_HTTP_API),
-		[sepolia.id]: http(process.env.NEXT_PUBLIC_GETBLOCK_SEPOLIA_HTTP_API),
+		[sepolia.id]: http(process.env.NEXT_PUBLIC_ANKR_SEPOLIA_HTTP_API),
 	},
 })
 

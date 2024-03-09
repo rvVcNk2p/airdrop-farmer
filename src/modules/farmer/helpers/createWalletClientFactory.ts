@@ -41,25 +41,25 @@ const getChainConfiguration = (chainId: number): Chain => {
 const getHttpUrl = (chainId: number) => {
 	switch (chainId) {
 		case ChainIds.ETHEREUM:
-			return process.env.NEXT_PUBLIC_GETBLOCK_ETHEREUM_HTTP_API
+			return process.env.NEXT_PUBLIC_ANKR_ETHEREUM_HTTP_API
 		case ChainIds.BSC:
-			return process.env.NEXT_PUBLIC_GETBLOCK_BSC_HTTP_API
+			return process.env.NEXT_PUBLIC_ANKR_BSC_HTTP_API
 		case ChainIds.OPTIMISM:
-			return process.env.NEXT_PUBLIC_GETBLOCK_OPTIMISM_HTTP_API
+			return process.env.NEXT_PUBLIC_ANKR_OPTIMISM_HTTP_API
 		case ChainIds.POLYGON:
-			return process.env.NEXT_PUBLIC_GETBLOCK_POLYGON_HTTP_API
+			return process.env.NEXT_PUBLIC_ANKR_POLYGON_HTTP_API
 		case ChainIds.ARBITRUM:
-			return process.env.NEXT_PUBLIC_GETBLOCK_ARBITRUM_HTTP_API
+			return process.env.NEXT_PUBLIC_ANKR_ARBITRUM_HTTP_API
 		case ChainIds.AVALANCHE:
-			return process.env.NEXT_PUBLIC_GETBLOCK_AVALANCHE_HTTP_API
+			return process.env.NEXT_PUBLIC_ANKR_AVALANCHE_HTTP_API
 		case ChainIds.FANTOM:
-			return process.env.NEXT_PUBLIC_GETBLOCK_FANTOM_HTTP_API
+			return process.env.NEXT_PUBLIC_ANKR_FANTOM_HTTP_API
 		case ChainIds.ZKSYNC:
-			return process.env.NEXT_PUBLIC_GETBLOCK_ZKSYNC_HTTP_API
+			return process.env.NEXT_PUBLIC_ANKR_ZKSYNC_HTTP_API
 		case ChainIds.SEPOLIA:
-			return process.env.NEXT_PUBLIC_GETBLOCK_SEPOLIA_HTTP_API
+			return process.env.NEXT_PUBLIC_ANKR_SEPOLIA_HTTP_API
 		default:
-			return process.env.NEXT_PUBLIC_GETBLOCK_ETHEREUM_HTTP_API
+			return process.env.NEXT_PUBLIC_ANKR_ETHEREUM_HTTP_API
 	}
 }
 
