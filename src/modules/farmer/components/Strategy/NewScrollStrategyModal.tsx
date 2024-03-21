@@ -156,7 +156,7 @@ const formSchema = z.object({
 					),
 					maxGasFee: z.coerce.number().min(1),
 					slippage: z.coerce.number().min(1),
-					minMaxUsdcInPercentage: z
+					minMaxBalanceInPercentage: z
 						.object({
 							min: z.coerce.number().min(1).max(100),
 							max: z.coerce.number().min(1).max(100),
@@ -165,17 +165,17 @@ const formSchema = z.object({
 				}),
 				lending: z.object({
 					providers: z.array(
-						z.enum([ScrollLendingActionProviders.LAYERBANK_LENDING]),
+						z.enum([ScrollLendingActionProviders.LAYER_BANK_LENDING]),
 					),
 					maxGasFee: z.coerce.number().min(1),
 					maxTimes: z.coerce.number().min(1),
-					minMaxUsdcInPercentage: z
+					minMaxBalanceInPercentage: z
 						.object({
 							min: z.coerce.number().min(1).max(100),
 							max: z.coerce.number().min(1).max(100),
 						})
 						.refine(minMaxValidator, minMaxErrorObject),
-					timeIntervalToremoveAfterProvided: z
+					timeIntervalToRemoveAfterProvided: z
 						.object({
 							from: z.coerce.number().min(1),
 							to: z.coerce.number().min(1),
@@ -191,14 +191,14 @@ const formSchema = z.object({
 					),
 					maxGasFee: z.coerce.number().min(1),
 					maxTimes: z.coerce.number().min(1),
-					minMaxUsdcInPercentage: z
+					minMaxBalanceInPercentage: z
 						.object({
 							min: z.coerce.number().min(1).max(100),
 							max: z.coerce.number().min(1).max(100),
 						})
 						.refine(minMaxValidator, minMaxErrorObject),
 					slippage: z.coerce.number().min(1),
-					timeIntervalToremoveAfterProvided: z
+					timeIntervalToRemoveAfterProvided: z
 						.object({
 							from: z.coerce.number().min(1),
 							to: z.coerce.number().min(1),
@@ -210,7 +210,6 @@ const formSchema = z.object({
 				// 	maxGasFee: z.coerce.number().min(1),
 				// 	maxTimes: z.coerce.number().min(1),
 				// }),
-				wrapping: z.object({}),
 			}),
 		}),
 	}),
@@ -260,18 +259,18 @@ export const NewScrollStrategyModal = ({ children }: NewStrategyModalProps) => {
 						swap: {
 							providers: [],
 							maxGasFee: 2,
-							minMaxUsdcInPercentage: { min: 45, max: 50 },
+							minMaxBalanceInPercentage: { min: 45, max: 50 },
 							slippage: 1,
 						},
 						lending: {
 							providers: [],
 							maxGasFee: 2,
 							maxTimes: 1,
-							timeIntervalToremoveAfterProvided: {
+							timeIntervalToRemoveAfterProvided: {
 								from: 14,
 								to: 86,
 							},
-							minMaxUsdcInPercentage: {
+							minMaxBalanceInPercentage: {
 								min: 70,
 								max: 90,
 							},
@@ -280,11 +279,11 @@ export const NewScrollStrategyModal = ({ children }: NewStrategyModalProps) => {
 							providers: [],
 							maxGasFee: 2,
 							maxTimes: 1,
-							timeIntervalToremoveAfterProvided: {
+							timeIntervalToRemoveAfterProvided: {
 								from: 15,
 								to: 73,
 							},
-							minMaxUsdcInPercentage: {
+							minMaxBalanceInPercentage: {
 								min: 30,
 								max: 50,
 							},
@@ -295,7 +294,6 @@ export const NewScrollStrategyModal = ({ children }: NewStrategyModalProps) => {
 						// 	maxGasFee: 1,
 						// 	maxTimes: 0,
 						// },
-						wrapping: {},
 					},
 				},
 				timeIntervals: {
@@ -340,6 +338,7 @@ export const NewScrollStrategyModal = ({ children }: NewStrategyModalProps) => {
 
 	const onSubmit = (values: z.infer<typeof formSchema>) => {
 		// ✅ This will be type-safe and validated.
+		console.log(values)
 		setActiveStep(activeStep + 1)
 	}
 

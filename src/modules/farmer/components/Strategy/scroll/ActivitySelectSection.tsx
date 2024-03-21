@@ -14,7 +14,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 const scrollActionProviders = enumToArrayObject(ScrollActionProviders)
 const scrollSwapProviders = enumToArrayObject(ScrollSwapActionProviders, [
-	ScrollSwapActionProviders.SPACEFI_SWAP,
+	ScrollSwapActionProviders.SYNCSWAP_SWAP,
 	ScrollSwapActionProviders.IZUMI_SWAP,
 	ScrollSwapActionProviders.NATIVE_SWAP,
 	ScrollSwapActionProviders.OPEN_OCEAN_SWAP,
@@ -22,14 +22,12 @@ const scrollSwapProviders = enumToArrayObject(ScrollSwapActionProviders, [
 ])
 const scrollLiquidityProviders = enumToArrayObject(
 	ScrollLiquidityActionProviders,
-	[
-		ScrollLiquidityActionProviders.SPACEFI_LIQUIDITY,
-		ScrollLiquidityActionProviders.SYNCSWAP_LIQUIDITY,
-	],
+	[ScrollLiquidityActionProviders.SYNCSWAP_LIQUIDITY],
 )
-const scrollLendingProviders = enumToArrayObject(ScrollLendingActionProviders, [
-	ScrollLendingActionProviders.LAYERBANK_LENDING,
-])
+const scrollLendingProviders = enumToArrayObject(
+	ScrollLendingActionProviders,
+	[],
+)
 // const scrollMintProviders = enumToArrayObject(ScrollMintActionProviders)
 
 const ActionOptionMap = {
@@ -56,7 +54,11 @@ const ActionProvider = ({
 				form={form}
 				orientation="vertical"
 				options={providerOptions}
-				valueFormatter={(value: string) => value.split('_')[0]}
+				valueFormatter={(value: string) => {
+					const subStr = value.split('_')
+					subStr.splice(-1)
+					return subStr.join('_')
+				}}
 			/>
 		</>
 	)
@@ -139,6 +141,8 @@ export const ScrollActivitySelectSection = ({ form }: { form: any }) => {
 
 		// After the form is updated, we need to trigger the form
 		form.trigger()
+
+		console.log(scrollLendingProviders)
 
 		// setValue(
 		// 	`firstStepFileds.mainnet.actions.${ScrollActionProviders.MINT.toLocaleLowerCase()}.providers`,
