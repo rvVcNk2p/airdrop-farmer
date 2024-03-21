@@ -1,16 +1,16 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { NewStrategyStepOne } from '@modules/farmer/components/Strategy/zksync'
+import { NewStrategyStepOne } from '@modules/farmer/components/Strategy/scroll'
 import { useUserStrategies } from '@modules/farmer/stores'
 import {
 	AirdropTypes,
 	SignTransactionType,
-	ZksyncBridges,
-	ZkSyncMainnetType,
+	ScrollBridges,
+	ScrollMainnetType,
 	TypedUserStrategyType,
-	ZksyncSwapActionProviders,
-	ZksyncLendingActionProviders,
-	ZksyncLiquidityActionProviders,
-	// ZksyncMintActionProviders,
+	ScrollSwapActionProviders,
+	ScrollLendingActionProviders,
+	ScrollLiquidityActionProviders,
+	// ScrollMintActionProviders
 } from '@modules/farmer/types'
 import {
 	AlertDialog,
@@ -92,7 +92,7 @@ const formSchema = z.object({
 			message: 'Field must be at least 3 characters.',
 		}),
 		txsGoal: z.coerce.number().min(1),
-		airdropType: z.literal(AirdropTypes.ZK_SYNC),
+		airdropType: z.literal(AirdropTypes.SCROLL),
 		signTransactionType: z.union([
 			z.literal(SignTransactionType.MANUAL),
 			z.literal(SignTransactionType.PRIVATE_KEY),
@@ -124,7 +124,7 @@ const formSchema = z.object({
 		mainnet: z.object({
 			bridge: z.object({
 				isSkip: z.boolean(),
-				type: z.enum([ZksyncBridges.ZKSYNC, ZksyncBridges.ORBITER], {
+				type: z.enum([ScrollBridges.OFFICIAL, ScrollBridges.ORBITER], {
 					required_error: 'You need to select a bridge type.',
 				}),
 				maxGasPerBridging: z.coerce.number().min(1),
@@ -146,10 +146,12 @@ const formSchema = z.object({
 				swap: z.object({
 					providers: z.array(
 						z.enum([
-							ZksyncSwapActionProviders.MUTE_SWAP,
-							ZksyncSwapActionProviders.SPACEFI_SWAP,
-							ZksyncSwapActionProviders.SYNCSWAP_SWAP,
-							ZksyncSwapActionProviders.VELOCORE_SWAP,
+							ScrollSwapActionProviders.IZUMI_SWAP,
+							ScrollSwapActionProviders.NATIVE_SWAP,
+							ScrollSwapActionProviders.OPEN_OCEAN_SWAP,
+							ScrollSwapActionProviders.SKYDROME_SWAP,
+							ScrollSwapActionProviders.SPACEFI_SWAP,
+							ScrollSwapActionProviders.SYNCSWAP_SWAP,
 						]),
 					),
 					maxGasFee: z.coerce.number().min(1),
@@ -163,10 +165,7 @@ const formSchema = z.object({
 				}),
 				lending: z.object({
 					providers: z.array(
-						z.enum([
-							ZksyncLendingActionProviders.ERALEND_LENDING,
-							ZksyncLendingActionProviders.REACTORFUSION_LENDING,
-						]),
+						z.enum([ScrollLendingActionProviders.LAYERBANK_LENDING]),
 					),
 					maxGasFee: z.coerce.number().min(1),
 					maxTimes: z.coerce.number().min(1),
@@ -186,10 +185,8 @@ const formSchema = z.object({
 				liquidity: z.object({
 					providers: z.array(
 						z.enum([
-							ZksyncLiquidityActionProviders.MUTE_LIQUIDITY,
-							ZksyncLiquidityActionProviders.SPACEFI_LIQUIDITY,
-							ZksyncLiquidityActionProviders.SYNCSWAP_LIQUIDITY,
-							ZksyncLiquidityActionProviders.VELOCORE_LIQUIDITY,
+							ScrollLiquidityActionProviders.SYNCSWAP_LIQUIDITY,
+							ScrollLiquidityActionProviders.SPACEFI_LIQUIDITY,
 						]),
 					),
 					maxGasFee: z.coerce.number().min(1),
@@ -209,7 +206,7 @@ const formSchema = z.object({
 						.refine(fromToValidator, fromToErrorObject),
 				}),
 				// mint: z.object({
-				// 	providers: z.array(z.enum([ZksyncMintProviders.ZKNS_DOMAINS])),
+				// 	providers: z.array(z.enum([ScrollMintProviders.SCROLLNS_MINT])),
 				// 	maxGasFee: z.coerce.number().min(1),
 				// 	maxTimes: z.coerce.number().min(1),
 				// }),
@@ -219,7 +216,7 @@ const formSchema = z.object({
 	}),
 })
 
-export const NewZksynStrategyModal = ({ children }: NewStrategyModalProps) => {
+export const NewScrollStrategyModal = ({ children }: NewStrategyModalProps) => {
 	const [activeStep, setActiveStep] = useState(1)
 	const [isOpen, setIsOpen] = useState(false)
 
@@ -241,13 +238,13 @@ export const NewZksynStrategyModal = ({ children }: NewStrategyModalProps) => {
 			firstStepFileds: {
 				name: '',
 				txsGoal: 1,
-				airdropType: AirdropTypes.ZK_SYNC,
+				airdropType: AirdropTypes.SCROLL,
 				signTransactionType: SignTransactionType.PRIVATE_KEY,
 				wallets: [],
 				mainnet: {
 					bridge: {
 						isSkip: false,
-						type: ZksyncBridges.ORBITER,
+						type: ScrollBridges.ORBITER,
 						maxGasPerBridging: 1,
 						bridgeFullbalance: false,
 						usdcToBridgeInPercentage: {
@@ -330,7 +327,7 @@ export const NewZksynStrategyModal = ({ children }: NewStrategyModalProps) => {
 				timeIntervals,
 				name,
 			} = selectedStrategy
-			const { bridge, actions } = mainnet as ZkSyncMainnetType
+			const { bridge, actions } = mainnet as ScrollMainnetType
 			setValue('firstStepFileds.name', name)
 			setValue('firstStepFileds.txsGoal', txsGoal)
 			setValue('firstStepFileds.signTransactionType', signTransactionType)
@@ -356,7 +353,7 @@ export const NewZksynStrategyModal = ({ children }: NewStrategyModalProps) => {
 			timeIntervals,
 			mainnet,
 			wallets,
-		} = firstStepFileds as unknown as TypedUserStrategyType<ZkSyncMainnetType>
+		} = firstStepFileds as unknown as TypedUserStrategyType<ScrollMainnetType>
 
 		if (selectedStrategy) {
 			updateStrategy({
@@ -440,7 +437,7 @@ export const NewZksynStrategyModal = ({ children }: NewStrategyModalProps) => {
 											<Label className="leading-[20px]">
 												{`2. Make sure you have minimum $15 worh of ETH in your ${
 													form.getValues().firstStepFileds.mainnet.bridge.isSkip
-														? 'zkSync'
+														? 'scroll'
 														: 'Ethereum, Arbitrum or Optimism'
 												} wallet!`}
 											</Label>

@@ -250,7 +250,7 @@ export enum ScrollActionProviders {
 	SWAP = 'SWAP',
 	LIQUIDITY = 'LIQUIDITY',
 	LENDING = 'LENDING',
-	MINT = 'MINT',
+	// MINT = 'MINT',
 	// DMAIL = 'DMAIL',
 	// DEBPLOY_CONTRACT = 'DEPLOY_CONTRACT',
 }
@@ -290,7 +290,7 @@ export enum ScrollLiquidityActionProviders {
 	SPACEFI_LIQUIDITY = 'SPACEFI_LIQUIDITY', // ETH-USDC
 }
 export enum ScrollLendingActionProviders {
-	LAYER_BANK_LENDING = 'LAYER_BANK_LENDING', // ETH, USDC
+	LAYERBANK_LENDING = 'LAYER BANK_LENDING', // ETH, USDC
 }
 export enum ScrollMintActionProviders {
 	SCROLLNS_MINT = 'SCROLLNS_MINT',

@@ -3,6 +3,7 @@ import { WorkspaceStatusType } from '@modules/farmer/stores/useActionHistory'
 import { AirdropTypes, TxStatusType } from '@modules/farmer/types'
 import type {
 	LayerZeroMainnetType,
+	ScrollMainnetType,
 	TypedUserStrategyTypeWithUid,
 	UserStrategyType,
 	ZkSyncMainnetType,
@@ -10,6 +11,7 @@ import type {
 
 import { useLayerZeroCoordinator } from '@modules/farmer/hooks/workspace/layer-zero/useLayerZeroCoordinator'
 import { useZksyncCoordinator } from '@modules/farmer/hooks/workspace/zksync/useZksyncCoordinator'
+import { useScrollCoordinator } from '@modules/farmer/hooks/workspace/scroll/useScrollCoordinator'
 
 type CoordinateActionsProps = {
 	strategy: UserStrategyType
@@ -23,6 +25,7 @@ export const useActionsCoordinator = () => {
 	)
 	const { coordinateLayerZeroBot } = useLayerZeroCoordinator()
 	const { coordinateZksyncBot } = useZksyncCoordinator()
+	const { coordinateScrollBot } = useScrollCoordinator()
 
 	const coordinateActions = async ({
 		strategy,
@@ -53,6 +56,17 @@ export const useActionsCoordinator = () => {
 					coordinateZksyncBot({
 						strategy:
 							strategy as TypedUserStrategyTypeWithUid<ZkSyncMainnetType>,
+						walletUid: wallet.value,
+						hasValidSubscription,
+					}),
+				),
+			)
+		} else if (strategy.airdropType === AirdropTypes.SCROLL) {
+			await Promise.all(
+				strategy.wallets.map((wallet) =>
+					coordinateScrollBot({
+						strategy:
+							strategy as TypedUserStrategyTypeWithUid<ScrollMainnetType>,
 						walletUid: wallet.value,
 						hasValidSubscription,
 					}),

@@ -35,6 +35,16 @@ const navigation = [
 		label: 'ZkSync',
 		py: 3,
 	},
+	{
+		name: 'Scroll',
+		href: '/farmer/scroll',
+		logo: '/images/scroll-logo.png',
+		height: 25,
+		width: 25,
+		disabled: false,
+		alt: 'Scroll logo',
+		label: 'Scroll',
+	},
 ]
 const supportItems = [
 	{

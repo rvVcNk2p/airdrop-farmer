@@ -3,6 +3,7 @@
 import { EmptyStrategy } from '@modules/farmer/components/Strategy/_shared/EmptyStrategy'
 import { NewLayerZeroStrategyModal } from '@modules/farmer/components/Strategy/NewLayerZeroStrategyModal'
 import { NewZksynStrategyModal } from '@modules/farmer/components/Strategy/NewZksynStrategyModal'
+import { NewScrollStrategyModal } from '@modules/farmer/components/Strategy/NewScrollStrategyModal'
 import { useUserStrategies } from '@modules/farmer/stores'
 import { CardTemplate } from '@modules/shared/components/templates/CardTemplate'
 import { Button } from '@modules/shared/components/ui/button'
@@ -64,13 +65,11 @@ export const StrategySection = ({ type }: { type: AirdropTypes }) => {
 	const EditStrategyModalByType = ({ type, children }: ModalByTypeProps) => {
 		switch (type) {
 			case AirdropTypes.LAYER_ZERO:
-				return (
-					<>
-						<NewLayerZeroStrategyModal>{children}</NewLayerZeroStrategyModal>
-					</>
-				)
+				return <NewLayerZeroStrategyModal>{children}</NewLayerZeroStrategyModal>
 			case AirdropTypes.ZK_SYNC:
 				return <NewZksynStrategyModal>{children}</NewZksynStrategyModal>
+			case AirdropTypes.SCROLL:
+				return <NewScrollStrategyModal>{children}</NewScrollStrategyModal>
 			default:
 		}
 	}
@@ -126,7 +125,6 @@ export const StrategySection = ({ type }: { type: AirdropTypes }) => {
 							</div>
 						</CardTemplate>
 					))}
-
 					<EmptyStrategy type={type} classes="min-h-[200px]" />
 				</div>
 			) : (

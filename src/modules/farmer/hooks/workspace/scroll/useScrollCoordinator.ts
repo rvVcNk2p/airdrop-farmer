@@ -32,7 +32,7 @@ export const useScrollCoordinator = () => {
 	const addNewAction = useActionHistory((state) => state.addNewAction)
 	const getWalletByUid = useUserWallets((state) => state.getWalletByUid)
 
-	const coordinateZksyncBot = async ({
+	const coordinateScrollBot = async ({
 		walletUid,
 		strategy,
 		hasValidSubscription,
@@ -70,12 +70,6 @@ export const useScrollCoordinator = () => {
 
 				await executeNextAction(bridgeAction, ExecutionActionType.BRIDGE, -1)
 			}
-
-			loggerFn({
-				strategyUid: strategy.uid,
-				wallet,
-				message: `Metamask overestimates the tx fees by 50-90%. Unused gas (tx fee) automatically gets refunded after successful transaction.`,
-			})
 
 			// const { nextActionGenerator } = zksyncActionCoordinator({
 			// 	strategy,
@@ -123,5 +117,5 @@ export const useScrollCoordinator = () => {
 		}
 	}
 
-	return { coordinateZksyncBot }
+	return { coordinateScrollBot }
 }
