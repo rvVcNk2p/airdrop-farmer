@@ -1,0 +1,1 @@
+export { approveSpendingCap } from './approveSpendingCap'

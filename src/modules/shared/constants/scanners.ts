@@ -10,4 +10,5 @@ export const TxScanners = {
 	[LayerZeroNetworks.FANTOM]: 'https://ftmscan.com',
 	// ZKSYNC: 'https://explorer.zksync.io',
 	ZKSYNC: 'https://era.zksync.network',
+	SCROLL: 'https://scrollscan.com',
 }

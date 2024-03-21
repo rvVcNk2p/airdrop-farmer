@@ -16,8 +16,8 @@ export const ScrollSwapSection = ({ form }: { form: any }) => {
 				/>
 				<FormDoubleFieldInputWrapper
 					label="Min-Max of the biggest balance to swap:"
-					name1="firstStepFileds.mainnet.actions.swap.minMaxUsdcInPercentage.min"
-					name2="firstStepFileds.mainnet.actions.swap.minMaxUsdcInPercentage.max"
+					name1="firstStepFileds.mainnet.actions.swap.minMaxBalanceInPercentage.min"
+					name2="firstStepFileds.mainnet.actions.swap.minMaxBalanceInPercentage.max"
 					type="number"
 					iconLabel="%"
 					form={form}

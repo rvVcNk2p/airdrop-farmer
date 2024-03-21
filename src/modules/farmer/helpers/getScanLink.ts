@@ -34,6 +34,8 @@ export const getScanLink = (chainId: number, txHash: string) => {
 			return `${TxScanners.FANTOM}/tx/${txHash}`
 		case ChainIds.ZKSYNC:
 			return `${TxScanners.ZKSYNC}/tx/${txHash}`
+		case ChainIds.SCROLL:
+			return `${TxScanners.SCROLL}/tx/${txHash}`
 		default:
 			return 'SCAN NOT FOUND'
 	}

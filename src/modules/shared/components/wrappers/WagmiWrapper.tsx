@@ -27,6 +27,7 @@ export const config = createConfig({
 		fantom,
 		zkSync,
 		sepolia,
+		scroll,
 	],
 	transports: {
 		[mainnet.id]: http(process.env.NEXT_PUBLIC_ANKR_ETHEREUM_HTTP_API),

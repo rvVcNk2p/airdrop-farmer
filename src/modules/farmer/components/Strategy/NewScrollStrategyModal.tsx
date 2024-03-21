@@ -155,7 +155,7 @@ const formSchema = z.object({
 						]),
 					),
 					maxGasFee: z.coerce.number().min(1),
-					slippage: z.coerce.number().min(1),
+					slippage: z.coerce.number().min(0.5),
 					minMaxBalanceInPercentage: z
 						.object({
 							min: z.coerce.number().min(1).max(100),
@@ -197,7 +197,7 @@ const formSchema = z.object({
 							max: z.coerce.number().min(1).max(100),
 						})
 						.refine(minMaxValidator, minMaxErrorObject),
-					slippage: z.coerce.number().min(1),
+					slippage: z.coerce.number().min(0.5),
 					timeIntervalToRemoveAfterProvided: z
 						.object({
 							from: z.coerce.number().min(1),
@@ -260,7 +260,7 @@ export const NewScrollStrategyModal = ({ children }: NewStrategyModalProps) => {
 							providers: [],
 							maxGasFee: 2,
 							minMaxBalanceInPercentage: { min: 45, max: 50 },
-							slippage: 1,
+							slippage: 0.5,
 						},
 						lending: {
 							providers: [],
@@ -287,7 +287,7 @@ export const NewScrollStrategyModal = ({ children }: NewStrategyModalProps) => {
 								min: 30,
 								max: 50,
 							},
-							slippage: 1,
+							slippage: 0.5,
 						},
 						// mint: {
 						// 	providers: [],
@@ -338,7 +338,6 @@ export const NewScrollStrategyModal = ({ children }: NewStrategyModalProps) => {
 
 	const onSubmit = (values: z.infer<typeof formSchema>) => {
 		// ✅ This will be type-safe and validated.
-		console.log(values)
 		setActiveStep(activeStep + 1)
 	}
 

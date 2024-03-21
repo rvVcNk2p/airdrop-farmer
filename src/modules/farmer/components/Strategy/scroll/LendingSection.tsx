@@ -22,16 +22,16 @@ export const ScrollLendingSection = ({ form }: { form: any }) => {
 				/>
 				<FormDoubleFieldInputWrapper
 					label="Min-Max of the biggest balance to lending:"
-					name1="firstStepFileds.mainnet.actions.lending.minMaxUsdcInPercentage.min"
-					name2="firstStepFileds.mainnet.actions.lending.minMaxUsdcInPercentage.max"
+					name1="firstStepFileds.mainnet.actions.lending.minMaxBalanceInPercentage.min"
+					name2="firstStepFileds.mainnet.actions.lending.minMaxBalanceInPercentage.max"
 					type="number"
 					iconLabel="%"
 					form={form}
 				/>
 				<FormDoubleFieldInputWrapper
 					label="Time interval to remove lending after it has been provided:"
-					name1="firstStepFileds.mainnet.actions.lending.timeIntervalToremoveAfterProvided.from"
-					name2="firstStepFileds.mainnet.actions.lending.timeIntervalToremoveAfterProvided.to"
+					name1="firstStepFileds.mainnet.actions.lending.timeIntervalToRemoveAfterProvided.from"
+					name2="firstStepFileds.mainnet.actions.lending.timeIntervalToRemoveAfterProvided.to"
 					type="number"
 					iconLabel="Sec"
 					form={form}

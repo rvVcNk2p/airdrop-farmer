@@ -1,26 +1,26 @@
 import { type Address } from 'viem'
 import {
-	ZksyncActionProviders,
+	ScrollActionProviders,
 	type TypedUserStrategyTypeWithUid,
-	type ZkSyncMainnetType,
+	type ScrollMainnetType,
 } from '@modules/farmer/types'
 
-import { zksyncActionCreatorFactory } from '@modules/farmer/hooks/workspace/zksync/factory/zksyncActionCreatorFactory'
-import { generateRandomActionType } from '@modules/farmer/hooks/workspace/zksync/actions/coordinator/generateRantomActionType'
+import { scrollActionCreatorFactory } from '@modules/farmer/hooks/workspace/scroll/factory/scrollActionCreatorFactory'
+import { generateRandomActionType } from '@modules/farmer/hooks/workspace/scroll/actions/coordinator/generateRantomActionType'
 
-type ZksyncActionCoordinatorProps = {
-	strategy: TypedUserStrategyTypeWithUid<ZkSyncMainnetType>
+type scrollActionCoordinatorProps = {
+	strategy: TypedUserStrategyTypeWithUid<ScrollMainnetType>
 	walletPrivateKey: Address
 	addNewAction: ({}: any) => void
 	loggerFn: ({}: any) => void // Wallet and strategyUid already binded
 }
 
-export const zksyncActionCoordinator = ({
+export const scrollActionCoordinator = ({
 	strategy,
 	walletPrivateKey,
 	addNewAction,
 	loggerFn,
-}: ZksyncActionCoordinatorProps) => {
+}: scrollActionCoordinatorProps) => {
 	const {
 		uid,
 		timeIntervals,
@@ -29,9 +29,9 @@ export const zksyncActionCoordinator = ({
 
 	const alreadyExecutedActions: any = []
 	const availableActionTypes = [
-		ZksyncActionProviders.SWAP,
-		ZksyncActionProviders.LIQUIDITY,
-		ZksyncActionProviders.LENDING,
+		ScrollActionProviders.SWAP,
+		ScrollActionProviders.LIQUIDITY,
+		ScrollActionProviders.LENDING,
 	]
 
 	const nextActionGenerator = async () => {
@@ -54,7 +54,7 @@ export const zksyncActionCoordinator = ({
 			},
 		)
 
-		const nextAction = zksyncActionCreatorFactory({
+		const nextAction = scrollActionCreatorFactory({
 			strategyUid: uid,
 			walletPrivateKey,
 			actionType: nextActionType,

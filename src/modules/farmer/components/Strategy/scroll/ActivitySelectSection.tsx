@@ -142,8 +142,6 @@ export const ScrollActivitySelectSection = ({ form }: { form: any }) => {
 		// After the form is updated, we need to trigger the form
 		form.trigger()
 
-		console.log(scrollLendingProviders)
-
 		// setValue(
 		// 	`firstStepFileds.mainnet.actions.${ScrollActionProviders.MINT.toLocaleLowerCase()}.providers`,
 		// 	scrollMintProviders.map((provider) => provider.value),

@@ -11,7 +11,8 @@ import { fetchPlanByLoggedInUser } from '@modules/shared/fetchers/planFetcher'
 import { useUserWallets } from '@modules/farmer/stores/useUserWallets'
 import { usePerformActions } from '@modules/farmer/hooks/workspace/usePerformActions'
 import { useActionHistory } from '@modules/farmer/stores'
-import { ScrollBridgeCreatorFactory } from '@modules/farmer/hooks/workspace/scroll/factory/ScrollBridgeCreatorFactory'
+import { scrollActionCoordinator } from '@modules/farmer/hooks/workspace/scroll/actions/coordinator/scrollActionCoordinator'
+import { scrollBridgeCreatorFactory } from '@modules/farmer/hooks/workspace/scroll/factory/scrollBridgeCreatorFactory'
 import { randomSleepAndLog } from '@/modules/farmer/helpers/sleep'
 
 export const quotaCheckResult = async (hasValidSubscription: boolean) => {
@@ -58,7 +59,7 @@ export const useScrollCoordinator = () => {
 			})
 
 			if (!bridge.isSkip) {
-				const bridgeAction = await ScrollBridgeCreatorFactory({
+				const bridgeAction = await scrollBridgeCreatorFactory({
 					strategyUid: uid,
 					walletPrivateKey,
 					actionType: bridge.type,
@@ -71,41 +72,47 @@ export const useScrollCoordinator = () => {
 				await executeNextAction(bridgeAction, ExecutionActionType.BRIDGE, -1)
 			}
 
-			// const { nextActionGenerator } = zksyncActionCoordinator({
-			// 	strategy,
-			// 	walletPrivateKey,
-			// 	addNewAction,
-			// 	loggerFn: (args) => loggerFn({ ...args, strategyUid: uid, wallet }), // Wallet and strategyUid binded to loggerFn
-			// })
+			loggerFn({
+				strategyUid: strategy.uid,
+				wallet,
+				message: `Because Scroll is an L2 chain, the Gas fee is calculated from 'L1 Data Fee' + 'Execution Fee', so may be a bit higher than expected.`,
+			})
 
-			// for (let i = 0; i < txsGoal; i++) {
-			// 	const { nextAction } = await nextActionGenerator()
-			// 	const { usedQuota, quota } = (await quotaCheckResult(
-			// 		hasValidSubscription,
-			// 	)) as { usedQuota: number; quota: number }
+			const { nextActionGenerator } = scrollActionCoordinator({
+				strategy,
+				walletPrivateKey,
+				addNewAction,
+				loggerFn: (args) => loggerFn({ ...args, strategyUid: uid, wallet }), // Wallet and strategyUid binded to loggerFn
+			})
 
-			// 	if (usedQuota !== -1 && quota !== -1 && usedQuota >= quota) {
-			// 		throw new Error('Quota reached. Please upgrade your plan.')
-			// 	}
+			for (let i = 0; i < txsGoal; i++) {
+				const { nextAction } = await nextActionGenerator()
+				const { usedQuota, quota } = (await quotaCheckResult(
+					hasValidSubscription,
+				)) as { usedQuota: number; quota: number }
 
-			// 	try {
-			// 		await executeNextAction(
-			// 			nextAction,
-			// 			ExecutionActionType.ACTION,
-			// 			usedQuota,
-			// 		)
-			// 	} catch (error: any) {
-			// 		console.error(error)
-			// 		loggerFn({
-			// 			strategyUid: strategy.uid,
-			// 			timestamp: new Date(),
-			// 			wallet,
-			// 			status: TxStatusType.ERROR,
-			// 			message: error.message,
-			// 		})
-			// 		break
-			// 	}
-			// }
+				if (usedQuota !== -1 && quota !== -1 && usedQuota >= quota) {
+					throw new Error('Quota reached. Please upgrade your plan.')
+				}
+
+				try {
+					await executeNextAction(
+						nextAction,
+						ExecutionActionType.ACTION,
+						usedQuota,
+					)
+				} catch (error: any) {
+					console.error(error)
+					loggerFn({
+						strategyUid: strategy.uid,
+						timestamp: new Date(),
+						wallet,
+						status: TxStatusType.ERROR,
+						message: error.message,
+					})
+					break
+				}
+			}
 		} catch (error: any) {
 			const message = error?.shortMessage ?? error.message
 			loggerFn({

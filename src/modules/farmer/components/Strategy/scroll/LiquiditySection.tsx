@@ -22,16 +22,16 @@ export const ScrollLiquiditySection = ({ form }: { form: any }) => {
 				/>
 				<FormDoubleFieldInputWrapper
 					label="Min-Max of the biggest balance to liquidity:"
-					name1="firstStepFileds.mainnet.actions.liquidity.minMaxUsdcInPercentage.min"
-					name2="firstStepFileds.mainnet.actions.liquidity.minMaxUsdcInPercentage.max"
+					name1="firstStepFileds.mainnet.actions.liquidity.minMaxBalanceInPercentage.min"
+					name2="firstStepFileds.mainnet.actions.liquidity.minMaxBalanceInPercentage.max"
 					type="number"
 					iconLabel="%"
 					form={form}
 				/>
 				<FormDoubleFieldInputWrapper
 					label="Time interval to remove liquidity after it has been provided:"
-					name1="firstStepFileds.mainnet.actions.liquidity.timeIntervalToremoveAfterProvided.from"
-					name2="firstStepFileds.mainnet.actions.liquidity.timeIntervalToremoveAfterProvided.to"
+					name1="firstStepFileds.mainnet.actions.liquidity.timeIntervalToRemoveAfterProvided.from"
+					name2="firstStepFileds.mainnet.actions.liquidity.timeIntervalToRemoveAfterProvided.to"
 					type="number"
 					iconLabel="Sec"
 					form={form}

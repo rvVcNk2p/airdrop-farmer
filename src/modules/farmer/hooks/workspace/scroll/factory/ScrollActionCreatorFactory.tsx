@@ -3,37 +3,32 @@ import { v4 as uuidv4 } from 'uuid'
 
 import {
 	ActionStatusType,
-	ZksyncSwapActionProviders,
-	ZksyncLiquidityActionProviders,
-	ZksyncLendingActionProviders,
+	ScrollSwapActionProviders,
+	ScrollLiquidityActionProviders,
+	ScrollLendingActionProviders,
 	type TxHistoryRecordType,
-	type ZkSyncMainnetActionsType,
+	type ScrollMainnetActionsType,
 	type TimeIntervalConfigType,
-	ZksyncActionProviders,
+	ScrollActionProviders,
 } from '@modules/farmer/types'
 
-import {
-	muteSwapAction,
-	syncswapSwapAction,
-} from '@modules/farmer/hooks/workspace/zksync/actions/swap'
-import { eralendLendingAction } from '@modules/farmer/hooks/workspace/zksync/actions/lending'
-import { muteLiquidityAction } from '@modules/farmer/hooks/workspace/zksync/actions/liquidity'
+import { spacefiSwapAction } from '@modules/farmer/hooks/workspace/scroll/actions/swap'
 
 interface ActionCreatorFactoryProps {
 	strategyUid: string
 	walletPrivateKey: Address
-	actionType: ZksyncActionProviders
+	actionType: ScrollActionProviders
 	providerType:
-		| ZksyncSwapActionProviders
-		| ZksyncLendingActionProviders
-		| ZksyncLiquidityActionProviders
+		| ScrollSwapActionProviders
+		| ScrollLendingActionProviders
+		| ScrollLiquidityActionProviders
 	timeIntervals: TimeIntervalConfigType
 	addNewAction: ({}: any) => void
 	loggerFn: ({}: TxHistoryRecordType) => void
-	actions: ZkSyncMainnetActionsType
+	actions: ScrollMainnetActionsType
 }
 
-export const ScrollActionCreatorFactory = ({
+export const scrollActionCreatorFactory = ({
 	strategyUid,
 	walletPrivateKey,
 	actionType,
@@ -44,56 +39,37 @@ export const ScrollActionCreatorFactory = ({
 	actions,
 }: ActionCreatorFactoryProps) => {
 	const selectedActionByType = () => {
-		if (actionType === ZksyncActionProviders.SWAP) {
+		if (actionType === ScrollActionProviders.SWAP) {
 			switch (providerType) {
-				case ZksyncSwapActionProviders.SYNCSWAP_SWAP:
-					return syncswapSwapAction({
+				case ScrollSwapActionProviders.SPACEFI_SWAP:
+					return spacefiSwapAction({
 						walletPrivateKey,
 						actions,
 						timeIntervals,
 						loggerFn,
 					})
-				case ZksyncSwapActionProviders.MUTE_SWAP:
-					return muteSwapAction({
-						walletPrivateKey,
-						actions,
-						timeIntervals,
-						loggerFn,
-					})
-				case ZksyncSwapActionProviders.SPACEFI_SWAP:
+				case ScrollSwapActionProviders.SYNCSWAP_SWAP:
 					return
-				case ZksyncSwapActionProviders.VELOCORE_SWAP:
+				case ScrollSwapActionProviders.IZUMI_SWAP:
+					return
+				case ScrollSwapActionProviders.NATIVE_SWAP:
+					return
+				case ScrollSwapActionProviders.OPEN_OCEAN_SWAP:
+					return
+				case ScrollSwapActionProviders.SKYDROME_SWAP:
 					return
 			}
-		} else if (actionType === ZksyncActionProviders.LENDING) {
+		} else if (actionType === ScrollActionProviders.LENDING) {
 			switch (providerType) {
-				case ZksyncLendingActionProviders.ERALEND_LENDING:
-					return eralendLendingAction({
-						walletPrivateKey,
-						actions,
-						timeIntervals,
-						loggerFn,
-					})
-				case ZksyncLendingActionProviders.REACTORFUSION_LENDING:
+				case ScrollLendingActionProviders.LAYER_BANK_LENDING:
 					return
 			}
-		} else if (actionType === ZksyncActionProviders.LIQUIDITY) {
+		} else if (actionType === ScrollActionProviders.LIQUIDITY) {
 			switch (providerType) {
-				case ZksyncLiquidityActionProviders.MUTE_LIQUIDITY:
-					return muteLiquidityAction({
-						walletPrivateKey,
-						actions,
-						timeIntervals,
-						loggerFn,
-					})
-				case ZksyncLiquidityActionProviders.SPACEFI_LIQUIDITY:
+				case ScrollLiquidityActionProviders.SPACEFI_LIQUIDITY:
 					return
-				case ZksyncLiquidityActionProviders.SYNCSWAP_LIQUIDITY:
+				case ScrollLiquidityActionProviders.SYNCSWAP_LIQUIDITY:
 					return
-				case ZksyncLiquidityActionProviders.VELOCORE_LIQUIDITY:
-					return
-
-				// Add more cases - Action types
 			}
 		}
 	}

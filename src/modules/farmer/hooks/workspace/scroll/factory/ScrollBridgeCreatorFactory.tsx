@@ -20,7 +20,7 @@ interface BridgeCreatorFactoryProps {
 	bridge: ScrollMainnetBridgeType
 }
 
-export const ScrollBridgeCreatorFactory = ({
+export const scrollBridgeCreatorFactory = ({
 	strategyUid,
 	walletPrivateKey,
 	actionType,

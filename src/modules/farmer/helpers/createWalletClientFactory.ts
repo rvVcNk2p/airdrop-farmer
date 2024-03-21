@@ -11,6 +11,7 @@ import {
 	polygon,
 	zkSync,
 	sepolia,
+	scroll,
 } from 'viem/chains'
 
 const getChainConfiguration = (chainId: number): Chain => {
@@ -31,6 +32,8 @@ const getChainConfiguration = (chainId: number): Chain => {
 			return fantom
 		case ChainIds.ZKSYNC:
 			return zkSync
+		case ChainIds.SCROLL:
+			return scroll
 		case ChainIds.SEPOLIA:
 			return sepolia
 		default:

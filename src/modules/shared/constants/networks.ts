@@ -47,10 +47,16 @@ export const tokenAddresses: TokenAddresses = {
 		vMLP: '0xdfaab828f5f515e104baaba4d8d554da9096f0e4', // vMLP (USDC/WETH)
 		NATIVE_TOKEN: undefined,
 	},
+	[ChainIds.SCROLL]: {
+		USDC: '0x06efdbff2a14a7c8e15944d1f4a48f9f95f663a4', // 6 decimals // USDC // ATTENTION
+		WETH: '0x5300000000000000000000000000000000000004',
+		NATIVE_TOKEN: undefined,
+	},
 }
 
 //
 export const chainAvailableTokens = {
+	[ChainIds.SCROLL]: ['USDC', 'WETH', 'NATIVE_TOKEN'],
 	[ChainIds.ZKSYNC]: ['USDC', 'WETH', 'NATIVE_TOKEN'],
 	[ChainIds.ARBITRUM]: ['USDC', 'USDT', 'NATIVE_TOKEN'],
 	[ChainIds.POLYGON]: ['USDC', 'USDT', 'NATIVE_TOKEN'],
