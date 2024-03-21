@@ -8,7 +8,7 @@ export interface UserStrategyType {
 	wallets: WalletsType[]
 	timeIntervals: TimeIntervalConfigType
 
-	mainnet: LayerZeroMainnetType | ZkSyncMainnetType
+	mainnet: LayerZeroMainnetType | ZkSyncMainnetType | ScrollMainnetType
 
 	// Additional functionality in future
 	testnet?: null // ZkSyncTestnetType | null
@@ -106,6 +106,57 @@ export interface ZkSyncMainnetActionsType {
 	wrapping: {}
 }
 
+export interface ScrollMainnetType {
+	bridge: ScrollMainnetBridgeType
+	actions: ScrollMainnetActionsType
+}
+export interface ScrollMainnetBridgeType {
+	isSkip: boolean
+	type: ScrollBridges
+	maxGasPerBridging: number
+	bridgeFullbalance: boolean
+	bridgeOnlyEthBalance: boolean
+	usdcToBridgeInPercentage: BalancePercentageType
+	ethToBridgeInPercentage: BalancePercentageType
+}
+
+export interface ScrollMainnetActionsType {
+	swap: {
+		providers: ScrollSwapActionProviders[]
+		maxGasFee: number
+		minMaxBalanceInPercentage: BalancePercentageType
+		slippage: number
+	}
+	liquidity: {
+		providers: ScrollLiquidityActionProviders[]
+		maxGasFee: number
+		maxTimes: number
+		timeIntervalToRemoveAfterProvided: IntervalType
+		minMaxBalanceInPercentage: BalancePercentageType
+		slippage: number
+	}
+	lending: {
+		providers: ScrollLendingActionProviders[]
+		maxGasFee: number
+		maxTimes: number
+		minMaxBalanceInPercentage: BalancePercentageType
+		timeIntervalToRemoveAfterProvided: IntervalType
+	}
+	mint: {
+		providers: ScrollMintProviders[]
+		maxTimes: number
+		maxGasFee: number
+	}
+	deploy: {
+		providers: ScrollDeployProviders[]
+		maxTimes: number
+	}
+	// dmail: {
+	// 	providers: ScrollDMailProviders[]
+	// 	maxTimes: number
+	// }
+}
+
 // LayerZero constants
 export enum LayerZeroNetworks {
 	ETHEREUM = 'ETHEREUM',
@@ -184,9 +235,68 @@ export enum ZksyncMintActionProviders {
 
 export enum SwapTargetSymbols {
 	'USDC' = 'USDC',
+	'USDT' = 'USDT',
 	'WETH' = 'WETH',
 	'ETH' = 'ETH',
 	'vMLP' = 'vMLP',
+}
+
+// Scroll constants
+export enum ScrollBridges {
+	OFFICIAL = 'OFFICIAL',
+	ORBITER = 'ORBITER',
+}
+export enum ScrollActionProviders {
+	SWAP = 'SWAP',
+	LIQUIDITY = 'LIQUIDITY',
+	LENDING = 'LENDING',
+	MINT = 'MINT',
+	// DMAIL = 'DMAIL',
+	// DEBPLOY_CONTRACT = 'DEPLOY_CONTRACT',
+}
+
+export enum ScrollSwapProviders {
+	SYNCSWAP = 'SYNCSWAP', // ETH-USDC, ETH-USDT, USDC-USDT
+	SPACEFI = 'SPACEFI', // ETH-USDC, ETH-USDT, USDC-USDT
+	SKYDROME = 'SKYDROME', // ETH-USDC, ETH-USDT, USDC-USDT
+	IZUMI = 'IZUMI', // ETH-USDC, ETH-USDT, USDC-USDT
+	NATIVE = 'NATIVE', // ETH-USDC, ETH-USDT, USDC-USDT
+	OPEN_OCEAN = 'OPEN_OCEAN', // ETH-USDC, ETH-USDT, USDC-USDT
+}
+export enum ScrollLiquidityProviders {
+	SYNCSWAP = 'SYNCSWAP', // ETH-USDC
+	SPACEFI = 'SPACEFI', // ETH-USDC
+}
+export enum ScrollLendingProviders {
+	LAYER_BANK = 'LAYER_BANK', // ETH, USDC
+}
+export enum ScrollMintProviders {
+	SCROLLNS = 'SCROLLNS',
+}
+export enum ScrollDeployProviders {
+	MERKLY = 'MERKLY',
+}
+
+export enum ScrollSwapActionProviders {
+	SYNCSWAP_SWAP = 'SYNCSWAP_SWAP', // ETH-USDC, ETH-USDT, USDC-USDT
+	SPACEFI_SWAP = 'SPACEFI_SWAP', // ETH-USDC, ETH-USDT, USDC-USDT
+	SKYDROME_SWAP = 'SKYDROME_SWAP', // ETH-USDC, ETH-USDT, USDC-USDT
+	IZUMI_SWAP = 'IZUMI_SWAP', // ETH-USDC, ETH-USDT, USDC-USDT
+	NATIVE_SWAP = 'NATIVE_SWAP', // ETH-USDC, ETH-USDT, USDC-USDT
+	OPEN_OCEAN_SWAP = 'OPEN_OCEAN_SWAP', // ETH-USDC, ETH-USDT, USDC-USDT
+}
+export enum ScrollLiquidityActionProviders {
+	SYNCSWAP_LIQUIDITY = 'SYNCSWAP_LIQUIDITY', // ETH-USDC
+	SPACEFI_LIQUIDITY = 'SPACEFI_LIQUIDITY', // ETH-USDC
+}
+export enum ScrollLendingActionProviders {
+	LAYER_BANK_LENDING = 'LAYER_BANK_LENDING', // ETH, USDC
+}
+export enum ScrollMintActionProviders {
+	SCROLLNS_MINT = 'SCROLLNS_MINT',
+}
+export enum ScrollDeployActionProviders {
+	MERKLY_BASIC_DEPLOY = 'MERKLY_BASIC_DEPLOY',
 }
 
 // Shared Types

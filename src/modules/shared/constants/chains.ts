@@ -9,6 +9,8 @@ import {
 	polygon,
 	zkSync,
 	sepolia,
+	base,
+	scroll,
 } from 'viem/chains'
 
 export interface ChainIdMap {
@@ -26,4 +28,6 @@ export const ChainIds: ChainIdMap = {
 	METIS: metis.id,
 	ZKSYNC: zkSync.id,
 	SEPOLIA: sepolia.id,
+	BASE: base.id,
+	SCROLL: scroll.id,
 }
