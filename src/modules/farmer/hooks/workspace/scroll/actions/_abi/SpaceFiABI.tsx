@@ -1,7 +1,7 @@
 // 20240321153336
 // https://gist.githubusercontent.com/SpaceFinance/1abe3acf7ef34207851375b212be90b2/raw/b1cf95fa2993235029b4b9efc0476bbceac0908d/Router.json
 
-export const SpaceFiSwapABI = [
+export const SpaceFiABI = [
 	{
 		inputs: [
 			{

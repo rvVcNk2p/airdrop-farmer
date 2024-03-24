@@ -13,6 +13,8 @@ import {
 } from '@modules/farmer/types'
 
 import { spacefiSwapAction } from '@modules/farmer/hooks/workspace/scroll/actions/swap'
+import { spacefiLiquidityAction } from '@modules/farmer/hooks/workspace/scroll/actions/liquidity'
+import { layerBankLendingAction } from '@modules/farmer/hooks/workspace/scroll/actions/lending'
 
 interface ActionCreatorFactoryProps {
 	strategyUid: string
@@ -62,12 +64,22 @@ export const scrollActionCreatorFactory = ({
 		} else if (actionType === ScrollActionProviders.LENDING) {
 			switch (providerType) {
 				case ScrollLendingActionProviders.LAYER_BANK_LENDING:
-					return
+					return layerBankLendingAction({
+						walletPrivateKey,
+						actions,
+						timeIntervals,
+						loggerFn,
+					})
 			}
 		} else if (actionType === ScrollActionProviders.LIQUIDITY) {
 			switch (providerType) {
 				case ScrollLiquidityActionProviders.SPACEFI_LIQUIDITY:
-					return
+					return spacefiLiquidityAction({
+						walletPrivateKey,
+						actions,
+						timeIntervals,
+						loggerFn,
+					})
 				case ScrollLiquidityActionProviders.SYNCSWAP_LIQUIDITY:
 					return
 			}

@@ -153,7 +153,7 @@ const formSchema = z.object({
 						]),
 					),
 					maxGasFee: z.coerce.number().min(1),
-					slippage: z.coerce.number().min(0.5),
+					slippage: z.coerce.number().min(1),
 					minMaxUsdcInPercentage: z
 						.object({
 							min: z.coerce.number().min(1).max(100),
@@ -200,7 +200,7 @@ const formSchema = z.object({
 							max: z.coerce.number().min(1).max(100),
 						})
 						.refine(minMaxValidator, minMaxErrorObject),
-					slippage: z.coerce.number().min(0.5),
+					slippage: z.coerce.number().min(1),
 					timeIntervalToremoveAfterProvided: z
 						.object({
 							from: z.coerce.number().min(1),
@@ -264,7 +264,7 @@ export const NewZksynStrategyModal = ({ children }: NewStrategyModalProps) => {
 							providers: [],
 							maxGasFee: 2,
 							minMaxUsdcInPercentage: { min: 45, max: 50 },
-							slippage: 0.5,
+							slippage: 1,
 						},
 						lending: {
 							providers: [],
@@ -291,7 +291,7 @@ export const NewZksynStrategyModal = ({ children }: NewStrategyModalProps) => {
 								min: 30,
 								max: 50,
 							},
-							slippage: 0.5,
+							slippage: 1,
 						},
 						// mint: {
 						// 	providers: [],

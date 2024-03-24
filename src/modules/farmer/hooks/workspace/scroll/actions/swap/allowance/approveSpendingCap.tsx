@@ -1,7 +1,7 @@
 import {
 	SwapTargetSymbols,
 	TxHistoryRecordType,
-	ZksyncSwapProviders,
+	ScrollLiquidityProviders,
 } from '@modules/farmer/types'
 import { createWalletClientFactory } from '@modules/farmer/helpers/createWalletClientFactory'
 import {
@@ -33,8 +33,9 @@ type ApproveSpendingCapProps = {
 	loggerFn: ({}: TxHistoryRecordType) => void
 	loggetConfigObj: {
 		amountInUsd: string
-		swapProvider: ZksyncSwapProviders | string
+		swapProvider: ScrollLiquidityProviders | string
 	}
+	isSkip?: boolean
 }
 
 export const approveSpendingCap = async ({
@@ -44,6 +45,7 @@ export const approveSpendingCap = async ({
 	maxGasPerTransaction,
 	loggerFn,
 	loggetConfigObj,
+	isSkip,
 }: ApproveSpendingCapProps) => {
 	const {
 		chainId,
@@ -104,9 +106,10 @@ export const approveSpendingCap = async ({
 		client,
 		configObj: allowanceConfigObj,
 		chainId,
-		loggerMessage_1: `Sent allowance tx ${nextNonce} to ${getColorizedText('ZKSYNC', ColorizedTextTypes.NETWORK)} chain.`,
+		loggerMessage_1: `Sent allowance tx ${nextNonce} to ${getColorizedText('SCROLL', ColorizedTextTypes.NETWORK)} chain.`,
 		loggerMessage_2: `Allowance tx ${nextNonce} confirmed.`,
 		loggerFn,
+		isSkip,
 	})
 
 	return { allowanceConfigObj, gasPriceInUsd }

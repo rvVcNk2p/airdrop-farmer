@@ -50,6 +50,7 @@ export const tokenAddresses: TokenAddresses = {
 	[ChainIds.SCROLL]: {
 		USDC: '0x06efdbff2a14a7c8e15944d1f4a48f9f95f663a4', // 6 decimals // USDC // ATTENTION
 		WETH: '0x5300000000000000000000000000000000000004',
+		nSLP: '0x6905C59Be1a7Ea32d1F257E302401eC9a1401C52', // nSLP (USDC/ETH)
 		NATIVE_TOKEN: undefined,
 	},
 }

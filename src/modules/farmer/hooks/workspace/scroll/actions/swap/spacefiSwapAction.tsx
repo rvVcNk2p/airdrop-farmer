@@ -27,7 +27,7 @@ import { randomSleepAndLog } from '@modules/farmer/helpers/sleep'
 import { approveSpendingCap } from '@modules/farmer/hooks/workspace/scroll/actions/swap/allowance'
 import { ChainIds } from '@modules/shared/constants/chains'
 
-import { SpaceFiSwapABI } from '@modules/farmer/hooks/workspace/scroll/actions/_abi/SpaceFiSwap_ABI'
+import { SpaceFiABI } from '@modules/farmer/hooks/workspace/scroll/actions/_abi/SpaceFiABI'
 
 type spacefiSwapActionProps = {
 	walletPrivateKey: Address
@@ -149,7 +149,7 @@ export const spacefiSwapAction = async ({
 		const baseConfigObjParams = {
 			chainId,
 			address: SPACEFI_SWAP_ROUTER_ADDRESS,
-			abi: SpaceFiSwapABI,
+			abi: SpaceFiABI,
 			account: client.account,
 		}
 		// Swap USDC to ETH

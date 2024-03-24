@@ -37,3 +37,6 @@ export const convert = (value: any, from: any, to: any) => {
 			.toString(10)
 	)
 }
+
+export const adjustValueWithSlippage = (value: bigint, slippage: number) =>
+	(value * BigInt(10000 - slippage * 100)) / BigInt(10000)

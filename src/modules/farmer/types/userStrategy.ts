@@ -238,7 +238,8 @@ export enum SwapTargetSymbols {
 	'USDT' = 'USDT',
 	'WETH' = 'WETH',
 	'ETH' = 'ETH',
-	'vMLP' = 'vMLP',
+	'vMLP' = 'vMLP', // zkSync - USDC/WETH pair
+	'nSLP' = 'nSLP', // SCROLL - UDSC/ETH pair
 }
 
 // Scroll constants
