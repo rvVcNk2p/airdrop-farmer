@@ -1,3 +1,4 @@
+// TODO: Adjust the gas price and gas limit for the LayerBank lending action
 import { type Address, erc20Abi, parseUnits } from 'viem'
 import { randomSleepAndLog } from '@modules/farmer/helpers/sleep'
 import { ChainIds, tokenAddresses } from '@modules/shared/constants'
@@ -46,7 +47,7 @@ const LAYER_BANK_LENDING_ROUTER_ADDRESS_IETH =
 	'0x274C3795dadfEbf562932992bF241ae087e0a98C'
 
 const LAYER_BANK_ADD_LENDING_ACTION = 'supply'
-const LAYER_BANK_REMOVE_LENDING_ACTION = 'redeemToken'
+const LAYER_BANK_REMOVE_LENDING_ACTION = 'redeemUnderlying'
 
 export const layerBankLendingAction = async ({
 	walletPrivateKey,
@@ -169,16 +170,18 @@ export const layerBankLendingAction = async ({
 			args: [LAYER_BANK_LENDING_ROUTER_ADDRESS_IETH, uAmount],
 		}
 
-		const lendingConfigObj =
+		let lendingConfigObj =
 			token === SwapTargetSymbols.USDC ? configObjUsdcToEth : configObjEthToUsdc
 
-		const { gasPriceInUsd: swapGasPriceInUsd } =
-			await getEstimatedContractTransactionFee({
-				client,
-				configObj: lendingConfigObj,
-				ethPrice,
-				maxGasPerTransaction: maxGasFee,
-			})
+		const {
+			gasPriceInUsd: swapGasPriceInUsd,
+			estimatedGas: addLendingEstimatedGas,
+		} = await getEstimatedContractTransactionFee({
+			client,
+			configObj: lendingConfigObj,
+			ethPrice,
+			maxGasPerTransaction: maxGasFee,
+		})
 
 		// Will spend on gas up to $0.17
 		loggerFn({
@@ -196,6 +199,20 @@ export const layerBankLendingAction = async ({
 		loggerFn({
 			message: `Tx ${nextNonce} was signed.`,
 		})
+
+		// It will revert with error - If we don't adjust the args.uAmount and we do not raise the gas with simulated result
+		const lendingProvideSimulatedResult = await client.simulateContract(
+			lendingConfigObj as any,
+		)
+		lendingConfigObj.args = [
+			lendingConfigObj.args[0],
+			lendingProvideSimulatedResult.result,
+		]
+		lendingConfigObj = {
+			...lendingConfigObj,
+			// @ts-ignore
+			gas: addLendingEstimatedGas * BigInt(2),
+		}
 
 		// Sent lending tx 1234 to SCROLL chain. Wiew on Scan.
 		// Lending tx 1234 confirmed. View on Scan.
@@ -229,7 +246,7 @@ export const layerBankLendingAction = async ({
 		// Remove liquidity from ETH/USDC on LAYER_BANK
 		// USDC Example: https://scrollscan.com/tx/0x6dcae62afd3adf59a4acb74b8ce56a553493493610b7fbc1fd8c73c1970a1f2c
 		// ETH Example: https://scrollscan.com/tx/0xda2163e7cc95de57c6fee7d3a5efe696b252b8546e9182ed14ce4aa15a7b7e90
-		const removeLendingConfigObj = {
+		let removeLendingConfigObj = {
 			...baseConfigObjParams,
 			abi: LayerBankABI,
 			functionName: LAYER_BANK_REMOVE_LENDING_ACTION,
@@ -243,13 +260,15 @@ export const layerBankLendingAction = async ({
 
 		console.log('== removeLendingConfigObj', removeLendingConfigObj)
 
-		const { gasPriceInUsd: removeLendingGasPrice } =
-			await getEstimatedContractTransactionFee({
-				client,
-				configObj: removeLendingConfigObj,
-				ethPrice,
-				maxGasPerTransaction: maxGasFee,
-			})
+		const {
+			gasPriceInUsd: removeLendingGasPrice,
+			estimatedGas: removeLendingEstimatedGas,
+		} = await getEstimatedContractTransactionFee({
+			client,
+			configObj: removeLendingConfigObj,
+			ethPrice,
+			maxGasPerTransaction: maxGasFee,
+		})
 
 		// Will spend on gas up to $1.36
 		loggerFn({
@@ -265,6 +284,20 @@ export const layerBankLendingAction = async ({
 		loggerFn({
 			message: `Tx ${nextNonce + 1} was signed.`,
 		})
+
+		// It will revert with error - If we don't adjust the the args.uAmount and we do not raise the gas with simulated result
+		const removeLendingSimulatedResult = await client.simulateContract(
+			removeLendingConfigObj as any,
+		)
+		removeLendingConfigObj.args = [
+			removeLendingConfigObj.args[0],
+			removeLendingSimulatedResult.result,
+		]
+		removeLendingConfigObj = {
+			...removeLendingConfigObj,
+			// @ts-ignore
+			gas: removeLendingEstimatedGas * BigInt(2),
+		}
 
 		// Sent remove lending tx 1233 to SCROLL chain. Wiew on Scan.
 		// Remove lending tx 1233 confirmed. View on Scan.

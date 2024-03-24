@@ -1,3 +1,5 @@
+// TODO: Adjust the gas price and gas limit for the LayerBank lending action
+// TODO: Adjust the error handling for the SpaceFi Liquidity action
 // TransferHelper::transferFrom: transferFrom failed  => Not enough allowance for transaction
 // UniswapV2Router: INSUFFICIENT_A_AMOUNT => Too tight slippage, try it with 1%+
 
@@ -184,9 +186,7 @@ export const spacefiLiquidityAction = async ({
 		}
 		const ethAmountValue = parseUnits(ethAmountToSwap + '', ethDecimal)
 		const amountTokenDesired = parseUnits(usdcAmountToSwap + '', usdcDecimal)
-		// amountTokenDesired * BigInt(10000 - slippage * 100) / BigInt(10000)
 		const amountTokenMin = adjustValueWithSlippage(amountTokenDesired, slippage)
-		// (ethAmountValue * BigInt(10000 - slippage * 100)) / BigInt(10000)
 		const amountETHMin = adjustValueWithSlippage(ethAmountValue, slippage)
 		const to = client.account.address
 		const deadline = Math.floor(new Date(Date.now()).getTime() / 1000) + 60 * 60 // 1 hour
@@ -305,7 +305,7 @@ export const spacefiLiquidityAction = async ({
 
 		// Remove liquidity from nSLP (USDC/ETH) on SCROLL
 		// Example: https://scrollscan.com/tx/0x8f2358c4fa566e17948d49afd725956e66a65226910076555d86dd27ed07aa5b
-		const removeLiquidityConfigObj = {
+		let removeLiquidityConfigObj = {
 			...baseConfigObjParams,
 			functionName: SPACEFI_REMOVE_LIQUIDITY_ACTION,
 			args: [
@@ -320,13 +320,15 @@ export const spacefiLiquidityAction = async ({
 
 		console.log('== removeLiquidityConfigObj', removeLiquidityConfigObj)
 
-		const { gasPriceInUsd: removeLiquidityGasPrice } =
-			await getEstimatedContractTransactionFee({
-				client,
-				configObj: removeLiquidityConfigObj,
-				ethPrice,
-				maxGasPerTransaction: maxGasFee,
-			})
+		const {
+			gasPriceInUsd: removeLiquidityGasPrice,
+			estimatedGas: removeLiquidityEstimatedGas,
+		} = await getEstimatedContractTransactionFee({
+			client,
+			configObj: removeLiquidityConfigObj,
+			ethPrice,
+			maxGasPerTransaction: maxGasFee,
+		})
 
 		// Will spend on gas up to $1.36
 		loggerFn({
@@ -342,6 +344,13 @@ export const spacefiLiquidityAction = async ({
 		loggerFn({
 			message: `Tx ${nextNonce + 1} was signed.`,
 		})
+
+		// It will revert with error - If we don't raise the gas with simulated result
+		removeLiquidityConfigObj = {
+			...removeLiquidityConfigObj,
+			// @ts-ignore
+			gas: removeLiquidityEstimatedGas * BigInt(2),
+		}
 
 		// Sent remove liquidity tx 1233 to SCROLL chain. Wiew on Scan.
 		// Remove liquidity tx 1233 confirmed. View on Scan.
