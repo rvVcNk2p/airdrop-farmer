@@ -12,7 +12,7 @@ import { useUserWallets } from '@modules/farmer/stores/useUserWallets'
 import { usePerformActions } from '@modules/farmer/hooks/workspace/usePerformActions'
 import { useActionHistory } from '@modules/farmer/stores'
 import { scrollActionCoordinator } from '@modules/farmer/hooks/workspace/scroll/actions/coordinator/scrollActionCoordinator'
-import { scrollBridgeCreatorFactory } from '@modules/farmer/hooks/workspace/scroll/factory/scrollBridgeCreatorFactory'
+import { scrollBridgeCreatorFactory } from '@modules/farmer/hooks/workspace/scroll/factory'
 import { randomSleepAndLog } from '@/modules/farmer/helpers/sleep'
 
 export const quotaCheckResult = async (hasValidSubscription: boolean) => {

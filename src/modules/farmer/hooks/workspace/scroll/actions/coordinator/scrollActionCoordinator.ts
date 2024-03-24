@@ -5,7 +5,7 @@ import {
 	type ScrollMainnetType,
 } from '@modules/farmer/types'
 
-import { scrollActionCreatorFactory } from '@modules/farmer/hooks/workspace/scroll/factory/scrollActionCreatorFactory'
+import { scrollActionCreatorFactory } from '@modules/farmer/hooks/workspace/scroll/factory'
 import { generateRandomActionType } from '@modules/farmer/hooks/workspace/scroll/actions/coordinator/generateRantomActionType'
 
 type scrollActionCoordinatorProps = {
