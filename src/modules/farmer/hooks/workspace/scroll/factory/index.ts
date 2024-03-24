@@ -1,2 +1,2 @@
-export { scrollActionCreatorFactory } from './sscrollActionCreatorFactory'
-export { scrollBridgeCreatorFactory } from './sscrollBridgeCreatorFactory'
+export { scrollActionCreatorFactory } from './scrollActionCreatorFactory'
+export { scrollBridgeCreatorFactory } from './scrollBridgeCreatorFactory'
