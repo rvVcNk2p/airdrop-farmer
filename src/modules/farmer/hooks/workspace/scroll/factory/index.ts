@@ -1,2 +1,2 @@
-export { scrollActionCreatorFactory } from '@modules/farmer/hooks/workspace/scroll/factory/scrollActionCreatorFactory'
-export { scrollBridgeCreatorFactory } from '@modules/farmer/hooks/workspace/scroll/factory/scrollBridgeCreatorFactory'
+export { scrollActionCreatorFactory } from './sscrollActionCreatorFactory'
+export { scrollBridgeCreatorFactory } from './sscrollBridgeCreatorFactory'
