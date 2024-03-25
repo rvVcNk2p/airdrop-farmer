@@ -41,6 +41,7 @@ const countActionsByType = (
 type RemoveActionsIfMaxReachedProps = Pick<
 	GenerateRandomActionTypeProps,
 	| 'alreadyExecutedActions'
+	| 'swapProviders'
 	| 'liquidityMaxTimes'
 	| 'lendingMaxTimes'
 	| 'liquidityProviders'
@@ -51,6 +52,7 @@ type RemoveActionsIfMaxReachedProps = Pick<
 
 const removeActionsIfMaxReached = ({
 	alreadyExecutedActions,
+	swapProviders,
 	liquidityProviders,
 	liquidityMaxTimes,
 	lendingProviders,
@@ -58,6 +60,12 @@ const removeActionsIfMaxReached = ({
 	availableActionTypes,
 }: RemoveActionsIfMaxReachedProps) => {
 	const actionsByType = countActionsByType(alreadyExecutedActions)
+
+	if (swapProviders.length === 0) {
+		availableActionTypes = availableActionTypes.filter(
+			(actionType) => actionType !== ScrollActionProviders.SWAP,
+		)
+	}
 
 	if (
 		actionsByType.liquidity >= Number(liquidityMaxTimes) ||
@@ -121,6 +129,7 @@ export const generateRandomActionType = async ({
 	// Generate random action type, but remove the action type if the max times reached
 	const filteredAvailableActionTypes = removeActionsIfMaxReached({
 		alreadyExecutedActions,
+		swapProviders,
 		liquidityProviders,
 		liquidityMaxTimes,
 		lendingProviders,
@@ -131,16 +140,18 @@ export const generateRandomActionType = async ({
 	// If USDC is 0 in the wallet, then SWAP ETH to USDC
 	const isZeroUsdc = await isZeroUSDC({ walletPrivateKey })
 
-	const nextActionType = isZeroUsdc
-		? ScrollActionProviders.SWAP
-		: filteredAvailableActionTypes[
-				randomWholeNumber(0, filteredAvailableActionTypes.length - 1)
-			]
+	// If there is no available action type, then SWAP
+	const nextActionType =
+		isZeroUsdc || filteredAvailableActionTypes.length === 0
+			? ScrollActionProviders.SWAP
+			: filteredAvailableActionTypes[
+					randomWholeNumber(0, filteredAvailableActionTypes.length - 1)
+				]
 
 	const selectNextProviderType = () => {
 		switch (nextActionType) {
 			case ScrollActionProviders.SWAP:
-				return isZeroUsdc
+				return isZeroUsdc || filteredAvailableActionTypes.length === 0
 					? ScrollSwapActionProviders.SPACEFI_SWAP
 					: swapProviders[randomWholeNumber(0, swapProviders.length - 1)]
 			case ScrollActionProviders.LIQUIDITY:

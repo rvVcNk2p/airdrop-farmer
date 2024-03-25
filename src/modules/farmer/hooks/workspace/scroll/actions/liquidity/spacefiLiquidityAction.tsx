@@ -193,7 +193,7 @@ export const spacefiLiquidityAction = async ({
 
 		// Add liquidity to nSLP (USDC/ETH) on SPACEFI
 		// Example: https://scrollscan.com/tx/0x3c776ae9eb6c6d9b402b41e9cd09b2d3f9210aebceae744dd2a920c9efbaa4c8
-		const addLiquidityConfigObj = {
+		let addLiquidityConfigObj = {
 			...baseConfigObjParams,
 			functionName: SPACEFI_ADD_LIQUIDITY_ACTION,
 			value: ethAmountValue,
@@ -207,15 +207,15 @@ export const spacefiLiquidityAction = async ({
 			],
 		}
 
-		console.log('== addLiquidityConfigObj', addLiquidityConfigObj)
-
-		const { gasPriceInUsd: addLiquidityGasPrice } =
-			await getEstimatedContractTransactionFee({
-				client,
-				configObj: addLiquidityConfigObj,
-				ethPrice,
-				maxGasPerTransaction: maxGasFee,
-			})
+		const {
+			gasPriceInUsd: addLiquidityGasPrice,
+			estimatedGas: addLiquidityEstimatedGas,
+		} = await getEstimatedContractTransactionFee({
+			client,
+			configObj: addLiquidityConfigObj,
+			ethPrice,
+			maxGasPerTransaction: maxGasFee,
+		})
 
 		// Will spend on gas up to $1.36
 		loggerFn({
@@ -233,6 +233,12 @@ export const spacefiLiquidityAction = async ({
 		loggerFn({
 			message: `Tx ${nextNonce} was signed.`,
 		})
+
+		addLiquidityConfigObj = {
+			...addLiquidityConfigObj,
+			// @ts-ignore
+			gas: addLiquidityEstimatedGas * BigInt(2),
+		}
 
 		// Sent liquidity tx 1233 to SCROLL chain. Wiew on Scan.
 		// Add liquidity tx 1233 confirmed. View on Scan.
@@ -318,8 +324,6 @@ export const spacefiLiquidityAction = async ({
 			],
 		}
 
-		console.log('== removeLiquidityConfigObj', removeLiquidityConfigObj)
-
 		const {
 			gasPriceInUsd: removeLiquidityGasPrice,
 			estimatedGas: removeLiquidityEstimatedGas,
@@ -377,7 +381,7 @@ export const spacefiLiquidityAction = async ({
 		})
 
 		// IMPROVEMENT: This amount needs to be multiplied by 2 to get the actual amount. There was a LP provide and LP remove action.
-		return Number(ethAmountToSwapInUsd)
+		return Number(ethAmountToSwapInUsd) * 2
 	} catch (error: any) {
 		console.log('== error', error)
 		const message = error?.shortMessage ?? error.message

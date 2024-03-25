@@ -258,8 +258,6 @@ export const layerBankLendingAction = async ({
 			],
 		}
 
-		console.log('== removeLendingConfigObj', removeLendingConfigObj)
-
 		const {
 			gasPriceInUsd: removeLendingGasPrice,
 			estimatedGas: removeLendingEstimatedGas,
@@ -319,7 +317,7 @@ export const layerBankLendingAction = async ({
 		})
 
 		// IMPROVEMENT: This amount needs to be multiplied by 2 to get the actual amount. There was a LP provide and LP remove action.
-		return Number(amountToSwapInUsd)
+		return Number(amountToSwapInUsd) * 2
 	} catch (error: any) {
 		console.log('== error', error)
 		const message = error?.shortMessage ?? error.message
