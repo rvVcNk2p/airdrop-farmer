@@ -124,6 +124,7 @@ export const layerBankLendingAction = async ({
 					swapProvider: ScrollLendingProviders.LAYER_BANK,
 				},
 				isSkip: false,
+				doubleGas: true,
 			})
 
 			await randomSleepAndLog({
@@ -191,16 +192,16 @@ export const layerBankLendingAction = async ({
 			message: `Will spend on gas up to $${swapGasPriceInUsd}`,
 		})
 
-		const { nextNonce } = await getNextNonce(client)
+		const { nextNonce: nextNonceAdd } = await getNextNonce(client)
 
 		// Create tx 1234 to lending on SYNCSWAP
 		loggerFn({
-			message: `Created tx ${nextNonce} to lending on ${getColorizedText(ScrollLendingProviders.LAYER_BANK, ColorizedTextTypes.NETWORK)}.`,
+			message: `Created tx ${nextNonceAdd} to lending on ${getColorizedText(ScrollLendingProviders.LAYER_BANK, ColorizedTextTypes.NETWORK)}.`,
 		})
 
 		// Tx 1233 was signed.
 		loggerFn({
-			message: `Tx ${nextNonce} was signed.`,
+			message: `Tx ${nextNonceAdd} was signed.`,
 		})
 
 		// It will revert with error - If we don't adjust the args.uAmount and we do not raise the gas with simulated result
@@ -224,8 +225,8 @@ export const layerBankLendingAction = async ({
 			client,
 			chainId,
 			configObj: lendingConfigObj,
-			loggerMessage_1: `Sent lending tx ${nextNonce} to ${getColorizedText('SCROLL', ColorizedTextTypes.NETWORK)} chain.`,
-			loggerMessage_2: `Lending tx ${nextNonce} confirmed.`,
+			loggerMessage_1: `Sent lending tx ${nextNonceAdd} to ${getColorizedText('SCROLL', ColorizedTextTypes.NETWORK)} chain.`,
+			loggerMessage_2: `Lending tx ${nextNonceAdd} confirmed.`,
 			loggerFn,
 			isSkip: false,
 		})
@@ -278,14 +279,16 @@ export const layerBankLendingAction = async ({
 			message: `Will spend on gas up to $${removeLendingGasPrice}`,
 		})
 
+		const { nextNonce: nextNonceRemove } = await getNextNonce(client)
+
 		// Create tx 1234 to remove lending on LAYER_BANK
 		loggerFn({
-			message: `Created tx ${nextNonce + 1} to remove lending on ${getColorizedText(ScrollLendingProviders.LAYER_BANK, ColorizedTextTypes.NETWORK)}.`,
+			message: `Created tx ${nextNonceRemove} to remove lending on ${getColorizedText(ScrollLendingProviders.LAYER_BANK, ColorizedTextTypes.NETWORK)}.`,
 		})
 
 		// Tx 1233 was signed.
 		loggerFn({
-			message: `Tx ${nextNonce + 1} was signed.`,
+			message: `Tx ${nextNonceRemove} was signed.`,
 		})
 
 		// It will revert with error - If we don't adjust the the args.uAmount and we do not raise the gas with simulated result
@@ -309,8 +312,8 @@ export const layerBankLendingAction = async ({
 			client,
 			chainId,
 			configObj: removeLendingConfigObj,
-			loggerMessage_1: `Sent remove lending tx ${nextNonce} to ${getColorizedText('SCROLL', ColorizedTextTypes.NETWORK)} chain.`,
-			loggerMessage_2: `Remove lending tx ${nextNonce} confirmed.`,
+			loggerMessage_1: `Sent remove lending tx ${nextNonceRemove} to ${getColorizedText('SCROLL', ColorizedTextTypes.NETWORK)} chain.`,
+			loggerMessage_2: `Remove lending tx ${nextNonceRemove} confirmed.`,
 			loggerFn,
 			isSkip: false,
 		})

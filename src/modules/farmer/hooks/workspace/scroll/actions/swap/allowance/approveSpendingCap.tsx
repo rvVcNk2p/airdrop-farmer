@@ -36,6 +36,7 @@ type ApproveSpendingCapProps = {
 		swapProvider: ScrollLiquidityProviders | string
 	}
 	isSkip?: boolean
+	doubleGas?: boolean
 }
 
 export const approveSpendingCap = async ({
@@ -46,6 +47,7 @@ export const approveSpendingCap = async ({
 	loggerFn,
 	loggetConfigObj,
 	isSkip,
+	doubleGas,
 }: ApproveSpendingCapProps) => {
 	const {
 		chainId,
@@ -63,7 +65,7 @@ export const approveSpendingCap = async ({
 		? parseUnits(amountToApprove + '', decimal)
 		: amountToApprove
 	// STEP 1. | Configure allowance tx
-	const allowanceConfigObj = {
+	let allowanceConfigObj = {
 		chainId,
 		address,
 		abi,
@@ -73,12 +75,21 @@ export const approveSpendingCap = async ({
 	}
 
 	// STEP 2. | Send allowance tx + Get estimated approvel transaction fee
-	const { gasPriceInUsd } = await getEstimatedContractTransactionFee({
-		client,
-		configObj: allowanceConfigObj,
-		ethPrice,
-		maxGasPerTransaction,
-	})
+	const { gasPriceInUsd, estimatedGas } =
+		await getEstimatedContractTransactionFee({
+			client,
+			configObj: allowanceConfigObj,
+			ethPrice,
+			maxGasPerTransaction,
+		})
+
+	if (doubleGas) {
+		allowanceConfigObj = {
+			...allowanceConfigObj,
+			// @ts-ignore
+			gas: estimatedGas * BigInt(2),
+		}
+	}
 
 	// STEP 3. | Log approvel transaction fee
 	// Will spend on gas up to $0.52

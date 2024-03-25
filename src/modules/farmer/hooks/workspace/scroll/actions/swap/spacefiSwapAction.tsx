@@ -121,6 +121,7 @@ export const spacefiSwapAction = async ({
 					amountInUsd: amountToSwapInUsd,
 					swapProvider: ScrollSwapProviders.SPACEFI,
 				},
+				doubleGas: true,
 			})
 
 			await randomSleepAndLog({

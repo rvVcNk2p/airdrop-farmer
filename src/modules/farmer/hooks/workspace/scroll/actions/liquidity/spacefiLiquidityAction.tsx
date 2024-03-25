@@ -163,6 +163,7 @@ export const spacefiLiquidityAction = async ({
 				swapProvider: ScrollLiquidityProviders.SPACEFI,
 			},
 			isSkip: false,
+			doubleGas: true,
 		})
 
 		await randomSleepAndLog({
@@ -225,16 +226,16 @@ export const spacefiLiquidityAction = async ({
 			message: `Will spend on gas up to $${addLiquidityGasPrice}`,
 		})
 
-		const { nextNonce } = await getNextNonce(client)
+		const { nextNonce: nextNonceAdd } = await getNextNonce(client)
 
 		// Create tx 1234 to add liquidity on SCROLL
 		loggerFn({
-			message: `Created tx ${nextNonce} add liquidity on ${getColorizedText(ScrollLiquidityProviders.SPACEFI, ColorizedTextTypes.NETWORK)}.`,
+			message: `Created tx ${nextNonceAdd} add liquidity on ${getColorizedText(ScrollLiquidityProviders.SPACEFI, ColorizedTextTypes.NETWORK)}.`,
 		})
 
 		// Tx 1233 was signed.
 		loggerFn({
-			message: `Tx ${nextNonce} was signed.`,
+			message: `Tx ${nextNonceAdd} was signed.`,
 		})
 
 		addLiquidityConfigObj = {
@@ -249,8 +250,8 @@ export const spacefiLiquidityAction = async ({
 			client,
 			chainId,
 			configObj: addLiquidityConfigObj,
-			loggerMessage_1: `Sent liquidity tx ${nextNonce} to ${getColorizedText('SCROLL', ColorizedTextTypes.NETWORK)} chain.`,
-			loggerMessage_2: `Add liquidity tx ${nextNonce} confirmed.`,
+			loggerMessage_1: `Sent liquidity tx ${nextNonceAdd} to ${getColorizedText('SCROLL', ColorizedTextTypes.NETWORK)} chain.`,
+			loggerMessage_2: `Add liquidity tx ${nextNonceAdd} confirmed.`,
 			loggerFn,
 			isSkip: false,
 		})
@@ -303,6 +304,7 @@ export const spacefiLiquidityAction = async ({
 				swapProvider: ScrollLiquidityProviders.SPACEFI,
 			},
 			isSkip: false,
+			doubleGas: true,
 		})
 
 		await randomSleepAndLog({
@@ -343,14 +345,16 @@ export const spacefiLiquidityAction = async ({
 			message: `Will spend on gas up to $${removeLiquidityGasPrice}`,
 		})
 
+		const { nextNonce: nextNonceRemove } = await getNextNonce(client)
+
 		// Create tx 1234 to remove liquidity on SCROLL
 		loggerFn({
-			message: `Created tx ${nextNonce + 1} to remove liquidity on ${getColorizedText(ScrollLiquidityProviders.SPACEFI, ColorizedTextTypes.NETWORK)}.`,
+			message: `Created tx ${nextNonceRemove} to remove liquidity on ${getColorizedText(ScrollLiquidityProviders.SPACEFI, ColorizedTextTypes.NETWORK)}.`,
 		})
 
 		// Tx 1233 was signed.
 		loggerFn({
-			message: `Tx ${nextNonce + 1} was signed.`,
+			message: `Tx ${nextNonceRemove} was signed.`,
 		})
 
 		// It will revert with error - If we don't raise the gas with simulated result
@@ -367,8 +371,8 @@ export const spacefiLiquidityAction = async ({
 			client,
 			chainId,
 			configObj: removeLiquidityConfigObj,
-			loggerMessage_1: `Sent remove liquidity tx ${nextNonce} to ${getColorizedText('SCROLL', ColorizedTextTypes.NETWORK)} chain.`,
-			loggerMessage_2: `Remove liquidity tx ${nextNonce} confirmed.`,
+			loggerMessage_1: `Sent remove liquidity tx ${nextNonceRemove} to ${getColorizedText('SCROLL', ColorizedTextTypes.NETWORK)} chain.`,
+			loggerMessage_2: `Remove liquidity tx ${nextNonceRemove} confirmed.`,
 			loggerFn,
 			isSkip: false,
 		})
