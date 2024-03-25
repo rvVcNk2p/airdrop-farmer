@@ -40,3 +40,17 @@ export const convert = (value: any, from: any, to: any) => {
 
 export const adjustValueWithSlippage = (value: bigint, slippage: number) =>
 	(value * BigInt(10000 - slippage * 100)) / BigInt(10000)
+
+export const multiplyBigIntWithFloat = (
+	bigIntValue: bigint,
+	floatValue: number,
+) => {
+	// Convert the float number to a BigInt by multiplying it by a power of 10
+	const floatValueBigInt = BigInt(Math.floor(floatValue * 1000)) // Adjust precision as needed
+
+	// Multiply the BigInt value with the BigInt representation of the float number
+	const result = bigIntValue * floatValueBigInt
+
+	// Return the result
+	return result
+}

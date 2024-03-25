@@ -240,7 +240,7 @@ export const spacefiLiquidityAction = async ({
 		addLiquidityConfigObj = {
 			...addLiquidityConfigObj,
 			// @ts-ignore
-			gas: addLiquidityEstimatedGas,
+			gas: addLiquidityEstimatedGas * BigInt(2),
 		}
 
 		// Sent liquidity tx 1233 to SCROLL chain. Wiew on Scan.
@@ -357,7 +357,7 @@ export const spacefiLiquidityAction = async ({
 		removeLiquidityConfigObj = {
 			...removeLiquidityConfigObj,
 			// @ts-ignore
-			gas: removeLiquidityEstimatedGas,
+			gas: removeLiquidityEstimatedGas * BigInt(2),
 		}
 
 		// Sent remove liquidity tx 1233 to SCROLL chain. Wiew on Scan.

@@ -2,6 +2,7 @@ import { ChainIds } from '@/modules/shared/constants'
 import { createWalletClientFactory } from '@modules/farmer/helpers/createWalletClientFactory'
 import { formatUnits } from 'viem'
 import { getScrollL1Fee } from './getScrollL1Fee'
+// import { multiplyBigIntWithFloat } from '@/modules/shared/utils/bignumber'
 
 type GetEstimatedTransactionFeeProps = {
 	client: ReturnType<typeof createWalletClientFactory>
@@ -34,7 +35,7 @@ export const getEstimatedTransactionFee = async ({
 	}
 
 	return {
-		estimatedGas: estimatedGas * BigInt(multiplier),
+		estimatedGas, // multiplyBigIntWithFloat(estimatedGas, multiplier),
 		baseGasPrice,
 		gasPriceInEth,
 		parsedGasPriceInEth,
@@ -73,7 +74,7 @@ export const getEstimatedContractTransactionFee = async ({
 	}
 
 	return {
-		estimatedGas: estimatedGas * BigInt(multiplier),
+		estimatedGas, // multiplyBigIntWithFloat(estimatedGas, multiplier),
 		baseGasPrice,
 		gasPriceInUsd,
 		parsedGasPriceInUsd,
