@@ -1,4 +1,3 @@
-// TODO: Adjust the gas price and gas limit for the LayerBank lending action
 import { type Address, erc20Abi, parseUnits } from 'viem'
 import { randomSleepAndLog } from '@modules/farmer/helpers/sleep'
 import { ChainIds, tokenAddresses } from '@modules/shared/constants'
@@ -26,6 +25,9 @@ import {
 import { createWalletClientFactory } from '@modules/farmer/helpers/createWalletClientFactory'
 import { approveSpendingCap } from '@modules/farmer/hooks/workspace/scroll/actions/swap/allowance/approveSpendingCap'
 import { LayerBankABI } from '@modules/farmer/hooks/workspace/scroll/actions/_abi/LayerBankABI'
+
+// TODO: Adjust the gas price and gas limit for the LayerBank lending action
+const MULTIPLIER = 1.5
 
 type LayerBankLendingActionProps = {
 	walletPrivateKey: Address
@@ -174,13 +176,14 @@ export const layerBankLendingAction = async ({
 			token === SwapTargetSymbols.USDC ? configObjUsdcToEth : configObjEthToUsdc
 
 		const {
-			gasPriceInUsd: swapGasPriceInUsd,
+			parsedGasPriceInUsd: swapGasPriceInUsd,
 			estimatedGas: addLendingEstimatedGas,
 		} = await getEstimatedContractTransactionFee({
 			client,
 			configObj: lendingConfigObj,
 			ethPrice,
 			maxGasPerTransaction: maxGasFee,
+			multiplier: MULTIPLIER,
 		})
 
 		// Will spend on gas up to $0.17
@@ -211,7 +214,7 @@ export const layerBankLendingAction = async ({
 		lendingConfigObj = {
 			...lendingConfigObj,
 			// @ts-ignore
-			gas: addLendingEstimatedGas * BigInt(2),
+			gas: addLendingEstimatedGas,
 		}
 
 		// Sent lending tx 1234 to SCROLL chain. Wiew on Scan.
@@ -259,13 +262,14 @@ export const layerBankLendingAction = async ({
 		}
 
 		const {
-			gasPriceInUsd: removeLendingGasPrice,
+			parsedGasPriceInUsd: removeLendingGasPrice,
 			estimatedGas: removeLendingEstimatedGas,
 		} = await getEstimatedContractTransactionFee({
 			client,
 			configObj: removeLendingConfigObj,
 			ethPrice,
 			maxGasPerTransaction: maxGasFee,
+			multiplier: MULTIPLIER,
 		})
 
 		// Will spend on gas up to $1.36
@@ -294,7 +298,7 @@ export const layerBankLendingAction = async ({
 		removeLendingConfigObj = {
 			...removeLendingConfigObj,
 			// @ts-ignore
-			gas: removeLendingEstimatedGas * BigInt(2),
+			gas: removeLendingEstimatedGas,
 		}
 
 		// Sent remove lending tx 1233 to SCROLL chain. Wiew on Scan.

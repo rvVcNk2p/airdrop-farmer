@@ -8,6 +8,7 @@ type GetEstimatedTransactionFeeProps = {
 	configObj: any
 	ethPrice: number
 	maxGasPerTransaction: number
+	multiplier?: number
 }
 
 export const getEstimatedTransactionFee = async ({
@@ -15,6 +16,7 @@ export const getEstimatedTransactionFee = async ({
 	configObj,
 	ethPrice,
 	maxGasPerTransaction,
+	multiplier = 1,
 }: GetEstimatedTransactionFeeProps) => {
 	const estimatedGas = await client.estimateGas(configObj)
 	const baseGasPrice = await client.getGasPrice()
@@ -23,14 +25,19 @@ export const getEstimatedTransactionFee = async ({
 		parseFloat(formatUnits(estimatedGas * baseGasPrice, 18)) * ethPrice
 	).toFixed(2)
 
-	if (parseFloat(gasPriceInEth) > maxGasPerTransaction) {
-		throw new Error('Gas price is too high! Please try again later.')
+	const parsedGasPriceInEth = parseFloat(gasPriceInEth) * multiplier
+
+	if (parsedGasPriceInEth > maxGasPerTransaction) {
+		throw new Error(
+			`Gas price is too high, yet it's $${parsedGasPriceInEth}! Please try again later or raise the gas limit.`,
+		)
 	}
 
 	return {
-		estimatedGas,
+		estimatedGas: estimatedGas * BigInt(multiplier),
 		baseGasPrice,
 		gasPriceInEth,
+		parsedGasPriceInEth,
 	}
 }
 
@@ -39,6 +46,7 @@ export const getEstimatedContractTransactionFee = async ({
 	configObj,
 	ethPrice,
 	maxGasPerTransaction,
+	multiplier = 1,
 }: GetEstimatedTransactionFeeProps) => {
 	const estimatedGas = await client.estimateContractGas(configObj)
 	const baseGasPrice = await client.getGasPrice()
@@ -56,15 +64,18 @@ export const getEstimatedContractTransactionFee = async ({
 		ethPrice
 	).toFixed(2)
 
-	if (parseFloat(gasPriceInUsd) > maxGasPerTransaction) {
+	const parsedGasPriceInUsd = parseFloat(gasPriceInUsd) * multiplier
+
+	if (parsedGasPriceInUsd > maxGasPerTransaction) {
 		throw new Error(
-			`Gas price is too high, yet it's $${gasPriceInUsd}! Please try again later or raise the gas limit.`,
+			`Gas price is too high, yet it's $${parsedGasPriceInUsd}! Please try again later or raise the gas limit.`,
 		)
 	}
 
 	return {
-		estimatedGas,
+		estimatedGas: estimatedGas * BigInt(multiplier),
 		baseGasPrice,
 		gasPriceInUsd,
+		parsedGasPriceInUsd,
 	}
 }

@@ -1,4 +1,3 @@
-// TODO: Adjust the gas price and gas limit for the LayerBank lending action
 // TODO: Adjust the error handling for the SpaceFi Liquidity action
 // TransferHelper::transferFrom: transferFrom failed  => Not enough allowance for transaction
 // UniswapV2Router: INSUFFICIENT_A_AMOUNT => Too tight slippage, try it with 1%+
@@ -34,6 +33,9 @@ import {
 	adjustValueWithSlippage,
 	convert,
 } from '@modules/shared/utils/bignumber'
+
+// TODO: Adjust the gas price and gas limit for the LayerBank lending action
+const MULTIPLIER = 1.5
 
 type spacefiLiquidityActionProps = {
 	walletPrivateKey: Address
@@ -208,13 +210,14 @@ export const spacefiLiquidityAction = async ({
 		}
 
 		const {
-			gasPriceInUsd: addLiquidityGasPrice,
+			parsedGasPriceInUsd: addLiquidityGasPrice,
 			estimatedGas: addLiquidityEstimatedGas,
 		} = await getEstimatedContractTransactionFee({
 			client,
 			configObj: addLiquidityConfigObj,
 			ethPrice,
 			maxGasPerTransaction: maxGasFee,
+			multiplier: MULTIPLIER,
 		})
 
 		// Will spend on gas up to $1.36
@@ -237,7 +240,7 @@ export const spacefiLiquidityAction = async ({
 		addLiquidityConfigObj = {
 			...addLiquidityConfigObj,
 			// @ts-ignore
-			gas: addLiquidityEstimatedGas * BigInt(2),
+			gas: addLiquidityEstimatedGas,
 		}
 
 		// Sent liquidity tx 1233 to SCROLL chain. Wiew on Scan.
@@ -325,13 +328,14 @@ export const spacefiLiquidityAction = async ({
 		}
 
 		const {
-			gasPriceInUsd: removeLiquidityGasPrice,
+			parsedGasPriceInUsd: removeLiquidityGasPrice,
 			estimatedGas: removeLiquidityEstimatedGas,
 		} = await getEstimatedContractTransactionFee({
 			client,
 			configObj: removeLiquidityConfigObj,
 			ethPrice,
 			maxGasPerTransaction: maxGasFee,
+			multiplier: MULTIPLIER,
 		})
 
 		// Will spend on gas up to $1.36
@@ -353,7 +357,7 @@ export const spacefiLiquidityAction = async ({
 		removeLiquidityConfigObj = {
 			...removeLiquidityConfigObj,
 			// @ts-ignore
-			gas: removeLiquidityEstimatedGas * BigInt(2),
+			gas: removeLiquidityEstimatedGas,
 		}
 
 		// Sent remove liquidity tx 1233 to SCROLL chain. Wiew on Scan.
