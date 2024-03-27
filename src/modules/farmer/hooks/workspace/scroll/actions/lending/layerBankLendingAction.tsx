@@ -49,7 +49,7 @@ const LAYER_BANK_LENDING_ROUTER_ADDRESS_IETH =
 	'0x274C3795dadfEbf562932992bF241ae087e0a98C'
 
 const LAYER_BANK_ADD_LENDING_ACTION = 'supply'
-const LAYER_BANK_REMOVE_LENDING_ACTION = 'redeemUnderlying'
+const LAYER_BANK_REMOVE_LENDING_ACTION = 'redeemToken' // 'redeemUnderlying'
 
 export const layerBankLendingAction = async ({
 	walletPrivateKey,
