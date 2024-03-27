@@ -26,6 +26,7 @@ export const createAndSendContractTxHandler = () => {
 		loggerFn,
 		isSkip,
 	}: CreateAndSendTxProps) => {
+		console.log('== simulated - Config Object', configObj)
 		const simulatedResult = await client.simulateContract(configObj)
 		console.log('== simulatedResult', simulatedResult)
 

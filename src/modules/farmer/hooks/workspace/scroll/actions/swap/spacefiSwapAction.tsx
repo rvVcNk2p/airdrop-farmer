@@ -179,12 +179,12 @@ export const spacefiSwapAction = async ({
 			],
 		}
 
-		const spacefiSwapConfigObj =
+		let spacefiSwapConfigObj =
 			token === SwapTargetSymbols.USDC
 				? spacefiSwapConfigObjUsdcToEth
 				: spacefiSwapConfigObjEthToUsdc
 
-		const { gasPriceInUsd: swapGasPriceInUsd } =
+		const { gasPriceInUsd: swapGasPriceInUsd, estimatedGas } =
 			await getEstimatedContractTransactionFee({
 				client,
 				configObj: spacefiSwapConfigObj,
@@ -208,6 +208,12 @@ export const spacefiSwapAction = async ({
 		loggerFn({
 			message: `Tx ${nextNonce} was signed.`,
 		})
+
+		spacefiSwapConfigObj = {
+			...spacefiSwapConfigObj,
+			// @ts-ignore
+			gas: estimatedGas * BigInt(2),
+		}
 
 		// Sent swap tx 1234 to SCROLL chain. Wiew on Scan.
 		// Swap tx 1234 confirmed. View on Scan.
