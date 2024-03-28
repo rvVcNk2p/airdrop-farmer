@@ -218,7 +218,6 @@ export const layerBankLendingAction = async ({
 			...lendingConfigObj,
 			// @ts-ignore
 			gas: addLendingEstimatedGas * BigInt(2),
-			nonce: nextNonceAdd,
 		}
 
 		// Sent lending tx 1234 to SCROLL chain. Wiew on Scan.
@@ -309,7 +308,6 @@ export const layerBankLendingAction = async ({
 			...removeLendingConfigObj,
 			// @ts-ignore
 			gas: removeLendingEstimatedGas * BigInt(2),
-			nonce: nextNonceRemove,
 		}
 
 		// Sent remove lending tx 1233 to SCROLL chain. Wiew on Scan.

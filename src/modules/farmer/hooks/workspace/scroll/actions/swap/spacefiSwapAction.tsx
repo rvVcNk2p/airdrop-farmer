@@ -213,7 +213,6 @@ export const spacefiSwapAction = async ({
 			...spacefiSwapConfigObj,
 			// @ts-ignore
 			gas: estimatedGas * BigInt(2),
-			nonce: nextNonceSwap,
 		}
 
 		// Sent swap tx 1234 to SCROLL chain. Wiew on Scan.
