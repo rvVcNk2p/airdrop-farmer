@@ -25,6 +25,7 @@ import {
 import { createWalletClientFactory } from '@modules/farmer/helpers/createWalletClientFactory'
 import { approveSpendingCap } from '@modules/farmer/hooks/workspace/scroll/actions/swap/allowance/approveSpendingCap'
 import { LayerBankABI } from '@modules/farmer/hooks/workspace/scroll/actions/_abi/LayerBankABI'
+import { adjustValueWithSlippage } from '@/modules/shared/utils/bignumber'
 
 // TODO: Adjust the gas price and gas limit for the LayerBank lending action
 const MULTIPLIER = 1.5
@@ -192,7 +193,7 @@ export const layerBankLendingAction = async ({
 			message: `Will spend on gas up to $${swapGasPriceInUsd}`,
 		})
 
-		const { nextNonce: nextNonceAdd } = await getNextNonce(client)
+		const { transactionCount: nextNonceAdd } = await getNextNonce(client)
 
 		// Create tx 1234 to lending on SYNCSWAP
 		loggerFn({
@@ -217,6 +218,7 @@ export const layerBankLendingAction = async ({
 			...lendingConfigObj,
 			// @ts-ignore
 			gas: addLendingEstimatedGas * BigInt(2),
+			nonce: nextNonceAdd,
 		}
 
 		// Sent lending tx 1234 to SCROLL chain. Wiew on Scan.
@@ -259,7 +261,10 @@ export const layerBankLendingAction = async ({
 				token === SwapTargetSymbols.USDC
 					? LAYER_BANK_LENDING_ROUTER_ADDRESS_IUSDC
 					: LAYER_BANK_LENDING_ROUTER_ADDRESS_IETH,
-				uAmount,
+				adjustValueWithSlippage(uAmount, 1.5),
+				// Correct the amount with slippage..
+				// This value will be overwritten with the simulated result
+				// This is not perfect, but it will work for now
 			],
 		}
 
@@ -279,7 +284,7 @@ export const layerBankLendingAction = async ({
 			message: `Will spend on gas up to $${removeLendingGasPrice}`,
 		})
 
-		const { nextNonce: nextNonceRemove } = await getNextNonce(client)
+		const { transactionCount: nextNonceRemove } = await getNextNonce(client)
 
 		// Create tx 1234 to remove lending on LAYER_BANK
 		loggerFn({
@@ -304,6 +309,7 @@ export const layerBankLendingAction = async ({
 			...removeLendingConfigObj,
 			// @ts-ignore
 			gas: removeLendingEstimatedGas * BigInt(2),
+			nonce: nextNonceRemove,
 		}
 
 		// Sent remove lending tx 1233 to SCROLL chain. Wiew on Scan.

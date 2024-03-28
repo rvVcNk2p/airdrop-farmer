@@ -197,23 +197,23 @@ export const spacefiSwapAction = async ({
 			message: `Will spend on gas up to $${swapGasPriceInUsd}`,
 		})
 
-		const { nextNonce } = await getNextNonce(client)
+		const { transactionCount } = await getNextNonce(client)
 
 		// Create tx 1234 to swap on SPACEFI
 		loggerFn({
-			message: `Created tx ${nextNonce} to swap on ${getColorizedText(ScrollSwapProviders.SPACEFI, ColorizedTextTypes.NETWORK)}.`,
+			message: `Created tx ${transactionCount} to swap on ${getColorizedText(ScrollSwapProviders.SPACEFI, ColorizedTextTypes.NETWORK)}.`,
 		})
 
 		// Tx 1233 was signed.
 		loggerFn({
-			message: `Tx ${nextNonce} was signed.`,
+			message: `Tx ${transactionCount} was signed.`,
 		})
 
 		spacefiSwapConfigObj = {
 			...spacefiSwapConfigObj,
 			// @ts-ignore
 			gas: estimatedGas * BigInt(2),
-			nonce: nextNonce,
+			nonce: transactionCount,
 		}
 
 		// Sent swap tx 1234 to SCROLL chain. Wiew on Scan.
@@ -222,8 +222,8 @@ export const spacefiSwapAction = async ({
 			client,
 			chainId,
 			configObj: spacefiSwapConfigObj,
-			loggerMessage_1: `Sent swap tx ${nextNonce} to ${getColorizedText('SCROLL', ColorizedTextTypes.NETWORK)} chain.`,
-			loggerMessage_2: `Swap tx ${nextNonce} confirmed.`,
+			loggerMessage_1: `Sent swap tx ${transactionCount} to ${getColorizedText('SCROLL', ColorizedTextTypes.NETWORK)} chain.`,
+			loggerMessage_2: `Swap tx ${transactionCount} confirmed.`,
 			loggerFn,
 		})
 

@@ -226,7 +226,7 @@ export const spacefiLiquidityAction = async ({
 			message: `Will spend on gas up to $${addLiquidityGasPrice}`,
 		})
 
-		const { nextNonce: nextNonceAdd } = await getNextNonce(client)
+		const { transactionCount: nextNonceAdd } = await getNextNonce(client)
 
 		// Create tx 1234 to add liquidity on SCROLL
 		loggerFn({
@@ -242,6 +242,7 @@ export const spacefiLiquidityAction = async ({
 			...addLiquidityConfigObj,
 			// @ts-ignore
 			gas: addLiquidityEstimatedGas * BigInt(2),
+			nonce: nextNonceAdd,
 		}
 
 		// Sent liquidity tx 1233 to SCROLL chain. Wiew on Scan.
@@ -329,6 +330,8 @@ export const spacefiLiquidityAction = async ({
 			],
 		}
 
+		console.log('== removeLiquidityConfigObj', removeLiquidityConfigObj)
+
 		const {
 			parsedGasPriceInUsd: removeLiquidityGasPrice,
 			estimatedGas: removeLiquidityEstimatedGas,
@@ -345,7 +348,7 @@ export const spacefiLiquidityAction = async ({
 			message: `Will spend on gas up to $${removeLiquidityGasPrice}`,
 		})
 
-		const { nextNonce: nextNonceRemove } = await getNextNonce(client)
+		const { transactionCount: nextNonceRemove } = await getNextNonce(client)
 
 		// Create tx 1234 to remove liquidity on SCROLL
 		loggerFn({
@@ -362,6 +365,7 @@ export const spacefiLiquidityAction = async ({
 			...removeLiquidityConfigObj,
 			// @ts-ignore
 			gas: removeLiquidityEstimatedGas * BigInt(2),
+			nonce: nextNonceRemove,
 		}
 
 		// Sent remove liquidity tx 1233 to SCROLL chain. Wiew on Scan.

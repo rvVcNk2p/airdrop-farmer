@@ -9,5 +9,5 @@ export const getNextNonce = async (
 	})
 	const nextNonce = transactionCount + 1
 
-	return { nextNonce }
+	return { nextNonce, transactionCount }
 }
