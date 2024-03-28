@@ -1,6 +1,7 @@
 import { cn } from '@utils'
 
 import { Card } from '../ui/card'
+import { AirdropTypes } from '@/modules/farmer/types'
 
 interface CardTemplateProps {
 	children: React.ReactNode
@@ -22,7 +23,19 @@ export const CardTemplate = ({
 				rootClasses ? rootClasses : null,
 			)}
 		>
-			{title && <h1 className="text-2xl font-bold">{title}</h1>}
+			{title && (
+				<h1 className="flex justify-between text-2xl font-bold">
+					{title}
+					<span>
+						{title?.includes(AirdropTypes.SCROLL) && (
+							<span className="text-sm">
+								{' '}
+								*Alpha version, use at your own risk!
+							</span>
+						)}
+					</span>
+				</h1>
+			)}
 			<div className={contentClasses ? contentClasses : ''}>{children}</div>
 		</Card>
 	)
