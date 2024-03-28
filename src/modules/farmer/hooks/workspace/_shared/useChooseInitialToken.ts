@@ -52,14 +52,15 @@ const findChainWithHighestBalanceToken = (
 						token === 'NATIVE_TOKEN' ||
 						token === 'ETH' ||
 						token === 'WETH' ||
-						token === 'vMLP'
+						token === 'vMLP' ||
+						token === 'nSLP'
 					) {
 						amountInUsd *= ethPrice
 					}
 
 					let adjustedAmountInUsd = amountInUsd.toFixed(4)
 					// TODO: vMLP is not a token, it's a pool, so we should adjust the logic to handle this case
-					if (token === 'vMLP') {
+					if (token === 'vMLP' || token === 'nSLP') {
 						adjustedAmountInUsd = parseFloat(
 							formatUnits(
 								parseUnits(convert(amountInUsd + '', 'eth', 'wei'), 8),

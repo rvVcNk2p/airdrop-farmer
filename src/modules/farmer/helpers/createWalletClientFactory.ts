@@ -11,6 +11,7 @@ import {
 	polygon,
 	zkSync,
 	sepolia,
+	scroll,
 } from 'viem/chains'
 
 const getChainConfiguration = (chainId: number): Chain => {
@@ -31,6 +32,8 @@ const getChainConfiguration = (chainId: number): Chain => {
 			return fantom
 		case ChainIds.ZKSYNC:
 			return zkSync
+		case ChainIds.SCROLL:
+			return scroll
 		case ChainIds.SEPOLIA:
 			return sepolia
 		default:
@@ -58,6 +61,10 @@ const getHttpUrl = (chainId: number) => {
 			return process.env.NEXT_PUBLIC_ANKR_ZKSYNC_HTTP_API
 		case ChainIds.SEPOLIA:
 			return process.env.NEXT_PUBLIC_ANKR_SEPOLIA_HTTP_API
+		case ChainIds.BASE:
+			return process.env.NEXT_PUBLIC_ANKR_BASE_HTTP_API
+		case ChainIds.SCROLL:
+			return process.env.NEXT_PUBLIC_ANKR_SCROLL_HTTP_API
 		default:
 			return process.env.NEXT_PUBLIC_ANKR_ETHEREUM_HTTP_API
 	}

@@ -32,6 +32,8 @@ NEXT_PUBLIC_ANKR_AVALANCHE_HTTP_API=https://rpc.ankr.com/avalanche
 NEXT_PUBLIC_ANKR_FANTOM_HTTP_API=https://rpc.ankr.com/fantom
 NEXT_PUBLIC_ANKR_ZKSYNC_HTTP_API=https://rpc.ankr.com/zksync_era
 NEXT_PUBLIC_ANKR_SEPOLIA_HTTP_API=https://rpc.ankr.com/eth_sepolia
+NEXT_PUBLIC_ANKR_BASE_HTTP_API=https://rpc.ankr.com/base
+NEXT_PUBLIC_ANKR_SCROLL_HTTP_API=https://rpc.ankr.com/scroll
 
 1. Run the project with `npm run dev`, study the landing page, register an account, and start the airdrop farming.
 ```

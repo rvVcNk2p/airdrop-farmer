@@ -103,6 +103,9 @@ export const WorkspaceHeader = ({
 			case AirdropTypes.ZK_SYNC:
 				backHref += 'zksync'
 				break
+			case AirdropTypes.SCROLL:
+				backHref += 'scroll'
+				break
 		}
 	}
 

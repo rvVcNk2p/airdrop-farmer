@@ -12,6 +12,8 @@ import {
 	polygon,
 	sepolia,
 	zkSync,
+	base,
+	scroll,
 } from 'wagmi/chains'
 
 export const config = createConfig({
@@ -25,6 +27,7 @@ export const config = createConfig({
 		fantom,
 		zkSync,
 		sepolia,
+		scroll,
 	],
 	transports: {
 		[mainnet.id]: http(process.env.NEXT_PUBLIC_ANKR_ETHEREUM_HTTP_API),
@@ -36,6 +39,8 @@ export const config = createConfig({
 		[fantom.id]: http(process.env.NEXT_PUBLIC_ANKR_FANTOM_HTTP_API),
 		[zkSync.id]: http(process.env.NEXT_PUBLIC_ZKSYNC_HTTP_API),
 		[sepolia.id]: http(process.env.NEXT_PUBLIC_ANKR_SEPOLIA_HTTP_API),
+		[base.id]: http(process.env.NEXT_PUBLIC_ANKR_BASE_HTTP_API),
+		[scroll.id]: http(process.env.NEXT_PUBLIC_ANKR_SCROLL_HTTP_API),
 	},
 })
 

@@ -1,5 +1,6 @@
 import { NewLayerZeroStrategyModal } from '@modules/farmer/components/Strategy/NewLayerZeroStrategyModal'
 import { NewZksynStrategyModal } from '@modules/farmer/components/Strategy/NewZksynStrategyModal'
+import { NewScrollStrategyModal } from '@modules/farmer/components/Strategy/NewScrollStrategyModal'
 import { Plus, Strategy } from '@phosphor-icons/react'
 import { cn } from '@utils'
 import { AirdropTypes } from '@modules/farmer/types'
@@ -40,6 +41,8 @@ const ModalByType = ({ type, children }: ModalByTypeProps) => {
 			return <NewLayerZeroStrategyModal>{children}</NewLayerZeroStrategyModal>
 		case AirdropTypes.ZK_SYNC:
 			return <NewZksynStrategyModal>{children}</NewZksynStrategyModal>
+		case AirdropTypes.SCROLL:
+			return <NewScrollStrategyModal>{children}</NewScrollStrategyModal>
 		default:
 	}
 }
