@@ -226,7 +226,7 @@ export const spacefiLiquidityAction = async ({
 			message: `Will spend on gas up to $${addLiquidityGasPrice}`,
 		})
 
-		const { transactionCount: nextNonceAdd } = await getNextNonce(client)
+		const { nextNonce: nextNonceAdd } = await getNextNonce(client)
 
 		// Create tx 1234 to add liquidity on SCROLL
 		loggerFn({

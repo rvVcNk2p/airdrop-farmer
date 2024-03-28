@@ -193,7 +193,7 @@ export const layerBankLendingAction = async ({
 			message: `Will spend on gas up to $${swapGasPriceInUsd}`,
 		})
 
-		const { transactionCount: nextNonceAdd } = await getNextNonce(client)
+		const { nextNonce: nextNonceAdd } = await getNextNonce(client)
 
 		// Create tx 1234 to lending on SYNCSWAP
 		loggerFn({
@@ -284,7 +284,7 @@ export const layerBankLendingAction = async ({
 			message: `Will spend on gas up to $${removeLendingGasPrice}`,
 		})
 
-		const { transactionCount: nextNonceRemove } = await getNextNonce(client)
+		const { nextNonce: nextNonceRemove } = await getNextNonce(client)
 
 		// Create tx 1234 to remove lending on LAYER_BANK
 		loggerFn({
