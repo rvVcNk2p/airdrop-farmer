@@ -21,6 +21,7 @@ const BillingPage = ({ managerPrivatekey }: { managerPrivatekey: any }) => {
 		subscribe,
 		updateDiscountPercentageOnChain,
 		getOnChainSubscription,
+		getIsSubscriptionActive,
 	} = useHandleSubscription({ managerPrivatekey })
 	const {
 		wallet,
@@ -273,21 +274,33 @@ const BillingPage = ({ managerPrivatekey }: { managerPrivatekey: any }) => {
 										</p>
 										{tier.type === selectedTier && expiry !== null && (
 											<>
-												<p>Active: {moment(expiry).format('YYYY MMMM DD.')}</p>
+												{expiry < new Date() ? (
+													<p className="text-red-500">
+														Expired: {moment(expiry).format('YYYY MMMM DD.')}
+													</p>
+												) : (
+													<p>
+														Active: {moment(expiry).format('YYYY MMMM DD.')}
+													</p>
+												)}
 											</>
 										)}
 									</div>
 
 									<Button
 										variant="outline"
-										disabled={isLoading || selectedTier !== TierTypes.FREE}
+										disabled={
+											isLoading ||
+											selectedTier !== TierTypes.FREE ||
+											(selectedTier === tier.type && isSubscriptionActive)
+										}
 										onClick={() =>
 											handleSubscribe(tier.type, deductDiscount(tier.price))
 										}
 									>
-										{isLoading && selectedTier === tier.type
+										{isLoading
 											? 'Subscribing...'
-											: selectedTier === tier.type
+											: selectedTier === tier.type && isSubscriptionActive
 												? 'Subscribed'
 												: 'Subscribe'}
 									</Button>
@@ -321,6 +334,18 @@ const BillingPage = ({ managerPrivatekey }: { managerPrivatekey: any }) => {
 		}
 		checkIfAddressAlreadyInIse()
 	}, [address, getIsAddressAlreadyUsed])
+
+	const [isSubscriptionActive, setIsSubscriptionActive] = useState(false)
+	useEffect(() => {
+		const issSubscriptionActive = async () => {
+			if (!address) return false
+			const subscriptionStatus = await getIsSubscriptionActive({
+				userAddress: address,
+			})
+			setIsSubscriptionActive(subscriptionStatus)
+		}
+		issSubscriptionActive()
+	}, [address, getIsSubscriptionActive])
 
 	return (
 		<>
