@@ -292,7 +292,7 @@ const BillingPage = ({ managerPrivatekey }: { managerPrivatekey: any }) => {
 										disabled={
 											isLoading ||
 											selectedTier !== TierTypes.FREE ||
-											(selectedTier === tier.type && isSubscriptionActive)
+											(selectedTier === tier.type && !isSubscriptionActive)
 										}
 										onClick={() =>
 											handleSubscribe(tier.type, deductDiscount(tier.price))
