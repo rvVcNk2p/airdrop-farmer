@@ -291,8 +291,8 @@ const BillingPage = ({ managerPrivatekey }: { managerPrivatekey: any }) => {
 										variant="outline"
 										disabled={
 											isLoading ||
-											selectedTier !== TierTypes.FREE ||
-											(selectedTier === tier.type && !isSubscriptionActive)
+											(selectedTier === tier.type && isSubscriptionActive) ||
+											isSubscriptionActive
 										}
 										onClick={() =>
 											handleSubscribe(tier.type, deductDiscount(tier.price))
@@ -300,7 +300,8 @@ const BillingPage = ({ managerPrivatekey }: { managerPrivatekey: any }) => {
 									>
 										{isLoading
 											? 'Subscribing...'
-											: selectedTier === tier.type && isSubscriptionActive
+											: (selectedTier === tier.type && isSubscriptionActive) ||
+												  isSubscriptionActive
 												? 'Subscribed'
 												: 'Subscribe'}
 									</Button>
